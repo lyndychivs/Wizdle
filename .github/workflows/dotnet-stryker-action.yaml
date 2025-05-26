@@ -1,0 +1,28 @@
+name: dotnet-stryker-action
+run-name: Mutation Testing with Stryker.NET
+permissions:
+  contents: read
+on:
+  push:
+  schedule:
+    - cron: '0 8 * * *'
+jobs:
+  dotnet-stryker-action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Run Stryker.NET
+        uses: lyndychivs/dotnet-stryker-action@v1.2
+        with:
+          configurationFile: "stryker-config.json"
+          dashboardApiKey: ${{ secrets.STRYKER_DASHBOARD }}
+          version: ${{ github.ref_name }}
+
+      - name: Upload Stryker.NET Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: dotnet-stryker-action-report
+          path: "${{ github.workspace }}/StrykerOutput/**/*.html"
+          overwrite: true
