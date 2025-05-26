@@ -1,2 +1,3 @@
 # Wizdle
-wordle solver (work in progress)
+
+Wizard that solves wordle.

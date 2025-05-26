@@ -30,12 +30,12 @@
             {
                 if (string.IsNullOrWhiteSpace(word))
                 {
-                    _logger.LogWarning("Found IsNullOrWhiteSpace in Word file, skipping.");
+                    _logger.LogWarning("Found NullOrWhiteSpace in Word file, skipping.");
                 }
 
                 if (word.Length != 5)
                 {
-                    _logger.LogWarning($"Found Word with length {word.Length} in Word file, skipping.");
+                    _logger.LogWarning($"Found Word with length {word.Length} in Word file, skipping: {word}");
 
                     continue;
                 }
