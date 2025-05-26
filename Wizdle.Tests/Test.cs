@@ -1,0 +1,68 @@
+﻿namespace Wizdle.Tests
+{
+    using Microsoft.Extensions.Logging;
+
+    using Moq;
+
+    using NUnit.Framework;
+
+    using Wizdle.Models;
+
+    [TestFixture]
+    public class Test
+    {
+        [Test]
+        public void Test1()
+        {
+            var logger = new Mock<ILogger>();
+            var wizdleEngine = new WizdleEngine(logger.Object);
+            var request = new Request
+            {
+                CorrectLetters = ".....",
+                MisplacedLetters = "...e.",
+                ExcludedLetters = "hats",
+            };
+
+            Response response = wizdleEngine.GetResponseForRequest(request);
+
+            Console.WriteLine(response.Words.Count());
+            Console.WriteLine(string.Join(Environment.NewLine, response.Words));
+        }
+
+        [Test]
+        public void Test2()
+        {
+            var logger = new Mock<ILogger>();
+            var wizdleEngine = new WizdleEngine(logger.Object);
+            var request = new Request
+            {
+                CorrectLetters = "...n",
+                MisplacedLetters = "ro.ed",
+                ExcludedLetters = "hatsu",
+            };
+
+            Response response = wizdleEngine.GetResponseForRequest(request);
+
+            Console.WriteLine(response.Words.Count());
+            Console.WriteLine(string.Join(Environment.NewLine, response.Words));
+        }
+
+        [Test]
+        public void Test3()
+        {
+            var logger = new Mock<ILogger>();
+            var wizdleEngine = new WizdleEngine(logger.Object);
+            var request = new Request
+            {
+                CorrectLetters = "...n",
+                MisplacedLetters = "ro.ed",
+                ExcludedLetters = "hatsuclimb",
+            };
+
+            Response response = wizdleEngine.GetResponseForRequest(request);
+
+            Console.WriteLine(response.Words.Count());
+            Console.WriteLine(string.Join(Environment.NewLine, response.Words));
+        }
+    }
+}
