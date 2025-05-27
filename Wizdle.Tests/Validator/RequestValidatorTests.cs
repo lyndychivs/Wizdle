@@ -27,8 +27,8 @@ namespace Wizdle.Tests.Validator
         {
             var request = new Request
             {
-                CorrectLetters = "a",
-                MisplacedLetters = "b",
+                CorrectLetters = "....a",
+                MisplacedLetters = "b....",
                 ExcludedLetters = "c",
             };
 
