@@ -25,3 +25,5 @@ csharp_style_prefer_primary_constructors = false:suggestion
 dotnet_diagnostic.IL2026.severity = none
 # IL3050: Calling members annotated with 'RequiresDynamicCodeAttribute' may break functionality when AOT compiling.
 dotnet_diagnostic.IL3050.severity = none
+# CA1848: Use the LoggerMessage delegates
+dotnet_diagnostic.CA1848.severity = none

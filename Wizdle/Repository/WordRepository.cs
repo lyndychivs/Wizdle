@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
 
     using Microsoft.Extensions.Logging;
 
@@ -35,7 +36,7 @@
                     continue;
                 }
 
-                string response = word.ToLower().Trim();
+                string response = word.ToLower(CultureInfo.InvariantCulture).Trim();
 
                 if (response.Length != 5)
                 {

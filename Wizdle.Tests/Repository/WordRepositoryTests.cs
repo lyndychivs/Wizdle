@@ -39,7 +39,7 @@
                 "EEEEE",
             };
 
-            _wordFileMock.Setup(f => f.ReadLines()).Returns(inputWords);
+            _ = _wordFileMock.Setup(f => f.ReadLines()).Returns(inputWords);
 
             // Act
             IEnumerable<string> result = _wordRepository.GetWords();
@@ -54,7 +54,7 @@
         {
             // Arrange
             List<string> inputWords = [string.Empty, " ", null];
-            _wordFileMock.Setup(f => f.ReadLines()).Returns(inputWords);
+            _ = _wordFileMock.Setup(f => f.ReadLines()).Returns(inputWords);
 
             // Act
             IEnumerable<string> results = _wordRepository.GetWords();
@@ -74,7 +74,7 @@
         {
             // Arrange
             List<string> inputWords = [word];
-            _wordFileMock.Setup(f => f.ReadLines()).Returns(inputWords);
+            _ = _wordFileMock.Setup(f => f.ReadLines()).Returns(inputWords);
 
             // Act
             IEnumerable<string> results = _wordRepository.GetWords();
@@ -91,7 +91,7 @@
         public void GetWords_WordFileIsEmpty_ReturnsEmpty()
         {
             // Arrange
-            _wordFileMock.Setup(f => f.ReadLines()).Returns(new List<string>());
+            _ = _wordFileMock.Setup(f => f.ReadLines()).Returns([]);
 
             // Act
             IEnumerable<string> result = _wordRepository.GetWords();

@@ -1,6 +1,7 @@
 ﻿namespace Wizdle.Mapper
 {
     using System;
+    using System.Globalization;
 
     using Microsoft.Extensions.Logging;
 
@@ -41,7 +42,7 @@
                 {
                     if (char.IsLetter(request.CorrectLetters[i]))
                     {
-                        solveParameters.CorrectLetters.Add(char.ToLower(request.CorrectLetters[i]));
+                        solveParameters.CorrectLetters.Add(char.ToLower(request.CorrectLetters[i], CultureInfo.InvariantCulture));
                     }
                     else
                     {
@@ -57,7 +58,7 @@
                 {
                     if (char.IsLetter(request.MisplacedLetters[i]))
                     {
-                        solveParameters.MisplacedLetters.Add(char.ToLower(request.MisplacedLetters[i]));
+                        solveParameters.MisplacedLetters.Add(char.ToLower(request.MisplacedLetters[i], CultureInfo.InvariantCulture));
                     }
                     else
                     {
@@ -70,7 +71,7 @@
                 }
             }
 
-            solveParameters.ExcludeLetters = request.ExcludedLetters.ToLower().ToCharArray();
+            solveParameters.ExcludeLetters = request.ExcludedLetters.ToLower(CultureInfo.InvariantCulture).ToCharArray();
 
             _logger.LogInformation($"Mapped {nameof(SolveParameters)}:\n{solveParameters}");
 
