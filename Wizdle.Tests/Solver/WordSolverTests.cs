@@ -132,5 +132,27 @@
             // Assert
             Assert.That(result, Is.EquivalentTo(["hates"]));
         }
+
+        [Test]
+        public void Solve_EmptyCorrectLettersAndMisplacedLetters_ReturnsAllWords()
+        {
+            // Arrange
+            List<string> words = ["a", "b"];
+            _ = _solveParametersValidatorMock.Setup(v => v.IsValid(It.IsAny<SolveParameters>())).Returns(new ValidatorResponse { IsValid = true });
+            _ = _wordRepositoryMock.Setup(r => r.GetWords()).Returns(words);
+            _wordSolver = new WordSolver(_loggerMock.Object, _wordRepositoryMock.Object, _solveParametersValidatorMock.Object);
+            var parameters = new SolveParameters
+            {
+                ExcludeLetters = [],
+                CorrectLetters = [],
+                MisplacedLetters = [],
+            };
+
+            // Act
+            IEnumerable<string> result = _wordSolver.Solve(parameters);
+
+            // Assert
+            Assert.That(result, Is.EqualTo(words));
+        }
     }
 }
