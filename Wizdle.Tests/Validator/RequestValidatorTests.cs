@@ -71,7 +71,7 @@ namespace Wizdle.Tests.Validator
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(validatorResponse.IsValid, Is.False);
-                Assert.That(validatorResponse.Errors, Does.Contain("Request.CorrectLetters cannot be null"));
+                Assert.That(validatorResponse.Errors, Is.EqualTo(["Request.CorrectLetters cannot be null"]));
                 _loggerMock.VerifyLogging("Request.CorrectLetters cannot be null", LogLevel.Debug, Times.Once());
             }
         }
@@ -91,7 +91,7 @@ namespace Wizdle.Tests.Validator
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(validatorResponse.IsValid, Is.False);
-                Assert.That(validatorResponse.Errors, Does.Contain("Request.MisplacedLetters cannot be null"));
+                Assert.That(validatorResponse.Errors, Is.EqualTo(["Request.MisplacedLetters cannot be null"]));
                 _loggerMock.VerifyLogging("Request.MisplacedLetters cannot be null", LogLevel.Debug, Times.Once());
             }
         }
@@ -111,7 +111,7 @@ namespace Wizdle.Tests.Validator
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(validatorResponse.IsValid, Is.False);
-                Assert.That(validatorResponse.Errors, Does.Contain("Request.ExcludedLetters cannot be null"));
+                Assert.That(validatorResponse.Errors, Is.EqualTo(["Request.ExcludedLetters cannot be null"]));
                 _loggerMock.VerifyLogging("Request.ExcludedLetters cannot be null", LogLevel.Debug, Times.Once());
             }
         }
@@ -131,7 +131,7 @@ namespace Wizdle.Tests.Validator
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(validatorResponse.IsValid, Is.False);
-                Assert.That(validatorResponse.Errors, Does.Contain("Request.CorrectLetters cannot be longer than 5 characters"));
+                Assert.That(validatorResponse.Errors, Is.EqualTo(["Request.CorrectLetters cannot be longer than 5 characters"]));
                 _loggerMock.VerifyLogging("Request.CorrectLetters cannot be longer than 5 characters", LogLevel.Debug, Times.Once());
             }
         }
@@ -151,7 +151,7 @@ namespace Wizdle.Tests.Validator
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(validatorResponse.IsValid, Is.False);
-                Assert.That(validatorResponse.Errors, Does.Contain("Request.MisplacedLetters cannot be longer than 5 characters"));
+                Assert.That(validatorResponse.Errors, Is.EqualTo(["Request.MisplacedLetters cannot be longer than 5 characters"]));
                 _loggerMock.VerifyLogging("Request.MisplacedLetters cannot be longer than 5 characters", LogLevel.Debug, Times.Once());
             }
         }

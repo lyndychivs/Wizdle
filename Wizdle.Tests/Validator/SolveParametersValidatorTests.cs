@@ -78,7 +78,7 @@
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(validatorResponse.IsValid, Is.False);
-                Assert.That(validatorResponse.Errors, Does.Contain("SolveParameters.CorrectLetters Letter count is not equal to 5"));
+                Assert.That(validatorResponse.Errors, Is.EqualTo(["SolveParameters.CorrectLetters Letter count is not equal to 5"]));
                 _loggerMock.VerifyLogging("SolveParameters.CorrectLetters Letter count is not equal to 5", LogLevel.Debug, Times.Once());
             }
         }
@@ -104,7 +104,7 @@
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(validatorResponse.IsValid, Is.False);
-                Assert.That(validatorResponse.Errors, Does.Contain("SolveParameters.MisplacedLetters Letter count is not equal to 5"));
+                Assert.That(validatorResponse.Errors, Is.EqualTo(["SolveParameters.MisplacedLetters Letter count is not equal to 5"]));
                 _loggerMock.VerifyLogging("SolveParameters.MisplacedLetters Letter count is not equal to 5", LogLevel.Debug, Times.Once());
             }
         }
@@ -124,7 +124,7 @@
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(validatorResponse.IsValid, Is.False);
-                Assert.That(validatorResponse.Errors, Has.Some.Contains("CorrectLetters and MisplacedLetters contain the same letter at index 0, Letter: 'a'"));
+                Assert.That(validatorResponse.Errors, Is.EqualTo(["CorrectLetters and MisplacedLetters contain the same letter at index 0, Letter: 'a'"]));
                 _loggerMock.VerifyLogging("CorrectLetters and MisplacedLetters contain the same letter at index 0, Letter: 'a'", LogLevel.Debug, Times.Once());
             }
         }
@@ -144,7 +144,7 @@
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(validatorResponse.IsValid, Is.False);
-                Assert.That(validatorResponse.Errors, Does.Contain("ExcludeLetters contains a letter that exists in CorrectLetters or MisplacedLetters, Letter: 'a'"));
+                Assert.That(validatorResponse.Errors, Is.EqualTo(["ExcludeLetters contains a letter that exists in CorrectLetters or MisplacedLetters, Letter: 'a'"]));
                 _loggerMock.VerifyLogging("ExcludeLetters contains a letter that exists in CorrectLetters or MisplacedLetters, Letter: 'a'", LogLevel.Debug, Times.Once());
             }
         }
@@ -164,7 +164,7 @@
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(validatorResponse.IsValid, Is.False);
-                Assert.That(validatorResponse.Errors, Does.Contain("ExcludeLetters contains a letter that exists in CorrectLetters or MisplacedLetters, Letter: 'f'"));
+                Assert.That(validatorResponse.Errors, Is.EqualTo(["ExcludeLetters contains a letter that exists in CorrectLetters or MisplacedLetters, Letter: 'f'"]));
                 _loggerMock.VerifyLogging("ExcludeLetters contains a letter that exists in CorrectLetters or MisplacedLetters, Letter: 'f'", LogLevel.Debug, Times.Once());
             }
         }
