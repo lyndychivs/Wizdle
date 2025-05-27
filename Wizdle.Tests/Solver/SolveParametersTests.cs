@@ -39,16 +39,29 @@
         }
 
         [Test]
-        public void ToString_WithParameters_ReturnsParametersInString()
+        public void ToString_WithSingleParameters_ReturnsParametersInString()
         {
             var result = new SolveParameters
             {
                 CorrectLetters = ['a'],
-                MisplacedLetters = ['b', 'c'],
-                ExcludeLetters = ['d', 'e', 'f'],
+                MisplacedLetters = ['b'],
+                ExcludeLetters = ['c'],
             };
 
-            Assert.That(result.ToString(), Is.EqualTo("CorrectLetters: \"a\"\nMisplacedLetters: \"bc\"\nExcludeLetters: \"def\""));
+            Assert.That(result.ToString(), Is.EqualTo("CorrectLetters: \"a\"\nMisplacedLetters: \"b\"\nExcludeLetters: \"c\""));
+        }
+
+        [Test]
+        public void ToString_WithMultipleParameters_ReturnsParametersInString()
+        {
+            var result = new SolveParameters
+            {
+                CorrectLetters = ['a', 'a'],
+                MisplacedLetters = ['b', 'b'],
+                ExcludeLetters = ['c', 'c'],
+            };
+
+            Assert.That(result.ToString(), Is.EqualTo("CorrectLetters: \"aa\"\nMisplacedLetters: \"bb\"\nExcludeLetters: \"cc\""));
         }
 
         [Test]
