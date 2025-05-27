@@ -44,8 +44,8 @@
             var result = new SolveParameters
             {
                 CorrectLetters = ['a'],
-                MisplacedLetters = ['b'],
-                ExcludeLetters = ['c'],
+                MisplacedLetters = ['b', 'c'],
+                ExcludeLetters = ['d', 'e', 'f'],
             };
 
             Assert.That(result.ToString(), Is.EqualTo("CorrectLetters: \"a\"\nMisplacedLetters: \"b\"\nExcludeLetters: \"c\""));
