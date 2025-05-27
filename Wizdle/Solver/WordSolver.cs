@@ -70,11 +70,6 @@
                 return [];
             }
 
-            if (correctLetters.Any() == false && misplacedLetters.Any() == false)
-            {
-                return wordsToFilter;
-            }
-
             IList<string> filteredWords = [..wordsToFilter];
             for (int i = 0; i < correctLetters.Count; i++)
             {
@@ -119,16 +114,6 @@
 
         private static IEnumerable<string> FilterExecludeLatters(IEnumerable<string> wordsToFilter, IList<char> excludeLetters)
         {
-            if (wordsToFilter.Any() == false)
-            {
-                return [];
-            }
-
-            if (excludeLetters.Any() == false)
-            {
-                return wordsToFilter;
-            }
-
             return wordsToFilter.Where(word => !excludeLetters.Any(letter => word.Contains(letter)));
         }
     }
