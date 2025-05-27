@@ -22,7 +22,7 @@
         public WordFileTests()
         {
             _loggerMock = new Mock<ILogger>();
-            _filePath = Path.Combine(Directory.GetCurrentDirectory(), "words.txt");
+            _filePath = Path.Combine(Directory.GetCurrentDirectory(), "Source\\wordle-answer-words.txt");
         }
 
         [Test]
