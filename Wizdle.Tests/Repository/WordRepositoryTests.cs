@@ -1,6 +1,5 @@
 ﻿namespace Wizdle.Tests.Repository
 {
-    using System;
     using System.Collections.Generic;
 
     using Microsoft.Extensions.Logging;
@@ -39,7 +38,7 @@
                 "EEEEE",
             };
 
-            _ = _wordFileMock.Setup(f => f.ReadLines()).Returns(inputWords);
+            _wordFileMock.Setup(f => f.ReadLines()).Returns(inputWords);
 
             // Act
             IEnumerable<string> result = _wordRepository.GetWords();
@@ -54,7 +53,7 @@
         {
             // Arrange
             List<string> inputWords = [string.Empty, " ", null];
-            _ = _wordFileMock.Setup(f => f.ReadLines()).Returns(inputWords);
+            _wordFileMock.Setup(f => f.ReadLines()).Returns(inputWords);
 
             // Act
             IEnumerable<string> results = _wordRepository.GetWords();
@@ -74,7 +73,7 @@
         {
             // Arrange
             List<string> inputWords = [word];
-            _ = _wordFileMock.Setup(f => f.ReadLines()).Returns(inputWords);
+            _wordFileMock.Setup(f => f.ReadLines()).Returns(inputWords);
 
             // Act
             IEnumerable<string> results = _wordRepository.GetWords();
@@ -91,7 +90,7 @@
         public void GetWords_WordFileIsEmpty_ReturnsEmpty()
         {
             // Arrange
-            _ = _wordFileMock.Setup(f => f.ReadLines()).Returns([]);
+            _wordFileMock.Setup(f => f.ReadLines()).Returns([]);
 
             // Act
             IEnumerable<string> result = _wordRepository.GetWords();

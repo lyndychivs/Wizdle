@@ -87,7 +87,7 @@
                     {
                         if (word[i] != correctLetter)
                         {
-                            _ = filteredWords.Remove(word);
+                            filteredWords.Remove(word);
                             continue;
                         }
                     }
@@ -96,13 +96,13 @@
                     {
                         if (!word.Contains(misplacedLetter))
                         {
-                            _ = filteredWords.Remove(word);
+                            filteredWords.Remove(word);
                             continue;
                         }
 
                         if (word[i] == misplacedLetter)
                         {
-                            _ = filteredWords.Remove(word);
+                            filteredWords.Remove(word);
                         }
                     }
                 }

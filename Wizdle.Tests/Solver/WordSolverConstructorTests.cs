@@ -31,7 +31,7 @@
         [Test]
         public void Constructor_WhenWordRepositoryReturnsWords_ReturnsWordSolver()
         {
-            _ = _wordRepositoryMock.Setup(r => r.GetWords()).Returns(["a"]);
+            _wordRepositoryMock.Setup(r => r.GetWords()).Returns(["a"]);
 
             var result = new WordSolver(
                 _loggerMock.Object,
@@ -96,7 +96,7 @@
         [Test]
         public void Constructor_WhenWordRepositoryReturnsEmpty_LogsError()
         {
-            _ = _wordRepositoryMock.Setup(r => r.GetWords()).Returns([]);
+            _wordRepositoryMock.Setup(r => r.GetWords()).Returns([]);
 
             var result = new WordSolver(
                 _loggerMock.Object,
