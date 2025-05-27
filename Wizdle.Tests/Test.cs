@@ -21,9 +21,9 @@
             var wizdleEngine = new WizdleEngine(logger.Object);
             var request = new Request
             {
-                CorrectLetters = ".....",
-                MisplacedLetters = "...e.",
-                ExcludedLetters = "hats",
+                CorrectLetters = ".",
+                MisplacedLetters = "..t.s",
+                ExcludedLetters = "hae",
             };
 
             Response response = wizdleEngine.GetResponseForRequest(request);
@@ -39,9 +39,9 @@
             var wizdleEngine = new WizdleEngine(logger.Object);
             var request = new Request
             {
-                CorrectLetters = "...n",
-                MisplacedLetters = "ro.ed",
-                ExcludedLetters = "hatsu",
+                CorrectLetters = "s",
+                MisplacedLetters = ".tt.s",
+                ExcludedLetters = "haeudy",
             };
 
             Response response = wizdleEngine.GetResponseForRequest(request);
@@ -57,9 +57,9 @@
             var wizdleEngine = new WizdleEngine(logger.Object);
             var request = new Request
             {
-                CorrectLetters = "...n",
-                MisplacedLetters = "ro.ed",
-                ExcludedLetters = "hatsuclimb",
+                CorrectLetters = "s.o.t",
+                MisplacedLetters = "....s",
+                ExcludedLetters = "haeudyml",
             };
 
             Response response = wizdleEngine.GetResponseForRequest(request);

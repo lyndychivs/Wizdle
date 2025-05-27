@@ -78,6 +78,15 @@
     <ProjectReference Include="..\Wizdle.Models\Wizdle.Models.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="Source\all-words.txt">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Source\wordle-allowed-words.txt">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Source\wordle-answer-words.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="words.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

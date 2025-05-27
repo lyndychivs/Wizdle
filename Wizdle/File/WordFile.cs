@@ -8,7 +8,7 @@
 
     internal class WordFile : IWordFile
     {
-        private const string WordFilePath = "words.txt";
+        private const string WordFilePath = "Source\\wordle-answer-words.txt";
 
         private readonly ILogger _logger;
 
