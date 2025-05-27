@@ -57,29 +57,25 @@
                 return _defaultResponse;
             }
 
-            IEnumerable<string> wordsAfterExclude = FilterExecludeLatters(_words, solveParameters.ExcludeLetters);
-
-            if (wordsAfterExclude.Any() == false)
-            {
-                return [];
-            }
-
-            return Filter(wordsAfterExclude, solveParameters.CorrectLetters, solveParameters.MisplacedLetters);
+            return FilterCorrectAndMisplacedLetters(
+                FilterExecludeLatters(_words, solveParameters.ExcludeLetters),
+                solveParameters.CorrectLetters,
+                solveParameters.MisplacedLetters);
         }
 
-        private static IEnumerable<string> Filter(IEnumerable<string> wordsAfterExclude, IList<char> correctLetters, IList<char> misplacedLetters)
+        private static IEnumerable<string> FilterCorrectAndMisplacedLetters(IEnumerable<string> wordsToFilter, IList<char> correctLetters, IList<char> misplacedLetters)
         {
-            if (wordsAfterExclude.Any() == false)
+            if (wordsToFilter.Any() == false)
             {
                 return [];
             }
 
             if (correctLetters.Any() == false && misplacedLetters.Any() == false)
             {
-                return wordsAfterExclude;
+                return wordsToFilter;
             }
 
-            IList<string> filteredWords = [..wordsAfterExclude];
+            IList<string> filteredWords = [..wordsToFilter];
             for (int i = 0; i < correctLetters.Count; i++)
             {
                 char correctLetter = correctLetters[i];
@@ -121,19 +117,19 @@
             return filteredWords;
         }
 
-        private static IEnumerable<string> FilterExecludeLatters(IEnumerable<string> words, IList<char> exclude)
+        private static IEnumerable<string> FilterExecludeLatters(IEnumerable<string> wordsToFilter, IList<char> excludeLetters)
         {
-            if (words.Any() == false)
+            if (wordsToFilter.Any() == false)
             {
                 return [];
             }
 
-            if (exclude.Any() == false)
+            if (excludeLetters.Any() == false)
             {
-                return words;
+                return wordsToFilter;
             }
 
-            return words.Where(word => !exclude.Any(letter => word.Contains(letter)));
+            return wordsToFilter.Where(word => !excludeLetters.Any(letter => word.Contains(letter)));
         }
     }
 }
