@@ -176,5 +176,49 @@
             // Assert
             Assert.That(result, Is.EqualTo(["hates"]));
         }
+
+        [Test]
+        public void Solve_OnlyMisplacedLetterKnown_ReturnsFilteredWords()
+        {
+            // Arrange
+            List<string> words = ["snoop", "spoon"];
+            _ = _solveParametersValidatorMock.Setup(v => v.IsValid(It.IsAny<SolveParameters>())).Returns(new ValidatorResponse { IsValid = true });
+            _ = _wordRepositoryMock.Setup(r => r.GetWords()).Returns(words);
+            _wordSolver = new WordSolver(_loggerMock.Object, _wordRepositoryMock.Object, _solveParametersValidatorMock.Object);
+            var parameters = new SolveParameters
+            {
+                ExcludeLetters = [],
+                CorrectLetters = ['?', '?', '?', '?', '?'],
+                MisplacedLetters = ['?', '?', '?', '?', 'p'],
+            };
+
+            // Act
+            IEnumerable<string> result = _wordSolver.Solve(parameters);
+
+            // Assert
+            Assert.That(result, Is.EqualTo(["spoon"]));
+        }
+
+        [Test]
+        public void Solve_OnlyCorrectLetterKnown_ReturnsFilterWords()
+        {
+            // Arrange
+            List<string> words = ["hates", "hater", "hated"];
+            _ = _solveParametersValidatorMock.Setup(v => v.IsValid(It.IsAny<SolveParameters>())).Returns(new ValidatorResponse { IsValid = true });
+            _ = _wordRepositoryMock.Setup(r => r.GetWords()).Returns(words);
+            _wordSolver = new WordSolver(_loggerMock.Object, _wordRepositoryMock.Object, _solveParametersValidatorMock.Object);
+            var parameters = new SolveParameters
+            {
+                ExcludeLetters = [],
+                CorrectLetters = ['?', '?', '?', '?', 'r'],
+                MisplacedLetters = ['?', '?', '?', '?', '?'],
+            };
+
+            // Act
+            IEnumerable<string> result = _wordSolver.Solve(parameters);
+
+            // Assert
+            Assert.That(result, Is.EqualTo(["hater"]));
+        }
     }
 }
