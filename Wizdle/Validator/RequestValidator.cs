@@ -47,9 +47,9 @@
                 validatorResponse.Errors.Add(message);
             }
 
-            if (request.MisplacedLetters == null)
+            if (request.ExcludedLetters == null)
             {
-                string message = $"{nameof(Request)}.{nameof(Request.MisplacedLetters)} cannot be null";
+                string message = $"{nameof(Request)}.{nameof(Request.ExcludedLetters)} cannot be null";
                 _logger.LogDebug(message);
 
                 validatorResponse.IsValid = false;
