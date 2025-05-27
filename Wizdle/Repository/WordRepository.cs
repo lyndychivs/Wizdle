@@ -31,16 +31,20 @@
                 if (string.IsNullOrWhiteSpace(word))
                 {
                     _logger.LogWarning("Found NullOrWhiteSpace in Word file, skipping.");
-                }
-
-                if (word.Length != 5)
-                {
-                    _logger.LogWarning($"Found Word with length {word.Length} in Word file, skipping: {word}");
 
                     continue;
                 }
 
-                yield return word.ToLower().Trim();
+                string response = word.ToLower().Trim();
+
+                if (response.Length != 5)
+                {
+                    _logger.LogWarning($"Found Word with length {response.Length} in Word file, skipping: {response}");
+
+                    continue;
+                }
+
+                yield return response;
             }
         }
     }
