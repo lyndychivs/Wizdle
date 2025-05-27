@@ -103,7 +103,6 @@
                         if (word[i] == misplacedLetter)
                         {
                             _ = filteredWords.Remove(word);
-                            continue;
                         }
                     }
                 }
