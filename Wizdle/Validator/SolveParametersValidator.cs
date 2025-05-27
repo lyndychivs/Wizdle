@@ -29,18 +29,32 @@
                 return validatorResponse;
             }
 
-            if (solveParameters.CorrectLetters.Count != 5 || solveParameters.MisplacedLetters.Count != 5)
+            if (solveParameters.CorrectLetters.Count != 5)
             {
-                string message = $"{nameof(SolveParameters)} Letter count is not equal to 5";
+                string message = $"{nameof(SolveParameters)}.{nameof(SolveParameters.CorrectLetters)} Letter count is not equal to 5";
                 _logger.LogDebug(message);
 
                 validatorResponse.IsValid = false;
                 validatorResponse.Errors.Add(message);
             }
 
-            for (int i = 0; i < solveParameters.CorrectLetters.Count; i++)
+            if (solveParameters.MisplacedLetters.Count != 5)
+            {
+                string message = $"{nameof(SolveParameters)}.{nameof(SolveParameters.MisplacedLetters)} Letter count is not equal to 5";
+                _logger.LogDebug(message);
+
+                validatorResponse.IsValid = false;
+                validatorResponse.Errors.Add(message);
+            }
+
+            for (int i = 0; i < Math.Min(solveParameters.CorrectLetters.Count, 5); i++)
             {
                 if (solveParameters.CorrectLetters[i] == '?')
+                {
+                    continue;
+                }
+
+                if (i >= solveParameters.MisplacedLetters.Count)
                 {
                     continue;
                 }

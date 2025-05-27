@@ -44,7 +44,7 @@
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(ex?.ParamName, Is.EqualTo("logger"));
-                Assert.That(ex?.Message, Does.Contain("Value cannot be null. (Parameter 'logger')"));
+                Assert.That(ex?.Message, Is.EqualTo("Value cannot be null. (Parameter 'logger')"));
             }
         }
 
@@ -55,7 +55,7 @@
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(ex?.ParamName, Is.EqualTo("logger"));
-                Assert.That(ex?.Message, Does.Contain("Value cannot be null. (Parameter 'logger')"));
+                Assert.That(ex?.Message, Is.EqualTo("Value cannot be null. (Parameter 'logger')"));
             }
         }
 
@@ -68,7 +68,7 @@
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(ex?.ParamName, Is.EqualTo("wordFile"));
-                Assert.That(ex?.Message, Does.Contain("Value cannot be null. (Parameter 'wordFile')"));
+                Assert.That(ex?.Message, Is.EqualTo("Value cannot be null. (Parameter 'wordFile')"));
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿namespace Wizdle.Tests.File
+﻿namespace Wizdle.Tests.Validator
 {
     using System;
 
@@ -8,25 +8,25 @@
 
     using NUnit.Framework;
 
-    using Wizdle.File;
+    using Wizdle.Validator;
 
     [TestFixture]
-    public class WordFileConstructorTests
+    public class SolveParametersValidatorConstructorTests
     {
         [Test]
-        public void Constructor_WithValidLogger_ReturnsWordFile()
+        public void Constructor_WithValidLogger_ReturnsSolveParametersValidator()
         {
             var loggerMock = new Mock<ILogger>();
 
-            var wordFile = new WordFile(loggerMock.Object);
+            var result = new SolveParametersValidator(loggerMock.Object);
 
-            Assert.That(wordFile, Is.Not.Null);
+            Assert.That(result, Is.Not.Null);
         }
 
         [Test]
         public void Constructor_WithNullLogger_ThrowsArgumentNullException()
         {
-            ArgumentNullException? ex = Assert.Throws<ArgumentNullException>(() => new WordFile(null!));
+            ArgumentNullException? ex = Assert.Throws<ArgumentNullException>(() => new SolveParametersValidator(null!));
 
             using (Assert.EnterMultipleScope())
             {
