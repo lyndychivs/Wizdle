@@ -48,7 +48,7 @@
                 ExcludeLetters = ['d', 'e', 'f'],
             };
 
-            Assert.That(result.ToString(), Is.EqualTo("CorrectLetters: \"a\"\nMisplacedLetters: \"b\"\nExcludeLetters: \"c\""));
+            Assert.That(result.ToString(), Is.EqualTo("CorrectLetters: \"a\"\nMisplacedLetters: \"bc\"\nExcludeLetters: \"def\""));
         }
 
         [Test]
