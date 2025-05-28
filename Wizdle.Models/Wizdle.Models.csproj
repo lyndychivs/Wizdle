@@ -20,7 +20,7 @@
     <AssemblyVersion>1.0.0</AssemblyVersion>
     <FileVersion>1.0.0</FileVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <IncludeSymbols>True</IncludeSymbols>
+    <IncludeSymbols>False</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
   </PropertyGroup>
@@ -38,9 +38,9 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-    <None Include="..\Wizdle\Resources\Wizdle.png">
+    <EmbeddedResource Include="..\Wizdle\Resources\Wizdle.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
-    </None>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
