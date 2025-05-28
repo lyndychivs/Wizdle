@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Models", "Wizdle.Mod
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.IntegrationTests", "Wizdle.IntegrationTests\Wizdle.IntegrationTests.csproj", "{11CF3632-597B-466F-8E08-CBB75B685C9C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.PerformanceTests", "Wizdle.PerformanceTests\Wizdle.PerformanceTests.csproj", "{01855519-08A7-456C-B1EE-637046641A07}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{11CF3632-597B-466F-8E08-CBB75B685C9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11CF3632-597B-466F-8E08-CBB75B685C9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11CF3632-597B-466F-8E08-CBB75B685C9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01855519-08A7-456C-B1EE-637046641A07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01855519-08A7-456C-B1EE-637046641A07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01855519-08A7-456C-B1EE-637046641A07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01855519-08A7-456C-B1EE-637046641A07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

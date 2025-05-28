@@ -1,27 +1,28 @@
 ﻿namespace Wizdle.IntegrationTests
 {
-    using Microsoft.Extensions.Logging;
-
-    using Moq;
-
     using NUnit.Framework;
 
+    using Serilog;
+    using Serilog.Extensions.Logging;
+
     using Wizdle.Models;
+
+    using ILogger = Microsoft.Extensions.Logging.ILogger;
 
     [TestFixture]
     public class WizdleEngineTests
     {
-        private readonly Mock<ILogger> _loggerMock;
+        private readonly ILogger _logger;
 
         public WizdleEngineTests()
         {
-            _loggerMock = new Mock<ILogger>();
+            _logger = CreateConsoleLogger();
         }
 
         [Test]
         public void WizdleEngine_TrySolveWordle_Request1()
         {
-            var wizdleEngine = new WizdleEngine(_loggerMock.Object);
+            var wizdleEngine = new WizdleEngine(_logger);
 
             var request = new Request
             {
@@ -46,7 +47,7 @@
         [Test]
         public void WizdleEngine_TrySolveWordle_Request2()
         {
-            var wizdleEngine = new WizdleEngine(_loggerMock.Object);
+            var wizdleEngine = new WizdleEngine(_logger);
 
             var request = new Request
             {
@@ -71,7 +72,7 @@
         [Test]
         public void WizdleEngine_TrySolveWordle_Request3()
         {
-            var wizdleEngine = new WizdleEngine(_loggerMock.Object);
+            var wizdleEngine = new WizdleEngine(_logger);
 
             var request = new Request
             {
@@ -96,7 +97,7 @@
         [Test]
         public void WizdleEngine_TrySolveWordle_Request4()
         {
-            var wizdleEngine = new WizdleEngine(_loggerMock.Object);
+            var wizdleEngine = new WizdleEngine(_logger);
 
             var request = new Request
             {
@@ -116,6 +117,15 @@
 
             Console.WriteLine(string.Join(Environment.NewLine, response.Message));
             Console.WriteLine(string.Join(Environment.NewLine, response.Words));
+        }
+
+        private ILogger CreateConsoleLogger()
+        {
+            return new SerilogLoggerFactory(
+                new LoggerConfiguration()
+                .MinimumLevel.Verbose()
+                .WriteTo.Console()
+                .CreateLogger()).CreateLogger(nameof(WizdleEngine));
         }
     }
 }
