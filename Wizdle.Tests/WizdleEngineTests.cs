@@ -54,7 +54,7 @@
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(response.Words, Is.Empty);
-                Assert.That(response.Message, Is.EqualTo(errors));
+                Assert.That(response.Messages, Is.EqualTo(errors));
             }
         }
 
@@ -83,7 +83,7 @@
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(response.Words, Is.EqualTo(words));
-                Assert.That(response.Message, Is.EqualTo(["Found 2 Word(s) matching the criteria."]));
+                Assert.That(response.Messages, Is.EqualTo(["Found 2 Word(s) matching the criteria."]));
                 _loggerMock.VerifyLogging(
                     "Processing WizdleRequest: CorrectLetters: \"a....\"   MisplacedLetters: \"l....\" ExcludeLetters: \"c\"",
                     LogLevel.Information,
@@ -119,7 +119,7 @@
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(response.Words, Is.Empty);
-                Assert.That(response.Message, Is.EqualTo(["Found 0 Word(s) matching the criteria."]));
+                Assert.That(response.Messages, Is.EqualTo(["Found 0 Word(s) matching the criteria."]));
                 _loggerMock.VerifyLogging(
                     "Processing WizdleRequest: CorrectLetters: \"X\"       MisplacedLetters: \"Y\"     ExcludeLetters: \"Z\"",
                     LogLevel.Information,

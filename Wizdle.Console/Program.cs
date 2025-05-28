@@ -32,9 +32,9 @@
 
             WizdleResponse response = wizdleEngine.ProcessWizdleRequest(wizdleRequest);
 
-            if (response.Message.Any())
+            if (response.Messages.Any())
             {
-                logger.LogInformation(string.Join(Environment.NewLine, response.Message));
+                logger.LogInformation(string.Join(Environment.NewLine, response.Messages));
             }
 
             if (response.Words.Any())
@@ -48,7 +48,7 @@
             return new SerilogLoggerFactory(
                 new LoggerConfiguration()
                 .MinimumLevel.Information()
-                .WriteTo.Console()
+                .WriteTo.Console(outputTemplate: "{Message}{NewLine}{Exception}")
                 .CreateLogger()).CreateLogger(nameof(WizdleEngine));
         }
 

@@ -37,10 +37,10 @@
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(response.Words, Is.Not.Empty);
-                Assert.That(response.Message, Is.Not.Empty);
+                Assert.That(response.Messages, Is.Not.Empty);
             }
 
-            Console.WriteLine(string.Join(Environment.NewLine, response.Message));
+            Console.WriteLine(string.Join(Environment.NewLine, response.Messages));
             Console.WriteLine(string.Join(Environment.NewLine, response.Words));
         }
 
@@ -62,10 +62,10 @@
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(response.Words, Is.Not.Empty);
-                Assert.That(response.Message, Is.Not.Empty);
+                Assert.That(response.Messages, Is.Not.Empty);
             }
 
-            Console.WriteLine(string.Join(Environment.NewLine, response.Message));
+            Console.WriteLine(string.Join(Environment.NewLine, response.Messages));
             Console.WriteLine(string.Join(Environment.NewLine, response.Words));
         }
 
@@ -87,10 +87,10 @@
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(response.Words, Is.Not.Empty);
-                Assert.That(response.Message, Is.Not.Empty);
+                Assert.That(response.Messages, Is.Not.Empty);
             }
 
-            Console.WriteLine(string.Join(Environment.NewLine, response.Message));
+            Console.WriteLine(string.Join(Environment.NewLine, response.Messages));
             Console.WriteLine(string.Join(Environment.NewLine, response.Words));
         }
 
@@ -112,10 +112,10 @@
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(response.Words, Is.Not.Empty);
-                Assert.That(response.Message, Is.Not.Empty);
+                Assert.That(response.Messages, Is.Not.Empty);
             }
 
-            Console.WriteLine(string.Join(Environment.NewLine, response.Message));
+            Console.WriteLine(string.Join(Environment.NewLine, response.Messages));
             Console.WriteLine(string.Join(Environment.NewLine, response.Words));
         }
 

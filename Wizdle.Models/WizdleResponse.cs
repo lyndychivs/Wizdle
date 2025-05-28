@@ -8,9 +8,9 @@
     public class WizdleResponse
     {
         /// <summary>
-        /// A response message containing information about the request processed.
+        /// Response messages containing information about the request processed.
         /// </summary>
-        public IEnumerable<string> Message { get; init; } = [];
+        public IEnumerable<string> Messages { get; init; } = [];
 
         /// <summary>
         /// A collection of words that match the criteria specified in the request.
