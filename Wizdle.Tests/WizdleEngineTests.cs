@@ -40,15 +40,15 @@
         }
 
         [Test]
-        public void GetResponseForRequest_WhenRequestIsInvalid_ReturnsErrorResponse()
+        public void ProcessWizdleRequest_WhenRequestIsInvalid_ReturnsErrorResponse()
         {
             // Arrange
-            var request = new Request();
+            var request = new WizdleRequest();
             List<string> errors = ["Invalid input"];
             _requestValidatorMock.Setup(v => v.IsValid(request)).Returns(new ValidatorResponse { IsValid = false, Errors = errors });
 
             // Act
-            Response response = _wizdleEngine.GetResponseForRequest(request);
+            WizdleResponse response = _wizdleEngine.ProcessWizdleRequest(request);
 
             // Assert
             using (Assert.EnterMultipleScope())
@@ -59,14 +59,14 @@
         }
 
         [Test]
-        public void GetResponseForRequest_WhenRequestIsValid_ReturnsResponseWithWords()
+        public void ProcessWizdleRequest_WhenRequestIsValid_ReturnsResponseWithWords()
         {
             // Arrange
-            var request = new Request
+            var request = new WizdleRequest
             {
                 CorrectLetters = "a....",
                 MisplacedLetters = "l....",
-                ExcludedLetters = "c",
+                ExcludeLetters = "c",
             };
 
             var solveParams = new SolveParameters();
@@ -77,7 +77,7 @@
             _wordSolver.Setup(s => s.Solve(solveParams)).Returns(words);
 
             // Act
-            Response response = _wizdleEngine.GetResponseForRequest(request);
+            WizdleResponse response = _wizdleEngine.ProcessWizdleRequest(request);
 
             // Assert
             using (Assert.EnterMultipleScope())
@@ -85,24 +85,25 @@
                 Assert.That(response.Words, Is.EqualTo(words));
                 Assert.That(response.Message, Is.EqualTo(["Found 2 Word(s) matching the criteria."]));
                 _loggerMock.VerifyLogging(
-                    "Processing Request:"
-                    + $"\nCorrectLetters: \"a....\""
-                    + $"\nMisplacedLetters: \"l....\""
-                    + $"\nExcludedLetters: \"c\"",
+                    "Processing WizdleRequest: CorrectLetters: \"a....\"   MisplacedLetters: \"l....\" ExcludeLetters: \"c\"",
+                    LogLevel.Information,
+                    Times.Once());
+                _loggerMock.VerifyLogging(
+                    "Found 2          Word(s) matching the criteria.",
                     LogLevel.Information,
                     Times.Once());
             }
         }
 
         [Test]
-        public void GetResponseForRequest_WhenNoWordsMatch_ReturnsEmptyWords()
+        public void ProcessWizdleRequest_WhenNoWordsMatch_ReturnsEmptyWords()
         {
             // Arrange
-            var request = new Request
+            var request = new WizdleRequest
             {
                 CorrectLetters = "X",
                 MisplacedLetters = "Y",
-                ExcludedLetters = "Z",
+                ExcludeLetters = "Z",
             };
             var solveParams = new SolveParameters();
             List<string> words = [];
@@ -112,13 +113,21 @@
             _wordSolver.Setup(s => s.Solve(solveParams)).Returns(words);
 
             // Act
-            Response response = _wizdleEngine.GetResponseForRequest(request);
+            WizdleResponse response = _wizdleEngine.ProcessWizdleRequest(request);
 
             // Assert
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(response.Words, Is.Empty);
                 Assert.That(response.Message, Is.EqualTo(["Found 0 Word(s) matching the criteria."]));
+                _loggerMock.VerifyLogging(
+                    "Processing WizdleRequest: CorrectLetters: \"X\"       MisplacedLetters: \"Y\"     ExcludeLetters: \"Z\"",
+                    LogLevel.Information,
+                    Times.Once());
+                _loggerMock.VerifyLogging(
+                    "Found 0          Word(s) matching the criteria.",
+                    LogLevel.Information,
+                    Times.Once());
             }
         }
     }

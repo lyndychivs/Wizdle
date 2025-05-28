@@ -39,27 +39,27 @@
         [Benchmark]
         public void WizdleEngine_WithOnlyCorrectLetters()
         {
-            var request = new Request
+            var request = new WizdleRequest
             {
                 CorrectLetters = _word!,
                 MisplacedLetters = string.Empty,
-                ExcludedLetters = string.Empty,
+                ExcludeLetters = string.Empty,
             };
 
-            _ = _wizdleEngine.GetResponseForRequest(request);
+            _ = _wizdleEngine.ProcessWizdleRequest(request);
         }
 
         [Benchmark]
         public void WizdleEngine_WithOnlyMisplacedLetters()
         {
-            var request = new Request
+            var request = new WizdleRequest
             {
                 CorrectLetters = string.Empty,
                 MisplacedLetters = _wordReverse!,
-                ExcludedLetters = string.Empty,
+                ExcludeLetters = string.Empty,
             };
 
-            _ = _wizdleEngine.GetResponseForRequest(request);
+            _ = _wizdleEngine.ProcessWizdleRequest(request);
         }
 
         private ILogger CreateConsoleLogger()

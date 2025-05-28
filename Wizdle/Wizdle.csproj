@@ -66,9 +66,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Serilog" Version="4.3.0" />
-    <PackageReference Include="Serilog.Extensions.Logging" Version="9.0.1" />
-    <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.5" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -81,10 +79,7 @@
     <None Update="Source\all-words.txt">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="Source\wordle-allowed-words.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Source\wordle-answer-words.txt">
+    <None Update="Source\words.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="words.txt">

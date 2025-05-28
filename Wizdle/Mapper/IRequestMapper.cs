@@ -5,6 +5,6 @@
 
     internal interface IRequestMapper
     {
-        SolveParameters MapToSolveParameters(Request request);
+        SolveParameters MapToSolveParameters(WizdleRequest request);
     }
 }

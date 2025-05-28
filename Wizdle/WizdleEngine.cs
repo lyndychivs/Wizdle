@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
 
     using Microsoft.Extensions.Logging;
@@ -12,7 +13,7 @@
     using Wizdle.Validator;
 
     /// <summary>
-    /// The main engine for processing requests in the Wizdle application.
+    /// The engine for processing requests to the Wizdle library.
     /// </summary>
     public class WizdleEngine
     {
@@ -42,16 +43,16 @@
         }
 
         /// <summary>
-        /// Processes the given <see cref="Request"/> and returns a <see cref="Response"/>.
+        /// Processes the given <see cref="WizdleRequest"/> and returns a <see cref="WizdleResponse"/>.
         /// </summary>
         /// <param name="request">The request containing criteria for selecting words during the Solve.</param>
         /// <returns>A response containing the matching words and a message.</returns>
-        public Response GetResponseForRequest(Request request)
+        public WizdleResponse ProcessWizdleRequest(WizdleRequest request)
         {
             ValidatorResponse validatorResponse = _requestValidator.IsValid(request);
             if (validatorResponse.IsValid == false)
             {
-                return new Response()
+                return new WizdleResponse()
                 {
                     Words = [],
                     Message = validatorResponse.Errors,
@@ -59,16 +60,27 @@
             }
 
             _logger.LogInformation(
-                $"Processing {nameof(Request)}:"
-                + $"\n{nameof(request.CorrectLetters)}: \"{request.CorrectLetters}\""
-                + $"\n{nameof(request.MisplacedLetters)}: \"{request.MisplacedLetters}\""
-                + $"\n{nameof(request.ExcludedLetters)}: \"{request.ExcludedLetters}\"");
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    "{0,-25} {1,-25} {2,-25} {3}",
+                    $"Processing {nameof(WizdleRequest)}:",
+                    $"{nameof(request.CorrectLetters)}: \"{request.CorrectLetters}\"",
+                    $"{nameof(request.MisplacedLetters)}: \"{request.MisplacedLetters}\"",
+                    $"{nameof(request.ExcludeLetters)}: \"{request.ExcludeLetters}\""));
 
             SolveParameters solveParameters = _requestMapper.MapToSolveParameters(request);
 
             IEnumerable<string> words = _wordSolver.Solve(solveParameters);
 
-            return new Response()
+            _logger.LogInformation(
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    "{0,-5} {1,-10} {2}",
+                    $"Found",
+                    words.Count(),
+                    "Word(s) matching the criteria."));
+
+            return new WizdleResponse()
             {
                 Words = words,
                 Message = [$"Found {words.Count()} Word(s) matching the criteria."],

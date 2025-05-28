@@ -4,6 +4,6 @@
 
     internal interface IRequestValidator
     {
-        ValidatorResponse IsValid(Request request);
+        ValidatorResponse IsValid(WizdleRequest request);
     }
 }

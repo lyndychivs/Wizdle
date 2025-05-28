@@ -24,14 +24,14 @@
         {
             var wizdleEngine = new WizdleEngine(_logger);
 
-            var request = new Request
+            var request = new WizdleRequest
             {
                 CorrectLetters = ".....",
                 MisplacedLetters = "..t.s",
-                ExcludedLetters = "hae",
+                ExcludeLetters = "hae",
             };
 
-            Response response = wizdleEngine.GetResponseForRequest(request);
+            WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
 
             Assert.That(response, Is.Not.Null);
             using (Assert.EnterMultipleScope())
@@ -49,14 +49,14 @@
         {
             var wizdleEngine = new WizdleEngine(_logger);
 
-            var request = new Request
+            var request = new WizdleRequest
             {
                 CorrectLetters = "....t",
                 MisplacedLetters = "..rs.",
-                ExcludedLetters = "haebu",
+                ExcludeLetters = "haebu",
             };
 
-            Response response = wizdleEngine.GetResponseForRequest(request);
+            WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
 
             Assert.That(response, Is.Not.Null);
             using (Assert.EnterMultipleScope())
@@ -74,14 +74,14 @@
         {
             var wizdleEngine = new WizdleEngine(_logger);
 
-            var request = new Request
+            var request = new WizdleRequest
             {
                 CorrectLetters = "s..rt",
                 MisplacedLetters = ".....",
-                ExcludedLetters = "haebuki",
+                ExcludeLetters = "haebuki",
             };
 
-            Response response = wizdleEngine.GetResponseForRequest(request);
+            WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
 
             Assert.That(response, Is.Not.Null);
             using (Assert.EnterMultipleScope())
@@ -99,14 +99,14 @@
         {
             var wizdleEngine = new WizdleEngine(_logger);
 
-            var request = new Request
+            var request = new WizdleRequest
             {
                 CorrectLetters = "s.ort",
                 MisplacedLetters = ".....",
-                ExcludedLetters = "haebukin",
+                ExcludeLetters = "haebukin",
             };
 
-            Response response = wizdleEngine.GetResponseForRequest(request);
+            WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
 
             Assert.That(response, Is.Not.Null);
             using (Assert.EnterMultipleScope())

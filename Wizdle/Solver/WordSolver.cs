@@ -58,7 +58,7 @@
             }
 
             return FilterCorrectAndMisplacedLetters(
-                FilterExecludeLatters(_words, solveParameters.ExcludeLetters),
+                FilterExcludeLetters(_words, solveParameters.ExcludeLetters),
                 solveParameters.CorrectLetters,
                 solveParameters.MisplacedLetters);
         }
@@ -111,7 +111,7 @@
             return filteredWords;
         }
 
-        private static IEnumerable<string> FilterExecludeLatters(IEnumerable<string> wordsToFilter, IList<char> excludeLetters)
+        private static IEnumerable<string> FilterExcludeLetters(IEnumerable<string> wordsToFilter, IList<char> excludeLetters)
         {
             return wordsToFilter.Where(word => !excludeLetters.Any(letter => word.Contains(letter)));
         }

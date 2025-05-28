@@ -25,11 +25,11 @@ namespace Wizdle.Tests.Validator
         [Test]
         public void IsValid_ValidRequest_ReturnsValid()
         {
-            var request = new Request
+            var request = new WizdleRequest
             {
                 CorrectLetters = "....a",
                 MisplacedLetters = "b....",
-                ExcludedLetters = "c",
+                ExcludeLetters = "c",
             };
 
             ValidatorResponse validatorResponse = _requestValidator.IsValid(request);
@@ -51,19 +51,19 @@ namespace Wizdle.Tests.Validator
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(validatorResponse.IsValid, Is.False);
-                Assert.That(validatorResponse.Errors, Has.Exactly(1).EqualTo("Request cannot be null"));
-                _loggerMock.VerifyLogging("Received null Request", LogLevel.Debug, Times.Once());
+                Assert.That(validatorResponse.Errors, Has.Exactly(1).EqualTo("WizdleRequest cannot be null"));
+                _loggerMock.VerifyLogging("Received null WizdleRequest", LogLevel.Debug, Times.Once());
             }
         }
 
         [Test]
         public void IsValid_NullCorrectLetters_ReturnsInvalidWithError()
         {
-            var request = new Request
+            var request = new WizdleRequest
             {
                 CorrectLetters = null!,
                 MisplacedLetters = "a",
-                ExcludedLetters = "b",
+                ExcludeLetters = "b",
             };
 
             ValidatorResponse validatorResponse = _requestValidator.IsValid(request);
@@ -71,19 +71,19 @@ namespace Wizdle.Tests.Validator
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(validatorResponse.IsValid, Is.False);
-                Assert.That(validatorResponse.Errors, Is.EqualTo(["Request.CorrectLetters cannot be null"]));
-                _loggerMock.VerifyLogging("Request.CorrectLetters cannot be null", LogLevel.Debug, Times.Once());
+                Assert.That(validatorResponse.Errors, Is.EqualTo(["WizdleRequest.CorrectLetters cannot be null"]));
+                _loggerMock.VerifyLogging("WizdleRequest.CorrectLetters cannot be null", LogLevel.Debug, Times.Once());
             }
         }
 
         [Test]
         public void IsValid_NullMisplacedLetters_ReturnsInvalidWithError()
         {
-            var request = new Request
+            var request = new WizdleRequest
             {
                 CorrectLetters = "a",
                 MisplacedLetters = null!,
-                ExcludedLetters = "b",
+                ExcludeLetters = "b",
             };
 
             ValidatorResponse validatorResponse = _requestValidator.IsValid(request);
@@ -91,19 +91,19 @@ namespace Wizdle.Tests.Validator
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(validatorResponse.IsValid, Is.False);
-                Assert.That(validatorResponse.Errors, Is.EqualTo(["Request.MisplacedLetters cannot be null"]));
-                _loggerMock.VerifyLogging("Request.MisplacedLetters cannot be null", LogLevel.Debug, Times.Once());
+                Assert.That(validatorResponse.Errors, Is.EqualTo(["WizdleRequest.MisplacedLetters cannot be null"]));
+                _loggerMock.VerifyLogging("WizdleRequest.MisplacedLetters cannot be null", LogLevel.Debug, Times.Once());
             }
         }
 
         [Test]
         public void IsValid_NullExcludedLetters_ReturnsInvalidWithError()
         {
-            var request = new Request
+            var request = new WizdleRequest
             {
                 CorrectLetters = "a",
                 MisplacedLetters = "b",
-                ExcludedLetters = null!,
+                ExcludeLetters = null!,
             };
 
             ValidatorResponse validatorResponse = _requestValidator.IsValid(request);
@@ -111,19 +111,19 @@ namespace Wizdle.Tests.Validator
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(validatorResponse.IsValid, Is.False);
-                Assert.That(validatorResponse.Errors, Is.EqualTo(["Request.ExcludedLetters cannot be null"]));
-                _loggerMock.VerifyLogging("Request.ExcludedLetters cannot be null", LogLevel.Debug, Times.Once());
+                Assert.That(validatorResponse.Errors, Is.EqualTo(["WizdleRequest.ExcludeLetters cannot be null"]));
+                _loggerMock.VerifyLogging("WizdleRequest.ExcludeLetters cannot be null", LogLevel.Debug, Times.Once());
             }
         }
 
         [Test]
         public void IsValid_CorrectLettersTooLong_ReturnsInvalidWithError()
         {
-            var request = new Request
+            var request = new WizdleRequest
             {
                 CorrectLetters = "abcdef",
                 MisplacedLetters = "a",
-                ExcludedLetters = "b",
+                ExcludeLetters = "b",
             };
 
             ValidatorResponse validatorResponse = _requestValidator.IsValid(request);
@@ -131,19 +131,19 @@ namespace Wizdle.Tests.Validator
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(validatorResponse.IsValid, Is.False);
-                Assert.That(validatorResponse.Errors, Is.EqualTo(["Request.CorrectLetters cannot be longer than 5 characters"]));
-                _loggerMock.VerifyLogging("Request.CorrectLetters cannot be longer than 5 characters", LogLevel.Debug, Times.Once());
+                Assert.That(validatorResponse.Errors, Is.EqualTo(["WizdleRequest.CorrectLetters cannot be longer than 5 characters"]));
+                _loggerMock.VerifyLogging("WizdleRequest.CorrectLetters cannot be longer than 5 characters", LogLevel.Debug, Times.Once());
             }
         }
 
         [Test]
         public void IsValid_MisplacedLettersTooLong_ReturnsInvalidWithError()
         {
-            var request = new Request
+            var request = new WizdleRequest
             {
                 CorrectLetters = "a",
                 MisplacedLetters = "abcdef",
-                ExcludedLetters = "b",
+                ExcludeLetters = "b",
             };
 
             ValidatorResponse validatorResponse = _requestValidator.IsValid(request);
@@ -151,8 +151,8 @@ namespace Wizdle.Tests.Validator
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(validatorResponse.IsValid, Is.False);
-                Assert.That(validatorResponse.Errors, Is.EqualTo(["Request.MisplacedLetters cannot be longer than 5 characters"]));
-                _loggerMock.VerifyLogging("Request.MisplacedLetters cannot be longer than 5 characters", LogLevel.Debug, Times.Once());
+                Assert.That(validatorResponse.Errors, Is.EqualTo(["WizdleRequest.MisplacedLetters cannot be longer than 5 characters"]));
+                _loggerMock.VerifyLogging("WizdleRequest.MisplacedLetters cannot be longer than 5 characters", LogLevel.Debug, Times.Once());
             }
         }
     }

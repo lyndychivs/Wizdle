@@ -19,20 +19,23 @@
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public SolveParameters MapToSolveParameters(Request request)
+        public SolveParameters MapToSolveParameters(WizdleRequest request)
         {
             if (request is null)
             {
-                _logger.LogWarning($"Received null {nameof(Request)}, returning default {nameof(SolveParameters)}");
+                _logger.LogError($"Received null {nameof(WizdleRequest)}, returning default {nameof(SolveParameters)}");
 
                 return new SolveParameters();
             }
 
             _logger.LogInformation(
-                $"Mapping {nameof(Request)}:"
-                + $"\n{nameof(Request.CorrectLetters)}: \"{request.CorrectLetters}\""
-                + $"\n{nameof(Request.MisplacedLetters)}: \"{request.MisplacedLetters}\""
-                + $"\n{nameof(Request.ExcludedLetters)}: \"{request.ExcludedLetters}\"");
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    "{0,-25} {1,-25} {2,-25} {3}",
+                    $"Mapping {nameof(WizdleRequest)}:",
+                    $"{nameof(WizdleRequest.CorrectLetters)}: \"{request.CorrectLetters}\"",
+                    $"{nameof(WizdleRequest.MisplacedLetters)}: \"{request.MisplacedLetters}\"",
+                    $"{nameof(WizdleRequest.ExcludeLetters)}: \"{request.ExcludeLetters}\""));
 
             var solveParameters = new SolveParameters();
 
@@ -71,9 +74,14 @@
                 }
             }
 
-            solveParameters.ExcludeLetters = request.ExcludedLetters.ToLower(CultureInfo.InvariantCulture).ToCharArray();
+            solveParameters.ExcludeLetters = request.ExcludeLetters.ToLower(CultureInfo.InvariantCulture).ToCharArray();
 
-            _logger.LogInformation($"Mapped {nameof(SolveParameters)}:\n{solveParameters}");
+            _logger.LogInformation(
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    "{0,-25} {1}",
+                    $"Mapped {nameof(SolveParameters)}:",
+                    $"{solveParameters}"));
 
             return solveParameters;
         }

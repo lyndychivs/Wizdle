@@ -26,11 +26,11 @@
         [Test]
         public void MapToSolveParameters_ValidRequest_MapsCorrectly()
         {
-            var request = new Request
+            var request = new WizdleRequest
             {
                 CorrectLetters = "a....",
                 MisplacedLetters = "b....",
-                ExcludedLetters = "c",
+                ExcludeLetters = "c",
             };
 
             SolveParameters result = _requestMapper.MapToSolveParameters(request);
@@ -43,15 +43,12 @@
                 Assert.That(result.ExcludeLetters, Is.EqualTo(['c']));
 
                 _loggerMock.VerifyLogging(
-                    "Mapping Request:"
-                    + "\nCorrectLetters: \"a....\""
-                    + "\nMisplacedLetters: \"b....\""
-                    + "\nExcludedLetters: \"c\"",
+                    "Mapping WizdleRequest:    CorrectLetters: \"a....\"   MisplacedLetters: \"b....\" ExcludeLetters: \"c\"",
                     LogLevel.Information,
                     Times.Once());
 
                 _loggerMock.VerifyLogging(
-                    $"Mapped SolveParameters:\n{result}",
+                    $"Mapped SolveParameters:   CorrectLetters: \"a????\"   MisplacedLetters: \"b????\" ExcludeLetters: \"c\"",
                     LogLevel.Information,
                     Times.Once());
             }
@@ -69,8 +66,8 @@
                 Assert.That(result.MisplacedLetters, Is.Empty);
                 Assert.That(result.ExcludeLetters, Is.Empty);
                 _loggerMock.VerifyLogging(
-                    "Received null Request, returning default SolveParameters",
-                    LogLevel.Warning,
+                    "Received null WizdleRequest, returning default SolveParameters",
+                    LogLevel.Error,
                     Times.Once());
             }
         }
@@ -78,11 +75,11 @@
         [Test]
         public void MapToSolveParameters_RequestWithShortStrings_PadsWithQuestionMarks()
         {
-            var request = new Request
+            var request = new WizdleRequest
             {
                 CorrectLetters = "a",
                 MisplacedLetters = string.Empty,
-                ExcludedLetters = string.Empty,
+                ExcludeLetters = string.Empty,
             };
 
             SolveParameters result = _requestMapper.MapToSolveParameters(request);
@@ -99,11 +96,11 @@
         [Test]
         public void MapToSolveParameters_RequestWithLongerThanFiveChars_CutsShortToFive()
         {
-            var request = new Request
+            var request = new WizdleRequest
             {
                 CorrectLetters = new string('a', 6),
                 MisplacedLetters = string.Empty,
-                ExcludedLetters = string.Empty,
+                ExcludeLetters = string.Empty,
             };
 
             SolveParameters result = _requestMapper.MapToSolveParameters(request);
@@ -120,11 +117,11 @@
         [Test]
         public void MapToSolveParameters_RequestWithUpperChar_ReplacedWithLower()
         {
-            var request = new Request
+            var request = new WizdleRequest
             {
                 CorrectLetters = "A",
                 MisplacedLetters = string.Empty,
-                ExcludedLetters = string.Empty,
+                ExcludeLetters = string.Empty,
             };
 
             SolveParameters result = _requestMapper.MapToSolveParameters(request);
@@ -141,11 +138,11 @@
         [Test]
         public void MapToSolveParameters_RequestWithNonLetterCharacters_ReplacedWithQuestionMark()
         {
-            var request = new Request
+            var request = new WizdleRequest
             {
                 CorrectLetters = "a$",
                 MisplacedLetters = "b!",
-                ExcludedLetters = "c",
+                ExcludeLetters = "c",
             };
 
             SolveParameters result = _requestMapper.MapToSolveParameters(request);

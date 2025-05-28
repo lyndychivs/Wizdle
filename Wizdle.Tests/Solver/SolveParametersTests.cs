@@ -48,7 +48,7 @@
                 ExcludeLetters = ['c'],
             };
 
-            Assert.That(result.ToString(), Is.EqualTo("CorrectLetters: \"a\"\nMisplacedLetters: \"b\"\nExcludeLetters: \"c\""));
+            Assert.That(result.ToString(), Is.EqualTo("CorrectLetters: \"a\"       MisplacedLetters: \"b\"     ExcludeLetters: \"c\""));
         }
 
         [Test]
@@ -61,7 +61,7 @@
                 ExcludeLetters = ['c', 'c'],
             };
 
-            Assert.That(result.ToString(), Is.EqualTo("CorrectLetters: \"aa\"\nMisplacedLetters: \"bb\"\nExcludeLetters: \"cc\""));
+            Assert.That(result.ToString(), Is.EqualTo("CorrectLetters: \"aa\"      MisplacedLetters: \"bb\"    ExcludeLetters: \"cc\""));
         }
 
         [Test]
@@ -74,7 +74,7 @@
                 ExcludeLetters = [],
             };
 
-            Assert.That(result.ToString(), Is.EqualTo("CorrectLetters: \"\"\nMisplacedLetters: \"\"\nExcludeLetters: \"\""));
+            Assert.That(result.ToString(), Is.EqualTo("CorrectLetters: \"\"        MisplacedLetters: \"\"      ExcludeLetters: \"\""));
         }
     }
 }
