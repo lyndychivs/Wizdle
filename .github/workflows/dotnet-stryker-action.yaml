@@ -5,7 +5,7 @@ permissions:
 on:
   push:
   schedule:
-    - cron: '0 8 * * *'
+    - cron: '0 4 * * SUN'
 jobs:
   dotnet-stryker-action:
     runs-on: ubuntu-latest
