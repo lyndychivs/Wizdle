@@ -1,0 +1,36 @@
+name: dotnet-restore-build-test-publish
+run-name: .NET Restore, Build, Test & Publish
+permissions:
+  contents: read
+on:
+  push:
+  schedule:
+    - cron: '0 8 * * *'
+jobs:
+  dotnet-restore-build-test-publish:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v4
+
+    - name: setup dotnet
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: dotnet restore
+      run: dotnet restore
+
+    - name: dotnet build
+      run: dotnet build --no-restore --configuration GitHub
+
+    - name: dotnet test
+      run: dotnet test --no-build --configuration GitHub --verbosity normal --list-tests --blame
+
+    - name: dotnet nuget push to NuGet
+      if: github.ref == 'refs/heads/master'
+      run: dotnet nuget push **.nupkg --api-key ${{secrets.NUGET}} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
+
+    - name: dotnet nuget push to GitHub
+      if: github.ref == 'refs/heads/master'
+      run: dotnet nuget push **.nupkg --api-key ${{secrets.GITHUB}} --source "https://nuget.pkg.github.com/lyndychivs/index.json" --skip-duplicate
