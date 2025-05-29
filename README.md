@@ -73,6 +73,13 @@ snort
 sport
 ```
 
+# 🪟 Wizdle.Windows
+The Wizdle Windows application allows us to access all the functionality of the Wizdle library via a GUI.
+
+More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Windows).
+
+![Wizdle.Windows](Wizdle.Windows/Resources/Wizdle.Windows.png)
+
 # 🧪 Testing
 - Unit Testing
   - [Wizdle.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Tests)
