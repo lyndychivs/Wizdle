@@ -62,7 +62,7 @@ namespace Wizdle.Windows
             }
         }
 
-        private char GetLetter(string input)
+        private static char GetLetter(string input)
         {
             if (input.Length != 1)
             {

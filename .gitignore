@@ -485,4 +485,4 @@ $RECYCLE.BIN/
 *.swp
 
 # Windows Installer files
-Installer/
+Installer/Output/
