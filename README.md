@@ -51,7 +51,7 @@ Available on:
 - [NuGet](https://www.nuget.org/packages/Wizdle/)
 - [GitHub](https://github.com/lyndychivs/Wizdle/pkgs/nuget/Wizdle)
 
-# 🖥️ Wizdle.Console
+# 💻 Wizdle.Console
 The Wizdle Console application allows us to access all the functionality of the Wizdle library via the CLI.
 
 More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Console)
@@ -59,7 +59,7 @@ More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/m
 ## Example
 **Command:**
 ```
-$ ./Wizdle.Console.exe -correct "....t" -misplaced "..rs." -exclude "haebu"
+$ ./Wizdle.Console.exe solve --correct "....t" --misplaced "..rs." --exclude "haebu"
 ```
 **Response:**
 ```
