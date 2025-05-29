@@ -120,8 +120,8 @@
             var request = new WizdleRequest
             {
                 CorrectLetters = "A",
-                MisplacedLetters = string.Empty,
-                ExcludeLetters = string.Empty,
+                MisplacedLetters = "B",
+                ExcludeLetters = "C",
             };
 
             SolveParameters result = _requestMapper.MapToSolveParameters(request);
@@ -130,8 +130,8 @@
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(result.CorrectLetters, Is.EqualTo(['a', '?', '?', '?', '?']));
-                Assert.That(result.MisplacedLetters, Is.EqualTo(['?', '?', '?', '?', '?']));
-                Assert.That(result.ExcludeLetters, Is.Empty);
+                Assert.That(result.MisplacedLetters, Is.EqualTo(['b', '?', '?', '?', '?']));
+                Assert.That(result.ExcludeLetters, Is.EqualTo(['c']));
             }
         }
 
@@ -154,6 +154,34 @@
                 Assert.That(result.MisplacedLetters, Is.EqualTo(['b', '?', '?', '?', '?']));
                 Assert.That(result.ExcludeLetters, Is.EqualTo(['c']));
             }
+        }
+
+        [Test]
+        public void MapToSolveParameters_RequestWithNonLetterCharactersInExcludeLetters_ExcludedFromSolveParameters()
+        {
+            var request = new WizdleRequest
+            {
+                ExcludeLetters = "c$%.!",
+            };
+
+            SolveParameters result = _requestMapper.MapToSolveParameters(request);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.ExcludeLetters, Is.EqualTo(['c']));
+        }
+
+        [Test]
+        public void MapToSolveParameters_RequestWithMultipleCharactersInExcludeLettters_OnlyIncludesOneInstanceOfEach()
+        {
+            var request = new WizdleRequest
+            {
+                ExcludeLetters = "abcabc",
+            };
+
+            SolveParameters result = _requestMapper.MapToSolveParameters(request);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.ExcludeLetters, Is.EqualTo(['a', 'b', 'c']));
         }
     }
 }

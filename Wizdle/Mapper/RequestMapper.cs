@@ -76,7 +76,8 @@
 
             foreach (char letter in request.ExcludeLetters)
             {
-                if (char.IsLetter(letter) && !solveParameters.ExcludeLetters.Contains(letter))
+                if (char.IsLetter(letter)
+                    && !solveParameters.ExcludeLetters.Contains(char.ToLower(letter, CultureInfo.InvariantCulture)))
                 {
                     solveParameters.ExcludeLetters.Add(char.ToLower(letter, CultureInfo.InvariantCulture));
                 }
