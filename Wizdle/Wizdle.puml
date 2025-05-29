@@ -1,0 +1,126 @@
+@startuml
+!theme plain
+
+~interface IWordFile {
+    +IEnumerable<string> ReadLines()
+}
+
+~class WordFile {
+    -ILogger _logger
+    +IEnumerable<string> ReadLines()
+}
+
+IWordFile <|-- WordFile
+
+~interface IRequestMapper {
+    +SolveParameters MapToSolveParameters(WizdleRequest request)
+}
+
+~class RequestMapper {
+    -ILogger _logger
+    +SolveParameters MapToSolveParameters(WizdleRequest request)
+}
+
+IRequestMapper <|-- RequestMapper
+
+~interface IWordRepository {
+    +IEnumerable<string> GetWords()
+}
+
+~class WordRepository {
+    -ILogger _logger
+    -IWordFile _wordFile
+    +IEnumerable<string> GetWords()
+}
+
+IWordRepository <|-- WordRepository
+WordRepository --> IWordFile
+
+~interface IWordSolver {
+    +IEnumerable<string> Solve(SolveParameters solveParameters)
+}
+
+~class WordSolver {
+    -ILogger _logger
+    -IWordRepository _wordRepository
+    -ISolveParametersValidator _wordParameterValidator
+    -IEnumerable<string> _words
+    +IEnumerable<string> Solve(SolveParameters solveParameters)
+}
+
+~class SolveParameters {
+    +IList<char> CorrectLetters
+    +IList<char> MisplacedLetters
+    +IList<char> ExcludeLetters
+}
+
+IWordSolver <|-- WordSolver
+IWordSolver --> SolveParameters : uses
+WordSolver --> SolveParameters : uses
+WordSolver --> IWordRepository
+WordSolver --> ISolveParametersValidator
+
+~interface ISolveParametersValidator {
+    +ValidatorResponse IsValid(SolveParameters solveParameters)
+}
+
+~class SolveParametersValidator {
+    -ILogger _logger
+    +ValidatorResponse IsValid(SolveParameters solveParameters)
+}
+
+ISolveParametersValidator <|-- SolveParametersValidator
+
+~interface IRequestValidator {
+    +ValidatorResponse IsValid(WizdleRequest request)
+}
+
+~class RequestValidator {
+    -ILogger _logger
+    +ValidatorResponse IsValid(WizdleRequest request)
+}
+
+IRequestValidator <|-- RequestValidator
+
+~class ValidatorResponse {
+    +bool IsValid
+    +IList<string> Errors
+}
+
+IRequestValidator --> ValidatorResponse : uses
+ISolveParametersValidator --> ValidatorResponse : uses
+RequestValidator --> ValidatorResponse : uses
+SolveParametersValidator --> ValidatorResponse : uses
+
++class WizdleEngine {
+    -ILogger _logger
+    -IRequestValidator _requestValidator
+    -IWordSolver _wordSolver
+    -IRequestMapper _requestMapper
+    +WizdleResponse ProcessWizdleRequest(WizdleRequest request)
+}
+
+WizdleEngine --> IRequestValidator
+WizdleEngine --> IWordSolver
+WizdleEngine --> IRequestMapper
+
++class WizdleResponse {
+    +IEnumerable<string> Messages
+    +IEnumerable<string> Words
+}
+
++class WizdleRequest {
+    +string CorrectLetters
+    +string MisplacedLetters
+    +string ExcludeLetters
+}
+
+WizdleEngine --> WizdleRequest : uses
+WizdleEngine --> WizdleResponse : uses
+
++interface ILogger {
+}
+
+WizdleEngine --> ILogger
+
+@enduml
