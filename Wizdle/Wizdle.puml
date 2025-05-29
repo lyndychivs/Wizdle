@@ -13,12 +13,12 @@
 IWordFile <|-- WordFile
 
 ~interface IRequestMapper {
-    +SolveParameters MapToSolveParameters(WizdleRequest request)
+    +SolveParameters MapToSolveParameters(WizdleRequest)
 }
 
 ~class RequestMapper {
     -ILogger _logger
-    +SolveParameters MapToSolveParameters(WizdleRequest request)
+    +SolveParameters MapToSolveParameters(WizdleRequest)
 }
 
 IRequestMapper <|-- RequestMapper
@@ -37,7 +37,7 @@ IWordRepository <|-- WordRepository
 WordRepository --> IWordFile
 
 ~interface IWordSolver {
-    +IEnumerable<string> Solve(SolveParameters solveParameters)
+    +IEnumerable<string> Solve(SolveParameters)
 }
 
 ~class WordSolver {
@@ -45,7 +45,7 @@ WordRepository --> IWordFile
     -IWordRepository _wordRepository
     -ISolveParametersValidator _wordParameterValidator
     -IEnumerable<string> _words
-    +IEnumerable<string> Solve(SolveParameters solveParameters)
+    +IEnumerable<string> Solve(SolveParameters)
 }
 
 ~class SolveParameters {
@@ -61,23 +61,23 @@ WordSolver --> IWordRepository
 WordSolver --> ISolveParametersValidator
 
 ~interface ISolveParametersValidator {
-    +ValidatorResponse IsValid(SolveParameters solveParameters)
+    +ValidatorResponse IsValid(SolveParameters)
 }
 
 ~class SolveParametersValidator {
     -ILogger _logger
-    +ValidatorResponse IsValid(SolveParameters solveParameters)
+    +ValidatorResponse IsValid(SolveParameters)
 }
 
 ISolveParametersValidator <|-- SolveParametersValidator
 
 ~interface IRequestValidator {
-    +ValidatorResponse IsValid(WizdleRequest request)
+    +ValidatorResponse IsValid(WizdleRequest)
 }
 
 ~class RequestValidator {
     -ILogger _logger
-    +ValidatorResponse IsValid(WizdleRequest request)
+    +ValidatorResponse IsValid(WizdleRequest)
 }
 
 IRequestValidator <|-- RequestValidator
@@ -97,7 +97,7 @@ SolveParametersValidator --> ValidatorResponse : uses
     -IRequestValidator _requestValidator
     -IWordSolver _wordSolver
     -IRequestMapper _requestMapper
-    +WizdleResponse ProcessWizdleRequest(WizdleRequest request)
+    +WizdleResponse ProcessWizdleRequest(WizdleRequest)
 }
 
 WizdleEngine --> IRequestValidator
