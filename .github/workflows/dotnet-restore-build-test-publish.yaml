@@ -5,7 +5,7 @@ permissions:
 on:
   push:
   schedule:
-    - cron: '0 8 * * *'
+    - cron: '0 4 * * SUN'
 jobs:
   dotnet-restore-build-test-publish:
     runs-on: ubuntu-latest
