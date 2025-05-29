@@ -74,7 +74,13 @@
                 }
             }
 
-            solveParameters.ExcludeLetters = request.ExcludeLetters.ToLower(CultureInfo.InvariantCulture).ToCharArray();
+            foreach (char letter in request.ExcludeLetters)
+            {
+                if (char.IsLetter(letter) && !solveParameters.ExcludeLetters.Contains(letter))
+                {
+                    solveParameters.ExcludeLetters.Add(char.ToLower(letter, CultureInfo.InvariantCulture));
+                }
+            }
 
             _logger.LogInformation(
                 string.Format(
