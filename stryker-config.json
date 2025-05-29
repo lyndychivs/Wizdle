@@ -14,7 +14,7 @@
       "!**/Program.cs"
     ],
     "solution": "Wizdle.sln",
-    "configuration": "Debug",
+    "configuration": "GitHub",
     "target-framework": "net8.0",
     "project": "/Wizdle/Wizdle.csproj",
     "coverage-analysis": "perTest",
