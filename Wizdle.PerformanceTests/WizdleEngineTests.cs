@@ -2,6 +2,8 @@
 {
     using BenchmarkDotNet.Attributes;
 
+    using Microsoft.Extensions.Logging;
+
     using Serilog;
     using Serilog.Extensions.Logging;
 
@@ -11,14 +13,16 @@
 
     public class WizdleEngineTests
     {
-        private readonly WizdleEngine _wizdleEngine;
+        [Params(1, 2, 3, 4, 5)]
+        #pragma warning disable SA1401 // Field should be made private
+        public int WordLength;
+        #pragma warning restore SA1401
 
         private const string WordSource = "zonal";
 
         private const string WordSourceReverse = "la.oz";
 
-        [Params(1, 2, 3, 4, 5)]
-        public int WordLength;
+        private readonly WizdleEngine _wizdleEngine;
 
         private string? _word;
 
@@ -62,13 +66,13 @@
             _ = _wizdleEngine.ProcessWizdleRequest(request);
         }
 
-        private ILogger CreateConsoleLogger()
+        private static ILogger CreateConsoleLogger()
         {
             return new SerilogLoggerFactory(
                 new LoggerConfiguration()
                 .MinimumLevel.Verbose()
                 .WriteTo.Console()
-                .CreateLogger()).CreateLogger(nameof(WizdleEngine));
+                .CreateLogger()).CreateLogger<WizdleEngine>();
         }
     }
 }

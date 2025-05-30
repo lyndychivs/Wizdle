@@ -1,50 +1,59 @@
-using Wizdle.Aspire.ServiceDefaults;
-using Wizdle.Aspire.Web;
-using Wizdle.Aspire.Web.Components;
-
-internal class Program
+namespace Wizdle.Aspire.Web
 {
-    private static void Main(string[] args)
+    using System;
+
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+
+    using Wizdle.Aspire.ServiceDefaults;
+    using Wizdle.Aspire.Web.Components;
+
+    internal class Program
     {
-        WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+        private static void Main(string[] args)
+        {
+            WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-        // Add service defaults & Aspire client integrations.
-        builder.AddServiceDefaults();
+            // Add service defaults & Aspire client integrations.
+            builder.AddServiceDefaults();
 
-        // Add services to the container.
-        builder.Services.AddRazorComponents()
-            .AddInteractiveServerComponents();
+            // Add services to the container.
+            builder.Services.AddRazorComponents()
+                .AddInteractiveServerComponents();
 
-        builder.Services.AddOutputCache();
+            builder.Services.AddOutputCache();
 
-        builder.Services.AddHttpClient<WeatherApiClient>(client =>
+            builder.Services.AddHttpClient<WizdleApiClient>(client =>
             {
                 // This URL uses "https+http://" to indicate HTTPS is preferred over HTTP.
                 // Learn more about service discovery scheme resolution at https://aka.ms/dotnet/sdschemes.
-                client.BaseAddress = new("https+http://apiservice");
+                client.BaseAddress = new Uri("https+http://apiservice");
             });
 
-        WebApplication app = builder.Build();
+            WebApplication app = builder.Build();
 
-        if (!app.Environment.IsDevelopment())
-        {
-            app.UseExceptionHandler("/Error", createScopeForErrors: true);
-            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-            app.UseHsts();
+            if (!app.Environment.IsDevelopment())
+            {
+                app.UseExceptionHandler("/Error", createScopeForErrors: true);
+
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
+
+            app.UseHttpsRedirection();
+
+            app.UseStaticFiles();
+            app.UseAntiforgery();
+
+            app.UseOutputCache();
+
+            app.MapRazorComponents<App>()
+                .AddInteractiveServerRenderMode();
+
+            app.MapDefaultEndpoints();
+
+            app.Run();
         }
-
-        app.UseHttpsRedirection();
-
-        app.UseStaticFiles();
-        app.UseAntiforgery();
-
-        app.UseOutputCache();
-
-        app.MapRazorComponents<App>()
-            .AddInteractiveServerRenderMode();
-
-        app.MapDefaultEndpoints();
-
-        app.Run();
     }
 }

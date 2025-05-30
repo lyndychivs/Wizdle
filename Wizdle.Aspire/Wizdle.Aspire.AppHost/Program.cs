@@ -1,18 +1,24 @@
-using Projects;
-
-internal class Program
+namespace Wizdle.Aspire.AppHost
 {
-    private static void Main(string[] args)
+    using global::Aspire.Hosting;
+    using global::Aspire.Hosting.ApplicationModel;
+
+    using Projects;
+
+    internal class Program
     {
-        IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder(args);
+        private static void Main(string[] args)
+        {
+            IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder(args);
 
-        IResourceBuilder<ProjectResource> apiService = builder.AddProject<Wizdle_Aspire_ApiService>("apiservice");
+            IResourceBuilder<ProjectResource> apiService = builder.AddProject<Wizdle_Aspire_ApiService>("apiservice");
 
-        builder.AddProject<Wizdle_Aspire_Web>("webfrontend")
-            .WithExternalHttpEndpoints()
-            .WithReference(apiService)
-            .WaitFor(apiService);
+            builder.AddProject<Wizdle_Aspire_Web>("webfrontend")
+                .WithExternalHttpEndpoints()
+                .WithReference(apiService)
+                .WaitFor(apiService);
 
-        builder.Build().Run();
+            builder.Build().Run();
+        }
     }
 }

@@ -7,7 +7,7 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageId>Wizdle</PackageId>
     <Title>Wizdle</Title>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Authors>lyndychivs</Authors>
     <Company>lyndychivs</Company>
     <Description>A library for solving Wordle.</Description>
@@ -16,8 +16,8 @@
     <RepositoryUrl>https://github.com/lyndychivs/Wizdle</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>wordle;solver;wizard;wizdle;helper;word;guess;challenge</PackageTags>
-    <AssemblyVersion>1.0.0</AssemblyVersion>
-    <FileVersion>1.0.0</FileVersion>
+    <AssemblyVersion>1.0.1</AssemblyVersion>
+    <FileVersion>1.0.1</FileVersion>
     <IncludeSymbols>False</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>

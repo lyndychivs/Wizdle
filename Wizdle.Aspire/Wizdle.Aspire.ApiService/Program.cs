@@ -1,44 +1,48 @@
-using Wizdle.Aspire.ServiceDefaults;
-
-internal class Program
+namespace Wizdle.Aspire.ApiService
 {
-    private static void Main(string[] args)
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.DependencyInjection;
+
+    using Wizdle;
+    using Wizdle.Aspire.ServiceDefaults;
+    using Wizdle.Models;
+
+    internal class Program
     {
-        WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-
-        // Add service defaults & Aspire client integrations.
-        builder.AddServiceDefaults();
-
-        // Add services to the container.
-        builder.Services.AddProblemDetails();
-
-        WebApplication app = builder.Build();
-
-        // Configure the HTTP request pipeline.
-        app.UseExceptionHandler();
-
-        string[] summaries = ["Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"];
-
-        app.MapGet("/weatherforecast", () =>
+        private static void Main(string[] args)
         {
-            WeatherForecast[] forecast = [.. Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))];
-            return forecast;
-        })
-        .WithName("GetWeatherForecast");
+            WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-        app.MapDefaultEndpoints();
+            // Add service defaults & Aspire client integrations.
+            builder.AddServiceDefaults();
 
-        app.Run();
+            // Add services to the container.
+            builder.Services.AddProblemDetails();
+            builder.Services.AddSingleton<WizdleEngine>();
+
+            WebApplication app = builder.Build();
+
+            // Configure the HTTP request pipeline.
+            app.UseExceptionHandler();
+
+            app.MapGet("/wizdle", () => Results.Ok())
+                .WithName("GetWizdle");
+
+            app.MapPost("/wizdle", ([FromBody] WizdleRequest request, WizdleEngine engine) =>
+            {
+                if (request is null)
+                {
+                    return Results.BadRequest($"{nameof(WizdleRequest)} cannot be null.");
+                }
+
+                return Results.Ok(engine.ProcessWizdleRequest(request));
+            }).WithName("PostWizdle");
+
+            app.MapDefaultEndpoints();
+
+            app.Run();
+        }
     }
-}
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 }

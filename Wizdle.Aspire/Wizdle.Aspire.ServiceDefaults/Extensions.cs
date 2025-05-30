@@ -16,7 +16,8 @@ namespace Wizdle.Aspire.ServiceDefaults
     // To learn more about using this project, see https://aka.ms/dotnet/aspire/service-defaults
     public static class Extensions
     {
-        public static TBuilder AddServiceDefaults<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
+        public static TBuilder AddServiceDefaults<TBuilder>(this TBuilder builder)
+            where TBuilder : IHostApplicationBuilder
         {
             builder.ConfigureOpenTelemetry();
 
@@ -42,7 +43,8 @@ namespace Wizdle.Aspire.ServiceDefaults
             return builder;
         }
 
-        public static TBuilder ConfigureOpenTelemetry<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
+        public static TBuilder ConfigureOpenTelemetry<TBuilder>(this TBuilder builder)
+            where TBuilder : IHostApplicationBuilder
         {
             builder.Logging.AddOpenTelemetry(logging =>
             {
@@ -71,26 +73,8 @@ namespace Wizdle.Aspire.ServiceDefaults
             return builder;
         }
 
-        private static TBuilder AddOpenTelemetryExporters<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
-        {
-            bool useOtlpExporter = !string.IsNullOrWhiteSpace(builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"]);
-
-            if (useOtlpExporter)
-            {
-                builder.Services.AddOpenTelemetry().UseOtlpExporter();
-            }
-
-            // Uncomment the following lines to enable the Azure Monitor exporter (requires the Azure.Monitor.OpenTelemetry.AspNetCore package)
-            //if (!string.IsNullOrEmpty(builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]))
-            //{
-            //    builder.Services.AddOpenTelemetry()
-            //       .UseAzureMonitor();
-            //}
-
-            return builder;
-        }
-
-        public static TBuilder AddDefaultHealthChecks<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
+        public static TBuilder AddDefaultHealthChecks<TBuilder>(this TBuilder builder)
+            where TBuilder : IHostApplicationBuilder
         {
             builder.Services.AddHealthChecks()
                 // Add a default liveness check to ensure app is responsive
@@ -111,11 +95,31 @@ namespace Wizdle.Aspire.ServiceDefaults
                 // Only health checks tagged with the "live" tag must pass for app to be considered alive
                 app.MapHealthChecks("/alive", new HealthCheckOptions
                 {
-                    Predicate = r => r.Tags.Contains("live")
+                    Predicate = r => r.Tags.Contains("live"),
                 });
             }
 
             return app;
+        }
+
+        private static TBuilder AddOpenTelemetryExporters<TBuilder>(this TBuilder builder)
+            where TBuilder : IHostApplicationBuilder
+        {
+            bool useOtlpExporter = !string.IsNullOrWhiteSpace(builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"]);
+
+            if (useOtlpExporter)
+            {
+                builder.Services.AddOpenTelemetry().UseOtlpExporter();
+            }
+
+            // Uncomment the following lines to enable the Azure Monitor exporter (requires the Azure.Monitor.OpenTelemetry.AspNetCore package)
+            //if (!string.IsNullOrEmpty(builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]))
+            //{
+            //    builder.Services.AddOpenTelemetry()
+            //       .UseAzureMonitor();
+            //}
+
+            return builder;
         }
     }
 }

@@ -1,27 +1,41 @@
-namespace Wizdle.Aspire.Tests;
-
-public class WebTests
+namespace Wizdle.Aspire.Tests
 {
-    [Test]
-    public async Task GetWebResourceRootReturnsOkStatusCode()
+    using System;
+    using System.Net;
+    using System.Net.Http;
+    using System.Threading.Tasks;
+
+    using global::Aspire.Hosting.ApplicationModel;
+    using global::Aspire.Hosting.Testing;
+
+    using Microsoft.Extensions.DependencyInjection;
+
+    using NUnit.Framework;
+
+    [TestFixture]
+    public class WebTests
     {
-        // Arrange
-        var appHost = await DistributedApplicationTestingBuilder.CreateAsync<Projects.Wizdle_Aspire_AppHost>();
-        appHost.Services.ConfigureHttpClientDefaults(clientBuilder =>
+        [Test]
+        public async Task GetWebResourceRootReturnsOkStatusCode()
         {
-            clientBuilder.AddStandardResilienceHandler();
-        });
+            // Arrange
+            IDistributedApplicationTestingBuilder appHost = await DistributedApplicationTestingBuilder.CreateAsync<Projects.Wizdle_Aspire_AppHost>();
+            appHost.Services.ConfigureHttpClientDefaults(clientBuilder =>
+            {
+                clientBuilder.AddStandardResilienceHandler();
+            });
 
-        await using var app = await appHost.BuildAsync();
-        var resourceNotificationService = app.Services.GetRequiredService<ResourceNotificationService>();
-        await app.StartAsync();
+            await using global::Aspire.Hosting.DistributedApplication app = await appHost.BuildAsync();
+            ResourceNotificationService resourceNotificationService = app.Services.GetRequiredService<ResourceNotificationService>();
+            await app.StartAsync();
 
-        // Act
-        var httpClient = app.CreateHttpClient("webfrontend");
-        await resourceNotificationService.WaitForResourceAsync("webfrontend", KnownResourceStates.Running).WaitAsync(TimeSpan.FromSeconds(30));
-        var response = await httpClient.GetAsync("/");
+            // Act
+            HttpClient httpClient = app.CreateHttpClient("webfrontend");
+            await resourceNotificationService.WaitForResourceAsync("webfrontend", KnownResourceStates.Running).WaitAsync(TimeSpan.FromSeconds(30));
+            HttpResponseMessage response = await httpClient.GetAsync("/");
 
-        // Assert
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            // Assert
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+        }
     }
 }
