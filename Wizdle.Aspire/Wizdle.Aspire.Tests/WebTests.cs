@@ -12,6 +12,8 @@ namespace Wizdle.Aspire.Tests
 
     using NUnit.Framework;
 
+    using Projects;
+
     [TestFixture]
     public class WebTests
     {
@@ -19,7 +21,7 @@ namespace Wizdle.Aspire.Tests
         public async Task GetWebResourceRootReturnsOkStatusCode()
         {
             // Arrange
-            IDistributedApplicationTestingBuilder appHost = await DistributedApplicationTestingBuilder.CreateAsync<Projects.Wizdle_Aspire_AppHost>();
+            IDistributedApplicationTestingBuilder appHost = await DistributedApplicationTestingBuilder.CreateAsync<Wizdle_Aspire_AppHost>();
             appHost.Services.ConfigureHttpClientDefaults(clientBuilder =>
             {
                 clientBuilder.AddStandardResilienceHandler();
@@ -30,8 +32,8 @@ namespace Wizdle.Aspire.Tests
             await app.StartAsync();
 
             // Act
-            HttpClient httpClient = app.CreateHttpClient("webfrontend");
-            await resourceNotificationService.WaitForResourceAsync("webfrontend", KnownResourceStates.Running).WaitAsync(TimeSpan.FromSeconds(30));
+            HttpClient httpClient = app.CreateHttpClient("web");
+            await resourceNotificationService.WaitForResourceAsync("web", KnownResourceStates.Running).WaitAsync(TimeSpan.FromSeconds(30));
             HttpResponseMessage response = await httpClient.GetAsync("/");
 
             // Assert

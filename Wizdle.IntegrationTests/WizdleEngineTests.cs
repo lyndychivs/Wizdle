@@ -36,8 +36,9 @@
             Assert.That(response, Is.Not.Null);
             using (Assert.EnterMultipleScope())
             {
+                Assert.That(response.Messages, Is.EqualTo(["Found 65 Word(s) matching the criteria."]));
                 Assert.That(response.Words, Is.Not.Empty);
-                Assert.That(response.Messages, Is.Not.Empty);
+                Assert.That(response.Words, Has.Exactly(65).Items);
             }
 
             Console.WriteLine(string.Join(Environment.NewLine, response.Messages));
@@ -61,8 +62,9 @@
             Assert.That(response, Is.Not.Null);
             using (Assert.EnterMultipleScope())
             {
+                Assert.That(response.Messages, Is.EqualTo(["Found 3 Word(s) matching the criteria."]));
                 Assert.That(response.Words, Is.Not.Empty);
-                Assert.That(response.Messages, Is.Not.Empty);
+                Assert.That(response.Words, Is.EqualTo(["skirt", "snort", "sport"]));
             }
 
             Console.WriteLine(string.Join(Environment.NewLine, response.Messages));
@@ -86,8 +88,9 @@
             Assert.That(response, Is.Not.Null);
             using (Assert.EnterMultipleScope())
             {
+                Assert.That(response.Messages, Is.EqualTo(["Found 2 Word(s) matching the criteria."]));
                 Assert.That(response.Words, Is.Not.Empty);
-                Assert.That(response.Messages, Is.Not.Empty);
+                Assert.That(response.Words, Is.EqualTo(["snort", "sport"]));
             }
 
             Console.WriteLine(string.Join(Environment.NewLine, response.Messages));
@@ -111,8 +114,9 @@
             Assert.That(response, Is.Not.Null);
             using (Assert.EnterMultipleScope())
             {
+                Assert.That(response.Messages, Is.EqualTo(["Found 1 Word(s) matching the criteria."]));
                 Assert.That(response.Words, Is.Not.Empty);
-                Assert.That(response.Messages, Is.Not.Empty);
+                Assert.That(response.Words, Is.EqualTo(["sport"]));
             }
 
             Console.WriteLine(string.Join(Environment.NewLine, response.Messages));
