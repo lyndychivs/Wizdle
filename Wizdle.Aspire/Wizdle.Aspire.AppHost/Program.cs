@@ -11,7 +11,8 @@ namespace Wizdle.Aspire.AppHost
         {
             IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder(args);
 
-            IResourceBuilder<ProjectResource> apiService = builder.AddProject<Wizdle_Aspire_ApiService>("api");
+            IResourceBuilder<ProjectResource> apiService = builder.AddProject<Wizdle_Aspire_ApiService>("api")
+                .WithScalarDocs();
 
             builder.AddProject<Wizdle_Aspire_Web>("web")
                 .WithExternalHttpEndpoints()

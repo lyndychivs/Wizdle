@@ -5,6 +5,8 @@ namespace Wizdle.Aspire.ApiService
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.DependencyInjection;
 
+    using Scalar.AspNetCore;
+
     using Wizdle;
     using Wizdle.Aspire.ServiceDefaults;
     using Wizdle.Models;
@@ -21,6 +23,7 @@ namespace Wizdle.Aspire.ApiService
             // Add services to the container.
             builder.Services.AddProblemDetails();
             builder.Services.AddSingleton<WizdleEngine>();
+            builder.Services.AddOpenApi();
 
             WebApplication app = builder.Build();
 
@@ -41,6 +44,9 @@ namespace Wizdle.Aspire.ApiService
             }).WithName("PostWizdle");
 
             app.MapDefaultEndpoints();
+
+            app.MapOpenApi();
+            app.MapScalarApiReference();
 
             app.Run();
         }
