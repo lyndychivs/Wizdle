@@ -6,6 +6,8 @@ namespace Wizdle.Aspire.Web
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
 
+    using MudBlazor.Services;
+
     using Wizdle.Aspire.ServiceDefaults;
     using Wizdle.Aspire.Web.Components;
 
@@ -30,6 +32,8 @@ namespace Wizdle.Aspire.Web
                 // Learn more about service discovery scheme resolution at https://aka.ms/dotnet/sdschemes.
                 client.BaseAddress = new Uri("https+http://api");
             });
+
+            builder.Services.AddMudServices();
 
             WebApplication app = builder.Build();
 
