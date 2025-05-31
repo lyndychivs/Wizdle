@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Reflection;
 
     using Microsoft.Extensions.Logging;
 
@@ -21,7 +22,7 @@
         {
             try
             {
-                string filePath = Path.Combine(Directory.GetCurrentDirectory(), WordFilePath);
+                string filePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? Directory.GetCurrentDirectory(), WordFilePath);
 
                 if (File.Exists(filePath) == false)
                 {

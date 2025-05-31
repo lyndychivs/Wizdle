@@ -10,6 +10,7 @@
     using Wizdle.Models;
 
     using ILogger = Microsoft.Extensions.Logging.ILogger;
+
     internal class Program
     {
         internal static void Main(string[] args)
