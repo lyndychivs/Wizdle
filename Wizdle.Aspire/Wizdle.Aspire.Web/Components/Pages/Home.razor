@@ -1,6 +1,7 @@
 ﻿@page "/"
 @attribute [StreamRendering(true)]
 
+@inject ISnackbar Snackbar
 @inject WizdleApiClient WizdleApiClient
 
 @using Wizdle.Models
@@ -128,15 +129,6 @@
         <MudDivider DividerType="DividerType.FullWidth" style="margin-top: 1rem;" />
     </MudGrid>
     <MudGrid Spacing="3" Justify="Justify.FlexStart" style="padding-top: 2rem;margin-bottom: 1rem;">
-        <MudText Typo="Typo.h6">@_messagesTitle</MudText>
-        <MudFlexBreak />
-        <MudStack Wrap="Wrap.Wrap" Row="false">
-            @foreach (string message in _wizdleResponse.Messages)
-            {
-                <MudPaper Class="mud-theme-primary pa-4 rounded-lg" Elevation="11">@message</MudPaper>
-            }
-        </MudStack>
-        <MudFlexBreak />
         <MudText Typo="Typo.h6">@_wordsTitle</MudText>
         <MudFlexBreak />
         <MudStack Wrap="Wrap.Wrap" Row="true">
@@ -343,7 +335,6 @@
     private WizdleResponse _wizdleResponse { get; set; } = new WizdleResponse();
 
     private string _wordsTitle { get; set; } = string.Empty;
-    private string _messagesTitle { get; set; } = string.Empty;
 
     private async Task Solve()
     {
@@ -359,11 +350,20 @@
 
         if (_wizdleResponse.Messages.Count() > 0)
         {
-            _messagesTitle = "Feedback:";
-        }
-        else
-        {
-            _messagesTitle = string.Empty;
+            foreach (string message in _wizdleResponse.Messages)
+            {
+                Snackbar.Add(message, Severity.Info, config =>
+                {
+                    config.Icon = Icons.Material.Filled.RemoveRedEye;
+                    config.ShowCloseIcon = true;
+                    config.VisibleStateDuration = 5000;
+                    config.OnClick = sb =>
+                    {
+                        StateHasChanged();
+                        return Task.CompletedTask;
+                    };
+                });
+            }
         }
 
         if (_wizdleResponse.Words.Count() > 0)
