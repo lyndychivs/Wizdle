@@ -1,5 +1,8 @@
 ﻿namespace Wizdle.Console
 {
+    using System;
+    using System.Linq;
+
     using CommandLine;
 
     using Microsoft.Extensions.Logging;

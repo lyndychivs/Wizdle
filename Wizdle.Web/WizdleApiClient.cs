@@ -1,4 +1,4 @@
-﻿namespace Wizdle.Aspire.Web
+﻿namespace Wizdle.Web
 {
     using System.Net.Http;
     using System.Net.Http.Json;
@@ -14,8 +14,6 @@
         public async Task<WizdleResponse> PostWizdleRequestAsync(WizdleRequest wizdleRequest, CancellationToken cancellationToken = default)
         {
             HttpResponseMessage httpResponseMessage = await httpClient.PostAsJsonAsync("/wizdle", wizdleRequest, cancellationToken);
-
-            httpResponseMessage.EnsureSuccessStatusCode();
 
             return await httpResponseMessage.Content.ReadFromJsonAsync<WizdleResponse>(cancellationToken) ?? new WizdleResponse();
         }

@@ -1,11 +1,11 @@
-﻿namespace Wizdle.Aspire.AppHost
+﻿namespace Wizdle.AppHost
 {
     using System;
     using System.Diagnostics;
     using System.Threading.Tasks;
 
-    using global::Aspire.Hosting;
-    using global::Aspire.Hosting.ApplicationModel;
+    using Aspire.Hosting;
+    using Aspire.Hosting.ApplicationModel;
 
     using Microsoft.Extensions.Diagnostics.HealthChecks;
 

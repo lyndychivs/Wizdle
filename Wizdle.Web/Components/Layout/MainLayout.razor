@@ -17,7 +17,7 @@
 </MudLayout>
 
 @code {
-    private MudThemeProvider _mudThemeProvider;
+    private MudThemeProvider _mudThemeProvider = new MudThemeProvider();
     private bool _isDarkMode { get; set; } = false;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

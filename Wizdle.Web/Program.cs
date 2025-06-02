@@ -1,4 +1,4 @@
-namespace Wizdle.Aspire.Web
+namespace Wizdle.Web
 {
     using System;
 
@@ -8,8 +8,8 @@ namespace Wizdle.Aspire.Web
 
     using MudBlazor.Services;
 
-    using Wizdle.Aspire.ServiceDefaults;
-    using Wizdle.Aspire.Web.Components;
+    using Wizdle.ServiceDefaults;
+    using Wizdle.Web.Components;
 
     internal class Program
     {

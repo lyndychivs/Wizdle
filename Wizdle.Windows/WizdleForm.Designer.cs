@@ -1,8 +1,10 @@
 ﻿namespace Wizdle.Windows
 {
     using System.ComponentModel;
+    using System.Drawing;
+    using System.Windows.Forms;
 
-    partial class WizdleForm
+    partial class WizdleForm : Form
     {
         private void InitializeComponent()
         {

@@ -1,4 +1,4 @@
-namespace Wizdle.Aspire.ServiceDefaults
+namespace Wizdle.ServiceDefaults
 {
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Diagnostics.HealthChecks;

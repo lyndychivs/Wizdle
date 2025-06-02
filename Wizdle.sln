@@ -16,13 +16,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Console", "Wizdle.Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Windows", "Wizdle.Windows\Wizdle.Windows.csproj", "{CBDB2784-4CA0-4F66-A08D-1B7D6DF0CCE1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Aspire.AppHost", "Wizdle.Aspire\Wizdle.Aspire.AppHost\Wizdle.Aspire.AppHost.csproj", "{184F4B73-4A5B-4181-A07E-E15E870BEA8F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.AppHost", "Wizdle.AppHost\Wizdle.AppHost.csproj", "{184F4B73-4A5B-4181-A07E-E15E870BEA8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Aspire.ServiceDefaults", "Wizdle.Aspire\Wizdle.Aspire.ServiceDefaults\Wizdle.Aspire.ServiceDefaults.csproj", "{A03C2E5B-A3A3-6D60-5FE0-01291CA3E234}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.ServiceDefaults", "Wizdle.ServiceDefaults\Wizdle.ServiceDefaults.csproj", "{A03C2E5B-A3A3-6D60-5FE0-01291CA3E234}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Aspire.ApiService", "Wizdle.Aspire\Wizdle.Aspire.ApiService\Wizdle.Aspire.ApiService.csproj", "{B2FD6206-5D99-59A4-3F19-89B356DB2118}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.ApiService", "Wizdle.ApiService\Wizdle.ApiService.csproj", "{B2FD6206-5D99-59A4-3F19-89B356DB2118}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Aspire.Web", "Wizdle.Aspire\Wizdle.Aspire.Web\Wizdle.Aspire.Web.csproj", "{40F777F5-574F-550E-977E-ED9CDEE238C8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Web", "Wizdle.Web\Wizdle.Web.csproj", "{40F777F5-574F-550E-977E-ED9CDEE238C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.ApiService.IntegrationTests", "Wizdle.ApiService.IntegrationTests\Wizdle.ApiService.IntegrationTests.csproj", "{03ECADF3-BAC9-FE83-4583-5D93CD8987E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -96,6 +98,12 @@ Global
 		{40F777F5-574F-550E-977E-ED9CDEE238C8}.GitHub|Any CPU.Build.0 = Release|Any CPU
 		{40F777F5-574F-550E-977E-ED9CDEE238C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40F777F5-574F-550E-977E-ED9CDEE238C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03ECADF3-BAC9-FE83-4583-5D93CD8987E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03ECADF3-BAC9-FE83-4583-5D93CD8987E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03ECADF3-BAC9-FE83-4583-5D93CD8987E2}.GitHub|Any CPU.ActiveCfg = Release|Any CPU
+		{03ECADF3-BAC9-FE83-4583-5D93CD8987E2}.GitHub|Any CPU.Build.0 = Release|Any CPU
+		{03ECADF3-BAC9-FE83-4583-5D93CD8987E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03ECADF3-BAC9-FE83-4583-5D93CD8987E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,5 +1,7 @@
 ﻿namespace Wizdle.IntegrationTests
 {
+    using System;
+
     using NUnit.Framework;
 
     using Serilog;

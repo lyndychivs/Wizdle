@@ -9,8 +9,8 @@
     <UserSecretsId>7c2ad7f3-0c96-498b-aa14-0d16f5cd8737</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Wizdle.Aspire.ApiService\Wizdle.Aspire.ApiService.csproj" />
-    <ProjectReference Include="..\Wizdle.Aspire.Web\Wizdle.Aspire.Web.csproj" />
+    <ProjectReference Include="..\Wizdle.ApiService\Wizdle.ApiService.csproj" />
+    <ProjectReference Include="..\Wizdle.Web\Wizdle.Web.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting.AppHost" Version="9.3.0" />

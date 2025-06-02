@@ -13,7 +13,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Wizdle\Wizdle.csproj" />
-    <ProjectReference Include="..\Wizdle.Aspire.ServiceDefaults\Wizdle.Aspire.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\Wizdle\Wizdle.csproj" />
+    <ProjectReference Include="..\Wizdle.ServiceDefaults\Wizdle.ServiceDefaults.csproj" />
   </ItemGroup>
 </Project>

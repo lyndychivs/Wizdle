@@ -1,4 +1,4 @@
-namespace Wizdle.Aspire.ApiService
+namespace Wizdle.ApiService
 {
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
@@ -8,8 +8,8 @@ namespace Wizdle.Aspire.ApiService
     using Scalar.AspNetCore;
 
     using Wizdle;
-    using Wizdle.Aspire.ServiceDefaults;
     using Wizdle.Models;
+    using Wizdle.ServiceDefaults;
 
     internal class Program
     {
