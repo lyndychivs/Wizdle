@@ -5,15 +5,16 @@
 <MudSnackbarProvider />
 <MudLayout>
     <MudAppBar Elevation="1">
-        <MudText Typo="Typo.h3" Class="ml-3">WIZDLE</MudText>
+        <MudText Typo="Typo.h4" Class="ml-3">WIZDLE</MudText>
         <MudSpacer />
-        <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" />
-        <MudToggleIconButton @bind-Toggled="_isDarkMode" Icon="@Icons.Material.Filled.DarkMode" Title="Darkmode" />
+        <MudLink Href="https://github.com/lyndychivs/Wizdle"><MudIconButton Icon="@Icons.Custom.Brands.GitHub" aria-label="GitHub" title="GitHub" Size="Size.Medium" /></MudLink>
+        <MudToggleIconButton @bind-Toggled="_isDarkMode" Icon="@Icons.Material.Filled.DarkMode" aria-label="Darkmode" title="Darkmode" Size="Size.Medium" />
     </MudAppBar>
     <MudMainContent>
         @Body
     </MudMainContent>
 </MudLayout>
+
 @code {
     private MudThemeProvider _mudThemeProvider;
     private bool _isDarkMode { get; set; } = false;
@@ -31,10 +32,21 @@
     {
         Typography = new Typography()
         {
-            H3 = new H3Typography()
+            H4 = new H4Typography()
             {
-                FontFamily = new[] { "Cherry Bomb One" },
-                LetterSpacing = "0.3175em"
+                FontFamily = new[] { "Cherry Bomb One", "sans-serif" },
+                FontSize = "2.7rem",
+                LetterSpacing = "0.2em",
+            },
+            H6 = new H6Typography()
+            {
+                FontFamily = new[] { "Special Gothic Condensed One", "sans-serif" },
+                FontSize = "1.3rem",
+            },
+            Default = new DefaultTypography()
+            {
+                FontFamily = new[] { "Special Gothic Condensed One", "sans-serif" },
+                FontSize = "1.2rem",
             }
         }
     };
