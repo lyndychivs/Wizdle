@@ -24,8 +24,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Aspire.ApiService", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Aspire.Web", "Wizdle.Aspire\Wizdle.Aspire.Web\Wizdle.Aspire.Web.csproj", "{40F777F5-574F-550E-977E-ED9CDEE238C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Aspire.Tests", "Wizdle.Aspire\Wizdle.Aspire.Tests\Wizdle.Aspire.Tests.csproj", "{9C24B163-0715-8BF6-4B0C-2F1A8110DB42}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -98,12 +96,6 @@ Global
 		{40F777F5-574F-550E-977E-ED9CDEE238C8}.GitHub|Any CPU.Build.0 = Release|Any CPU
 		{40F777F5-574F-550E-977E-ED9CDEE238C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40F777F5-574F-550E-977E-ED9CDEE238C8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9C24B163-0715-8BF6-4B0C-2F1A8110DB42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9C24B163-0715-8BF6-4B0C-2F1A8110DB42}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9C24B163-0715-8BF6-4B0C-2F1A8110DB42}.GitHub|Any CPU.ActiveCfg = Release|Any CPU
-		{9C24B163-0715-8BF6-4B0C-2F1A8110DB42}.GitHub|Any CPU.Build.0 = Release|Any CPU
-		{9C24B163-0715-8BF6-4B0C-2F1A8110DB42}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9C24B163-0715-8BF6-4B0C-2F1A8110DB42}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
