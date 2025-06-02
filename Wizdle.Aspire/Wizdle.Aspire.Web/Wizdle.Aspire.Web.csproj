@@ -15,4 +15,9 @@
     <ProjectReference Include="..\..\Wizdle.Models\Wizdle.Models.csproj" />
     <ProjectReference Include="..\Wizdle.Aspire.ServiceDefaults\Wizdle.Aspire.ServiceDefaults.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Update="wwwroot\wizard.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>
