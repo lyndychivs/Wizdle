@@ -21,6 +21,7 @@ namespace Wizdle.ApiService
             builder.Services.AddProblemDetails();
             builder.Services.AddSingleton<WizdleEngine>();
             builder.Services.AddOpenApi();
+            builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
             WebApplication app = builder.Build();
 

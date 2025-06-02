@@ -3,8 +3,11 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.Testing" Version="9.3.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.0" />
     <PackageReference Include="NUnit" Version="4.3.2" />
     <PackageReference Include="NUnit.Analyzers" Version="4.8.1">
@@ -18,6 +21,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Wizdle.ApiService\Wizdle.ApiService.csproj" />
+    <ProjectReference Include="..\Wizdle.AppHost\Wizdle.AppHost.csproj" />
+    <ProjectReference Include="..\Wizdle.Models\Wizdle.Models.csproj" />
   </ItemGroup>
 </Project>
