@@ -3,8 +3,7 @@ A library for solving Wordle challenges in C#
 
 | Prerequisite        | Note |
 | :---                | :--- |
-| .NET8 SDK           | .NET8 or greater required.<br/>Check current .NET version `dotnet --version`.<br/>Download .NET8 [here](https://dotnet.microsoft.com/en-us/download/dotnet/8.0). |
-| `ILogger` implementation|This library requires an implementation of `Microsoft.Extensions.Logging` to construct.<br/>(See my `SeriLog` example [here](https://github.com/lyndychivs/Wizdle/blob/master/Wizdle.IntegrationTests/WizdleEngineTests.cs#L122).)|
+| `ILogger` implementation|This library requires an implementation of `Microsoft.Extensions.Logging` to construct. (See my `SeriLog` example [here](https://github.com/lyndychivs/Wizdle/blob/master/Wizdle.IntegrationTests/WizdleEngineTests.cs#L122).)|
 
 ## Example
 ```csharp

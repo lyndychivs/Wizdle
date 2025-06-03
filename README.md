@@ -27,7 +27,7 @@ flowchart LR
 ## Prerequisites
 | Prerequisite        | Note |
 | :---                | :--- |
-| .NET8 SDK           | .NET8 or greater required.<br/>Check current .NET version `dotnet --version`.<br/>Download .NET8 [here](https://dotnet.microsoft.com/en-us/download/dotnet/8.0). |
+| .NET9 SDK           | .NET9 or greater required.<br/>Check current .NET version `dotnet --version`.<br/>Download .NET9 [here](https://dotnet.microsoft.com/en-us/download/dotnet/9.0). |
 
 # 🧙 Wizdle
 The Wizdle core library found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle), is responsbile for translating the request into a list of possible Words.
@@ -84,12 +84,14 @@ The Wizdle Windows application allows us to access all the functionality of the 
 
 More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Windows).
 
-![Wizdle.Windows](Wizdle.Windows/Resources/Wizdle.Windows.png)
+![Wizdle.Windows](Resources/Wizdle.Windows.png)
 
 # 📲 Wizdle.Web
 The Wizdle Web contains a deployable Blazor framework instance of the Wizdle library.
 
 More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Web)
+
+![Wizdle.Web Screenshot](Resources/WizdleWebScreenshot.png)
 
 # 🧪 Testing
 - Unit Testing
