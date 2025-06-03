@@ -74,6 +74,11 @@ snort
 sport
 ```
 
+# 📨 Wizdle.ApiService
+The Wizdle Api Service contains a deployable API instance of the Wizdle library.
+
+More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.ApiService)
+
 # 🪟 Wizdle.Windows
 The Wizdle Windows application allows us to access all the functionality of the Wizdle library via a GUI.
 
@@ -81,11 +86,17 @@ More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/m
 
 ![Wizdle.Windows](Wizdle.Windows/Resources/Wizdle.Windows.png)
 
+# 📲 Wizdle.Web
+The Wizdle Web contains a deployable Blazor framework instance of the Wizdle library.
+
+More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Web)
+
 # 🧪 Testing
 - Unit Testing
   - [Wizdle.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Tests)
 - Integration Testing
   - [Wizdle.IntegrationTests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.IntegrationTests)
+  - [Wizdle.ApiService.IntegrationTests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.ApiService.IntegrationTests)
 - Performance Testing
   - [Wizdle.PerformanceTests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.PerformanceTests)
 - Mutation Testing
