@@ -24,7 +24,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.ApiService", "Wizdle
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Web", "Wizdle.Web\Wizdle.Web.csproj", "{40F777F5-574F-550E-977E-ED9CDEE238C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.ApiService.IntegrationTests", "Wizdle.ApiService.IntegrationTests\Wizdle.ApiService.IntegrationTests.csproj", "{03ECADF3-BAC9-FE83-4583-5D93CD8987E2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.ApiService.Tests", "Wizdle.ApiService.Tests\Wizdle.ApiService.Tests.csproj", "{03ECADF3-BAC9-FE83-4583-5D93CD8987E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Web.Tests", "Wizdle.Web.Tests\Wizdle.Web.Tests.csproj", "{059E6A8C-09A1-41E7-9290-9ACDB98FC039}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -104,6 +106,12 @@ Global
 		{03ECADF3-BAC9-FE83-4583-5D93CD8987E2}.GitHub|Any CPU.Build.0 = GitHub|Any CPU
 		{03ECADF3-BAC9-FE83-4583-5D93CD8987E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03ECADF3-BAC9-FE83-4583-5D93CD8987E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{059E6A8C-09A1-41E7-9290-9ACDB98FC039}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{059E6A8C-09A1-41E7-9290-9ACDB98FC039}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{059E6A8C-09A1-41E7-9290-9ACDB98FC039}.GitHub|Any CPU.ActiveCfg = GitHub|Any CPU
+		{059E6A8C-09A1-41E7-9290-9ACDB98FC039}.GitHub|Any CPU.Build.0 = GitHub|Any CPU
+		{059E6A8C-09A1-41E7-9290-9ACDB98FC039}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{059E6A8C-09A1-41E7-9290-9ACDB98FC039}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -96,7 +96,9 @@ More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/m
   - [Wizdle.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Tests)
 - Integration Testing
   - [Wizdle.IntegrationTests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.IntegrationTests)
-  - [Wizdle.ApiService.IntegrationTests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.ApiService.IntegrationTests)
+- Functional Testing
+  - [Wizdle.ApiService.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.ApiService.Tests)
+  - [Wizdle.Web.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Web.Tests)
 - Performance Testing
   - [Wizdle.PerformanceTests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.PerformanceTests)
 - Mutation Testing
