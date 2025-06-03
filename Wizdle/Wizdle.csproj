@@ -28,7 +28,7 @@
     <NeutralLanguage>en</NeutralLanguage>
     <ApplicationIcon>Resources\Wizdle.ico</ApplicationIcon>
     <PackageIcon>Wizdle.png</PackageIcon>
-    <Configurations>Debug;Release;GitHub</Configurations>
+    <Configurations>Debug;Release;GitHub;Stryker</Configurations>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>none</DebugType>
@@ -36,6 +36,10 @@
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningLevel>9999</WarningLevel>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Stryker|AnyCPU'">
     <WarningLevel>9999</WarningLevel>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>

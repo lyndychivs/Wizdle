@@ -13,7 +13,7 @@
       "**/*"
     ],
     "solution": "Wizdle.sln",
-    "configuration": "GitHub",
+    "configuration": "Stryker",
     "target-framework": "net8.0",
     "project": "/Wizdle/Wizdle.csproj",
     "coverage-analysis": "perTest",
