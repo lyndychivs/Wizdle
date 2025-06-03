@@ -10,8 +10,7 @@
     "language-version": "latest",
     "additional-timeout": 5000,
     "mutate": [
-      "**/*",
-      "!**/Program.cs"
+      "**/*"
     ],
     "solution": "Wizdle.sln",
     "configuration": "GitHub",
@@ -43,7 +42,7 @@
       "fallback-version": "master"
     },
     "dashboard-url": "https://dashboard.stryker-mutator.io",
-    "test-projects": ["/Wizdle.Tests/Wizdle.Tests.csproj", "/Wizdle.IntegrationTests/Wizdle.IntegrationTests.csproj","/Wizdle.ApiService.IntegrationTests/Wizdle.ApiService.IntegrationTests.csproj"],
+    "test-projects": ["/Wizdle.Tests/Wizdle.Tests.csproj"],
     "test-case-filter": "",
     "ignore-mutations": [],
     "ignore-methods": [],

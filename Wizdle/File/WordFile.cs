@@ -28,7 +28,7 @@
                 {
                     _logger.LogError($"File does not exist at Path: {filePath}");
 
-                    return [];
+                    return new List<string>();
                 }
 
                 return File.ReadLines(filePath);
@@ -37,7 +37,7 @@
             {
                 _logger.LogError(exception, "Failed to read content from File");
 
-                return [];
+                return new List<string>();
             }
         }
     }

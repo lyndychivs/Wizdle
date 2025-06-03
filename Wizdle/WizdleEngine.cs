@@ -63,7 +63,6 @@
             {
                 return new WizdleResponse()
                 {
-                    Words = [],
                     Messages = validatorResponse.Errors,
                 };
             }
@@ -92,7 +91,7 @@
             return new WizdleResponse()
             {
                 Words = words,
-                Messages = [$"Found {words.Count()} Word(s) matching the criteria."],
+                Messages = new List<string> { $"Found {words.Count()} Word(s) matching the criteria." },
             };
         }
     }

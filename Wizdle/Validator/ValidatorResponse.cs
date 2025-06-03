@@ -6,6 +6,6 @@
     {
         public bool IsValid { get; set; } = true;
 
-        public IList<string> Errors { get; init; } = [];
+        public List<string> Errors { get; set; } = new List<string>();
     }
 }
