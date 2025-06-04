@@ -80,14 +80,14 @@ The Wizdle Api Service contains a deployable API instance of the Wizdle library.
 More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.ApiService)
 
 # 🪟 Wizdle.Windows
-The Wizdle Windows application allows us to access all the functionality of the Wizdle library via a GUI.
+The Wizdle Windows application allows us to access all the functionality of the Wizdle library via a GUI on Windows.
 
-More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Windows).
+More information (and installers) can be found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Windows).
 
 ![Wizdle.Windows](Resources/Wizdle.Windows.png)
 
 # 📲 Wizdle.Web
-The Wizdle Web contains a deployable Blazor framework instance of the Wizdle library.
+The Wizdle Web contains a deployable Blazor web app instance of the Wizdle library (hosted on the new dotnet Aspire platform).
 
 More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Web)
 
