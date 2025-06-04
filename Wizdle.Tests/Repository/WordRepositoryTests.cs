@@ -8,27 +8,27 @@
 
     using NUnit.Framework;
 
-    using Wizdle.File;
     using Wizdle.Repository;
+    using Wizdle.Words;
 
     [TestFixture]
     public class WordRepositoryTests
     {
         private readonly Mock<ILogger> _loggerMock;
 
-        private readonly Mock<IWordFile> _wordFileMock;
+        private readonly Mock<IWords> _wordsMock;
 
         private readonly WordRepository _wordRepository;
 
         public WordRepositoryTests()
         {
             _loggerMock = new Mock<ILogger>();
-            _wordFileMock = new Mock<IWordFile>();
-            _wordRepository = new WordRepository(_loggerMock.Object, _wordFileMock.Object);
+            _wordsMock = new Mock<IWords>();
+            _wordRepository = new WordRepository(_loggerMock.Object, _wordsMock.Object);
         }
 
         [Test]
-        public void GetWords_WordFileContainsWordWithUpperAndWhitespace_ReturnsWordsLowercaseAndTrimmed()
+        public void GetWords_WordsContainsWordWithUpperAndWhitespace_ReturnsWordsLowercaseAndTrimmed()
         {
             // Arrange
             var inputWords = new List<string>
@@ -38,7 +38,7 @@
                 "EEEEE",
             };
 
-            _wordFileMock.Setup(f => f.ReadLines()).Returns(inputWords);
+            _wordsMock.Setup(f => f.GetWords()).Returns(inputWords);
 
             // Act
             IEnumerable<string> result = _wordRepository.GetWords();
@@ -49,11 +49,11 @@
         }
 
         [Test]
-        public void GetWords_WordFileContainsOnlyNullEmptyOrWhitespace_ReturnsEmptyAndLogs()
+        public void GetWords_WordsContainsOnlyNullEmptyOrWhitespace_ReturnsEmptyAndLogs()
         {
             // Arrange
             List<string> inputWords = [string.Empty, " ", null];
-            _wordFileMock.Setup(f => f.ReadLines()).Returns(inputWords);
+            _wordsMock.Setup(f => f.GetWords()).Returns(inputWords);
 
             // Act
             IEnumerable<string> results = _wordRepository.GetWords();
@@ -69,11 +69,11 @@
         [TestCase("a")]
         [TestCase("dddd")]
         [TestCase("eeeeee")]
-        public void GetWords_WordFileContainsOnlyInvalidStringLengths_ReturnsEmptyAndLogs(string word)
+        public void GetWords_WordsContainsOnlyInvalidStringLengths_ReturnsEmptyAndLogs(string word)
         {
             // Arrange
             List<string> inputWords = [word];
-            _wordFileMock.Setup(f => f.ReadLines()).Returns(inputWords);
+            _wordsMock.Setup(f => f.GetWords()).Returns(inputWords);
 
             // Act
             IEnumerable<string> results = _wordRepository.GetWords();
@@ -87,10 +87,10 @@
         }
 
         [Test]
-        public void GetWords_WordFileIsEmpty_ReturnsEmpty()
+        public void GetWords_WordsIsEmpty_ReturnsEmpty()
         {
             // Arrange
-            _wordFileMock.Setup(f => f.ReadLines()).Returns([]);
+            _wordsMock.Setup(f => f.GetWords()).Returns([]);
 
             // Act
             IEnumerable<string> result = _wordRepository.GetWords();
