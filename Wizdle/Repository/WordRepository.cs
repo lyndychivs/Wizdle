@@ -6,28 +6,28 @@
 
     using Microsoft.Extensions.Logging;
 
-    using Wizdle.File;
+    using Wizdle.Words;
 
     internal class WordRepository : IWordRepository
     {
         private readonly ILogger _logger;
 
-        private readonly IWordFile _wordFile;
+        private readonly IWords _words;
 
         internal WordRepository(ILogger logger)
-            : this(logger, new WordFile(logger))
+            : this(logger, new Words())
         {
         }
 
-        internal WordRepository(ILogger logger, IWordFile wordFile)
+        internal WordRepository(ILogger logger, IWords words)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _wordFile = wordFile ?? throw new ArgumentNullException(nameof(wordFile));
+            _words = words ?? throw new ArgumentNullException(nameof(words));
         }
 
         public IEnumerable<string> GetWords()
         {
-            foreach (string word in _wordFile.ReadLines())
+            foreach (string word in _words.GetWords())
             {
                 if (string.IsNullOrWhiteSpace(word))
                 {

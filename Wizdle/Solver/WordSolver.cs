@@ -19,8 +19,6 @@
 
         private readonly IEnumerable<string> _words;
 
-        private readonly IEnumerable<string> _defaultResponse = ["hates", "round", "climb"];
-
         internal WordSolver(ILogger logger)
             : this(logger, new WordRepository(logger), new SolveParametersValidator(logger))
         {
@@ -45,16 +43,16 @@
             ValidatorResponse validatorResponse = _wordParameterValidator.IsValid(solveParameters);
             if (validatorResponse.IsValid == false)
             {
-                _logger.LogWarning($"{nameof(SolveParameters)} is not valid, returning {nameof(_defaultResponse)}");
+                _logger.LogWarning($"{nameof(SolveParameters)} is not valid, returning empty");
 
-                return _defaultResponse;
+                return new List<string>();
             }
 
             if (_words.Any() == false)
             {
-                _logger.LogError($"No Words returned from {nameof(IWordRepository)}, returning {nameof(_defaultResponse)}");
+                _logger.LogError($"No Words returned from {nameof(IWordRepository)}, returning empty");
 
-                return _defaultResponse;
+                return new List<string>();
             }
 
             return FilterCorrectAndMisplacedLetters(
@@ -63,14 +61,14 @@
                 solveParameters.MisplacedLetters);
         }
 
-        private static IEnumerable<string> FilterCorrectAndMisplacedLetters(IEnumerable<string> wordsToFilter, IList<char> correctLetters, IList<char> misplacedLetters)
+        private static List<string> FilterCorrectAndMisplacedLetters(List<string> wordsToFilter, List<char> correctLetters, List<char> misplacedLetters)
         {
-            if (wordsToFilter.Any() == false)
+            if (wordsToFilter.Count == 0)
             {
-                return [];
+                return new List<string>();
             }
 
-            IList<string> filteredWords = [..wordsToFilter];
+            List<string> filteredWords = wordsToFilter;
             for (int i = 0; i < correctLetters.Count; i++)
             {
                 char correctLetter = correctLetters[i];
@@ -111,9 +109,9 @@
             return filteredWords;
         }
 
-        private static IEnumerable<string> FilterExcludeLetters(IEnumerable<string> wordsToFilter, IList<char> excludeLetters)
+        private static List<string> FilterExcludeLetters(IEnumerable<string> wordsToFilter, List<char> excludeLetters)
         {
-            return wordsToFilter.Where(word => !excludeLetters.Any(letter => word.Contains(letter)));
+            return wordsToFilter.Where(word => !excludeLetters.Any(letter => word.Contains(letter))).ToList();
         }
     }
 }

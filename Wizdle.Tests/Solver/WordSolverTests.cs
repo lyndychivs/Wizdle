@@ -41,9 +41,9 @@
             IEnumerable<string> result = _wordSolver.Solve(new SolveParameters());
 
             // Assert
-            Assert.That(result, Is.EqualTo(["hates", "round", "climb"]));
+            Assert.That(result, Is.Empty);
             _loggerMock.VerifyLogging(
-                "SolveParameters is not valid, returning _defaultResponse",
+                "SolveParameters is not valid, returning empty",
                 LogLevel.Warning,
                 Times.Once());
         }
@@ -60,9 +60,9 @@
             IEnumerable<string> result = _wordSolver.Solve(new SolveParameters());
 
             // Assert
-            Assert.That(result, Is.EqualTo(["hates", "round", "climb"]));
+            Assert.That(result, Is.Empty);
             _loggerMock.VerifyLogging(
-                "No Words returned from IWordRepository, returning _defaultResponse",
+                "No Words returned from IWordRepository, returning empty",
                 LogLevel.Error,
                 Times.Once());
         }

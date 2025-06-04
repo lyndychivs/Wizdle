@@ -8,8 +8,8 @@
 
     using NUnit.Framework;
 
-    using Wizdle.File;
     using Wizdle.Repository;
+    using Wizdle.Words;
 
     [TestFixture]
     public class WordRepositoryConstructorTests
@@ -18,9 +18,9 @@
         public void Constructor_WithValidParameters_ReturnsWordRepository()
         {
             var loggerMock = new Mock<ILogger>();
-            var wordFileMock = new Mock<IWordFile>();
+            var wordsMock = new Mock<IWords>();
 
-            var result = new WordRepository(loggerMock.Object, wordFileMock.Object);
+            var result = new WordRepository(loggerMock.Object, wordsMock.Object);
 
             Assert.That(result, Is.Not.Null);
         }
@@ -38,9 +38,9 @@
         [Test]
         public void Constructor_WithNullLogger_ThrowsArgumentNullException()
         {
-            var wordFileMock = new Mock<IWordFile>();
+            var wordsMock = new Mock<IWords>();
 
-            ArgumentNullException? ex = Assert.Throws<ArgumentNullException>(() => new WordRepository(null!, wordFileMock.Object));
+            ArgumentNullException? ex = Assert.Throws<ArgumentNullException>(() => new WordRepository(null!, wordsMock.Object));
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(ex?.ParamName, Is.EqualTo("logger"));
@@ -67,8 +67,8 @@
             ArgumentNullException? ex = Assert.Throws<ArgumentNullException>(() => new WordRepository(loggerMock.Object, null!));
             using (Assert.EnterMultipleScope())
             {
-                Assert.That(ex?.ParamName, Is.EqualTo("wordFile"));
-                Assert.That(ex?.Message, Is.EqualTo("Value cannot be null. (Parameter 'wordFile')"));
+                Assert.That(ex?.ParamName, Is.EqualTo("words"));
+                Assert.That(ex?.Message, Is.EqualTo("Value cannot be null. (Parameter 'words')"));
             }
         }
     }

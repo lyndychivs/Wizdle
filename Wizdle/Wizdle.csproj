@@ -1,13 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <OutputType>Library</OutputType>
     <ImplicitUsings>disable</ImplicitUsings>
-    <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageId>Wizdle</PackageId>
     <Title>Wizdle</Title>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Authors>lyndychivs</Authors>
     <Company>lyndychivs</Company>
     <Description>A library for solving Wordle.</Description>
@@ -16,8 +15,8 @@
     <RepositoryUrl>https://github.com/lyndychivs/Wizdle</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>wordle;solver;wizard;wizdle;helper;word;guess;challenge</PackageTags>
-    <AssemblyVersion>1.0.0</AssemblyVersion>
-    <FileVersion>1.0.0</FileVersion>
+    <AssemblyVersion>1.0.1</AssemblyVersion>
+    <FileVersion>1.0.1</FileVersion>
     <IncludeSymbols>False</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -29,21 +28,22 @@
     <NeutralLanguage>en</NeutralLanguage>
     <ApplicationIcon>Resources\Wizdle.ico</ApplicationIcon>
     <PackageIcon>Wizdle.png</PackageIcon>
-    <Configurations>Debug;Release;GitHub</Configurations>
+    <Configurations>Debug;Release;GitHub;Stryker</Configurations>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>none</DebugType>
-    <IsTrimmable>True</IsTrimmable>
     <WarningLevel>9999</WarningLevel>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <IsTrimmable>True</IsTrimmable>
+    <WarningLevel>9999</WarningLevel>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Stryker|AnyCPU'">
     <WarningLevel>9999</WarningLevel>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='GitHub|AnyCPU'">
-    <IsTrimmable>True</IsTrimmable>
     <WarningLevel>9999</WarningLevel>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
@@ -82,14 +82,8 @@
     <ProjectReference Include="..\Wizdle.Models\Wizdle.Models.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="Source\all-words.txt">
+    <None Update="all-words.txt">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Source\words.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="words.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 </Project>

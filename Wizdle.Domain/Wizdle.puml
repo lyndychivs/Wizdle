@@ -1,16 +1,15 @@
 @startuml
 !theme plain
 
-~interface IWordFile {
-    +IEnumerable<string> ReadLines()
+~interface IWords {
+    +IEnumerable<string> GetWords()
 }
 
-~class WordFile {
-    -ILogger _logger
-    +IEnumerable<string> ReadLines()
+~class Words {
+    +IEnumerable<string> GetWords()
 }
 
-IWordFile <|-- WordFile
+IWords <|-- Words
 
 ~interface IRequestMapper {
     +SolveParameters MapToSolveParameters(WizdleRequest)
@@ -29,12 +28,12 @@ IRequestMapper <|-- RequestMapper
 
 ~class WordRepository {
     -ILogger _logger
-    -IWordFile _wordFile
+    -IWords _words
     +IEnumerable<string> GetWords()
 }
 
 IWordRepository <|-- WordRepository
-WordRepository --> IWordFile
+WordRepository --> IWords
 
 ~interface IWordSolver {
     +IEnumerable<string> Solve(SolveParameters)

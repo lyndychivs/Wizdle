@@ -29,3 +29,5 @@ dotnet_diagnostic.IL3050.severity = none
 dotnet_diagnostic.CA1848.severity = none
 # IDE0058: Expression value is never used
 dotnet_diagnostic.IDE0058.severity = none
+# IDE0079: Remove unnecessary suppression
+dotnet_diagnostic.IDE0079.severity = none

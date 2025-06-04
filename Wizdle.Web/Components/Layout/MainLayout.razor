@@ -1,0 +1,47 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider @ref="@_mudThemeProvider" @bind-IsDarkMode="@_isDarkMode" Theme="_wizdleTheme" />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+<MudLayout>
+    <MudAppBar Elevation="1">
+        <MudSpacer />
+        <MudLink Href="https://github.com/lyndychivs/Wizdle"><MudIconButton Icon="@Icons.Custom.Brands.GitHub" aria-label="GitHub" title="GitHub" Size="Size.Medium" /></MudLink>
+        <MudToggleIconButton @bind-Toggled="_isDarkMode" Icon="@Icons.Material.Filled.DarkMode" aria-label="Darkmode" title="Darkmode" Size="Size.Medium" />
+    </MudAppBar>
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    private MudThemeProvider _mudThemeProvider = new MudThemeProvider();
+    private bool _isDarkMode { get; set; } = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _isDarkMode = await _mudThemeProvider.GetSystemDarkModeAsync();
+            StateHasChanged();
+        }
+    }
+
+    private MudTheme _wizdleTheme = new MudTheme()
+    {
+        Typography = new Typography()
+        {
+            H6 = new H6Typography()
+            {
+                FontFamily = new[] { "Special Gothic Condensed One", "sans-serif" },
+                FontSize = "1.3rem",
+            },
+            Default = new DefaultTypography()
+            {
+                FontFamily = new[] { "Special Gothic Condensed One", "sans-serif" },
+                FontSize = "1.2rem",
+            }
+        }
+    };
+}

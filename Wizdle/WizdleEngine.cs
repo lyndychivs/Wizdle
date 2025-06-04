@@ -34,6 +34,15 @@
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WizdleEngine"/> class.
+        /// </summary>
+        /// <param name="logger">The <see cref="ILogger"/> interface to use.</param>
+        public WizdleEngine(ILogger<WizdleEngine> logger)
+            : this(logger, new RequestValidator(logger), new RequestMapper(logger), new WordSolver(logger))
+        {
+        }
+
         internal WizdleEngine(ILogger logger, IRequestValidator requestValidator, IRequestMapper requestMapper, IWordSolver solver)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -54,7 +63,6 @@
             {
                 return new WizdleResponse()
                 {
-                    Words = [],
                     Messages = validatorResponse.Errors,
                 };
             }
@@ -83,7 +91,7 @@
             return new WizdleResponse()
             {
                 Words = words,
-                Messages = [$"Found {words.Count()} Word(s) matching the criteria."],
+                Messages = new List<string> { $"Found {words.Count()} Word(s) matching the criteria." },
             };
         }
     }

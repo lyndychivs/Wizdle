@@ -5,11 +5,11 @@
 
     internal class SolveParameters
     {
-        public IList<char> CorrectLetters { get; set; } = [];
+        public List<char> CorrectLetters { get; set; } = new List<char>();
 
-        public IList<char> MisplacedLetters { get; set; } = [];
+        public List<char> MisplacedLetters { get; set; } = new List<char>();
 
-        public IList<char> ExcludeLetters { get; set; } = [];
+        public List<char> ExcludeLetters { get; set; } = new List<char>();
 
         public override string ToString()
         {

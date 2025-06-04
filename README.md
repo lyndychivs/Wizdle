@@ -27,7 +27,7 @@ flowchart LR
 ## Prerequisites
 | Prerequisite        | Note |
 | :---                | :--- |
-| .NET8 SDK           | .NET8 or greater required.<br/>Check current .NET version `dotnet --version`.<br/>Download .NET8 [here](https://dotnet.microsoft.com/en-us/download/dotnet/8.0). |
+| .NET9 SDK           | .NET9 or greater required.<br/>Check current .NET version `dotnet --version`.<br/>Download .NET9 [here](https://dotnet.microsoft.com/en-us/download/dotnet/9.0). |
 
 # 🧙 Wizdle
 The Wizdle core library found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle), is responsbile for translating the request into a list of possible Words.
@@ -74,19 +74,34 @@ snort
 sport
 ```
 
+# 📨 Wizdle.ApiService
+The Wizdle Api Service contains a deployable API instance of the Wizdle library.
+
+More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.ApiService)
+
 # 🪟 Wizdle.Windows
-The Wizdle Windows application allows us to access all the functionality of the Wizdle library via a GUI.
+The Wizdle Windows application allows us to access all the functionality of the Wizdle library via a GUI on Windows.
 
-More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Windows).
+More information (and installers) can be found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Windows).
 
-![Wizdle.Windows](Wizdle.Windows/Resources/Wizdle.Windows.png)
+![Wizdle.Windows](Resources/Wizdle.Windows.png)
+
+# 📲 Wizdle.Web
+The Wizdle Web contains a deployable Blazor web app instance of the Wizdle library (hosted on the new dotnet Aspire platform).
+
+More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Web)
+
+![Wizdle.Web Screenshot](Resources/WizdleWebScreenshot.png)
 
 # 🧪 Testing
 - Unit Testing
   - [Wizdle.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Tests)
 - Integration Testing
   - [Wizdle.IntegrationTests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.IntegrationTests)
+- Functional Testing
+  - [Wizdle.ApiService.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.ApiService.Tests)
+  - [Wizdle.Web.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Web.Tests) (using Playwright)
 - Performance Testing
-  - [Wizdle.PerformanceTests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.PerformanceTests)
+  - [Wizdle.PerformanceTests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.PerformanceTests) (using BenchmarkDotNet)
 - Mutation Testing
   - [Strkyer.NET](https://dashboard.stryker-mutator.io/reports/github.com/lyndychivs/Wizdle/master) with [my GitHub Action](https://github.com/lyndychivs/dotnet-stryker-action)

@@ -1,5 +1,8 @@
 ﻿namespace Wizdle.Console
 {
+    using System;
+    using System.Linq;
+
     using CommandLine;
 
     using Microsoft.Extensions.Logging;
@@ -10,6 +13,7 @@
     using Wizdle.Models;
 
     using ILogger = Microsoft.Extensions.Logging.ILogger;
+
     internal class Program
     {
         internal static void Main(string[] args)

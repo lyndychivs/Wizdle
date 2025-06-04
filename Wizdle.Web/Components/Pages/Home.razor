@@ -1,0 +1,425 @@
+﻿@page "/"
+@attribute [StreamRendering(true)]
+
+@inject ISnackbar Snackbar
+@inject WizdleApiClient WizdleApiClient
+
+@using Wizdle.Models
+
+<PageTitle>Wizdle | Solve Wordle...</PageTitle>
+
+<style>
+    .text-center input {
+        text-align: center !important;
+    }
+</style>
+
+<MudContainer Fixed="true" style="padding-top: 2rem;">
+    <MudGrid Spacing="3" Justify="Justify.Center">
+        <MudImage Src="WizdleTitle.png" Width="200" Height="200" Alt="Wizdle" />
+        <MudFlexBreak />
+        <MudText Typo="Typo.h6">Correct Letters</MudText>
+        <MudFlexBreak />
+        <MudItem>
+            <MudTextField @bind-Value="_correctInput1"
+                          id="tbxCorrect1"
+                          MaxLength="1"
+                          Underline="false"
+                          Immediate="true"
+                          Class="text-center"
+                          Style="@($"font-weight: bold;padding-bottom: 15px;font-size: 30px;color: black;border-radius: 0px;width: 50px;height: 50px;border-style: solid;border-width: 3px;border-color: {Colors.Green.Default};background:{Colors.Green.Lighten2};")"
+                          Variant="Variant.Filled" />
+        </MudItem>
+        <MudItem>
+            <MudTextField @bind-Value="_correctInput2"
+                          id="tbxCorrect2"
+                          MaxLength="1"
+                          Underline="false"
+                          Immediate="true"
+                          Class="text-center"
+                          Style="@($"font-weight: bold;padding-bottom: 15px;font-size: 30px;color: black;border-radius: 0px;width: 50px;height: 50px;border-style: solid;border-width: 3px;border-color: {Colors.Green.Default};background:{Colors.Green.Lighten2};")"
+                          Variant="Variant.Filled" />
+        </MudItem>
+        <MudItem>
+            <MudTextField @bind-Value="_correctInput3"
+                          id="tbxCorrect3"
+                          MaxLength="1"
+                          Underline="false"
+                          Immediate="true"
+                          Class="text-center"
+                          Style="@($"font-weight: bold;padding-bottom: 15px;font-size: 30px;color: black;border-radius: 0px;width: 50px;height: 50px;border-style: solid;border-width: 3px;border-color: {Colors.Green.Default};background:{Colors.Green.Lighten2};")"
+                          Variant="Variant.Filled" />
+        </MudItem>
+        <MudItem>
+            <MudTextField @bind-Value="_correctInput4"
+                          id="tbxCorrect4"
+                          MaxLength="1"
+                          Underline="false"
+                          Immediate="true"
+                          Class="text-center"
+                          Style="@($"font-weight: bold;padding-bottom: 15px;font-size: 30px;color: black;border-radius: 0px;width: 50px;height: 50px;border-style: solid;border-width: 3px;border-color: {Colors.Green.Default};background:{Colors.Green.Lighten2};")"
+                          Variant="Variant.Filled" />
+        </MudItem>
+        <MudItem>
+            <MudTextField @bind-Value="_correctInput5"
+                          id="tbxCorrect5"
+                          MaxLength="1"
+                          Underline="false"
+                          Immediate="true"
+                          Class="text-center"
+                          Style="@($"font-weight: bold;padding-bottom: 15px;font-size: 30px;color: black;border-radius: 0px;width: 50px;height: 50px;border-style: solid;border-width: 3px;border-color: {Colors.Green.Default};background:{Colors.Green.Lighten2};")"
+                          Variant="Variant.Filled" />
+        </MudItem>
+        <MudFlexBreak />
+        <MudText Typo="Typo.h6">Misplaced Letters</MudText>
+        <MudFlexBreak />
+        <MudItem>
+            <MudTextField @bind-Value="_misplacedInput1"
+                          id="tbxMisplaced1"
+                          MaxLength="1"
+                          Underline="false"
+                          Immediate="true"
+                          Class="text-center"
+                          Style="@($"font-weight: bold;padding-bottom: 15px;font-size: 30px;color: black;border-radius: 0px;width: 50px;height: 50px;border-style: solid;border-width: 3px;border-color: {Colors.Amber.Default};background:{Colors.Amber.Lighten2};")"
+                          Variant="Variant.Filled" />
+        </MudItem>
+        <MudItem>
+            <MudTextField @bind-Value="_misplacedInput2"
+                          id="tbxMisplaced2"
+                          MaxLength="1"
+                          Underline="false"
+                          Immediate="true"
+                          Class="text-center"
+                          Style="@($"font-weight: bold;padding-bottom: 15px;font-size: 30px;color: black;border-radius: 0px;width: 50px;height: 50px;border-style: solid;border-width: 3px;border-color: {Colors.Amber.Default};background:{Colors.Amber.Lighten2};")"
+                          Variant="Variant.Filled" />
+        </MudItem>
+        <MudItem>
+            <MudTextField @bind-Value="_misplacedInput3"
+                          id="tbxMisplaced3"
+                          MaxLength="1"
+                          Underline="false"
+                          Immediate="true"
+                          Class="text-center"
+                          Style="@($"font-weight: bold;padding-bottom: 15px;font-size: 30px;color: black;border-radius: 0px;width: 50px;height: 50px;border-style: solid;border-width: 3px;border-color: {Colors.Amber.Default};background:{Colors.Amber.Lighten2};")"
+                          Variant="Variant.Filled" />
+        </MudItem>
+        <MudItem>
+            <MudTextField @bind-Value="_misplacedInput4"
+                          id="tbxMisplaced4"
+                          MaxLength="1"
+                          Underline="false"
+                          Immediate="true"
+                          Class="text-center"
+                          Style="@($"font-weight: bold;padding-bottom: 15px;font-size: 30px;color: black;border-radius: 0px;width: 50px;height: 50px;border-style: solid;border-width: 3px;border-color: {Colors.Amber.Default};background:{Colors.Amber.Lighten2};")"
+                          Variant="Variant.Filled" />
+        </MudItem>
+        <MudItem>
+            <MudTextField @bind-Value="_misplacedInput5"
+                          id="tbxMisplaced5"
+                          MaxLength="1"
+                          Underline="false"
+                          Immediate="true"
+                          Class="text-center"
+                          Style="@($"font-weight: bold;padding-bottom: 15px;font-size: 30px;color: black;border-radius: 0px;width: 50px;height: 50px;border-style: solid;border-width: 3px;border-color: {Colors.Amber.Default};background:{Colors.Amber.Lighten2};")"
+                          Variant="Variant.Filled" />
+        </MudItem>
+        <MudFlexBreak />
+        <MudText Typo="Typo.h6">Excluded Letters</MudText>
+        <MudFlexBreak />
+        <MudItem>
+            <MudTextField @bind-Value="_excludedLetters"
+                          id="tbxExcludedLetters"
+                          MaxLength="26"
+                          Underline="false"
+                          Immediate="true"
+                          Class="text-center"
+                          Style="@($"font-weight: bold;padding-bottom: 15px;font-size: 30px;color: black;border-radius: 0px;width:300px;height: 50px;border-style: solid;border-width: 3px;border-color: {Colors.Gray.Darken4};background:{Colors.BlueGray.Lighten1};")"
+                          Variant="Variant.Filled" />
+        </MudItem>
+        <MudFlexBreak />
+        <MudButton id="btnSearch" Class="pa-2" style="margin-top: 1rem;margin-bottom: 1rem;" Size="Size.Large" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Search" Color="Color.Secondary" OnClick="Solve">Search</MudButton>
+        <MudFlexBreak />
+        <MudDivider DividerType="DividerType.FullWidth" style="margin-top: 1rem;" />
+    </MudGrid>
+    <MudGrid Spacing="3" Justify="Justify.FlexStart" style="padding-top: 2rem;margin-bottom: 1rem;">
+        <MudText Typo="Typo.h6">@_wordsTitle</MudText>
+        <MudFlexBreak />
+        <MudStack id="words" Wrap="Wrap.Wrap" Row="true">
+            @foreach (string word in _wizdleResponse.Words)
+            {
+                <MudPaper Class="mud-theme-primary pa-4 rounded-lg" Elevation="17">@word.ToUpper()</MudPaper>
+            }
+        </MudStack>
+    </MudGrid>
+</MudContainer>
+
+@code
+{
+    private char _correctChar1 { get; set; } = '?';
+    private char _correctChar2 { get; set; } = '?';
+    private char _correctChar3 { get; set; } = '?';
+    private char _correctChar4 { get; set; } = '?';
+    private char _correctChar5 { get; set; } = '?';
+
+    private string _correctInput1
+    {
+        get { return _correctChar1.ToString(); }
+        set
+        {
+            if (IsValidate(value))
+            {
+                _correctChar1 = value.ToUpper()[0];
+            }
+            else
+            {
+                _correctChar1 = '?';
+            }
+        }
+    }
+
+    private string _correctInput2
+    {
+        get { return _correctChar2.ToString(); }
+        set
+        {
+            if (IsValidate(value))
+            {
+                _correctChar2 = value.ToUpper()[0];
+            }
+            else
+            {
+                _correctChar2 = '?';
+            }
+        }
+    }
+
+    private string _correctInput3
+    {
+        get { return _correctChar3.ToString(); }
+        set
+        {
+            if (IsValidate(value))
+            {
+                _correctChar3 = value.ToUpper()[0];
+            }
+            else
+            {
+                _correctChar3 = '?';
+            }
+        }
+    }
+
+    private string _correctInput4
+    {
+        get { return _correctChar4.ToString(); }
+        set
+        {
+            if (IsValidate(value))
+            {
+                _correctChar4 = value.ToUpper()[0];
+            }
+            else
+            {
+                _correctChar4 = '?';
+            }
+        }
+    }
+
+    private string _correctInput5
+    {
+        get { return _correctChar5.ToString(); }
+        set
+        {
+            if (IsValidate(value))
+            {
+                _correctChar5 = value.ToUpper()[0];
+            }
+            else
+            {
+                _correctChar5 = '?';
+            }
+        }
+    }
+
+    private bool IsValidate(string input)
+    {
+        if (input.Length != 1)
+        {
+            return false;
+        }
+
+        if (char.IsLetter(input[0]))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    private char _misplacedChar1 { get; set; } = '?';
+    private char _misplacedChar2 { get; set; } = '?';
+    private char _misplacedChar3 { get; set; } = '?';
+    private char _misplacedChar4 { get; set; } = '?';
+    private char _misplacedChar5 { get; set; } = '?';
+
+    private string _misplacedInput1
+    {
+        get { return _misplacedChar1.ToString(); }
+        set
+        {
+            if (IsValidate(value))
+            {
+                _misplacedChar1 = value.ToUpper()[0];
+            }
+            else
+            {
+                _misplacedChar1 = '?';
+            }
+        }
+    }
+
+    private string _misplacedInput2
+    {
+        get { return _misplacedChar2.ToString(); }
+        set
+        {
+            if (IsValidate(value))
+            {
+                _misplacedChar2 = value.ToUpper()[0];
+            }
+            else
+            {
+                _misplacedChar2 = '?';
+            }
+        }
+    }
+
+    private string _misplacedInput3
+    {
+        get { return _misplacedChar3.ToString(); }
+        set
+        {
+            if (IsValidate(value))
+            {
+                _misplacedChar3 = value.ToUpper()[0];
+            }
+            else
+            {
+                _misplacedChar3 = '?';
+            }
+        }
+    }
+
+    private string _misplacedInput4
+    {
+        get { return _misplacedChar4.ToString(); }
+        set
+        {
+            if (IsValidate(value))
+            {
+                _misplacedChar4 = value.ToUpper()[0];
+            }
+            else
+            {
+                _misplacedChar4 = '?';
+            }
+        }
+    }
+
+    private string _misplacedInput5
+    {
+        get { return _misplacedChar5.ToString(); }
+        set
+        {
+            if (IsValidate(value))
+            {
+                _misplacedChar5 = value.ToUpper()[0];
+            }
+            else
+            {
+                _misplacedChar5 = '?';
+            }
+        }
+    }
+
+    private string _validatedExcludedLetters { get; set; } = string.Empty;
+
+    private string _excludedLetters
+    {
+        get { return _validatedExcludedLetters; }
+        set
+        {
+            if (IsExcludedLettersValid(value))
+            {
+                _validatedExcludedLetters = value.ToUpper();
+            }
+        }
+    }
+
+    private bool IsExcludedLettersValid(string input)
+    {
+        if (string.IsNullOrWhiteSpace(input))
+        {
+            return false;
+        }
+
+        if (input.Length > 26)
+        {
+            return false;
+        }
+
+        foreach (char c in input)
+        {
+            if (!char.IsLetter(c))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private WizdleResponse _wizdleResponse { get; set; } = new WizdleResponse();
+
+    private string _wordsTitle { get; set; } = string.Empty;
+
+    private async Task Solve()
+    {
+
+        WizdleRequest request = new WizdleRequest()
+        {
+                CorrectLetters = $"{_correctChar1}{_correctChar2}{_correctChar3}{_correctChar4}{_correctChar5}",
+                MisplacedLetters = $"{_misplacedChar1}{_misplacedChar2}{_misplacedChar3}{_misplacedChar4}{_misplacedChar5}",
+                ExcludeLetters = _validatedExcludedLetters,
+        };
+
+        _wizdleResponse = await WizdleApiClient.PostWizdleRequestAsync(request);
+
+        if (_wizdleResponse.Messages.Count() > 0)
+        {
+            foreach (string message in _wizdleResponse.Messages)
+            {
+                Snackbar.Add(message, Severity.Info, config =>
+                {
+                    config.Icon = Icons.Material.Filled.RemoveRedEye;
+                    config.ShowCloseIcon = true;
+                    config.VisibleStateDuration = 5000;
+                    config.OnClick = sb =>
+                    {
+                        StateHasChanged();
+                        return Task.CompletedTask;
+                    };
+                });
+            }
+        }
+
+        if (_wizdleResponse.Words.Count() > 0)
+        {
+            _wordsTitle = "Possible Words:";
+        }
+        else
+        {
+            _wordsTitle = string.Empty;
+        }
+    }
+}

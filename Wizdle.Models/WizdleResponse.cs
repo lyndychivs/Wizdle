@@ -1,5 +1,6 @@
 ﻿namespace Wizdle.Models
 {
+    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -8,13 +9,13 @@
     public class WizdleResponse
     {
         /// <summary>
-        /// Response messages containing information about the request processed.
+        /// Gets or sets response messages containing information about the request processed.
         /// </summary>
-        public IEnumerable<string> Messages { get; init; } = [];
+        public IEnumerable<string> Messages { get; set; } = new List<string>();
 
         /// <summary>
-        /// A collection of words that match the criteria specified in the request.
+        /// Gets or sets a collection of words that match the criteria specified in the request.
         /// </summary>
-        public IEnumerable<string> Words { get; init; } = [];
+        public IEnumerable<string> Words { get; set; } = new List<string>();
     }
 }

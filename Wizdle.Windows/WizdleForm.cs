@@ -1,6 +1,10 @@
 namespace Wizdle.Windows
 {
+    using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Linq;
+    using System.Windows.Forms;
 
     using Microsoft.Extensions.Logging;
 
@@ -27,6 +31,21 @@ namespace Wizdle.Windows
                         LogEventLevel.Information,
                         theme: ThemePresets.Light)
                     .CreateLogger()).CreateLogger<WizdleEngine>());
+        }
+
+        private static char GetLetter(string input)
+        {
+            if (input.Length != 1)
+            {
+                return '?';
+            }
+
+            if (!char.IsLetter(input[0]))
+            {
+                return '?';
+            }
+
+            return input[0];
         }
 
         private void SolveBtn_Click(object sender, EventArgs e)
@@ -60,21 +79,6 @@ namespace Wizdle.Windows
             {
                 _wordsRtb.Text = string.Join(", ", response.Words);
             }
-        }
-
-        private static char GetLetter(string input)
-        {
-            if (input.Length != 1)
-            {
-                return '?';
-            }
-
-            if (!char.IsLetter(input[0]))
-            {
-                return '?';
-            }
-
-            return input[0];
         }
 
         private void GitHubLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
