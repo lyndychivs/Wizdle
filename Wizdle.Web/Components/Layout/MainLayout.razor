@@ -6,7 +6,6 @@
 <MudSnackbarProvider />
 <MudLayout>
     <MudAppBar Elevation="1">
-        <MudText Typo="Typo.h4" Class="ml-3">WIZDLE</MudText>
         <MudSpacer />
         <MudLink Href="https://github.com/lyndychivs/Wizdle"><MudIconButton Icon="@Icons.Custom.Brands.GitHub" aria-label="GitHub" title="GitHub" Size="Size.Medium" /></MudLink>
         <MudToggleIconButton @bind-Toggled="_isDarkMode" Icon="@Icons.Material.Filled.DarkMode" aria-label="Darkmode" title="Darkmode" Size="Size.Medium" />
@@ -33,12 +32,6 @@
     {
         Typography = new Typography()
         {
-            H4 = new H4Typography()
-            {
-                FontFamily = new[] { "Cherry Bomb One", "sans-serif" },
-                FontSize = "2.7rem",
-                LetterSpacing = "0.2em",
-            },
             H6 = new H6Typography()
             {
                 FontFamily = new[] { "Special Gothic Condensed One", "sans-serif" },
