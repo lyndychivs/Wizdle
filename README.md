@@ -86,6 +86,56 @@ The Wizdle Api Service contains a deployable API instance of the Wizdle library.
 
 More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.ApiService)
 
+## 🎯 `POST /wizdle`
+
+**Summary**: Processes a Wizdle request in an attempt to solve the possible words.
+
+### Request
+
+**Content-Type:** `application/json`
+
+#### Body Parameters
+
+| Name | Type |
+|------|------|
+| `correctLetters` | `string` |
+| `misplacedLetters` | `string` |
+| `excludeLetters` | `string` |
+
+
+**Example:**
+
+```json
+{
+  "correctLetters": "a__le",
+  "misplacedLetters": "t",
+  "excludeLetters": "xyz"
+}
+```
+
+---
+
+### Response
+
+**Status Code:** `200 OK`
+
+#### Body
+
+| Name | Type |
+|------|------|
+| `messages` | `array of string` |
+| `words` | `array of string` |
+
+
+**Example:**
+
+```json
+{
+  "messages": ["Found 2 Word(s) matching the criteria."],
+  "words": ["apple", "angle"]
+}
+```
+
 # 📲 Wizdle.Web
 The Wizdle Web contains a deployable Blazor web app instance of the Wizdle library (hosted on the new dotnet Aspire platform).
 
