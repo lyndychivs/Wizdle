@@ -27,9 +27,6 @@ namespace Wizdle.ApiService
 
             app.UseExceptionHandler();
 
-            app.MapGet("/wizdle", () => Results.Ok())
-                .WithName("GetWizdle");
-
             app.MapPost("/wizdle", ([FromBody] WizdleRequest request, WizdleEngine engine) =>
             {
                 if (request is null)
@@ -38,7 +35,9 @@ namespace Wizdle.ApiService
                 }
 
                 return Results.Ok(engine.ProcessWizdleRequest(request));
-            }).WithName("PostWizdle");
+            }).WithName("PostWizdle")
+            .Produces<WizdleResponse>()
+            .WithSummary("Processes a Wizdle request in an attempt to solve the possible words.");
 
             app.MapDefaultEndpoints();
 
