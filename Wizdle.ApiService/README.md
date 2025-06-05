@@ -1,4 +1,63 @@
-# Wizdle.ApiService
+# 🧩 Wizdle.ApiService
 
-> [!IMPORTANT]
-> currently Work in Progress - as I plan to look into the new Blazor framework & dotnet Aspire for deployments on Azure (not completely happy with this approach so far....)
+**Version:** 1.0.0
+
+A simple API to help solve word puzzles by narrowing down possible matches based on input clues.
+
+---
+
+## 🎯 `POST /wizdle`
+
+**Summary**: Processes a Wizdle request in an attempt to solve the possible words.
+
+### Request
+
+**Content-Type:** `application/json`
+
+#### Body Parameters
+
+| Name | Type |
+|------|------|
+| `correctLetters` | `string` |
+| `misplacedLetters` | `string` |
+| `excludeLetters` | `string` |
+
+
+**Example:**
+
+```json
+{
+  "correctLetters": "a__le",
+  "misplacedLetters": "t",
+  "excludeLetters": "xyz"
+}
+```
+
+---
+
+### Response
+
+**Status Code:** `200 OK`
+
+#### Body
+
+| Name | Type |
+|------|------|
+| `messages` | `array of string` |
+| `words` | `array of string` |
+
+
+**Example:**
+
+```json
+{
+  "messages": ["2 matches found"],
+  "words": ["apple", "angle"]
+}
+```
+
+---
+
+## 🏷️ Tag
+
+- `Wizdle.ApiService`
