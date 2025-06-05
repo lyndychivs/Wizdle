@@ -51,7 +51,7 @@ A simple API to help solve word puzzles by narrowing down possible matches based
 
 ```json
 {
-  "messages": ["2 matches found"],
+  "messages": ["Found 2 Word(s) matching the criteria."],
   "words": ["apple", "angle"]
 }
 ```
