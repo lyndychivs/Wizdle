@@ -74,17 +74,17 @@ snort
 sport
 ```
 
-# 📨 Wizdle.ApiService
-The Wizdle Api Service contains a deployable API instance of the Wizdle library.
-
-More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.ApiService)
-
 # 🪟 Wizdle.Windows
 The Wizdle Windows application allows us to access all the functionality of the Wizdle library via a GUI on Windows.
 
 More information (and installers) can be found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Windows).
 
 ![Wizdle.Windows](Resources/Wizdle.Windows.png)
+
+# 📨 Wizdle.ApiService
+The Wizdle Api Service contains a deployable API instance of the Wizdle library.
+
+More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.ApiService)
 
 # 📲 Wizdle.Web
 The Wizdle Web contains a deployable Blazor web app instance of the Wizdle library (hosted on the new dotnet Aspire platform).
@@ -105,3 +105,7 @@ More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/m
   - [Wizdle.PerformanceTests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.PerformanceTests) (using BenchmarkDotNet)
 - Mutation Testing
   - [Strkyer.NET](https://dashboard.stryker-mutator.io/reports/github.com/lyndychivs/Wizdle/master) with [my GitHub Action](https://github.com/lyndychivs/dotnet-stryker-action)
+ 
+# TL;DR for the TL;DR
+> Lyndon, did you just spend all this time working on a tool to cheat wordle... rather than actually just solving the word?
+
