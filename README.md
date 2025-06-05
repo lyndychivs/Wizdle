@@ -105,3 +105,7 @@ More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/m
   - [Wizdle.PerformanceTests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.PerformanceTests) (using BenchmarkDotNet)
 - Mutation Testing
   - [Strkyer.NET](https://dashboard.stryker-mutator.io/reports/github.com/lyndychivs/Wizdle/master) with [my GitHub Action](https://github.com/lyndychivs/dotnet-stryker-action)
+ 
+# TL;DR for the TL;DR
+> Lyndon, did you just spend all this time working on a tool to cheat wordle... rather than actually just solving the word?
+
