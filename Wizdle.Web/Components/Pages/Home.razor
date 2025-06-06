@@ -164,12 +164,12 @@
         <MudDivider DividerType="DividerType.FullWidth" style="margin-top: 1rem;" />
     </MudGrid>
     <MudGrid Spacing="3" Justify="Justify.FlexStart" style="padding-top: 2rem;margin-bottom: 1rem;">
-        <MudText Typo="Typo.h6">@_wordsTitle</MudText>
+        <MudText aria-label="Response Title" Typo="Typo.h6">@_wordsTitle</MudText>
         <MudFlexBreak />
         <MudStack id="words" Wrap="Wrap.Wrap" Row="true">
             @foreach (string word in _wizdleResponse.Words)
             {
-                <MudPaper Class="mud-theme-primary pa-4 rounded-lg" Elevation="17">@word.ToUpper()</MudPaper>
+                <MudPaper aria-label="Word" Class="mud-theme-primary pa-4 rounded-lg" Elevation="17">@word.ToUpper()</MudPaper>
             }
         </MudStack>
     </MudGrid>

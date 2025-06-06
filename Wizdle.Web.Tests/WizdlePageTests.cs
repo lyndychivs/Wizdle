@@ -47,7 +47,10 @@
                 Path = isFailed ? tracingFilePath : null,
             });
 
-            TestContext.AddTestAttachment(tracingFilePath, "Playwright Trace");
+            if (isFailed)
+            {
+                TestContext.AddTestAttachment(tracingFilePath, "Playwright Trace");
+            }
         }
 
         [Test]
@@ -110,6 +113,115 @@
             await Page.GetByRole(AriaRole.Button, new () { Name = "Darkmode" }).ClickAsync();
 
             await Expect(Page.Locator("css=body")).ToHaveCSSAsync("background-color", "rgb(50, 51, 61)");
+        }
+
+        [TestCase("p", "e", "r", "c", "h")]
+        [TestCase("P", "E", "R", "C", "H")]
+        public async Task WizdlePage_WhenCorrectLettersAreSpecified_ReturnsAWord(string letter1, string letter2, string letter3, string letter4, string letter5)
+        {
+            IDistributedApplicationTestingBuilder builder = await DistributedApplicationTestingBuilder
+                .CreateAsync<Wizdle_AppHost>();
+
+            await using DistributedApplication app = await builder.BuildAsync();
+            await app.StartAsync();
+
+            using var ctsApi = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+            await app.ResourceNotifications.WaitForResourceHealthyAsync("api", ctsApi.Token);
+
+            using var ctsWeb = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+            await app.ResourceNotifications.WaitForResourceHealthyAsync("web", ctsWeb.Token);
+
+            await Page.GotoAsync(app.GetEndpoint("web", "https").ToString(), new () { WaitUntil = WaitUntilState.NetworkIdle });
+
+            await Expect(Page).ToHaveTitleAsync("Wizdle | Solve Wordle...");
+
+            await Expect(Page.GetByRole(AriaRole.Img, new () { Name = "Wizdle" })).ToBeVisibleAsync();
+
+            await Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Correct Letter 1" }).FillAsync(letter1);
+            await Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Correct Letter 2" }).FillAsync(letter2);
+            await Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Correct Letter 3" }).FillAsync(letter3);
+            await Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Correct Letter 4" }).FillAsync(letter4);
+            await Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Correct Letter 5" }).FillAsync(letter5);
+
+            await Page.GetByRole(AriaRole.Button, new () { Name = "Search" }).ClickAsync();
+
+            await Expect(Page.GetByRole(AriaRole.Heading, new () { Name = "Response Title" })).ToContainTextAsync("Possible Words:");
+
+            await Expect(Page.Locator("#words > div")).ToContainTextAsync("PERCH");
+        }
+
+        [TestCase("h", "c", "e", "e", "p")]
+        [TestCase("H", "C", "E", "E", "P")]
+        public async Task WizdlePage_WhenMisplacedLettersAreSpecified_ReturnsAWord(string letter1, string letter2, string letter3, string letter4, string letter5)
+        {
+            IDistributedApplicationTestingBuilder builder = await DistributedApplicationTestingBuilder
+                .CreateAsync<Wizdle_AppHost>();
+
+            await using DistributedApplication app = await builder.BuildAsync();
+            await app.StartAsync();
+
+            using var ctsApi = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+            await app.ResourceNotifications.WaitForResourceHealthyAsync("api", ctsApi.Token);
+
+            using var ctsWeb = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+            await app.ResourceNotifications.WaitForResourceHealthyAsync("web", ctsWeb.Token);
+
+            await Page.GotoAsync(app.GetEndpoint("web", "https").ToString(), new () { WaitUntil = WaitUntilState.NetworkIdle });
+
+            await Expect(Page).ToHaveTitleAsync("Wizdle | Solve Wordle...");
+
+            await Expect(Page.GetByRole(AriaRole.Img, new () { Name = "Wizdle" })).ToBeVisibleAsync();
+
+            await Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Misplaced Letter 1" }).FillAsync(letter1);
+            await Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Misplaced Letter 2" }).FillAsync(letter2);
+            await Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Misplaced Letter 3" }).FillAsync(letter3);
+            await Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Misplaced Letter 4" }).FillAsync(letter4);
+            await Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Misplaced Letter 5" }).FillAsync(letter5);
+
+            await Page.GetByRole(AriaRole.Button, new () { Name = "Search" }).ClickAsync();
+
+            await Expect(Page.GetByRole(AriaRole.Heading, new () { Name = "Response Title" })).ToContainTextAsync("Possible Words:");
+
+            await Expect(Page.Locator("#words > div:nth-child(1)")).ToContainTextAsync("EPOCH");
+            await Expect(Page.Locator("#words > div:nth-child(2)")).ToContainTextAsync("PEACH");
+            await Expect(Page.Locator("#words > div:nth-child(3)")).ToContainTextAsync("PERCH");
+        }
+
+        [TestCase("H", "C", "E", "E", "P", "OA")]
+        [TestCase("h", "c", "e", "e", "p", "oa")]
+        public async Task WizdlePage_WhenExcludeLettersAreSpecified_ReturnsAFilteredWord(string letter1, string letter2, string letter3, string letter4, string letter5, string excluded)
+        {
+            IDistributedApplicationTestingBuilder builder = await DistributedApplicationTestingBuilder
+                .CreateAsync<Wizdle_AppHost>();
+
+            await using DistributedApplication app = await builder.BuildAsync();
+            await app.StartAsync();
+
+            using var ctsApi = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+            await app.ResourceNotifications.WaitForResourceHealthyAsync("api", ctsApi.Token);
+
+            using var ctsWeb = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+            await app.ResourceNotifications.WaitForResourceHealthyAsync("web", ctsWeb.Token);
+
+            await Page.GotoAsync(app.GetEndpoint("web", "https").ToString(), new () { WaitUntil = WaitUntilState.NetworkIdle });
+
+            await Expect(Page).ToHaveTitleAsync("Wizdle | Solve Wordle...");
+
+            await Expect(Page.GetByRole(AriaRole.Img, new () { Name = "Wizdle" })).ToBeVisibleAsync();
+
+            await Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Misplaced Letter 1" }).FillAsync(letter1);
+            await Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Misplaced Letter 2" }).FillAsync(letter2);
+            await Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Misplaced Letter 3" }).FillAsync(letter3);
+            await Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Misplaced Letter 4" }).FillAsync(letter4);
+            await Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Misplaced Letter 5" }).FillAsync(letter5);
+
+            await Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Excluded Letters" }).FillAsync(excluded);
+
+            await Page.GetByRole(AriaRole.Button, new () { Name = "Search" }).ClickAsync();
+
+            await Expect(Page.GetByRole(AriaRole.Heading, new () { Name = "Response Title" })).ToContainTextAsync("Possible Words:");
+
+            await Expect(Page.Locator("#words > div")).ToContainTextAsync("PERCH");
         }
     }
 }
