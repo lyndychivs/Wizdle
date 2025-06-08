@@ -239,7 +239,7 @@
             using var ctsWeb = new CancellationTokenSource(TimeSpan.FromSeconds(30));
             await app.ResourceNotifications.WaitForResourceHealthyAsync("web", ctsWeb.Token);
 
-            await Page.GotoAsync(app.GetEndpoint("web", "https").ToString(), new() { WaitUntil = WaitUntilState.NetworkIdle });
+            await Page.GotoAsync(app.GetEndpoint("web", "https").ToString(), new () { WaitUntil = WaitUntilState.NetworkIdle });
 
             await Expect(Page).ToHaveTitleAsync("Wizdle | Solve Wordle...");
 

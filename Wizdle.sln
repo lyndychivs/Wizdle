@@ -28,6 +28,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.ApiService.Tests", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Web.Tests", "Wizdle.Web.Tests\Wizdle.Web.Tests.csproj", "{059E6A8C-09A1-41E7-9290-9ACDB98FC039}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Discord", "Wizdle.Discord\Wizdle.Discord.csproj", "{BE02C5B6-4EB9-4655-93A0-679724A12B70}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -130,6 +132,14 @@ Global
 		{059E6A8C-09A1-41E7-9290-9ACDB98FC039}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{059E6A8C-09A1-41E7-9290-9ACDB98FC039}.Release|Any CPU.Build.0 = Release|Any CPU
 		{059E6A8C-09A1-41E7-9290-9ACDB98FC039}.Stryker|Any CPU.ActiveCfg = Stryker|Any CPU
+		{BE02C5B6-4EB9-4655-93A0-679724A12B70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE02C5B6-4EB9-4655-93A0-679724A12B70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE02C5B6-4EB9-4655-93A0-679724A12B70}.GitHub|Any CPU.ActiveCfg = Release|Any CPU
+		{BE02C5B6-4EB9-4655-93A0-679724A12B70}.GitHub|Any CPU.Build.0 = Release|Any CPU
+		{BE02C5B6-4EB9-4655-93A0-679724A12B70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE02C5B6-4EB9-4655-93A0-679724A12B70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE02C5B6-4EB9-4655-93A0-679724A12B70}.Stryker|Any CPU.ActiveCfg = Release|Any CPU
+		{BE02C5B6-4EB9-4655-93A0-679724A12B70}.Stryker|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
