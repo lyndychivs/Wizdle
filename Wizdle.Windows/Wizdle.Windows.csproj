@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>disable</ImplicitUsings>
-    <Configurations>Debug;Release;GitHub;Stryker</Configurations>
+    <Configurations>Debug;Release;Stryker</Configurations>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>

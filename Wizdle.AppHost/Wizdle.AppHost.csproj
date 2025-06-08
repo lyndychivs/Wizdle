@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
     <IsAspireHost>true</IsAspireHost>
     <UserSecretsId>7c2ad7f3-0c96-498b-aa14-0d16f5cd8737</UserSecretsId>
-    <Configurations>Debug;Release;GitHub;Stryker</Configurations>
+    <Configurations>Debug;Release;Stryker</Configurations>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Wizdle.ApiService\Wizdle.ApiService.csproj" />
