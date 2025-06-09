@@ -22,10 +22,10 @@ jobs:
       run: dotnet restore
 
     - name: dotnet build
-      run: dotnet build --no-restore --configuration GitHub
+      run: dotnet build --no-restore --configuration Release
 
     - name: dotnet test
-      run: dotnet test --no-build --configuration GitHub --verbosity normal --list-tests --blame
+      run: dotnet test --no-build --configuration Release --verbosity normal --list-tests --blame
 
     - name: dotnet nuget push to NuGet
       if: github.ref == 'refs/heads/master'
