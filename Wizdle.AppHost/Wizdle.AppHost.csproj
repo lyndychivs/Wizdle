@@ -11,6 +11,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Wizdle.ApiService\Wizdle.ApiService.csproj" />
+    <ProjectReference Include="..\Wizdle.Discord\Wizdle.Discord.csproj" />
     <ProjectReference Include="..\Wizdle.Web\Wizdle.Web.csproj" />
   </ItemGroup>
   <ItemGroup>
