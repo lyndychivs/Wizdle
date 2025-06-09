@@ -35,7 +35,7 @@ The Wizdle core library found [here](https://github.com/lyndychivs/Wizdle/tree/m
 
 ## Example
 ```csharp
-var wizdleEngine = new WizdleEngine(_logger);
+var wizdleEngine = new WizdleEngine(logger);
 
 var request = new WizdleRequest
 {
@@ -87,7 +87,7 @@ The Wizdle Api Service contains a deployable API instance of the Wizdle library.
 
 More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.ApiService)
 
-## 🎯 `POST /wizdle`
+## 🎯 `POST`
 
 **Summary**: Processes a Wizdle request in an attempt to solve the possible words.
 

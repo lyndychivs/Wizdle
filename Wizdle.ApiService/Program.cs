@@ -27,7 +27,7 @@ namespace Wizdle.ApiService
 
             app.UseExceptionHandler();
 
-            app.MapPost("/wizdle", ([FromBody] WizdleRequest request, WizdleEngine engine) =>
+            app.MapPost("/", ([FromBody] WizdleRequest request, WizdleEngine engine) =>
             {
                 if (request is null)
                 {

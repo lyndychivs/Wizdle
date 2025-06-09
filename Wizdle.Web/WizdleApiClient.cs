@@ -13,7 +13,7 @@
     {
         public async Task<WizdleResponse> PostWizdleRequestAsync(WizdleRequest wizdleRequest, CancellationToken cancellationToken = default)
         {
-            HttpResponseMessage httpResponseMessage = await httpClient.PostAsJsonAsync("/wizdle", wizdleRequest, cancellationToken);
+            HttpResponseMessage httpResponseMessage = await httpClient.PostAsJsonAsync("/", wizdleRequest, cancellationToken);
 
             return await httpResponseMessage.Content.ReadFromJsonAsync<WizdleResponse>(cancellationToken) ?? new WizdleResponse();
         }

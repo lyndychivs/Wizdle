@@ -18,6 +18,12 @@
     [TestFixture]
     public class WizdlePageTests : PageTest
     {
+        private const string ApiResourceName = "api";
+
+        private const string WebResourceName = "web";
+
+        private const string EndpointName = "https";
+
         [SetUp]
         public async Task Setup()
         {
@@ -63,12 +69,12 @@
             await app.StartAsync();
 
             using var ctsApi = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-            await app.ResourceNotifications.WaitForResourceHealthyAsync("api", ctsApi.Token);
+            await app.ResourceNotifications.WaitForResourceHealthyAsync(ApiResourceName, ctsApi.Token);
 
             using var ctsWeb = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-            await app.ResourceNotifications.WaitForResourceHealthyAsync("web", ctsWeb.Token);
+            await app.ResourceNotifications.WaitForResourceHealthyAsync(WebResourceName, ctsWeb.Token);
 
-            await Page.GotoAsync(app.GetEndpoint("web", "https").ToString(), new () { WaitUntil = WaitUntilState.NetworkIdle });
+            await Page.GotoAsync(app.GetEndpoint(WebResourceName, EndpointName).ToString(), new () { WaitUntil = WaitUntilState.NetworkIdle });
 
             await Expect(Page).ToHaveTitleAsync("Wizdle | Solve Wordle...");
 
@@ -101,12 +107,12 @@
             await app.StartAsync();
 
             using var ctsApi = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-            await app.ResourceNotifications.WaitForResourceHealthyAsync("api", ctsApi.Token);
+            await app.ResourceNotifications.WaitForResourceHealthyAsync(ApiResourceName, ctsApi.Token);
 
             using var ctsWeb = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-            await app.ResourceNotifications.WaitForResourceHealthyAsync("web", ctsWeb.Token);
+            await app.ResourceNotifications.WaitForResourceHealthyAsync(WebResourceName, ctsWeb.Token);
 
-            await Page.GotoAsync(app.GetEndpoint("web", "https").ToString(), new () { WaitUntil = WaitUntilState.NetworkIdle });
+            await Page.GotoAsync(app.GetEndpoint(WebResourceName, EndpointName).ToString(), new () { WaitUntil = WaitUntilState.NetworkIdle });
 
             await Expect(Page.Locator("css=body")).ToHaveCSSAsync("background-color", "rgb(255, 255, 255)");
 
@@ -126,12 +132,12 @@
             await app.StartAsync();
 
             using var ctsApi = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-            await app.ResourceNotifications.WaitForResourceHealthyAsync("api", ctsApi.Token);
+            await app.ResourceNotifications.WaitForResourceHealthyAsync(ApiResourceName, ctsApi.Token);
 
             using var ctsWeb = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-            await app.ResourceNotifications.WaitForResourceHealthyAsync("web", ctsWeb.Token);
+            await app.ResourceNotifications.WaitForResourceHealthyAsync(WebResourceName, ctsWeb.Token);
 
-            await Page.GotoAsync(app.GetEndpoint("web", "https").ToString(), new () { WaitUntil = WaitUntilState.NetworkIdle });
+            await Page.GotoAsync(app.GetEndpoint(WebResourceName, EndpointName).ToString(), new () { WaitUntil = WaitUntilState.NetworkIdle });
 
             await Expect(Page).ToHaveTitleAsync("Wizdle | Solve Wordle...");
 
@@ -161,12 +167,12 @@
             await app.StartAsync();
 
             using var ctsApi = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-            await app.ResourceNotifications.WaitForResourceHealthyAsync("api", ctsApi.Token);
+            await app.ResourceNotifications.WaitForResourceHealthyAsync(ApiResourceName, ctsApi.Token);
 
             using var ctsWeb = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-            await app.ResourceNotifications.WaitForResourceHealthyAsync("web", ctsWeb.Token);
+            await app.ResourceNotifications.WaitForResourceHealthyAsync(WebResourceName, ctsWeb.Token);
 
-            await Page.GotoAsync(app.GetEndpoint("web", "https").ToString(), new () { WaitUntil = WaitUntilState.NetworkIdle });
+            await Page.GotoAsync(app.GetEndpoint(WebResourceName, EndpointName).ToString(), new () { WaitUntil = WaitUntilState.NetworkIdle });
 
             await Expect(Page).ToHaveTitleAsync("Wizdle | Solve Wordle...");
 
@@ -198,12 +204,12 @@
             await app.StartAsync();
 
             using var ctsApi = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-            await app.ResourceNotifications.WaitForResourceHealthyAsync("api", ctsApi.Token);
+            await app.ResourceNotifications.WaitForResourceHealthyAsync(ApiResourceName, ctsApi.Token);
 
             using var ctsWeb = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-            await app.ResourceNotifications.WaitForResourceHealthyAsync("web", ctsWeb.Token);
+            await app.ResourceNotifications.WaitForResourceHealthyAsync(WebResourceName, ctsWeb.Token);
 
-            await Page.GotoAsync(app.GetEndpoint("web", "https").ToString(), new () { WaitUntil = WaitUntilState.NetworkIdle });
+            await Page.GotoAsync(app.GetEndpoint(WebResourceName, EndpointName).ToString(), new () { WaitUntil = WaitUntilState.NetworkIdle });
 
             await Expect(Page).ToHaveTitleAsync("Wizdle | Solve Wordle...");
 
@@ -234,12 +240,12 @@
             await app.StartAsync();
 
             using var ctsApi = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-            await app.ResourceNotifications.WaitForResourceHealthyAsync("api", ctsApi.Token);
+            await app.ResourceNotifications.WaitForResourceHealthyAsync(ApiResourceName, ctsApi.Token);
 
             using var ctsWeb = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-            await app.ResourceNotifications.WaitForResourceHealthyAsync("web", ctsWeb.Token);
+            await app.ResourceNotifications.WaitForResourceHealthyAsync(WebResourceName, ctsWeb.Token);
 
-            await Page.GotoAsync(app.GetEndpoint("web", "https").ToString(), new () { WaitUntil = WaitUntilState.NetworkIdle });
+            await Page.GotoAsync(app.GetEndpoint(WebResourceName, EndpointName).ToString(), new () { WaitUntil = WaitUntilState.NetworkIdle });
 
             await Expect(Page).ToHaveTitleAsync("Wizdle | Solve Wordle...");
 
@@ -264,12 +270,12 @@
             await app.StartAsync();
 
             using var ctsApi = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-            await app.ResourceNotifications.WaitForResourceHealthyAsync("api", ctsApi.Token);
+            await app.ResourceNotifications.WaitForResourceHealthyAsync(ApiResourceName, ctsApi.Token);
 
             using var ctsWeb = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-            await app.ResourceNotifications.WaitForResourceHealthyAsync("web", ctsWeb.Token);
+            await app.ResourceNotifications.WaitForResourceHealthyAsync(WebResourceName, ctsWeb.Token);
 
-            await Page.GotoAsync(app.GetEndpoint("web", "https").ToString(), new () { WaitUntil = WaitUntilState.NetworkIdle });
+            await Page.GotoAsync(app.GetEndpoint(WebResourceName, EndpointName).ToString(), new () { WaitUntil = WaitUntilState.NetworkIdle });
 
             await Expect(Page).ToHaveTitleAsync("Wizdle | Solve Wordle...");
 

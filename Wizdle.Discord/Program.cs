@@ -19,8 +19,10 @@ namespace Wizdle.Discord
 
             IHost host = builder.Build();
 
-            // Add commands using minimal APIs
-            host.AddSlashCommand("word", "Search for possible words", () => "Wizdle!");
+            host.AddSlashCommand(
+                "word",
+                "Search for possible words",
+                () => "Wizdle!");
 
             host.UseGatewayEventHandlers();
 

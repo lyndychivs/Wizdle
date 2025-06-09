@@ -6,7 +6,7 @@ A simple API to help solve word puzzles by narrowing down possible matches based
 
 ---
 
-## 🎯 `POST /wizdle`
+## 🎯 `POST`
 
 **Summary**: Processes a Wizdle request in an attempt to solve the possible words.
 
@@ -16,11 +16,11 @@ A simple API to help solve word puzzles by narrowing down possible matches based
 
 #### Body Parameters
 
-| Name | Type |
-|------|------|
-| `correctLetters` | `string` |
+| Name               | Type     |
+|--------------------|----------|
+| `correctLetters`   | `string` |
 | `misplacedLetters` | `string` |
-| `excludeLetters` | `string` |
+| `excludeLetters`   | `string` |
 
 
 **Example:**
@@ -41,10 +41,10 @@ A simple API to help solve word puzzles by narrowing down possible matches based
 
 #### Body
 
-| Name | Type |
-|------|------|
-| `messages` | `array of string` |
-| `words` | `array of string` |
+| Name        | Type              |
+|-------------|-------------------|
+| `messages`  | `array of string` |
+| `words`     | `array of string` |
 
 
 **Example:**
