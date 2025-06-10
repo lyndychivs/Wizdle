@@ -20,6 +20,11 @@ namespace Wizdle.AppHost
                 .WithReference(apiService)
                 .WaitFor(apiService);
 
+            builder.AddProject<Wizdle_Discord>("discord")
+                .WithExternalHttpEndpoints()
+                .WithReference(apiService)
+                .WaitFor(apiService);
+
             builder.Build().Run();
         }
     }
