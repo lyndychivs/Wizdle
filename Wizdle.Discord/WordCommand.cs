@@ -9,15 +9,16 @@
 
     using Wizdle.Models;
 
-    public class WordCommand(WizdleApiClient wizdleApiClient) : ApplicationCommandModule<ApplicationCommandContext>
+    public class WordCommand(WizdleApiClient wizdleApiClient)
+        : ApplicationCommandModule<ApplicationCommandContext>
     {
-        [SlashCommand("word", "Search for possible wordle words")]
+        [SlashCommand("word", "Search for possible Wordle Words")]
         public async Task<string> GetWordsAsync(
-        [SlashCommandParameter(Name = "correct", Description = "The correct letters known to exist in the Word, follow the format of `a.b.c` where unknown letters are represented by a dot (`.`)", MaxLength = 5, MinLength = 0)]
+        [SlashCommandParameter(Name = "correct", Description = "The correct letters known to exist in the Word (Example second letter correct is \"R\": \"?R\")", MaxLength = 5, MinLength = 0)]
         string correctLetters,
-        [SlashCommandParameter(Name = "misplaced", Description = "The misplaced letters known to exist in the Word, follow the format of `a.b.c` where unknown letters are represented by a dot (`.`)", MaxLength = 5, MinLength = 0)]
+        [SlashCommandParameter(Name = "misplaced", Description = "The misplaced letters known to exist in the Word (Example third letter misplaced is \"T\": \"??T\")", MaxLength = 5, MinLength = 0)]
         string misplacedLetters,
-        [SlashCommandParameter(Name = "exclude", Description = "The letters that are known to not exist in the Word, follow the format of `abc` where each letter is a single character.", MaxLength = 26, MinLength = 0)]
+        [SlashCommandParameter(Name = "exclude", Description = "The letters that are known to not exist in the Word (Example: \"ABC\")", MaxLength = 26, MinLength = 0)]
         string excludeLetters)
         {
             var wizdleRequest = new WizdleRequest();
