@@ -5,22 +5,38 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.Extensions.Logging;
+
     using NetCord.Services.ApplicationCommands;
 
     using Wizdle.Models;
 
-    public class WordCommand(WizdleApiClient wizdleApiClient)
+    public class WordSlashCommand(ILogger<WordSlashCommand> logger, WizdleApiClient wizdleApiClient)
         : ApplicationCommandModule<ApplicationCommandContext>
     {
         [SlashCommand("word", "Search for possible Wordle Words")]
         public async Task<string> GetWordsAsync(
-        [SlashCommandParameter(Name = "correct", Description = "The correct letters known to exist in the Word (Example second letter correct is \"R\": \"?R\")", MaxLength = 5, MinLength = 0)]
-        string correctLetters,
-        [SlashCommandParameter(Name = "misplaced", Description = "The misplaced letters known to exist in the Word (Example third letter misplaced is \"T\": \"??T\")", MaxLength = 5, MinLength = 0)]
-        string misplacedLetters,
-        [SlashCommandParameter(Name = "exclude", Description = "The letters that are known to not exist in the Word (Example: \"ABC\")", MaxLength = 26, MinLength = 0)]
-        string excludeLetters)
+        [SlashCommandParameter(
+            Name = "correct",
+            Description = "The correct letters known to exist in the Word (Example second letter correct is 'R' = \"?R\")",
+            MaxLength = 5,
+            MinLength = 0)]
+        string correctLetters = "",
+        [SlashCommandParameter(
+            Name = "misplaced",
+            Description = "The misplaced letters known to exist in the Word (Example third letter misplaced is 'T' = \"??T\")",
+            MaxLength = 5,
+            MinLength = 0)]
+        string misplacedLetters = "",
+        [SlashCommandParameter(
+            Name = "exclude",
+            Description = "The letters that are known to not exist in the Word (Example: \"ABC\")",
+            MaxLength = 26,
+            MinLength = 0)]
+        string excludeLetters = "")
         {
+            logger.LogInformation("Received {Interaction} request from {Username} {Id}", Context.Interaction.Data.Name, Context.User.Username, Context.User.Id);
+
             var wizdleRequest = new WizdleRequest();
             if (!string.IsNullOrWhiteSpace(correctLetters))
             {

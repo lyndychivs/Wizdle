@@ -6,6 +6,7 @@ namespace Wizdle.Discord
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
 
+    using NetCord.Gateway;
     using NetCord.Hosting.Gateway;
     using NetCord.Hosting.Services;
     using NetCord.Hosting.Services.ApplicationCommands;
@@ -21,7 +22,7 @@ namespace Wizdle.Discord
             builder.AddServiceDefaults();
 
             builder.Services
-                .AddDiscordGateway()
+                .AddDiscordGateway(op => op.Intents = GatewayIntents.Guilds)
                 .AddApplicationCommands()
                 .AddHttpClient<WizdleApiClient>(client =>
                 {
@@ -34,7 +35,7 @@ namespace Wizdle.Discord
 
             host.UseGatewayEventHandlers();
 
-            await host.RunAsync();
+            await host.RunAsync().ConfigureAwait(false);
         }
     }
 }
