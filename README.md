@@ -147,7 +147,7 @@ More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/m
 # 🤖 Wizdle.Discord
 A Discord bot hosting all the functionality of the Wizdle library, users can integrate the bot into their Discord servers.
 
-Invite [link for Discord](https://discord.com/oauth2/authorize?client_id=1381710402458620066).
+Invite [link for Discord](https://discord.com/oauth2/authorize?client_id=1381710402458620066&permissions=2048&integration_type=0&scope=bot).
 
 # 🧪 Testing
 - Unit Testing
