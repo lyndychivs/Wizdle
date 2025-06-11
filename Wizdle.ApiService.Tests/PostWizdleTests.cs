@@ -19,6 +19,10 @@
     [TestFixture]
     public class PostWizdleTests
     {
+        private const string ApiResourceName = "api";
+
+        private const string RequestUri = "/";
+
         [Test]
         public async Task PostWizdle_WithValidContent_ReturnsSuccess()
         {
@@ -29,10 +33,10 @@
             await using DistributedApplication app = await builder.BuildAsync();
             await app.StartAsync();
 
-            HttpClient httpClient = app.CreateHttpClient("api");
+            HttpClient httpClient = app.CreateHttpClient(ApiResourceName);
 
             using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
-            await app.ResourceNotifications.WaitForResourceHealthyAsync("api", cts.Token);
+            await app.ResourceNotifications.WaitForResourceHealthyAsync(ApiResourceName, cts.Token);
 
             var request = new WizdleRequest
             {
@@ -48,7 +52,7 @@
             };
 
             // Act
-            HttpResponseMessage response = httpClient.PostAsJsonAsync("/wizdle", request).Result;
+            HttpResponseMessage response = httpClient.PostAsJsonAsync(RequestUri, request).Result;
 
             // Assert
             using (Assert.EnterMultipleScope())
@@ -74,13 +78,13 @@
             await using DistributedApplication app = await builder.BuildAsync();
             await app.StartAsync();
 
-            HttpClient httpClient = app.CreateHttpClient("api");
+            HttpClient httpClient = app.CreateHttpClient(ApiResourceName);
 
             using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
-            await app.ResourceNotifications.WaitForResourceHealthyAsync("api", cts.Token);
+            await app.ResourceNotifications.WaitForResourceHealthyAsync(ApiResourceName, cts.Token);
 
             // Act
-            HttpResponseMessage response = await httpClient.PostAsJsonAsync("/wizdle", content);
+            HttpResponseMessage response = await httpClient.PostAsJsonAsync(RequestUri, content);
 
             // Assert
             using (Assert.EnterMultipleScope())
@@ -100,10 +104,10 @@
             await using DistributedApplication app = await builder.BuildAsync();
             await app.StartAsync();
 
-            HttpClient httpClient = app.CreateHttpClient("api");
+            HttpClient httpClient = app.CreateHttpClient(ApiResourceName);
 
             using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
-            await app.ResourceNotifications.WaitForResourceHealthyAsync("api", cts.Token);
+            await app.ResourceNotifications.WaitForResourceHealthyAsync(ApiResourceName, cts.Token);
 
             var request = new WizdleRequest
             {
@@ -117,7 +121,7 @@
             };
 
             // Act
-            HttpResponseMessage response = httpClient.PostAsJsonAsync("/wizdle", request).Result;
+            HttpResponseMessage response = httpClient.PostAsJsonAsync(RequestUri, request).Result;
 
             // Assert
             using (Assert.EnterMultipleScope())
@@ -141,10 +145,10 @@
             await using DistributedApplication app = await builder.BuildAsync();
             await app.StartAsync();
 
-            HttpClient httpClient = app.CreateHttpClient("api");
+            HttpClient httpClient = app.CreateHttpClient(ApiResourceName);
 
             using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
-            await app.ResourceNotifications.WaitForResourceHealthyAsync("api", cts.Token);
+            await app.ResourceNotifications.WaitForResourceHealthyAsync(ApiResourceName, cts.Token);
 
             var request = new WizdleRequest
             {
@@ -158,7 +162,7 @@
             };
 
             // Act
-            HttpResponseMessage response = httpClient.PostAsJsonAsync("/wizdle", request).Result;
+            HttpResponseMessage response = httpClient.PostAsJsonAsync(RequestUri, request).Result;
 
             // Assert
             using (Assert.EnterMultipleScope())
@@ -182,10 +186,10 @@
             await using DistributedApplication app = await builder.BuildAsync();
             await app.StartAsync();
 
-            HttpClient httpClient = app.CreateHttpClient("api");
+            HttpClient httpClient = app.CreateHttpClient(ApiResourceName);
 
             using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
-            await app.ResourceNotifications.WaitForResourceHealthyAsync("api", cts.Token);
+            await app.ResourceNotifications.WaitForResourceHealthyAsync(ApiResourceName, cts.Token);
 
             var request = new WizdleRequest
             {
@@ -199,7 +203,7 @@
             };
 
             // Act
-            HttpResponseMessage response = httpClient.PostAsJsonAsync("/wizdle", request).Result;
+            HttpResponseMessage response = httpClient.PostAsJsonAsync(RequestUri, request).Result;
 
             // Assert
             using (Assert.EnterMultipleScope())
@@ -224,10 +228,10 @@
             await using DistributedApplication app = await builder.BuildAsync();
             await app.StartAsync();
 
-            HttpClient httpClient = app.CreateHttpClient("api");
+            HttpClient httpClient = app.CreateHttpClient(ApiResourceName);
 
             using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
-            await app.ResourceNotifications.WaitForResourceHealthyAsync("api", cts.Token);
+            await app.ResourceNotifications.WaitForResourceHealthyAsync(ApiResourceName, cts.Token);
 
             var request = new WizdleRequest
             {
@@ -235,7 +239,7 @@
             };
 
             // Act
-            HttpResponseMessage response = httpClient.PostAsJsonAsync("/wizdle", request).Result;
+            HttpResponseMessage response = httpClient.PostAsJsonAsync(RequestUri, request).Result;
 
             // Assert
             using (Assert.EnterMultipleScope())
@@ -260,10 +264,10 @@
             await using DistributedApplication app = await builder.BuildAsync();
             await app.StartAsync();
 
-            HttpClient httpClient = app.CreateHttpClient("api");
+            HttpClient httpClient = app.CreateHttpClient(ApiResourceName);
 
             using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
-            await app.ResourceNotifications.WaitForResourceHealthyAsync("api", cts.Token);
+            await app.ResourceNotifications.WaitForResourceHealthyAsync(ApiResourceName, cts.Token);
 
             var request = new WizdleRequest
             {
@@ -271,7 +275,7 @@
             };
 
             // Act
-            HttpResponseMessage response = httpClient.PostAsJsonAsync("/wizdle", request).Result;
+            HttpResponseMessage response = httpClient.PostAsJsonAsync(RequestUri, request).Result;
 
             // Assert
             using (Assert.EnterMultipleScope())
@@ -296,10 +300,10 @@
             await using DistributedApplication app = await builder.BuildAsync();
             await app.StartAsync();
 
-            HttpClient httpClient = app.CreateHttpClient("api");
+            HttpClient httpClient = app.CreateHttpClient(ApiResourceName);
 
             using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
-            await app.ResourceNotifications.WaitForResourceHealthyAsync("api", cts.Token);
+            await app.ResourceNotifications.WaitForResourceHealthyAsync(ApiResourceName, cts.Token);
 
             var request = new WizdleRequest
             {
@@ -307,7 +311,7 @@
             };
 
             // Act
-            HttpResponseMessage response = httpClient.PostAsJsonAsync("/wizdle", request).Result;
+            HttpResponseMessage response = httpClient.PostAsJsonAsync(RequestUri, request).Result;
 
             // Assert
             using (Assert.EnterMultipleScope())
@@ -331,10 +335,10 @@
             await using DistributedApplication app = await builder.BuildAsync();
             await app.StartAsync();
 
-            HttpClient httpClient = app.CreateHttpClient("api");
+            HttpClient httpClient = app.CreateHttpClient(ApiResourceName);
 
             using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
-            await app.ResourceNotifications.WaitForResourceHealthyAsync("api", cts.Token);
+            await app.ResourceNotifications.WaitForResourceHealthyAsync(ApiResourceName, cts.Token);
 
             var request = new WizdleRequest
             {
@@ -344,7 +348,7 @@
             };
 
             // Act
-            HttpResponseMessage response = httpClient.PostAsJsonAsync("/wizdle", request).Result;
+            HttpResponseMessage response = httpClient.PostAsJsonAsync(RequestUri, request).Result;
 
             // Assert
             using (Assert.EnterMultipleScope())

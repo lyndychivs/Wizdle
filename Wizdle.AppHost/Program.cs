@@ -12,10 +12,14 @@ namespace Wizdle.AppHost
             IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder(args);
 
             IResourceBuilder<ProjectResource> apiService = builder.AddProject<Wizdle_ApiService>("api")
-                .WithExternalHttpEndpoints()
                 .WithScalarDocs();
 
             builder.AddProject<Wizdle_Web>("web")
+                .WithExternalHttpEndpoints()
+                .WithReference(apiService)
+                .WaitFor(apiService);
+
+            builder.AddProject<Wizdle_Discord>("discord")
                 .WithExternalHttpEndpoints()
                 .WithReference(apiService)
                 .WaitFor(apiService);

@@ -35,7 +35,7 @@ The Wizdle core library found [here](https://github.com/lyndychivs/Wizdle/tree/m
 
 ## Example
 ```csharp
-var wizdleEngine = new WizdleEngine(_logger);
+var wizdleEngine = new WizdleEngine(logger);
 
 var request = new WizdleRequest
 {
@@ -87,7 +87,7 @@ The Wizdle Api Service contains a deployable API instance of the Wizdle library.
 
 More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.ApiService)
 
-## 🎯 `POST /wizdle`
+## 🎯 `POST`
 
 **Summary**: Processes a Wizdle request in an attempt to solve the possible words.
 
@@ -144,6 +144,11 @@ More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/m
 
 ![Wizdle.Web Screenshot](Resources/WizdleWebScreenshot.png)
 
+# 🤖 Wizdle.Discord
+A Discord bot hosting all the functionality of the Wizdle library, users can integrate the bot into their Discord servers.
+
+Invite [link for Discord](https://discord.com/oauth2/authorize?client_id=1381710402458620066).
+
 # 🧪 Testing
 - Unit Testing
   - [Wizdle.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Tests)
@@ -158,5 +163,5 @@ More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/m
   - [Strkyer.NET](https://dashboard.stryker-mutator.io/reports/github.com/lyndychivs/Wizdle/master) with [my GitHub Action](https://github.com/lyndychivs/dotnet-stryker-action)
  
 # TL;DR for the TL;DR
-> Lyndon, did you just spend all this time working on a tool to cheat wordle... rather than actually just solving the word?
+> Lyndon, did you just spend all this time working on a tool to cheat wordle... rather than actually just solving the word?!
 
