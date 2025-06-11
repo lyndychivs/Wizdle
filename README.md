@@ -144,6 +144,11 @@ More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/m
 
 ![Wizdle.Web Screenshot](Resources/WizdleWebScreenshot.png)
 
+# 🤖 Wizdle.Discord
+A Discord bot hosting all the functionality of the Wizdle library, users can integrate the bot into their Discord servers.
+
+Invite [link for Discord](https://discord.com/oauth2/authorize?client_id=1381710402458620066).
+
 # 🧪 Testing
 - Unit Testing
   - [Wizdle.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Tests)
