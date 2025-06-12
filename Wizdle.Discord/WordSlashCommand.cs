@@ -35,7 +35,11 @@
             MinLength = 0)]
         string excludeLetters = "")
         {
-            logger.LogInformation("Received {Interaction} request from {Username} {Id}", Context.Interaction.Data.Name, Context.User.Username, Context.User.Id);
+            logger.LogInformation(
+                "Received {Interaction} request from {Username} {Id}",
+                Context.Interaction.Data.Name,
+                Context.User.Username,
+                Context.User.Id);
 
             var wizdleRequest = new WizdleRequest();
             if (!string.IsNullOrWhiteSpace(correctLetters))
