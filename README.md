@@ -159,9 +159,10 @@ Invite [link for Discord](https://discord.com/oauth2/authorize?client_id=1381710
   - [Wizdle.Web.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Web.Tests) (using Playwright)
 - Performance Testing
   - [Wizdle.PerformanceTests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.PerformanceTests) (using BenchmarkDotNet)
+- Accessibility Testing
+  - [Wizdle.Web.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Web.Tests) (using axe-core)
 - Mutation Testing
   - [Strkyer.NET](https://dashboard.stryker-mutator.io/reports/github.com/lyndychivs/Wizdle/master) with [my GitHub Action](https://github.com/lyndychivs/dotnet-stryker-action)
  
 # TL;DR for the TL;DR
 > Lyndon, did you just spend all this time working on a tool to cheat wordle... rather than actually just solving the word?!
-
