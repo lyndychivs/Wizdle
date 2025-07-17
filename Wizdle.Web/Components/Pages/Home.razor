@@ -14,11 +14,11 @@
     }
 </style>
 
-<MudContainer Fixed="true" style="padding-top: 2rem;">
+<MudContainer Fixed="true" style="padding-top: 2rem;" role="main">
     <MudGrid Spacing="3" Justify="Justify.Center">
         <MudImage Src="WizdleTitle.png" Width="200" Height="200" Alt="Wizdle" />
         <MudFlexBreak />
-        <MudText Typo="Typo.h6">Correct Letters</MudText>
+        <MudText Typo="Typo.h1">Correct Letters</MudText>
         <MudFlexBreak />
         <MudItem>
             <MudTextField @bind-Value="_correctInput1"
@@ -81,7 +81,7 @@
                           Variant="Variant.Filled" />
         </MudItem>
         <MudFlexBreak />
-        <MudText Typo="Typo.h6">Misplaced Letters</MudText>
+        <MudText Typo="Typo.h1">Misplaced Letters</MudText>
         <MudFlexBreak />
         <MudItem>
             <MudTextField @bind-Value="_misplacedInput1"
@@ -144,7 +144,7 @@
                           Variant="Variant.Filled" />
         </MudItem>
         <MudFlexBreak />
-        <MudText Typo="Typo.h6">Excluded Letters</MudText>
+        <MudText Typo="Typo.h1">Excluded Letters</MudText>
         <MudFlexBreak />
         <MudItem>
             <MudTextField @bind-Value="_excludedLetters"
@@ -164,7 +164,7 @@
         <MudDivider DividerType="DividerType.FullWidth" style="margin-top: 1rem;" />
     </MudGrid>
     <MudGrid Spacing="3" Justify="Justify.FlexStart" style="padding-top: 2rem;margin-bottom: 1rem;">
-        <MudText aria-label="Response Title" Typo="Typo.h6">@_wordsTitle</MudText>
+        <MudText aria-label="Response Title" Typo="Typo.h1">@_wordsTitle</MudText>
         <MudFlexBreak />
         <MudStack id="words" Wrap="Wrap.Wrap" Row="true">
             @foreach (string word in _wizdleResponse.Words)
