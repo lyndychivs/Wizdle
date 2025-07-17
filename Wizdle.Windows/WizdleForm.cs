@@ -28,8 +28,8 @@ namespace Wizdle.Windows
                     new LoggerConfiguration()
                     .WriteTo.RichTextBox(
                         _logsRtb,
-                        LogEventLevel.Information,
-                        theme: ThemePresets.Light)
+                        minimumLogEventLevel: LogEventLevel.Information,
+                        theme: ThemePresets.Colored)
                     .CreateLogger()).CreateLogger<WizdleEngine>());
         }
 
