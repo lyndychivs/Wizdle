@@ -21,7 +21,7 @@ jobs:
           version: ${{ github.ref_name }}
 
       - name: Upload Stryker.NET Report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: dotnet-stryker-action-report
           path: "${{ github.workspace }}/StrykerOutput/**/*.html"
