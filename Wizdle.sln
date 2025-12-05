@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.13.36105.23
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11222.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle", "Wizdle\Wizdle.csproj", "{318FCE36-30F4-4517-BD67-C694F6DE5F35}"
 EndProject
@@ -29,6 +29,52 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Web.Tests", "Wizdle.Web.Tests\Wizdle.Web.Tests.csproj", "{059E6A8C-09A1-41E7-9290-9ACDB98FC039}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Discord", "Wizdle.Discord\Wizdle.Discord.csproj", "{193A2E87-2AEF-8F20-006B-C06A03E7E1B2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D75C0DF1-7337-4AA7-967F-43E5A7D7ED26}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
+		CONTRIBUTING.md = CONTRIBUTING.md
+		Directory.Packages.props = Directory.Packages.props
+		LICENSE = LICENSE
+		README.md = README.md
+		SECURITY.md = SECURITY.md
+		stryker-config.json = stryker-config.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Wizdle.Domain", "Wizdle.Domain", "{15ECD09E-9654-4843-AFC5-C61920BC8E8B}"
+	ProjectSection(SolutionItems) = preProject
+		Wizdle.Domain\README.md = Wizdle.Domain\README.md
+		Wizdle.Domain\Wizdle.png = Wizdle.Domain\Wizdle.png
+		Wizdle.Domain\Wizdle.puml = Wizdle.Domain\Wizdle.puml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{1E13E649-E3A5-4916-9905-1096DCE3C7E5}"
+	ProjectSection(SolutionItems) = preProject
+		Resources\Wizdle.Windows.png = Resources\Wizdle.Windows.png
+		Resources\WizdleTitle.png = Resources\WizdleTitle.png
+		Resources\WizdleWebScreenshot.png = Resources\WizdleWebScreenshot.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{B20A3093-D859-4E55-9815-E34690E54528}"
+	ProjectSection(SolutionItems) = preProject
+		.github\dependabot.yaml = .github\dependabot.yaml
+		.github\FUNDING.yaml = .github\FUNDING.yaml
+		.github\PULL_REQUEST_TEMPLATE.md = .github\PULL_REQUEST_TEMPLATE.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{7662659B-F04E-4C01-BC52-409D3DCB5C50}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\dotnet-restore-build-test-publish.yaml = .github\workflows\dotnet-restore-build-test-publish.yaml
+		.github\workflows\dotnet-stryker-action.yaml = .github\workflows\dotnet-stryker-action.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ISSUE_TEMPLATE", "ISSUE_TEMPLATE", "{5F430B86-CB0C-4C54-8E28-3B932AA9D4F5}"
+	ProjectSection(SolutionItems) = preProject
+		.github\ISSUE_TEMPLATE\bug_report.md = .github\ISSUE_TEMPLATE\bug_report.md
+		.github\ISSUE_TEMPLATE\feature_request.md = .github\ISSUE_TEMPLATE\feature_request.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -113,6 +159,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7662659B-F04E-4C01-BC52-409D3DCB5C50} = {B20A3093-D859-4E55-9815-E34690E54528}
+		{5F430B86-CB0C-4C54-8E28-3B932AA9D4F5} = {B20A3093-D859-4E55-9815-E34690E54528}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6E4ACD69-53FE-47E9-8E80-680660E59394}
