@@ -28,32 +28,68 @@
         }
 
         [Test]
-        public void GetWords_WordsContainsWordWithUpperAndWhitespace_ReturnsWordsLowercaseAndTrimmed()
+        public void GetWords_WordsContainsValidWord_ReturnsWord()
         {
             // Arrange
-            var inputWords = new List<string>
-            {
-                "aaaaa",
-                "  BBBBB ",
-                "EEEEE",
-            };
-
-            _wordsMock.Setup(f => f.GetWords()).Returns(inputWords);
+            _wordsMock.Setup(f => f.GetWords()).Returns(["aaaaa"]);
 
             // Act
             IEnumerable<string> result = _wordRepository.GetWords();
 
             // Assert
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.EqualTo(["aaaaa", "bbbbb", "eeeee"]));
+            Assert.That(result, Is.EqualTo(["aaaaa"]));
         }
 
         [Test]
-        public void GetWords_WordsContainsOnlyNullEmptyOrWhitespace_ReturnsEmptyAndLogs()
+        public void GetWords_WordsContainWhitespace_ReturnsWordTrimmed()
         {
             // Arrange
-            List<string> inputWords = [string.Empty, " ", null];
-            _wordsMock.Setup(f => f.GetWords()).Returns(inputWords);
+            _wordsMock.Setup(f => f.GetWords()).Returns([" aaaaa "]);
+
+            // Act
+            IEnumerable<string> result = _wordRepository.GetWords();
+
+            // Assert
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.EqualTo(["aaaaa"]));
+        }
+
+        [Test]
+        public void GetWords_WordsContainsUppercase_ReturnsWordLowercase()
+        {
+            // Arrange
+            _wordsMock.Setup(f => f.GetWords()).Returns(["AAAAA"]);
+
+            // Act
+            IEnumerable<string> result = _wordRepository.GetWords();
+
+            // Assert
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.EqualTo(["aaaaa"]));
+        }
+
+        [Test]
+        public void GetWords_WordsContainsMultipleValidWords_ReturnsMultipleWords()
+        {
+            // Arrange
+            _wordsMock.Setup(f => f.GetWords()).Returns(["aaaaa", "bbbbb"]);
+
+            // Act
+            IEnumerable<string> result = _wordRepository.GetWords();
+
+            // Assert
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.EqualTo(["aaaaa", "bbbbb"]));
+        }
+
+        [TestCase("")]
+        [TestCase(" ")]
+        [TestCase(null)]
+        public void GetWords_WordsContainsOnlyInvalidStrings_ReturnsEmptyAndLogs(string? input)
+        {
+            // Arrange
+            _wordsMock.Setup(f => f.GetWords()).Returns([input]);
 
             // Act
             IEnumerable<string> results = _wordRepository.GetWords();
@@ -63,7 +99,7 @@
             _loggerMock.VerifyLogging(
                 "Found NullOrWhiteSpace in Word file, skipping.",
                 LogLevel.Warning,
-                Times.Exactly(3));
+                Times.Once());
         }
 
         [TestCase("a")]
