@@ -21,7 +21,7 @@ WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
 ```
 
 ## Tests
-All Unit Tests can be found under the [Wizdle.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Tests) namespace.
+All Unit Tests can be found under the [Wizdle.Unit.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Unit.Tests) namespace.
 
 ## Package
 Available on:

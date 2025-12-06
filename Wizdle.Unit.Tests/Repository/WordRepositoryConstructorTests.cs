@@ -1,4 +1,4 @@
-namespace Wizdle.Tests.Repository;
+namespace Wizdle.Unit.Tests.Repository;
 
 using System;
 

@@ -1,4 +1,4 @@
-namespace Wizdle.Tests.Validator;
+namespace Wizdle.Unit.Tests.Validator;
 
 using System;
 
@@ -11,14 +11,14 @@ using NUnit.Framework;
 using Wizdle.Validator;
 
 [TestFixture]
-public class SolveParametersValidatorConstructorTests
+public class RequestValidatorConstructorTests
 {
     [Test]
-    public void Constructor_WithValidLogger_ReturnsSolveParametersValidator()
+    public void Constructor_WithValidLogger_ReturnsRequestValidator()
     {
-        var loggerMock = new Mock<ILogger>();
+        var logger = new Mock<ILogger>();
 
-        var result = new SolveParametersValidator(loggerMock.Object);
+        var result = new RequestValidator(logger.Object);
 
         Assert.That(result, Is.Not.Null);
     }
@@ -26,7 +26,7 @@ public class SolveParametersValidatorConstructorTests
     [Test]
     public void Constructor_WithNullLogger_ThrowsArgumentNullException()
     {
-        ArgumentNullException? ex = Assert.Throws<ArgumentNullException>(() => new SolveParametersValidator(null!));
+        ArgumentNullException? ex = Assert.Throws<ArgumentNullException>(() => new RequestValidator(null!));
 
         using (Assert.EnterMultipleScope())
         {

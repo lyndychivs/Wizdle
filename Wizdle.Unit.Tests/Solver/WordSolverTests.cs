@@ -1,4 +1,4 @@
-namespace Wizdle.Tests.Solver;
+namespace Wizdle.Unit.Tests.Solver;
 
 using System.Collections.Generic;
 

@@ -1,4 +1,4 @@
-namespace Wizdle.Tests.Words;
+namespace Wizdle.Unit.Tests.Words;
 
 using System;
 using System.Collections.Generic;

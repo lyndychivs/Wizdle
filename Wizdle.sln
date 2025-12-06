@@ -4,7 +4,7 @@ VisualStudioVersion = 18.0.11222.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle", "Wizdle\Wizdle.csproj", "{318FCE36-30F4-4517-BD67-C694F6DE5F35}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Tests", "Wizdle.Tests\Wizdle.Tests.csproj", "{1C9A4C2D-A48A-4EDE-B871-5F2302649CAF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Unit.Tests", "Wizdle.Unit.Tests\Wizdle.Unit.Tests.csproj", "{1C9A4C2D-A48A-4EDE-B871-5F2302649CAF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Models", "Wizdle.Models\Wizdle.Models.csproj", "{C4D858A9-FBC8-453B-B917-BC47D0AF040C}"
 EndProject

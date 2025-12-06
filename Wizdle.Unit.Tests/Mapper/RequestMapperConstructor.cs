@@ -1,4 +1,4 @@
-namespace Wizdle.Tests.Mapper;
+namespace Wizdle.Unit.Tests.Mapper;
 
 using System;
 

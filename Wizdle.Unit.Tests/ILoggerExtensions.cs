@@ -1,4 +1,4 @@
-namespace Wizdle.Tests;
+namespace Wizdle.Unit.Tests;
 
 using System;
 

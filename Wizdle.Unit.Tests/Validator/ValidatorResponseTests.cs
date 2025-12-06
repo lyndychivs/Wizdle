@@ -1,4 +1,4 @@
-namespace Wizdle.Tests.Validator;
+namespace Wizdle.Unit.Tests.Validator;
 
 using NUnit.Framework;
 

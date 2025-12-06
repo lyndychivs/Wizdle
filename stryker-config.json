@@ -42,7 +42,7 @@
       "fallback-version": "master"
     },
     "dashboard-url": "https://dashboard.stryker-mutator.io",
-    "test-projects": ["/Wizdle.Tests/Wizdle.Tests.csproj"],
+    "test-projects": ["/Wizdle.Unit.Tests/Wizdle.Unit.Tests.csproj"],
     "test-case-filter": "",
     "ignore-mutations": [],
     "ignore-methods": [],
