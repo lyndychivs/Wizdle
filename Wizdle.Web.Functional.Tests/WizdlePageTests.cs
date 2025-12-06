@@ -296,13 +296,14 @@ public class WizdlePageTests : PageTest
     [SetUp]
     public async Task Setup()
     {
+        string name = TestContext.CurrentContext.Test.ClassName + "." + TestContext.CurrentContext.Test.MethodName;
         await Context.Tracing.StartAsync(new TracingStartOptions()
         {
-            Title = TestContext.CurrentContext.Test.ClassName + "." + TestContext.CurrentContext.Test.Name,
+            Title = name,
             Screenshots = true,
             Snapshots = true,
             Sources = true,
-            Name = TestContext.CurrentContext.Test.ClassName + "." + TestContext.CurrentContext.Test.Name,
+            Name = name,
         });
     }
 
@@ -315,7 +316,7 @@ public class WizdlePageTests : PageTest
         string tracingFilePath = Path.Combine(
             TestContext.CurrentContext.WorkDirectory,
             "playwright-traces",
-            $"{TestContext.CurrentContext.Test.ClassName}.{TestContext.CurrentContext.Test.Name}.zip");
+            $"{TestContext.CurrentContext.Test.ClassName}-{Guid.NewGuid()}.zip");
 
         await Context.Tracing.StopAsync(new TracingStopOptions()
         {
