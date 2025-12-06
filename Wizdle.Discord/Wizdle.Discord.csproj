@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
+<Project Sdk="Microsoft.NET.Sdk.Worker">
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
         <UserSecretsId>dotnet-Wizdle.Discord-5d6090bc-a513-4faa-8e35-b12e2cb0e013</UserSecretsId>

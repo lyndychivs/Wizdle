@@ -1,4 +1,4 @@
-﻿namespace Wizdle.Words
+namespace Wizdle.Words
 {
     using System.Collections.Generic;
 
