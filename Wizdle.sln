@@ -26,7 +26,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Web", "Wizdle.Web\Wi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Api.Tests", "Wizdle.Api.Tests\Wizdle.Api.Tests.csproj", "{03ECADF3-BAC9-FE83-4583-5D93CD8987E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Web.Tests", "Wizdle.Web.Tests\Wizdle.Web.Tests.csproj", "{059E6A8C-09A1-41E7-9290-9ACDB98FC039}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Web.Functional.Tests", "Wizdle.Web.Functional.Tests\Wizdle.Web.Functional.Tests.csproj", "{059E6A8C-09A1-41E7-9290-9ACDB98FC039}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Discord", "Wizdle.Discord\Wizdle.Discord.csproj", "{193A2E87-2AEF-8F20-006B-C06A03E7E1B2}"
 EndProject

@@ -156,11 +156,11 @@ Invite [link for Discord](https://discord.com/oauth2/authorize?client_id=1381710
   - [Wizdle.Integration.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Integration.Tests)
 - Functional Testing
   - [Wizdle.Api.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Api.Tests)
-  - [Wizdle.Web.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Web.Tests) (using Playwright)
+  - [Wizdle.Web.Functional.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Web.Functional.Tests) (using Playwright)
 - Performance Testing
   - [Wizdle.Performance.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Performance.Tests) (using BenchmarkDotNet)
 - Accessibility Testing
-  - [Wizdle.Web.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Web.Tests) (using axe-core)
+  - [Wizdle.Web.Functional.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Web.Functional.Tests) (using axe-core)
 - Mutation Testing
   - [Strkyer.NET](https://dashboard.stryker-mutator.io/reports/github.com/lyndychivs/Wizdle/master) with [my GitHub Action](https://github.com/lyndychivs/dotnet-stryker-action)
  

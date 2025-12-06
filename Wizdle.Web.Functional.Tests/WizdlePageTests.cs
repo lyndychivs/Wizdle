@@ -1,4 +1,4 @@
-namespace Wizdle.Web.Tests;
+namespace Wizdle.Web.Functional.Tests;
 
 using System;
 using System.IO;
@@ -7,9 +7,6 @@ using System.Threading.Tasks;
 
 using Aspire.Hosting;
 using Aspire.Hosting.Testing;
-
-using Deque.AxeCore.Commons;
-using Deque.AxeCore.Playwright;
 
 using Microsoft.Playwright;
 using Microsoft.Playwright.NUnit;
@@ -26,41 +23,6 @@ public class WizdlePageTests : PageTest
     private const string WebResourceName = "web";
 
     private const string EndpointName = "https";
-
-    [SetUp]
-    public async Task Setup()
-    {
-        await Context.Tracing.StartAsync(new ()
-        {
-            Title = TestContext.CurrentContext.Test.ClassName + "." + TestContext.CurrentContext.Test.Name,
-            Screenshots = true,
-            Snapshots = true,
-            Sources = true,
-            Name = TestContext.CurrentContext.Test.ClassName + "." + TestContext.CurrentContext.Test.Name,
-        });
-    }
-
-    [TearDown]
-    public async Task TearDown()
-    {
-        bool isFailed = TestContext.CurrentContext.Result.Outcome == NUnit.Framework.Interfaces.ResultState.Error
-        || TestContext.CurrentContext.Result.Outcome == NUnit.Framework.Interfaces.ResultState.Failure;
-
-        string tracingFilePath = Path.Combine(
-            TestContext.CurrentContext.WorkDirectory,
-            "playwright-traces",
-            $"{TestContext.CurrentContext.Test.ClassName}.{TestContext.CurrentContext.Test.Name}.zip");
-
-        await Context.Tracing.StopAsync(new ()
-        {
-            Path = isFailed ? tracingFilePath : null,
-        });
-
-        if (isFailed)
-        {
-            TestContext.AddTestAttachment(tracingFilePath, "Playwright Trace");
-        }
-    }
 
     [Test]
     public async Task WizdlePage_WhenNavigated_ExpectedElementsAreDisplayed()
@@ -99,7 +61,7 @@ public class WizdlePageTests : PageTest
 
         await Expect(Page.GetByRole(AriaRole.Button, new () { Name = "Search" })).ToBeVisibleAsync();
 
-        await ExecuteAccessibilityTesting(Page);
+        await AccessibilityTestingService.ExecuteAccessibilityTesting(Page);
     }
 
     [Test]
@@ -125,7 +87,7 @@ public class WizdlePageTests : PageTest
 
         await Expect(Page.Locator("css=body")).ToHaveCSSAsync("background-color", "rgb(50, 51, 61)");
 
-        await ExecuteAccessibilityTesting(Page);
+        await AccessibilityTestingService.ExecuteAccessibilityTesting(Page);
     }
 
     [TestCase("p", "e", "r", "c", "h")]
@@ -162,7 +124,7 @@ public class WizdlePageTests : PageTest
 
         await Expect(Page.Locator("#words > div")).ToContainTextAsync("PERCH");
 
-        await ExecuteAccessibilityTesting(Page);
+        await AccessibilityTestingService.ExecuteAccessibilityTesting(Page);
     }
 
     [TestCase("h", "c", "e", "e", "p")]
@@ -201,7 +163,7 @@ public class WizdlePageTests : PageTest
         await Expect(Page.Locator("#words > div:nth-child(2)")).ToContainTextAsync("PEACH");
         await Expect(Page.Locator("#words > div:nth-child(3)")).ToContainTextAsync("PERCH");
 
-        await ExecuteAccessibilityTesting(Page);
+        await AccessibilityTestingService.ExecuteAccessibilityTesting(Page);
     }
 
     [TestCase("H", "C", "E", "E", "P", "OA")]
@@ -240,7 +202,7 @@ public class WizdlePageTests : PageTest
 
         await Expect(Page.Locator("#words > div")).ToContainTextAsync("PERCH");
 
-        await ExecuteAccessibilityTesting(Page);
+        await AccessibilityTestingService.ExecuteAccessibilityTesting(Page);
     }
 
     [Test]
@@ -270,7 +232,7 @@ public class WizdlePageTests : PageTest
 
         await Expect(Page.GetByText("Found 0 Word(s) matching the criteria.")).ToBeVisibleAsync();
 
-        await ExecuteAccessibilityTesting(Page);
+        await AccessibilityTestingService.ExecuteAccessibilityTesting(Page);
     }
 
     [TestCase("!")]
@@ -328,33 +290,41 @@ public class WizdlePageTests : PageTest
 
         await Expect(Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Excluded Letters" })).ToHaveValueAsync(string.Empty);
 
-        await ExecuteAccessibilityTesting(Page);
+        await AccessibilityTestingService.ExecuteAccessibilityTesting(Page);
     }
 
-    private static async Task<AxeResult> ExecuteAccessibilityTesting(IPage page)
+    [SetUp]
+    public async Task Setup()
     {
-        AxeResult axeResult = await page.RunAxe();
-
-        Console.WriteLine($"axe-core ran against {axeResult.Url} on {axeResult.Timestamp}");
-
-        if (axeResult.Violations.Length == 0)
+        await Context.Tracing.StartAsync(new TracingStartOptions()
         {
-            Console.WriteLine("No Accessibility Violations found.");
-            return axeResult;
-        }
+            Title = TestContext.CurrentContext.Test.ClassName + "." + TestContext.CurrentContext.Test.Name,
+            Screenshots = true,
+            Snapshots = true,
+            Sources = true,
+            Name = TestContext.CurrentContext.Test.ClassName + "." + TestContext.CurrentContext.Test.Name,
+        });
+    }
 
-        Console.WriteLine($"axe-core found {axeResult.Violations.Length} Violations:");
-        foreach (AxeResultItem violation in axeResult.Violations)
+    [TearDown]
+    public async Task TearDown()
+    {
+        bool isFailed = TestContext.CurrentContext.Result.Outcome == NUnit.Framework.Interfaces.ResultState.Error
+        || TestContext.CurrentContext.Result.Outcome == NUnit.Framework.Interfaces.ResultState.Failure;
+
+        string tracingFilePath = Path.Combine(
+            TestContext.CurrentContext.WorkDirectory,
+            "playwright-traces",
+            $"{TestContext.CurrentContext.Test.ClassName}.{TestContext.CurrentContext.Test.Name}.zip");
+
+        await Context.Tracing.StopAsync(new TracingStopOptions()
         {
-            Console.WriteLine($"- Rule Id: {violation.Id} Description: {violation.Description} Impact: {violation.Impact} HelpUrl: {violation.HelpUrl}");
+            Path = isFailed ? tracingFilePath : null,
+        });
 
-            foreach (AxeResultNode node in violation.Nodes)
-            {
-                Console.WriteLine($"\tViolation found at: {node.Target}");
-                Console.WriteLine($"\t...with HTML: {node.Html}");
-            }
+        if (isFailed)
+        {
+            TestContext.AddTestAttachment(tracingFilePath, "Playwright Trace");
         }
-
-        return axeResult;
     }
 }
