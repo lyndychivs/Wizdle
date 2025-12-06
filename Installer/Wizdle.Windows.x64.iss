@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Wizdle"
-#define MyAppVersion "1.0.0"
+#define MyAppVersion "1.0.2"
 #define MyAppPublisher "lyndychivs"
 #define MyAppURL "https://github.com/lyndychivs/Wizdle"
 #define MyAppExeName "Wizdle.Windows.exe"
@@ -25,7 +25,7 @@ LicenseFile=C:\git\Wizdle\LICENSE
 ; Uncomment the following line to run in non administrative install mode (install for current user only).
 ;PrivilegesRequired=lowest
 OutputBaseFilename=mysetup-x64
-SetupIconFile=C:\git\Wizdle\Wizdle\Resources\Wizdle.ico
+SetupIconFile=C:\git\Wizdle\Wizdle\Resources\wizdle-logo.ico
 SolidCompression=yes
 WizardStyle=modern
 
@@ -36,8 +36,8 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\git\Wizdle\Wizdle.Windows\bin\Release\net9.0-windows\publish\win-x64\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\git\Wizdle\Wizdle.Windows\bin\Release\net9.0-windows\publish\win-x64\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\git\Wizdle\Wizdle.Windows\bin\Release\net10.0-windows7.0\publish\win-x64\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\git\Wizdle\Wizdle.Windows\bin\Release\net10.0-windows7.0\publish\win-x64\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
