@@ -7,13 +7,13 @@
         <UserSecretsId>7c2ad7f3-0c96-498b-aa14-0d16f5cd8737</UserSecretsId>
     </PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Wizdle.ApiService\Wizdle.ApiService.csproj" />
+        <ProjectReference Include="..\Wizdle.Api\Wizdle.Api.csproj" />
         <ProjectReference Include="..\Wizdle.Discord\Wizdle.Discord.csproj" />
         <ProjectReference Include="..\Wizdle.Web\Wizdle.Web.csproj" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Aspire.Hosting.AppHost" />
-        <PackageReference Include="StyleCop.Analyzers" >
+        <PackageReference Include="StyleCop.Analyzers">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>

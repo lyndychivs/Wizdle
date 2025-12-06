@@ -1,4 +1,4 @@
-namespace Wizdle.ApiService;
+namespace Wizdle.Api;
 
 using System;
 using System.Threading;

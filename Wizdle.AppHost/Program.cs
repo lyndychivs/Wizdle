@@ -11,7 +11,7 @@ internal sealed class Program
     {
         IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder(args);
 
-        IResourceBuilder<ProjectResource> apiService = builder.AddProject<Wizdle_ApiService>("api")
+        IResourceBuilder<ProjectResource> apiService = builder.AddProject<Wizdle_Api>("api")
             .WithScalarDocs();
 
         builder.AddProject<Wizdle_Web>("web")

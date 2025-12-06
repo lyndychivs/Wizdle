@@ -1,4 +1,4 @@
-namespace Wizdle.ApiService;
+namespace Wizdle.Api;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;

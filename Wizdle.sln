@@ -20,11 +20,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.AppHost", "Wizdle.Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.ServiceDefaults", "Wizdle.ServiceDefaults\Wizdle.ServiceDefaults.csproj", "{A03C2E5B-A3A3-6D60-5FE0-01291CA3E234}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.ApiService", "Wizdle.ApiService\Wizdle.ApiService.csproj", "{B2FD6206-5D99-59A4-3F19-89B356DB2118}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Api", "Wizdle.Api\Wizdle.Api.csproj", "{B2FD6206-5D99-59A4-3F19-89B356DB2118}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Web", "Wizdle.Web\Wizdle.Web.csproj", "{40F777F5-574F-550E-977E-ED9CDEE238C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.ApiService.Tests", "Wizdle.ApiService.Tests\Wizdle.ApiService.Tests.csproj", "{03ECADF3-BAC9-FE83-4583-5D93CD8987E2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Api.Tests", "Wizdle.Api.Tests\Wizdle.Api.Tests.csproj", "{03ECADF3-BAC9-FE83-4583-5D93CD8987E2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Web.Tests", "Wizdle.Web.Tests\Wizdle.Web.Tests.csproj", "{059E6A8C-09A1-41E7-9290-9ACDB98FC039}"
 EndProject

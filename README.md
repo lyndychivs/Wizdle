@@ -82,10 +82,10 @@ More information (and installers) can be found [here](https://github.com/lyndych
 
 ![Wizdle.Windows](Resources/Wizdle.Windows.png)
 
-# 📨 Wizdle.ApiService
+# 📨 Wizdle.Api
 The Wizdle Api Service contains a deployable API instance of the Wizdle library.
 
-More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.ApiService)
+More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Api)
 
 ## 🎯 `POST`
 
@@ -155,7 +155,7 @@ Invite [link for Discord](https://discord.com/oauth2/authorize?client_id=1381710
 - Integration Testing
   - [Wizdle.IntegrationTests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.IntegrationTests)
 - Functional Testing
-  - [Wizdle.ApiService.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.ApiService.Tests)
+  - [Wizdle.Api.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Api.Tests)
   - [Wizdle.Web.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Web.Tests) (using Playwright)
 - Performance Testing
   - [Wizdle.PerformanceTests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.PerformanceTests) (using BenchmarkDotNet)

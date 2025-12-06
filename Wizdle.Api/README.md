@@ -1,4 +1,4 @@
-# 🧩 Wizdle.ApiService
+# 🧩 Wizdle.Api
 
 **Version:** 1.0.0
 
@@ -60,4 +60,4 @@ A simple API to help solve word puzzles by narrowing down possible matches based
 
 ## 🏷️ Tag
 
-- `Wizdle.ApiService`
+- `Wizdle.Api`
