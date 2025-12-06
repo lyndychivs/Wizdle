@@ -158,7 +158,7 @@ Invite [link for Discord](https://discord.com/oauth2/authorize?client_id=1381710
   - [Wizdle.Api.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Api.Tests)
   - [Wizdle.Web.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Web.Tests) (using Playwright)
 - Performance Testing
-  - [Wizdle.PerformanceTests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.PerformanceTests) (using BenchmarkDotNet)
+  - [Wizdle.Performance.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Performance.Tests) (using BenchmarkDotNet)
 - Accessibility Testing
   - [Wizdle.Web.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Web.Tests) (using axe-core)
 - Mutation Testing

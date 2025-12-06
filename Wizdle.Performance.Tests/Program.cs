@@ -1,6 +1,6 @@
-using BenchmarkDotNet.Running;
+namespace Wizdle.Performance.Tests;
 
-using Wizdle.PerformanceTests;
+using BenchmarkDotNet.Running;
 
 internal sealed class Program
 {

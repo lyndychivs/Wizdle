@@ -10,7 +10,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Models", "Wizdle.Mod
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Integration.Tests", "Wizdle.Integration.Tests\Wizdle.Integration.Tests.csproj", "{11CF3632-597B-466F-8E08-CBB75B685C9C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.PerformanceTests", "Wizdle.PerformanceTests\Wizdle.PerformanceTests.csproj", "{01855519-08A7-456C-B1EE-637046641A07}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Performance.Tests", "Wizdle.Performance.Tests\Wizdle.Performance.Tests.csproj", "{01855519-08A7-456C-B1EE-637046641A07}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Console", "Wizdle.Console\Wizdle.Console.csproj", "{4F056E87-0E12-4467-8348-A073278228AE}"
 EndProject

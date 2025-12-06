@@ -1,4 +1,4 @@
-# ⏱️ Wizdle.PerformanceTests
+# ⏱️ Wizdle.Performance.Tests
 
 ## Latest
 ```

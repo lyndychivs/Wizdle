@@ -1,4 +1,4 @@
-namespace Wizdle.PerformanceTests;
+namespace Wizdle.Performance.Tests;
 
 using BenchmarkDotNet.Attributes;
 
