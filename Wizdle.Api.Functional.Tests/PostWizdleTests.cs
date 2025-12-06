@@ -1,4 +1,4 @@
-namespace Wizdle.Api.Tests;
+namespace Wizdle.Api.Functional.Tests;
 
 using System;
 using System.Net;
