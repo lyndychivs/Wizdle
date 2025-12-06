@@ -1,138 +1,137 @@
-﻿namespace Wizdle.Tests.Repository
+namespace Wizdle.Tests.Repository;
+
+using System.Collections.Generic;
+
+using Microsoft.Extensions.Logging;
+
+using Moq;
+
+using NUnit.Framework;
+
+using Wizdle.Repository;
+using Wizdle.Words;
+
+[TestFixture]
+public class WordRepositoryTests
 {
-    using System.Collections.Generic;
+    private readonly Mock<ILogger> _loggerMock;
 
-    using Microsoft.Extensions.Logging;
+    private readonly Mock<IWords> _wordsMock;
 
-    using Moq;
+    private readonly WordRepository _wordRepository;
 
-    using NUnit.Framework;
-
-    using Wizdle.Repository;
-    using Wizdle.Words;
-
-    [TestFixture]
-    public class WordRepositoryTests
+    public WordRepositoryTests()
     {
-        private readonly Mock<ILogger> _loggerMock;
+        _loggerMock = new Mock<ILogger>();
+        _wordsMock = new Mock<IWords>();
+        _wordRepository = new WordRepository(_loggerMock.Object, _wordsMock.Object);
+    }
 
-        private readonly Mock<IWords> _wordsMock;
+    [Test]
+    public void GetWords_WordsContainsValidWord_ReturnsWord()
+    {
+        // Arrange
+        _wordsMock.Setup(f => f.GetWords()).Returns(["aaaaa"]);
 
-        private readonly WordRepository _wordRepository;
+        // Act
+        IEnumerable<string> result = _wordRepository.GetWords();
 
-        public WordRepositoryTests()
-        {
-            _loggerMock = new Mock<ILogger>();
-            _wordsMock = new Mock<IWords>();
-            _wordRepository = new WordRepository(_loggerMock.Object, _wordsMock.Object);
-        }
+        // Assert
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result, Is.EqualTo(["aaaaa"]));
+    }
 
-        [Test]
-        public void GetWords_WordsContainsValidWord_ReturnsWord()
-        {
-            // Arrange
-            _wordsMock.Setup(f => f.GetWords()).Returns(["aaaaa"]);
+    [Test]
+    public void GetWords_WordsContainWhitespace_ReturnsWordTrimmed()
+    {
+        // Arrange
+        _wordsMock.Setup(f => f.GetWords()).Returns([" aaaaa "]);
 
-            // Act
-            IEnumerable<string> result = _wordRepository.GetWords();
+        // Act
+        IEnumerable<string> result = _wordRepository.GetWords();
 
-            // Assert
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.EqualTo(["aaaaa"]));
-        }
+        // Assert
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result, Is.EqualTo(["aaaaa"]));
+    }
 
-        [Test]
-        public void GetWords_WordsContainWhitespace_ReturnsWordTrimmed()
-        {
-            // Arrange
-            _wordsMock.Setup(f => f.GetWords()).Returns([" aaaaa "]);
+    [Test]
+    public void GetWords_WordsContainsUppercase_ReturnsWordLowercase()
+    {
+        // Arrange
+        _wordsMock.Setup(f => f.GetWords()).Returns(["AAAAA"]);
 
-            // Act
-            IEnumerable<string> result = _wordRepository.GetWords();
+        // Act
+        IEnumerable<string> result = _wordRepository.GetWords();
 
-            // Assert
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.EqualTo(["aaaaa"]));
-        }
+        // Assert
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result, Is.EqualTo(["aaaaa"]));
+    }
 
-        [Test]
-        public void GetWords_WordsContainsUppercase_ReturnsWordLowercase()
-        {
-            // Arrange
-            _wordsMock.Setup(f => f.GetWords()).Returns(["AAAAA"]);
+    [Test]
+    public void GetWords_WordsContainsMultipleValidWords_ReturnsMultipleWords()
+    {
+        // Arrange
+        _wordsMock.Setup(f => f.GetWords()).Returns(["aaaaa", "bbbbb"]);
 
-            // Act
-            IEnumerable<string> result = _wordRepository.GetWords();
+        // Act
+        IEnumerable<string> result = _wordRepository.GetWords();
 
-            // Assert
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.EqualTo(["aaaaa"]));
-        }
+        // Assert
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result, Is.EqualTo(["aaaaa", "bbbbb"]));
+    }
 
-        [Test]
-        public void GetWords_WordsContainsMultipleValidWords_ReturnsMultipleWords()
-        {
-            // Arrange
-            _wordsMock.Setup(f => f.GetWords()).Returns(["aaaaa", "bbbbb"]);
+    [TestCase("")]
+    [TestCase(" ")]
+    [TestCase(null)]
+    public void GetWords_WordsContainsOnlyInvalidStrings_ReturnsEmptyAndLogs(string? input)
+    {
+        // Arrange
+        _wordsMock.Setup(f => f.GetWords()).Returns([input!]);
 
-            // Act
-            IEnumerable<string> result = _wordRepository.GetWords();
+        // Act
+        IEnumerable<string> results = _wordRepository.GetWords();
 
-            // Assert
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.EqualTo(["aaaaa", "bbbbb"]));
-        }
+        // Assert
+        Assert.That(results, Is.Empty);
+        _loggerMock.VerifyLogging(
+            "Found NullOrWhiteSpace in Word file, skipping.",
+            LogLevel.Warning,
+            Times.Once());
+    }
 
-        [TestCase("")]
-        [TestCase(" ")]
-        [TestCase(null)]
-        public void GetWords_WordsContainsOnlyInvalidStrings_ReturnsEmptyAndLogs(string? input)
-        {
-            // Arrange
-            _wordsMock.Setup(f => f.GetWords()).Returns([input]);
+    [TestCase("a")]
+    [TestCase("dddd")]
+    [TestCase("eeeeee")]
+    public void GetWords_WordsContainsOnlyInvalidStringLengths_ReturnsEmptyAndLogs(string word)
+    {
+        // Arrange
+        List<string> inputWords = [word];
+        _wordsMock.Setup(f => f.GetWords()).Returns(inputWords);
 
-            // Act
-            IEnumerable<string> results = _wordRepository.GetWords();
+        // Act
+        IEnumerable<string> results = _wordRepository.GetWords();
 
-            // Assert
-            Assert.That(results, Is.Empty);
-            _loggerMock.VerifyLogging(
-                "Found NullOrWhiteSpace in Word file, skipping.",
-                LogLevel.Warning,
-                Times.Once());
-        }
+        // Assert
+        Assert.That(results, Is.Empty);
+        _loggerMock.VerifyLogging(
+            $"Found Word with length {word.Length} in Word file, skipping: {word}",
+            LogLevel.Warning,
+            Times.Once());
+    }
 
-        [TestCase("a")]
-        [TestCase("dddd")]
-        [TestCase("eeeeee")]
-        public void GetWords_WordsContainsOnlyInvalidStringLengths_ReturnsEmptyAndLogs(string word)
-        {
-            // Arrange
-            List<string> inputWords = [word];
-            _wordsMock.Setup(f => f.GetWords()).Returns(inputWords);
+    [Test]
+    public void GetWords_WordsIsEmpty_ReturnsEmpty()
+    {
+        // Arrange
+        _wordsMock.Setup(f => f.GetWords()).Returns([]);
 
-            // Act
-            IEnumerable<string> results = _wordRepository.GetWords();
+        // Act
+        IEnumerable<string> result = _wordRepository.GetWords();
 
-            // Assert
-            Assert.That(results, Is.Empty);
-            _loggerMock.VerifyLogging(
-                $"Found Word with length {word.Length} in Word file, skipping: {word}",
-                LogLevel.Warning,
-                Times.Once());
-        }
-
-        [Test]
-        public void GetWords_WordsIsEmpty_ReturnsEmpty()
-        {
-            // Arrange
-            _wordsMock.Setup(f => f.GetWords()).Returns([]);
-
-            // Act
-            IEnumerable<string> result = _wordRepository.GetWords();
-
-            // Assert
-            Assert.That(result, Is.Empty);
-        }
+        // Assert
+        Assert.That(result, Is.Empty);
     }
 }

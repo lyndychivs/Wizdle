@@ -1,114 +1,113 @@
-﻿namespace Wizdle.Tests
+namespace Wizdle.Tests;
+
+using System;
+
+using Microsoft.Extensions.Logging;
+
+using Moq;
+
+using NUnit.Framework;
+
+using Wizdle.Mapper;
+using Wizdle.Solver;
+using Wizdle.Validator;
+
+[TestFixture]
+public class WizdleEngineConstructorTests
 {
-    using System;
+    private readonly Mock<ILogger> _loggerMock;
 
-    using Microsoft.Extensions.Logging;
+    private readonly Mock<IRequestValidator> _requestValidatorMock;
 
-    using Moq;
+    private readonly Mock<IRequestMapper> _requestMapperMock;
 
-    using NUnit.Framework;
+    private readonly Mock<IWordSolver> _wordSolverMock;
 
-    using Wizdle.Mapper;
-    using Wizdle.Solver;
-    using Wizdle.Validator;
-
-    [TestFixture]
-    public class WizdleEngineConstructorTests
+    public WizdleEngineConstructorTests()
     {
-        private readonly Mock<ILogger> _loggerMock;
+        _loggerMock = new Mock<ILogger>();
+        _requestValidatorMock = new Mock<IRequestValidator>();
+        _requestMapperMock = new Mock<IRequestMapper>();
+        _wordSolverMock = new Mock<IWordSolver>();
+    }
 
-        private readonly Mock<IRequestValidator> _requestValidatorMock;
+    [Test]
+    public void Constructor_WithValidParameters_ReturnsWizdleEngine()
+    {
+        var result = new WizdleEngine(
+            _loggerMock.Object,
+            _requestValidatorMock.Object,
+            _requestMapperMock.Object,
+            _wordSolverMock.Object);
 
-        private readonly Mock<IRequestMapper> _requestMapperMock;
+        Assert.That(result, Is.Not.Null);
+    }
 
-        private readonly Mock<IWordSolver> _wordSolverMock;
+    [Test]
+    public void Constructor_WithNullLogger_ThrowsArgumentNullException()
+    {
+        ArgumentNullException? ex = Assert.Throws<ArgumentNullException>(() =>
+            new WizdleEngine(
+                null!,
+                _requestValidatorMock.Object,
+                _requestMapperMock.Object,
+                _wordSolverMock.Object));
 
-        public WizdleEngineConstructorTests()
+        using (Assert.EnterMultipleScope())
         {
-            _loggerMock = new Mock<ILogger>();
-            _requestValidatorMock = new Mock<IRequestValidator>();
-            _requestMapperMock = new Mock<IRequestMapper>();
-            _wordSolverMock = new Mock<IWordSolver>();
+            Assert.That(ex?.ParamName, Is.EqualTo("logger"));
+            Assert.That(ex?.Message, Is.EqualTo("Value cannot be null. (Parameter 'logger')"));
         }
+    }
 
-        [Test]
-        public void Constructor_WithValidParameters_ReturnsWizdleEngine()
+    [Test]
+    public void Constructor_WithNullRequestValidator_ThrowsArgumentNullException()
+    {
+        ArgumentNullException? ex = Assert.Throws<ArgumentNullException>(() =>
+            new WizdleEngine(
+                _loggerMock.Object,
+                null!,
+                _requestMapperMock.Object,
+                _wordSolverMock.Object));
+
+        using (Assert.EnterMultipleScope())
         {
-            var result = new WizdleEngine(
+            Assert.That(ex?.ParamName, Is.EqualTo("requestValidator"));
+            Assert.That(ex?.Message, Is.EqualTo("Value cannot be null. (Parameter 'requestValidator')"));
+        }
+    }
+
+    [Test]
+    public void Constructor_WithNullRequestMapper_ThrowsArgumentNullException()
+    {
+        ArgumentNullException? ex = Assert.Throws<ArgumentNullException>(() =>
+            new WizdleEngine(
+                _loggerMock.Object,
+                _requestValidatorMock.Object,
+                null!,
+                _wordSolverMock.Object));
+
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(ex?.ParamName, Is.EqualTo("requestMapper"));
+            Assert.That(ex?.Message, Is.EqualTo("Value cannot be null. (Parameter 'requestMapper')"));
+        }
+    }
+
+    [Test]
+    public void Constructor_WithNullWordSolver_ThrowsArgumentNullException()
+    {
+        ArgumentNullException? ex = Assert.Throws<ArgumentNullException>(() =>
+            new WizdleEngine(
                 _loggerMock.Object,
                 _requestValidatorMock.Object,
                 _requestMapperMock.Object,
-                _wordSolverMock.Object);
+                null!));
 
-            Assert.That(result, Is.Not.Null);
-        }
-
-        [Test]
-        public void Constructor_WithNullLogger_ThrowsArgumentNullException()
+        using (Assert.EnterMultipleScope())
         {
-            ArgumentNullException? ex = Assert.Throws<ArgumentNullException>(() =>
-                new WizdleEngine(
-                    null!,
-                    _requestValidatorMock.Object,
-                    _requestMapperMock.Object,
-                    _wordSolverMock.Object));
-
-            using (Assert.EnterMultipleScope())
-            {
-                Assert.That(ex?.ParamName, Is.EqualTo("logger"));
-                Assert.That(ex?.Message, Is.EqualTo("Value cannot be null. (Parameter 'logger')"));
-            }
-        }
-
-        [Test]
-        public void Constructor_WithNullRequestValidator_ThrowsArgumentNullException()
-        {
-            ArgumentNullException? ex = Assert.Throws<ArgumentNullException>(() =>
-                new WizdleEngine(
-                    _loggerMock.Object,
-                    null!,
-                    _requestMapperMock.Object,
-                    _wordSolverMock.Object));
-
-            using (Assert.EnterMultipleScope())
-            {
-                Assert.That(ex?.ParamName, Is.EqualTo("requestValidator"));
-                Assert.That(ex?.Message, Is.EqualTo("Value cannot be null. (Parameter 'requestValidator')"));
-            }
-        }
-
-        [Test]
-        public void Constructor_WithNullRequestMapper_ThrowsArgumentNullException()
-        {
-            ArgumentNullException? ex = Assert.Throws<ArgumentNullException>(() =>
-                new WizdleEngine(
-                    _loggerMock.Object,
-                    _requestValidatorMock.Object,
-                    null!,
-                    _wordSolverMock.Object));
-
-            using (Assert.EnterMultipleScope())
-            {
-                Assert.That(ex?.ParamName, Is.EqualTo("requestMapper"));
-                Assert.That(ex?.Message, Is.EqualTo("Value cannot be null. (Parameter 'requestMapper')"));
-            }
-        }
-
-        [Test]
-        public void Constructor_WithNullWordSolver_ThrowsArgumentNullException()
-        {
-            ArgumentNullException? ex = Assert.Throws<ArgumentNullException>(() =>
-                new WizdleEngine(
-                    _loggerMock.Object,
-                    _requestValidatorMock.Object,
-                    _requestMapperMock.Object,
-                    null!));
-
-            using (Assert.EnterMultipleScope())
-            {
-                Assert.That(ex?.ParamName, Is.EqualTo("solver"));
-                Assert.That(ex?.Message, Is.EqualTo("Value cannot be null. (Parameter 'solver')"));
-            }
+            Assert.That(ex?.ParamName, Is.EqualTo("solver"));
+            Assert.That(ex?.Message, Is.EqualTo("Value cannot be null. (Parameter 'solver')"));
         }
     }
 }

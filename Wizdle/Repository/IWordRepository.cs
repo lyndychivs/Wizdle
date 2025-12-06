@@ -1,9 +1,8 @@
-﻿namespace Wizdle.Repository
-{
-    using System.Collections.Generic;
+namespace Wizdle.Repository;
 
-    internal interface IWordRepository
-    {
-        IEnumerable<string> GetWords();
-    }
+using System.Collections.Generic;
+
+internal interface IWordRepository
+{
+    IEnumerable<string> GetWords();
 }

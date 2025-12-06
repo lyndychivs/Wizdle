@@ -1,4 +1,13 @@
-[*.cs]
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+indent_style = space
+indent_size = 4
+
+[*.{cs,vb}]
 # SA0001: All diagnostics of XML documentation comments has been disabled due to the current project configuration.
 dotnet_diagnostic.SA0001.severity = none
 # SA1101: Prefix local calls with this
@@ -31,3 +40,7 @@ dotnet_diagnostic.CA1848.severity = none
 dotnet_diagnostic.IDE0058.severity = none
 # IDE0079: Remove unnecessary suppression
 dotnet_diagnostic.IDE0079.severity = none
+# CA1707: Identifiers should not contain underscores (Unit Test method names often use underscores)
+dotnet_diagnostic.CA1707.severity = none
+# CA1305: Specify IFormatProvider
+dotnet_diagnostic.CA1305.severity = none

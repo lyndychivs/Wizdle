@@ -1,85 +1,57 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <OutputType>Library</OutputType>
-    <ImplicitUsings>disable</ImplicitUsings>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <PackageId>Wizdle</PackageId>
-    <Title>Wizdle</Title>
-    <Version>1.0.1</Version>
-    <Authors>lyndychivs</Authors>
-    <Company>lyndychivs</Company>
-    <Description>A library for solving Wordle.</Description>
-    <PackageProjectUrl>https://github.com/lyndychivs/Wizdle</PackageProjectUrl>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/lyndychivs/Wizdle</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageTags>wordle;solver;wizard;wizdle;helper;word;guess;challenge</PackageTags>
-    <AssemblyVersion>1.0.1</AssemblyVersion>
-    <FileVersion>1.0.1</FileVersion>
-    <IncludeSymbols>False</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
-    <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
-    <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <EnableNETAnalyzers>True</EnableNETAnalyzers>
-    <AnalysisLevel>latest-recommended</AnalysisLevel>
-    <NeutralLanguage>en</NeutralLanguage>
-    <ApplicationIcon>Resources\Wizdle.ico</ApplicationIcon>
-    <PackageIcon>Wizdle.png</PackageIcon>
-    <Configurations>Debug;Release;Stryker</Configurations>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DebugType>none</DebugType>
-    <WarningLevel>9999</WarningLevel>
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <WarningLevel>9999</WarningLevel>
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Stryker|AnyCPU'">
-    <WarningLevel>9999</WarningLevel>
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-  </PropertyGroup>
-  <ItemGroup>
-    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-      <_Parameter1>$(AssemblyName).Tests</_Parameter1>
-    </AssemblyAttribute>
-    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-      <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
-    </AssemblyAttribute>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Wizdle.ico">
-        <Pack>True</Pack>
-        <PackagePath>\</PackagePath>
-      </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Wizdle.png">
-        <Pack>True</Pack>
-        <PackagePath>\</PackagePath>
-    </EmbeddedResource>
-</ItemGroup>
-  <ItemGroup>
-    <None Include="README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
-    <PackageReference Include="StyleCop.Analyzers">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Wizdle.Models\Wizdle.Models.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="all-words.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <OutputType>Library</OutputType>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <PackageId>Wizdle</PackageId>
+        <Title>Wizdle</Title>
+        <Description>A library for solving Wordle.</Description>
+        <PackageTags>wordle;solver;wizard;wizdle;helper;word;guess;challenge</PackageTags>
+        <IncludeSymbols>False</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+        <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
+        <ApplicationIcon>Resources\Wizdle.ico</ApplicationIcon>
+        <PackageIcon>Wizdle.png</PackageIcon>
+    </PropertyGroup>
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>$(AssemblyName).Tests</_Parameter1>
+        </AssemblyAttribute>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Resources\Wizdle.ico">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </EmbeddedResource>
+        <EmbeddedResource Include="Resources\Wizdle.png">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </EmbeddedResource>
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="README.md">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+        <PackageReference Include="StyleCop.Analyzers">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Wizdle.Models\Wizdle.Models.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="all-words.txt">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
 </Project>

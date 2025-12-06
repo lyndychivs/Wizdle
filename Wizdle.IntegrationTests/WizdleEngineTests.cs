@@ -1,282 +1,281 @@
-﻿namespace Wizdle.IntegrationTests
+namespace Wizdle.IntegrationTests;
+
+using System;
+
+using NUnit.Framework;
+
+using Serilog;
+using Serilog.Extensions.Logging;
+
+using Wizdle.Models;
+
+using ILogger = Microsoft.Extensions.Logging.ILogger;
+
+[TestFixture]
+public class WizdleEngineTests
 {
-    using System;
+    private readonly ILogger _logger;
 
-    using NUnit.Framework;
-
-    using Serilog;
-    using Serilog.Extensions.Logging;
-
-    using Wizdle.Models;
-
-    using ILogger = Microsoft.Extensions.Logging.ILogger;
-
-    [TestFixture]
-    public class WizdleEngineTests
+    public WizdleEngineTests()
     {
-        private readonly ILogger _logger;
+        _logger = CreateConsoleLogger();
+    }
 
-        public WizdleEngineTests()
+    [Test]
+    public void WizdleEngine_ValidRequestOne_ReturnsResponseWithWords()
+    {
+        var wizdleEngine = new WizdleEngine(_logger);
+
+        var request = new WizdleRequest
         {
-            _logger = CreateConsoleLogger();
+            CorrectLetters = ".....",
+            MisplacedLetters = "..t.s",
+            ExcludeLetters = "hae",
+        };
+
+        WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
+
+        Assert.That(response, Is.Not.Null);
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(response.Messages, Is.EqualTo(["Found 65 Word(s) matching the criteria."]));
+            Assert.That(response.Words, Is.Not.Empty);
+            Assert.That(response.Words, Has.Exactly(65).Items);
         }
 
-        [Test]
-        public void WizdleEngine_ValidRequestOne_ReturnsResponseWithWords()
+        Console.WriteLine(string.Join(Environment.NewLine, response.Messages));
+        Console.WriteLine(string.Join(Environment.NewLine, response.Words));
+    }
+
+    [Test]
+    public void WizdleEngine_ValidRequestTwo_ReturnsResponseWithWords()
+    {
+        var wizdleEngine = new WizdleEngine(_logger);
+
+        var request = new WizdleRequest
         {
-            var wizdleEngine = new WizdleEngine(_logger);
+            CorrectLetters = "....t",
+            MisplacedLetters = "..rs.",
+            ExcludeLetters = "haebu",
+        };
 
-            var request = new WizdleRequest
-            {
-                CorrectLetters = ".....",
-                MisplacedLetters = "..t.s",
-                ExcludeLetters = "hae",
-            };
+        WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
 
-            WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
-
-            Assert.That(response, Is.Not.Null);
-            using (Assert.EnterMultipleScope())
-            {
-                Assert.That(response.Messages, Is.EqualTo(["Found 65 Word(s) matching the criteria."]));
-                Assert.That(response.Words, Is.Not.Empty);
-                Assert.That(response.Words, Has.Exactly(65).Items);
-            }
-
-            Console.WriteLine(string.Join(Environment.NewLine, response.Messages));
-            Console.WriteLine(string.Join(Environment.NewLine, response.Words));
+        Assert.That(response, Is.Not.Null);
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(response.Messages, Is.EqualTo(["Found 3 Word(s) matching the criteria."]));
+            Assert.That(response.Words, Is.Not.Empty);
+            Assert.That(response.Words, Is.EqualTo(["skirt", "snort", "sport"]));
         }
 
-        [Test]
-        public void WizdleEngine_ValidRequestTwo_ReturnsResponseWithWords()
+        Console.WriteLine(string.Join(Environment.NewLine, response.Messages));
+        Console.WriteLine(string.Join(Environment.NewLine, response.Words));
+    }
+
+    [Test]
+    public void WizdleEngine_ValidRequestThree_ReturnsResponseWithWords()
+    {
+        var wizdleEngine = new WizdleEngine(_logger);
+
+        var request = new WizdleRequest
         {
-            var wizdleEngine = new WizdleEngine(_logger);
+            CorrectLetters = "s..rt",
+            MisplacedLetters = ".....",
+            ExcludeLetters = "haebuki",
+        };
 
-            var request = new WizdleRequest
-            {
-                CorrectLetters = "....t",
-                MisplacedLetters = "..rs.",
-                ExcludeLetters = "haebu",
-            };
+        WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
 
-            WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
-
-            Assert.That(response, Is.Not.Null);
-            using (Assert.EnterMultipleScope())
-            {
-                Assert.That(response.Messages, Is.EqualTo(["Found 3 Word(s) matching the criteria."]));
-                Assert.That(response.Words, Is.Not.Empty);
-                Assert.That(response.Words, Is.EqualTo(["skirt", "snort", "sport"]));
-            }
-
-            Console.WriteLine(string.Join(Environment.NewLine, response.Messages));
-            Console.WriteLine(string.Join(Environment.NewLine, response.Words));
+        Assert.That(response, Is.Not.Null);
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(response.Messages, Is.EqualTo(["Found 2 Word(s) matching the criteria."]));
+            Assert.That(response.Words, Is.Not.Empty);
+            Assert.That(response.Words, Is.EqualTo(["snort", "sport"]));
         }
 
-        [Test]
-        public void WizdleEngine_ValidRequestThree_ReturnsResponseWithWords()
+        Console.WriteLine(string.Join(Environment.NewLine, response.Messages));
+        Console.WriteLine(string.Join(Environment.NewLine, response.Words));
+    }
+
+    [Test]
+    public void WizdleEngine_ValidRequestFour_ReturnsResponseWithWords()
+    {
+        var wizdleEngine = new WizdleEngine(_logger);
+
+        var request = new WizdleRequest
         {
-            var wizdleEngine = new WizdleEngine(_logger);
+            CorrectLetters = "s.ort",
+            MisplacedLetters = ".....",
+            ExcludeLetters = "haebukin",
+        };
 
-            var request = new WizdleRequest
-            {
-                CorrectLetters = "s..rt",
-                MisplacedLetters = ".....",
-                ExcludeLetters = "haebuki",
-            };
+        WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
 
-            WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
-
-            Assert.That(response, Is.Not.Null);
-            using (Assert.EnterMultipleScope())
-            {
-                Assert.That(response.Messages, Is.EqualTo(["Found 2 Word(s) matching the criteria."]));
-                Assert.That(response.Words, Is.Not.Empty);
-                Assert.That(response.Words, Is.EqualTo(["snort", "sport"]));
-            }
-
-            Console.WriteLine(string.Join(Environment.NewLine, response.Messages));
-            Console.WriteLine(string.Join(Environment.NewLine, response.Words));
+        Assert.That(response, Is.Not.Null);
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(response.Messages, Is.EqualTo(["Found 1 Word(s) matching the criteria."]));
+            Assert.That(response.Words, Is.Not.Empty);
+            Assert.That(response.Words, Is.EqualTo(["sport"]));
         }
 
-        [Test]
-        public void WizdleEngine_ValidRequestFour_ReturnsResponseWithWords()
+        Console.WriteLine(string.Join(Environment.NewLine, response.Messages));
+        Console.WriteLine(string.Join(Environment.NewLine, response.Words));
+    }
+
+    [Test]
+    public void WizdleEngine_NullCorrectLetters_ReturnsMessageWithWarning()
+    {
+        var wizdleEngine = new WizdleEngine(_logger);
+
+        var request = new WizdleRequest
         {
-            var wizdleEngine = new WizdleEngine(_logger);
+            CorrectLetters = null!,
+        };
 
-            var request = new WizdleRequest
-            {
-                CorrectLetters = "s.ort",
-                MisplacedLetters = ".....",
-                ExcludeLetters = "haebukin",
-            };
+        WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
 
-            WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
-
-            Assert.That(response, Is.Not.Null);
-            using (Assert.EnterMultipleScope())
-            {
-                Assert.That(response.Messages, Is.EqualTo(["Found 1 Word(s) matching the criteria."]));
-                Assert.That(response.Words, Is.Not.Empty);
-                Assert.That(response.Words, Is.EqualTo(["sport"]));
-            }
-
-            Console.WriteLine(string.Join(Environment.NewLine, response.Messages));
-            Console.WriteLine(string.Join(Environment.NewLine, response.Words));
-        }
-
-        [Test]
-        public void WizdleEngine_NullCorrectLetters_ReturnsMessageWithWarning()
+        Assert.That(response, Is.Not.Null);
+        using (Assert.EnterMultipleScope())
         {
-            var wizdleEngine = new WizdleEngine(_logger);
-
-            var request = new WizdleRequest
-            {
-                CorrectLetters = null!,
-            };
-
-            WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
-
-            Assert.That(response, Is.Not.Null);
-            using (Assert.EnterMultipleScope())
-            {
-                Assert.That(response.Messages, Is.EqualTo(["WizdleRequest.CorrectLetters cannot be null"]));
-                Assert.That(response.Words, Is.Empty);
-            }
+            Assert.That(response.Messages, Is.EqualTo(["WizdleRequest.CorrectLetters cannot be null"]));
+            Assert.That(response.Words, Is.Empty);
         }
+    }
 
-        [Test]
-        public void WizdleEngine_NullMisplacedLetters_ReturnsMessageWithWarning()
+    [Test]
+    public void WizdleEngine_NullMisplacedLetters_ReturnsMessageWithWarning()
+    {
+        var wizdleEngine = new WizdleEngine(_logger);
+
+        var request = new WizdleRequest
         {
-            var wizdleEngine = new WizdleEngine(_logger);
+            MisplacedLetters = null!,
+        };
 
-            var request = new WizdleRequest
-            {
-                MisplacedLetters = null!,
-            };
+        WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
 
-            WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
-
-            Assert.That(response, Is.Not.Null);
-            using (Assert.EnterMultipleScope())
-            {
-                Assert.That(response.Messages, Is.EqualTo(["WizdleRequest.MisplacedLetters cannot be null"]));
-                Assert.That(response.Words, Is.Empty);
-            }
-        }
-
-        [Test]
-        public void WizdleEngine_NullExcludeLetters_ReturnsMessageWithWarning()
+        Assert.That(response, Is.Not.Null);
+        using (Assert.EnterMultipleScope())
         {
-            var wizdleEngine = new WizdleEngine(_logger);
-
-            var request = new WizdleRequest
-            {
-                ExcludeLetters = null!,
-            };
-
-            WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
-
-            Assert.That(response, Is.Not.Null);
-            using (Assert.EnterMultipleScope())
-            {
-                Assert.That(response.Messages, Is.EqualTo(["WizdleRequest.ExcludeLetters cannot be null"]));
-                Assert.That(response.Words, Is.Empty);
-            }
+            Assert.That(response.Messages, Is.EqualTo(["WizdleRequest.MisplacedLetters cannot be null"]));
+            Assert.That(response.Words, Is.Empty);
         }
+    }
 
-        [TestCase("")]
-        [TestCase(" ")]
-        public void WizdleEngine_EmptyCorrectLetters_ReturnsResponseWithWords(string letters)
+    [Test]
+    public void WizdleEngine_NullExcludeLetters_ReturnsMessageWithWarning()
+    {
+        var wizdleEngine = new WizdleEngine(_logger);
+
+        var request = new WizdleRequest
         {
-            var wizdleEngine = new WizdleEngine(_logger);
+            ExcludeLetters = null!,
+        };
 
-            var request = new WizdleRequest
-            {
-                CorrectLetters = letters!,
-            };
+        WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
 
-            WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
-
-            Assert.That(response, Is.Not.Null);
-            using (Assert.EnterMultipleScope())
-            {
-                Assert.That(response.Messages, Is.EqualTo(["Found 2334 Word(s) matching the criteria."]));
-                Assert.That(response.Words, Is.Not.Empty);
-            }
-        }
-
-        [TestCase("")]
-        [TestCase(" ")]
-        public void WizdleEngine_EmptyMisplacedLetters_ReturnsResponseWithWords(string letters)
+        Assert.That(response, Is.Not.Null);
+        using (Assert.EnterMultipleScope())
         {
-            var wizdleEngine = new WizdleEngine(_logger);
-
-            var request = new WizdleRequest
-            {
-                MisplacedLetters = letters!,
-            };
-
-            WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
-
-            Assert.That(response, Is.Not.Null);
-            using (Assert.EnterMultipleScope())
-            {
-                Assert.That(response.Messages, Is.EqualTo(["Found 2334 Word(s) matching the criteria."]));
-                Assert.That(response.Words, Is.Not.Empty);
-            }
+            Assert.That(response.Messages, Is.EqualTo(["WizdleRequest.ExcludeLetters cannot be null"]));
+            Assert.That(response.Words, Is.Empty);
         }
+    }
 
-        [TestCase("")]
-        [TestCase(" ")]
-        public void WizdleEngine_EmptyExcludeLetters_ReturnsResponseWithWords(string letters)
+    [TestCase("")]
+    [TestCase(" ")]
+    public void WizdleEngine_EmptyCorrectLetters_ReturnsResponseWithWords(string letters)
+    {
+        var wizdleEngine = new WizdleEngine(_logger);
+
+        var request = new WizdleRequest
         {
-            var wizdleEngine = new WizdleEngine(_logger);
+            CorrectLetters = letters!,
+        };
 
-            var request = new WizdleRequest
-            {
-                ExcludeLetters = letters!,
-            };
+        WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
 
-            WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
-
-            Assert.That(response, Is.Not.Null);
-            using (Assert.EnterMultipleScope())
-            {
-                Assert.That(response.Messages, Is.EqualTo(["Found 2334 Word(s) matching the criteria."]));
-                Assert.That(response.Words, Is.Not.Empty);
-            }
-        }
-
-        [Test]
-        public void WizdleEngine_NonLetterInputs_ReturnsResponseWithWordsIgnoringNonLetterInputs()
+        Assert.That(response, Is.Not.Null);
+        using (Assert.EnterMultipleScope())
         {
-            var wizdleEngine = new WizdleEngine(_logger);
-
-            var request = new WizdleRequest
-            {
-                CorrectLetters = "1!",
-                MisplacedLetters = "2£",
-                ExcludeLetters = "3>",
-            };
-
-            WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
-
-            Assert.That(response, Is.Not.Null);
-            using (Assert.EnterMultipleScope())
-            {
-                Assert.That(response.Messages, Is.EqualTo(["Found 2334 Word(s) matching the criteria."]));
-                Assert.That(response.Words, Is.Not.Empty);
-            }
+            Assert.That(response.Messages, Is.EqualTo(["Found 2334 Word(s) matching the criteria."]));
+            Assert.That(response.Words, Is.Not.Empty);
         }
+    }
 
-        private ILogger CreateConsoleLogger()
+    [TestCase("")]
+    [TestCase(" ")]
+    public void WizdleEngine_EmptyMisplacedLetters_ReturnsResponseWithWords(string letters)
+    {
+        var wizdleEngine = new WizdleEngine(_logger);
+
+        var request = new WizdleRequest
         {
-            return new SerilogLoggerFactory(
-                new LoggerConfiguration()
-                .MinimumLevel.Verbose()
-                .WriteTo.Console()
-                .CreateLogger()).CreateLogger(nameof(WizdleEngine));
+            MisplacedLetters = letters!,
+        };
+
+        WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
+
+        Assert.That(response, Is.Not.Null);
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(response.Messages, Is.EqualTo(["Found 2334 Word(s) matching the criteria."]));
+            Assert.That(response.Words, Is.Not.Empty);
         }
+    }
+
+    [TestCase("")]
+    [TestCase(" ")]
+    public void WizdleEngine_EmptyExcludeLetters_ReturnsResponseWithWords(string letters)
+    {
+        var wizdleEngine = new WizdleEngine(_logger);
+
+        var request = new WizdleRequest
+        {
+            ExcludeLetters = letters!,
+        };
+
+        WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
+
+        Assert.That(response, Is.Not.Null);
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(response.Messages, Is.EqualTo(["Found 2334 Word(s) matching the criteria."]));
+            Assert.That(response.Words, Is.Not.Empty);
+        }
+    }
+
+    [Test]
+    public void WizdleEngine_NonLetterInputs_ReturnsResponseWithWordsIgnoringNonLetterInputs()
+    {
+        var wizdleEngine = new WizdleEngine(_logger);
+
+        var request = new WizdleRequest
+        {
+            CorrectLetters = "1!",
+            MisplacedLetters = "2£",
+            ExcludeLetters = "3>",
+        };
+
+        WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
+
+        Assert.That(response, Is.Not.Null);
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(response.Messages, Is.EqualTo(["Found 2334 Word(s) matching the criteria."]));
+            Assert.That(response.Words, Is.Not.Empty);
+        }
+    }
+
+    private ILogger CreateConsoleLogger()
+    {
+        return new SerilogLoggerFactory(
+            new LoggerConfiguration()
+            .MinimumLevel.Verbose()
+            .WriteTo.Console()
+            .CreateLogger()).CreateLogger(nameof(WizdleEngine));
     }
 }

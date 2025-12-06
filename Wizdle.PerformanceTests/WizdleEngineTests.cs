@@ -1,78 +1,75 @@
-﻿namespace Wizdle.PerformanceTests
+namespace Wizdle.PerformanceTests;
+
+using BenchmarkDotNet.Attributes;
+
+using Microsoft.Extensions.Logging;
+
+using Serilog;
+using Serilog.Extensions.Logging;
+
+using Wizdle.Models;
+
+using ILogger = Microsoft.Extensions.Logging.ILogger;
+
+public class WizdleEngineTests
 {
-    using BenchmarkDotNet.Attributes;
+    private const string WordSource = "zonal";
 
-    using Microsoft.Extensions.Logging;
+    private const string WordSourceReverse = "la.oz";
 
-    using Serilog;
-    using Serilog.Extensions.Logging;
+    private readonly WizdleEngine _wizdleEngine;
 
-    using Wizdle.Models;
+    private string? _word;
 
-    using ILogger = Microsoft.Extensions.Logging.ILogger;
+    private string? _wordReverse;
 
-    public class WizdleEngineTests
+    public WizdleEngineTests()
     {
-        [Params(1, 2, 3, 4, 5)]
-        #pragma warning disable SA1401 // Field should be made private
-        public int WordLength;
-        #pragma warning restore SA1401
+        _wizdleEngine = new WizdleEngine(CreateConsoleLogger());
+    }
 
-        private const string WordSource = "zonal";
+    [Params(1, 2, 3, 4, 5)]
+    public int WordLength { get; set; }
 
-        private const string WordSourceReverse = "la.oz";
+    [GlobalSetup]
+    public void GlobalSetup()
+    {
+        _word = WordSource[..WordLength];
+        _wordReverse = WordSourceReverse[..WordLength];
+    }
 
-        private readonly WizdleEngine _wizdleEngine;
-
-        private string? _word;
-
-        private string? _wordReverse;
-
-        public WizdleEngineTests()
+    [Benchmark]
+    public void WizdleEngine_WithOnlyCorrectLetters()
+    {
+        var request = new WizdleRequest
         {
-            _wizdleEngine = new WizdleEngine(CreateConsoleLogger());
-        }
+            CorrectLetters = _word!,
+            MisplacedLetters = string.Empty,
+            ExcludeLetters = string.Empty,
+        };
 
-        [GlobalSetup]
-        public void GlobalSetup()
+        _ = _wizdleEngine.ProcessWizdleRequest(request);
+    }
+
+    [Benchmark]
+    public void WizdleEngine_WithOnlyMisplacedLetters()
+    {
+        var request = new WizdleRequest
         {
-            _word = WordSource[..WordLength];
-            _wordReverse = WordSourceReverse[..WordLength];
-        }
+            CorrectLetters = string.Empty,
+            MisplacedLetters = _wordReverse!,
+            ExcludeLetters = string.Empty,
+        };
 
-        [Benchmark]
-        public void WizdleEngine_WithOnlyCorrectLetters()
-        {
-            var request = new WizdleRequest
-            {
-                CorrectLetters = _word!,
-                MisplacedLetters = string.Empty,
-                ExcludeLetters = string.Empty,
-            };
+        _ = _wizdleEngine.ProcessWizdleRequest(request);
+    }
 
-            _ = _wizdleEngine.ProcessWizdleRequest(request);
-        }
-
-        [Benchmark]
-        public void WizdleEngine_WithOnlyMisplacedLetters()
-        {
-            var request = new WizdleRequest
-            {
-                CorrectLetters = string.Empty,
-                MisplacedLetters = _wordReverse!,
-                ExcludeLetters = string.Empty,
-            };
-
-            _ = _wizdleEngine.ProcessWizdleRequest(request);
-        }
-
-        private static ILogger CreateConsoleLogger()
-        {
-            return new SerilogLoggerFactory(
-                new LoggerConfiguration()
-                .MinimumLevel.Verbose()
-                .WriteTo.Console()
-                .CreateLogger()).CreateLogger<WizdleEngine>();
-        }
+    private static ILogger CreateConsoleLogger()
+    {
+        return new SerilogLoggerFactory(
+            new LoggerConfiguration()
+            .MinimumLevel.Verbose()
+            .WriteTo.Console()
+            .CreateLogger()).CreateLogger<WizdleEngine>();
     }
 }

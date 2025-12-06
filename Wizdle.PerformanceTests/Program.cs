@@ -1,8 +1,8 @@
-﻿using BenchmarkDotNet.Running;
+using BenchmarkDotNet.Running;
 
 using Wizdle.PerformanceTests;
 
-internal class Program
+internal sealed class Program
 {
     private static void Main()
     {

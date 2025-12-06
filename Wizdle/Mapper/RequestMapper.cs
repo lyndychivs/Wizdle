@@ -1,96 +1,95 @@
-﻿namespace Wizdle.Mapper
+namespace Wizdle.Mapper;
+
+using System;
+using System.Globalization;
+
+using Microsoft.Extensions.Logging;
+
+using Wizdle.Models;
+using Wizdle.Solver;
+
+internal class RequestMapper : IRequestMapper
 {
-    using System;
-    using System.Globalization;
+    private const int MaxWordLength = 5;
 
-    using Microsoft.Extensions.Logging;
+    private readonly ILogger _logger;
 
-    using Wizdle.Models;
-    using Wizdle.Solver;
-
-    internal class RequestMapper : IRequestMapper
+    internal RequestMapper(ILogger logger)
     {
-        private const int MaxWordLength = 5;
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    }
 
-        private readonly ILogger _logger;
-
-        internal RequestMapper(ILogger logger)
+    public SolveParameters MapToSolveParameters(WizdleRequest request)
+    {
+        if (request is null)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _logger.LogError($"Received null {nameof(WizdleRequest)}, returning default {nameof(SolveParameters)}");
+
+            return new SolveParameters();
         }
 
-        public SolveParameters MapToSolveParameters(WizdleRequest request)
+        _logger.LogInformation(
+            string.Format(
+                CultureInfo.InvariantCulture,
+                "{0,-25} {1,-25} {2,-25} {3}",
+                $"Mapping {nameof(WizdleRequest)}:",
+                $"{nameof(WizdleRequest.CorrectLetters)}: \"{request.CorrectLetters}\"",
+                $"{nameof(WizdleRequest.MisplacedLetters)}: \"{request.MisplacedLetters}\"",
+                $"{nameof(WizdleRequest.ExcludeLetters)}: \"{request.ExcludeLetters}\""));
+
+        var solveParameters = new SolveParameters();
+
+        for (int i = 0; i < MaxWordLength; i++)
         {
-            if (request is null)
+            if (i < request.CorrectLetters.Length)
             {
-                _logger.LogError($"Received null {nameof(WizdleRequest)}, returning default {nameof(SolveParameters)}");
-
-                return new SolveParameters();
-            }
-
-            _logger.LogInformation(
-                string.Format(
-                    CultureInfo.InvariantCulture,
-                    "{0,-25} {1,-25} {2,-25} {3}",
-                    $"Mapping {nameof(WizdleRequest)}:",
-                    $"{nameof(WizdleRequest.CorrectLetters)}: \"{request.CorrectLetters}\"",
-                    $"{nameof(WizdleRequest.MisplacedLetters)}: \"{request.MisplacedLetters}\"",
-                    $"{nameof(WizdleRequest.ExcludeLetters)}: \"{request.ExcludeLetters}\""));
-
-            var solveParameters = new SolveParameters();
-
-            for (int i = 0; i < MaxWordLength; i++)
-            {
-                if (i < request.CorrectLetters.Length)
+                if (char.IsLetter(request.CorrectLetters[i]))
                 {
-                    if (char.IsLetter(request.CorrectLetters[i]))
-                    {
-                        solveParameters.CorrectLetters.Add(char.ToLower(request.CorrectLetters[i], CultureInfo.InvariantCulture));
-                    }
-                    else
-                    {
-                        solveParameters.CorrectLetters.Add('?');
-                    }
+                    solveParameters.CorrectLetters.Add(char.ToLower(request.CorrectLetters[i], CultureInfo.InvariantCulture));
                 }
                 else
                 {
                     solveParameters.CorrectLetters.Add('?');
                 }
+            }
+            else
+            {
+                solveParameters.CorrectLetters.Add('?');
+            }
 
-                if (i < request.MisplacedLetters.Length)
+            if (i < request.MisplacedLetters.Length)
+            {
+                if (char.IsLetter(request.MisplacedLetters[i]))
                 {
-                    if (char.IsLetter(request.MisplacedLetters[i]))
-                    {
-                        solveParameters.MisplacedLetters.Add(char.ToLower(request.MisplacedLetters[i], CultureInfo.InvariantCulture));
-                    }
-                    else
-                    {
-                        solveParameters.MisplacedLetters.Add('?');
-                    }
+                    solveParameters.MisplacedLetters.Add(char.ToLower(request.MisplacedLetters[i], CultureInfo.InvariantCulture));
                 }
                 else
                 {
                     solveParameters.MisplacedLetters.Add('?');
                 }
             }
-
-            foreach (char letter in request.ExcludeLetters)
+            else
             {
-                if (char.IsLetter(letter)
-                    && !solveParameters.ExcludeLetters.Contains(char.ToLower(letter, CultureInfo.InvariantCulture)))
-                {
-                    solveParameters.ExcludeLetters.Add(char.ToLower(letter, CultureInfo.InvariantCulture));
-                }
+                solveParameters.MisplacedLetters.Add('?');
             }
-
-            _logger.LogInformation(
-                string.Format(
-                    CultureInfo.InvariantCulture,
-                    "{0,-25} {1}",
-                    $"Mapped {nameof(SolveParameters)}:",
-                    $"{solveParameters}"));
-
-            return solveParameters;
         }
+
+        foreach (char letter in request.ExcludeLetters)
+        {
+            if (char.IsLetter(letter)
+                && !solveParameters.ExcludeLetters.Contains(char.ToLower(letter, CultureInfo.InvariantCulture)))
+            {
+                solveParameters.ExcludeLetters.Add(char.ToLower(letter, CultureInfo.InvariantCulture));
+            }
+        }
+
+        _logger.LogInformation(
+            string.Format(
+                CultureInfo.InvariantCulture,
+                "{0,-25} {1}",
+                $"Mapped {nameof(SolveParameters)}:",
+                $"{solveParameters}"));
+
+        return solveParameters;
     }
 }

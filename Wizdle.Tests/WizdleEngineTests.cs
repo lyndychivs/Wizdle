@@ -1,134 +1,133 @@
-﻿namespace Wizdle.Tests
+namespace Wizdle.Tests;
+
+using System.Collections.Generic;
+
+using Microsoft.Extensions.Logging;
+
+using Moq;
+
+using NUnit.Framework;
+
+using Wizdle.Mapper;
+using Wizdle.Models;
+using Wizdle.Solver;
+using Wizdle.Validator;
+
+[TestFixture]
+public class WizdleEngineTests
 {
-    using System.Collections.Generic;
+    private readonly Mock<ILogger> _loggerMock;
 
-    using Microsoft.Extensions.Logging;
+    private readonly Mock<IRequestValidator> _requestValidatorMock;
 
-    using Moq;
+    private readonly Mock<IRequestMapper> _requestMapperMock;
 
-    using NUnit.Framework;
+    private readonly Mock<IWordSolver> _wordSolver;
 
-    using Wizdle.Mapper;
-    using Wizdle.Models;
-    using Wizdle.Solver;
-    using Wizdle.Validator;
+    private readonly WizdleEngine _wizdleEngine;
 
-    [TestFixture]
-    public class WizdleEngineTests
+    public WizdleEngineTests()
     {
-        private readonly Mock<ILogger> _loggerMock;
+        _loggerMock = new Mock<ILogger>();
+        _requestValidatorMock = new Mock<IRequestValidator>();
+        _requestMapperMock = new Mock<IRequestMapper>();
+        _wordSolver = new Mock<IWordSolver>();
+        _wizdleEngine = new WizdleEngine(
+            _loggerMock.Object,
+            _requestValidatorMock.Object,
+            _requestMapperMock.Object,
+            _wordSolver.Object);
+    }
 
-        private readonly Mock<IRequestValidator> _requestValidatorMock;
+    [Test]
+    public void ProcessWizdleRequest_WhenRequestIsInvalid_ReturnsErrorResponse()
+    {
+        // Arrange
+        var request = new WizdleRequest();
+        List<string> errors = ["Invalid input"];
+        _requestValidatorMock.Setup(v => v.IsValid(request)).Returns(new ValidatorResponse { IsValid = false, Errors = errors });
 
-        private readonly Mock<IRequestMapper> _requestMapperMock;
+        // Act
+        WizdleResponse response = _wizdleEngine.ProcessWizdleRequest(request);
 
-        private readonly Mock<IWordSolver> _wordSolver;
-
-        private readonly WizdleEngine _wizdleEngine;
-
-        public WizdleEngineTests()
+        // Assert
+        using (Assert.EnterMultipleScope())
         {
-            _loggerMock = new Mock<ILogger>();
-            _requestValidatorMock = new Mock<IRequestValidator>();
-            _requestMapperMock = new Mock<IRequestMapper>();
-            _wordSolver = new Mock<IWordSolver>();
-            _wizdleEngine = new WizdleEngine(
-                _loggerMock.Object,
-                _requestValidatorMock.Object,
-                _requestMapperMock.Object,
-                _wordSolver.Object);
+            Assert.That(response.Words, Is.Empty);
+            Assert.That(response.Messages, Is.EqualTo(errors));
         }
+    }
 
-        [Test]
-        public void ProcessWizdleRequest_WhenRequestIsInvalid_ReturnsErrorResponse()
+    [Test]
+    public void ProcessWizdleRequest_WhenRequestIsValid_ReturnsResponseWithWords()
+    {
+        // Arrange
+        var request = new WizdleRequest
         {
-            // Arrange
-            var request = new WizdleRequest();
-            List<string> errors = ["Invalid input"];
-            _requestValidatorMock.Setup(v => v.IsValid(request)).Returns(new ValidatorResponse { IsValid = false, Errors = errors });
+            CorrectLetters = "a....",
+            MisplacedLetters = "l....",
+            ExcludeLetters = "c",
+        };
 
-            // Act
-            WizdleResponse response = _wizdleEngine.ProcessWizdleRequest(request);
+        var solveParams = new SolveParameters();
+        List<string> words = ["apple", "angle"];
 
-            // Assert
-            using (Assert.EnterMultipleScope())
-            {
-                Assert.That(response.Words, Is.Empty);
-                Assert.That(response.Messages, Is.EqualTo(errors));
-            }
+        _requestValidatorMock.Setup(v => v.IsValid(request)).Returns(new ValidatorResponse { IsValid = true, Errors = [] });
+        _requestMapperMock.Setup(m => m.MapToSolveParameters(request)).Returns(solveParams);
+        _wordSolver.Setup(s => s.Solve(solveParams)).Returns(words);
+
+        // Act
+        WizdleResponse response = _wizdleEngine.ProcessWizdleRequest(request);
+
+        // Assert
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(response.Words, Is.EqualTo(words));
+            Assert.That(response.Messages, Is.EqualTo(["Found 2 Word(s) matching the criteria."]));
+            _loggerMock.VerifyLogging(
+                "Processing WizdleRequest: CorrectLetters: \"a....\"   MisplacedLetters: \"l....\" ExcludeLetters: \"c\"",
+                LogLevel.Information,
+                Times.Once());
+            _loggerMock.VerifyLogging(
+                "Found 2          Word(s) matching the criteria.",
+                LogLevel.Information,
+                Times.Once());
         }
+    }
 
-        [Test]
-        public void ProcessWizdleRequest_WhenRequestIsValid_ReturnsResponseWithWords()
+    [Test]
+    public void ProcessWizdleRequest_WhenNoWordsMatch_ReturnsEmptyWords()
+    {
+        // Arrange
+        var request = new WizdleRequest
         {
-            // Arrange
-            var request = new WizdleRequest
-            {
-                CorrectLetters = "a....",
-                MisplacedLetters = "l....",
-                ExcludeLetters = "c",
-            };
+            CorrectLetters = "X",
+            MisplacedLetters = "Y",
+            ExcludeLetters = "Z",
+        };
+        var solveParams = new SolveParameters();
+        List<string> words = [];
 
-            var solveParams = new SolveParameters();
-            List<string> words = ["apple", "angle"];
+        _requestValidatorMock.Setup(v => v.IsValid(request)).Returns(new ValidatorResponse { IsValid = true, Errors = [] });
+        _requestMapperMock.Setup(m => m.MapToSolveParameters(request)).Returns(solveParams);
+        _wordSolver.Setup(s => s.Solve(solveParams)).Returns(words);
 
-            _requestValidatorMock.Setup(v => v.IsValid(request)).Returns(new ValidatorResponse { IsValid = true, Errors = [] });
-            _requestMapperMock.Setup(m => m.MapToSolveParameters(request)).Returns(solveParams);
-            _wordSolver.Setup(s => s.Solve(solveParams)).Returns(words);
+        // Act
+        WizdleResponse response = _wizdleEngine.ProcessWizdleRequest(request);
 
-            // Act
-            WizdleResponse response = _wizdleEngine.ProcessWizdleRequest(request);
-
-            // Assert
-            using (Assert.EnterMultipleScope())
-            {
-                Assert.That(response.Words, Is.EqualTo(words));
-                Assert.That(response.Messages, Is.EqualTo(["Found 2 Word(s) matching the criteria."]));
-                _loggerMock.VerifyLogging(
-                    "Processing WizdleRequest: CorrectLetters: \"a....\"   MisplacedLetters: \"l....\" ExcludeLetters: \"c\"",
-                    LogLevel.Information,
-                    Times.Once());
-                _loggerMock.VerifyLogging(
-                    "Found 2          Word(s) matching the criteria.",
-                    LogLevel.Information,
-                    Times.Once());
-            }
-        }
-
-        [Test]
-        public void ProcessWizdleRequest_WhenNoWordsMatch_ReturnsEmptyWords()
+        // Assert
+        using (Assert.EnterMultipleScope())
         {
-            // Arrange
-            var request = new WizdleRequest
-            {
-                CorrectLetters = "X",
-                MisplacedLetters = "Y",
-                ExcludeLetters = "Z",
-            };
-            var solveParams = new SolveParameters();
-            List<string> words = [];
-
-            _requestValidatorMock.Setup(v => v.IsValid(request)).Returns(new ValidatorResponse { IsValid = true, Errors = [] });
-            _requestMapperMock.Setup(m => m.MapToSolveParameters(request)).Returns(solveParams);
-            _wordSolver.Setup(s => s.Solve(solveParams)).Returns(words);
-
-            // Act
-            WizdleResponse response = _wizdleEngine.ProcessWizdleRequest(request);
-
-            // Assert
-            using (Assert.EnterMultipleScope())
-            {
-                Assert.That(response.Words, Is.Empty);
-                Assert.That(response.Messages, Is.EqualTo(["Found 0 Word(s) matching the criteria."]));
-                _loggerMock.VerifyLogging(
-                    "Processing WizdleRequest: CorrectLetters: \"X\"       MisplacedLetters: \"Y\"     ExcludeLetters: \"Z\"",
-                    LogLevel.Information,
-                    Times.Once());
-                _loggerMock.VerifyLogging(
-                    "Found 0          Word(s) matching the criteria.",
-                    LogLevel.Information,
-                    Times.Once());
-            }
+            Assert.That(response.Words, Is.Empty);
+            Assert.That(response.Messages, Is.EqualTo(["Found 0 Word(s) matching the criteria."]));
+            _loggerMock.VerifyLogging(
+                "Processing WizdleRequest: CorrectLetters: \"X\"       MisplacedLetters: \"Y\"     ExcludeLetters: \"Z\"",
+                LogLevel.Information,
+                Times.Once());
+            _loggerMock.VerifyLogging(
+                "Found 0          Word(s) matching the criteria.",
+                LogLevel.Information,
+                Times.Once());
         }
     }
 }

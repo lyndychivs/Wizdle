@@ -1,0 +1,50 @@
+<Project>
+    <PropertyGroup>
+        <ImportDirectoryBuildProps>true</ImportDirectoryBuildProps>
+    </PropertyGroup>
+    <PropertyGroup>
+        <Configurations>Debug;Release;Stryker</Configurations>
+
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <EnableNETAnalyzers>True</EnableNETAnalyzers>
+        <AnalysisLevel>latest-recommended</AnalysisLevel>
+
+        <Version>1.0.1</Version>
+        <AssemblyVersion>1.0.1</AssemblyVersion>
+        <FileVersion>1.0.1</FileVersion>
+
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+        <Authors>lyndychivs</Authors>
+        <Company>lyndychivs</Company>
+        <Product>Wizdle</Product>
+        <Copyright>lyndychivs Wizdle © 2025</Copyright>
+
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageProjectUrl>https://github.com/lyndychivs/Wizdle</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/lyndychivs/Wizdle</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <NeutralLanguage>en</NeutralLanguage>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+        <Optimize>true</Optimize>
+        <DebugType>none</DebugType>
+        <DebugSymbols>false</DebugSymbols>
+        <WarningLevel>9999</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+        <Optimize>false</Optimize>
+        <DebugType>full</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+        <WarningLevel>9999</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Stryker|AnyCPU'">
+        <Optimize>true</Optimize>
+        <DebugType>full</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+        <WarningLevel>9999</WarningLevel>
+    </PropertyGroup>
+</Project>

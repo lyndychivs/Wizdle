@@ -1,9 +1,8 @@
-﻿namespace Wizdle.Validator
-{
-    using Wizdle.Solver;
+namespace Wizdle.Validator;
 
-    internal interface ISolveParametersValidator
-    {
-        ValidatorResponse IsValid(SolveParameters solveParameters);
-    }
+using Wizdle.Solver;
+
+internal interface ISolveParametersValidator
+{
+    ValidatorResponse IsValid(SolveParameters solveParameters);
 }

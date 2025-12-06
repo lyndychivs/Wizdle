@@ -1,9 +1,8 @@
-﻿namespace Wizdle.Validator
-{
-    using Wizdle.Models;
+namespace Wizdle.Validator;
 
-    internal interface IRequestValidator
-    {
-        ValidatorResponse IsValid(WizdleRequest request);
-    }
+using Wizdle.Models;
+
+internal interface IRequestValidator
+{
+    ValidatorResponse IsValid(WizdleRequest request);
 }

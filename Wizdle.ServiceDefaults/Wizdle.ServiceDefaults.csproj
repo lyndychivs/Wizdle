@@ -1,23 +1,20 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>disable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <IsAspireSharedProject>true</IsAspireSharedProject>
-    <Configurations>Debug;Release;Stryker</Configurations>
-  </PropertyGroup>
-  <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.Extensions.Http.Resilience" />
-    <PackageReference Include="Microsoft.Extensions.ServiceDiscovery" />
-    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
-    <PackageReference Include="OpenTelemetry.Extensions.Hosting" />
-    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" />
-    <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
-    <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" />
-    <PackageReference Include="StyleCop.Analyzers">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <IsAspireSharedProject>true</IsAspireSharedProject>
+    </PropertyGroup>
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+        <PackageReference Include="Microsoft.Extensions.Http.Resilience" />
+        <PackageReference Include="Microsoft.Extensions.ServiceDiscovery" />
+        <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
+        <PackageReference Include="OpenTelemetry.Extensions.Hosting" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" />
+        <PackageReference Include="StyleCop.Analyzers">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
 </Project>

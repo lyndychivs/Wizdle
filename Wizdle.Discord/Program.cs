@@ -1,41 +1,40 @@
-namespace Wizdle.Discord
+namespace Wizdle.Discord;
+
+using System;
+using System.Threading.Tasks;
+
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+using NetCord.Gateway;
+using NetCord.Hosting.Gateway;
+using NetCord.Hosting.Services;
+using NetCord.Hosting.Services.ApplicationCommands;
+
+using Wizdle.ServiceDefaults;
+
+internal sealed class Program
 {
-    using System;
-    using System.Threading.Tasks;
-
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
-
-    using NetCord.Gateway;
-    using NetCord.Hosting.Gateway;
-    using NetCord.Hosting.Services;
-    using NetCord.Hosting.Services.ApplicationCommands;
-
-    using Wizdle.ServiceDefaults;
-
-    internal class Program
+    private static async Task Main(string[] args)
     {
-        private static async Task Main(string[] args)
-        {
-            HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
+        HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 
-            builder.AddServiceDefaults();
+        builder.AddServiceDefaults();
 
-            builder.Services
-                .AddDiscordGateway(op => op.Intents = GatewayIntents.Guilds)
-                .AddApplicationCommands()
-                .AddHttpClient<WizdleApiClient>(client =>
-                {
-                    client.BaseAddress = new Uri("https+http://api");
-                });
+        builder.Services
+            .AddDiscordGateway(op => op.Intents = GatewayIntents.Guilds)
+            .AddApplicationCommands()
+            .AddHttpClient<WizdleApiClient>(client =>
+            {
+                client.BaseAddress = new Uri("https+http://api");
+            });
 
-            IHost host = builder.Build();
+        IHost host = builder.Build();
 
-            host.AddModules(typeof(Program).Assembly);
+        host.AddModules(typeof(Program).Assembly);
 
-            host.UseGatewayEventHandlers();
+        host.UseGatewayEventHandlers();
 
-            await host.RunAsync().ConfigureAwait(false);
-        }
+        await host.RunAsync().ConfigureAwait(false);
     }
 }

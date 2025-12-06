@@ -1,117 +1,117 @@
-﻿namespace Wizdle.Solver
+namespace Wizdle.Solver;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+using Microsoft.Extensions.Logging;
+
+using Wizdle.Repository;
+using Wizdle.Validator;
+
+internal class WordSolver : IWordSolver
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
+    private readonly ILogger _logger;
 
-    using Microsoft.Extensions.Logging;
+    private readonly IWordRepository _wordRepository;
 
-    using Wizdle.Repository;
-    using Wizdle.Validator;
+    private readonly ISolveParametersValidator _wordParameterValidator;
 
-    internal class WordSolver : IWordSolver
+    private readonly IEnumerable<string> _words;
+
+    internal WordSolver(ILogger logger)
+        : this(logger, new WordRepository(logger), new SolveParametersValidator(logger))
     {
-        private readonly ILogger _logger;
+    }
 
-        private readonly IWordRepository _wordRepository;
+    internal WordSolver(ILogger logger, IWordRepository wordRepository, ISolveParametersValidator wordParameterValidator)
+    {
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _wordRepository = wordRepository ?? throw new ArgumentNullException(nameof(wordRepository));
+        _wordParameterValidator = wordParameterValidator ?? throw new ArgumentNullException(nameof(wordParameterValidator));
 
-        private readonly ISolveParametersValidator _wordParameterValidator;
+        _words = _wordRepository.GetWords();
 
-        private readonly IEnumerable<string> _words;
-
-        internal WordSolver(ILogger logger)
-            : this(logger, new WordRepository(logger), new SolveParametersValidator(logger))
+        if (_words.Any() == false)
         {
+            _logger.LogError($"No Words returned from {nameof(IWordRepository)}");
+        }
+    }
+
+    public IEnumerable<string> Solve(SolveParameters solveParameters)
+    {
+        ValidatorResponse validatorResponse = _wordParameterValidator.IsValid(solveParameters);
+        if (validatorResponse.IsValid == false)
+        {
+            _logger.LogWarning($"{nameof(SolveParameters)} is not valid, returning empty");
+
+            return [];
         }
 
-        internal WordSolver(ILogger logger, IWordRepository wordRepository, ISolveParametersValidator wordParameterValidator)
+        if (_words.Any() == false)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _wordRepository = wordRepository ?? throw new ArgumentNullException(nameof(wordRepository));
-            _wordParameterValidator = wordParameterValidator ?? throw new ArgumentNullException(nameof(wordParameterValidator));
+            _logger.LogError($"No Words returned from {nameof(IWordRepository)}, returning empty");
 
-            _words = _wordRepository.GetWords();
-
-            if (_words.Any() == false)
-            {
-                _logger.LogError($"No Words returned from {nameof(IWordRepository)}");
-            }
+            return [];
         }
 
-        public IEnumerable<string> Solve(SolveParameters solveParameters)
+        return FilterCorrectAndMisplacedLetters(
+            FilterExcludeLetters(_words, solveParameters.ExcludeLetters),
+            solveParameters.CorrectLetters,
+            solveParameters.MisplacedLetters);
+    }
+
+    private static List<string> FilterCorrectAndMisplacedLetters(List<string> wordsToFilter, List<char> correctLetters, List<char> misplacedLetters)
+    {
+        if (wordsToFilter.Count == 0)
         {
-            ValidatorResponse validatorResponse = _wordParameterValidator.IsValid(solveParameters);
-            if (validatorResponse.IsValid == false)
-            {
-                _logger.LogWarning($"{nameof(SolveParameters)} is not valid, returning empty");
-
-                return new List<string>();
-            }
-
-            if (_words.Any() == false)
-            {
-                _logger.LogError($"No Words returned from {nameof(IWordRepository)}, returning empty");
-
-                return new List<string>();
-            }
-
-            return FilterCorrectAndMisplacedLetters(
-                FilterExcludeLetters(_words, solveParameters.ExcludeLetters),
-                solveParameters.CorrectLetters,
-                solveParameters.MisplacedLetters);
+            return [];
         }
 
-        private static List<string> FilterCorrectAndMisplacedLetters(List<string> wordsToFilter, List<char> correctLetters, List<char> misplacedLetters)
+        List<string> filteredWords = wordsToFilter;
+        for (int i = 0; i < correctLetters.Count; i++)
         {
-            if (wordsToFilter.Count == 0)
+            char correctLetter = correctLetters[i];
+            char misplacedLetter = misplacedLetters[i];
+
+            if (correctLetter == '?' && misplacedLetter == '?')
             {
-                return new List<string>();
+                continue;
             }
 
-            List<string> filteredWords = wordsToFilter;
-            for (int i = 0; i < correctLetters.Count; i++)
+            foreach (string word in filteredWords.ToList())
             {
-                char correctLetter = correctLetters[i];
-                char misplacedLetter = misplacedLetters[i];
-
-                if (correctLetter == '?' && misplacedLetter == '?')
+                if (correctLetter != '?')
                 {
-                    continue;
+                    if (word[i] != correctLetter)
+                    {
+                        filteredWords.Remove(word);
+                        continue;
+                    }
                 }
 
-                foreach (string word in filteredWords.ToList())
+                if (misplacedLetter != '?')
                 {
-                    if (correctLetter != '?')
+                    if (!word.Contains(misplacedLetter))
                     {
-                        if (word[i] != correctLetter)
-                        {
-                            filteredWords.Remove(word);
-                            continue;
-                        }
+                        filteredWords.Remove(word);
+                        continue;
                     }
 
-                    if (misplacedLetter != '?')
+                    if (word[i] == misplacedLetter)
                     {
-                        if (!word.Contains(misplacedLetter))
-                        {
-                            filteredWords.Remove(word);
-                            continue;
-                        }
-
-                        if (word[i] == misplacedLetter)
-                        {
-                            filteredWords.Remove(word);
-                        }
+                        filteredWords.Remove(word);
                     }
                 }
             }
-
-            return filteredWords;
         }
 
-        private static List<string> FilterExcludeLetters(IEnumerable<string> wordsToFilter, List<char> excludeLetters)
-        {
-            return wordsToFilter.Where(word => !excludeLetters.Any(letter => word.Contains(letter))).ToList();
-        }
+        return filteredWords;
+    }
+
+    private static List<string> FilterExcludeLetters(IEnumerable<string> wordsToFilter, List<char> excludeLetters)
+    {
+        return wordsToFilter.Where(word => !excludeLetters.Any(letter => word.Contains(letter)))
+            .ToList();
     }
 }

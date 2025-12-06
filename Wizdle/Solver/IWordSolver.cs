@@ -1,9 +1,8 @@
-﻿namespace Wizdle.Solver
-{
-    using System.Collections.Generic;
+namespace Wizdle.Solver;
 
-    internal interface IWordSolver
-    {
-        IEnumerable<string> Solve(SolveParameters solveParameters);
-    }
+using System.Collections.Generic;
+
+internal interface IWordSolver
+{
+    IEnumerable<string> Solve(SolveParameters solveParameters);
 }

@@ -1,56 +1,30 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <ImplicitUsings>disable</ImplicitUsings>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <PackageId>Wizdle.Models</PackageId>
-    <Title>Wizdle.Models</Title>
-    <Version>1.0.1</Version>
-    <Authors>lyndychivs</Authors>
-    <Company>lyndychivs</Company>
-    <Description>A library for solving Wordle. (Models component)</Description>
-    <PackageProjectUrl>https://github.com/lyndychivs/Wizdle</PackageProjectUrl>
-    <PackageIcon>Wizdle.png</PackageIcon>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/lyndychivs/Wizdle</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageTags>wordle;solver;wizard;wizdle;helper;word;guess;challenge</PackageTags>
-    <NeutralLanguage>en</NeutralLanguage>
-    <AssemblyVersion>1.0.1</AssemblyVersion>
-    <FileVersion>1.0.1</FileVersion>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <IncludeSymbols>False</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
-    <Configurations>Debug;Release;Stryker</Configurations>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <WarningLevel>9999</WarningLevel>
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Stryker|AnyCPU'">
-    <WarningLevel>9999</WarningLevel>
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <WarningLevel>9999</WarningLevel>
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    <DebugType>none</DebugType>
-  </PropertyGroup>
-  <ItemGroup>
-    <None Include="..\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <EmbeddedResource Include="..\Wizdle\Resources\Wizdle.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="StyleCop.Analyzers">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <PackageId>Wizdle.Models</PackageId>
+        <Title>Wizdle.Models</Title>
+        <Description>A library for solving Wordle. (Models component)</Description>
+        <PackageIcon>Wizdle.png</PackageIcon>
+        <PackageTags>wordle;solver;wizard;wizdle;helper;word;guess;challenge</PackageTags>
+        <IncludeSymbols>False</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Include="..\README.md">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+        <EmbeddedResource Include="..\Wizdle\Resources\Wizdle.png">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </EmbeddedResource>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="StyleCop.Analyzers">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
 </Project>
