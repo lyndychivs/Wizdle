@@ -9,20 +9,16 @@ partial class WizdleForm : Form
     private void InitializeComponent()
     {
         var resources = new ComponentResourceManager(typeof(WizdleForm));
-        _wizdleTitlePictureBox = new PictureBox();
-        _correctLettersLbl = new Label();
         _correctLetter1 = new TextBox();
         _correctLetter2 = new TextBox();
         _correctLetter3 = new TextBox();
         _correctLetter4 = new TextBox();
         _correctLetter5 = new TextBox();
-        _misplacedLettersLbl = new Label();
         _misplacedLetter1 = new TextBox();
         _misplacedLetter2 = new TextBox();
         _misplacedLetter3 = new TextBox();
         _misplacedLetter4 = new TextBox();
         _misplacedLetter5 = new TextBox();
-        _excludedLettersLbl = new Label();
         _excludedLetters = new TextBox();
         _solveButton = new Button();
         _logsRtb = new RichTextBox();
@@ -30,29 +26,7 @@ partial class WizdleForm : Form
         _wordsLbl = new Label();
         _wordsRtb = new RichTextBox();
         _githubLbl = new LinkLabel();
-        ((ISupportInitialize)_wizdleTitlePictureBox).BeginInit();
         SuspendLayout();
-        // 
-        // _wizdleTitlePictureBox
-        // 
-        _wizdleTitlePictureBox.Image = (Image)resources.GetObject("_wizdleTitlePictureBox.Image");
-        _wizdleTitlePictureBox.Location = new Point(402, 12);
-        _wizdleTitlePictureBox.Name = "_wizdleTitlePictureBox";
-        _wizdleTitlePictureBox.Size = new Size(266, 177);
-        _wizdleTitlePictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-        _wizdleTitlePictureBox.TabIndex = 2;
-        _wizdleTitlePictureBox.TabStop = false;
-        // 
-        // _correctLettersLbl
-        // 
-        _correctLettersLbl.AutoSize = true;
-        _correctLettersLbl.Font = new Font("Impact", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-        _correctLettersLbl.ForeColor = Color.LightSeaGreen;
-        _correctLettersLbl.Location = new Point(12, 12);
-        _correctLettersLbl.Name = "_correctLettersLbl";
-        _correctLettersLbl.Size = new Size(181, 34);
-        _correctLettersLbl.TabIndex = 1;
-        _correctLettersLbl.Text = "Correct Letters";
         // 
         // _correctLetter1
         // 
@@ -61,7 +35,7 @@ partial class WizdleForm : Form
         _correctLetter1.CharacterCasing = CharacterCasing.Upper;
         _correctLetter1.Font = new Font("Impact", 27.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
         _correctLetter1.ForeColor = SystemColors.WindowText;
-        _correctLetter1.Location = new Point(29, 49);
+        _correctLetter1.Location = new Point(205, 12);
         _correctLetter1.MaxLength = 1;
         _correctLetter1.Multiline = true;
         _correctLetter1.Name = "_correctLetter1";
@@ -77,7 +51,7 @@ partial class WizdleForm : Form
         _correctLetter2.CharacterCasing = CharacterCasing.Upper;
         _correctLetter2.Font = new Font("Impact", 27.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
         _correctLetter2.ForeColor = SystemColors.WindowText;
-        _correctLetter2.Location = new Point(85, 49);
+        _correctLetter2.Location = new Point(261, 12);
         _correctLetter2.MaxLength = 1;
         _correctLetter2.Multiline = true;
         _correctLetter2.Name = "_correctLetter2";
@@ -93,7 +67,7 @@ partial class WizdleForm : Form
         _correctLetter3.CharacterCasing = CharacterCasing.Upper;
         _correctLetter3.Font = new Font("Impact", 27.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
         _correctLetter3.ForeColor = SystemColors.WindowText;
-        _correctLetter3.Location = new Point(141, 49);
+        _correctLetter3.Location = new Point(317, 12);
         _correctLetter3.MaxLength = 1;
         _correctLetter3.Multiline = true;
         _correctLetter3.Name = "_correctLetter3";
@@ -109,7 +83,7 @@ partial class WizdleForm : Form
         _correctLetter4.CharacterCasing = CharacterCasing.Upper;
         _correctLetter4.Font = new Font("Impact", 27.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
         _correctLetter4.ForeColor = SystemColors.WindowText;
-        _correctLetter4.Location = new Point(197, 49);
+        _correctLetter4.Location = new Point(373, 12);
         _correctLetter4.MaxLength = 1;
         _correctLetter4.Multiline = true;
         _correctLetter4.Name = "_correctLetter4";
@@ -125,7 +99,7 @@ partial class WizdleForm : Form
         _correctLetter5.CharacterCasing = CharacterCasing.Upper;
         _correctLetter5.Font = new Font("Impact", 27.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
         _correctLetter5.ForeColor = SystemColors.WindowText;
-        _correctLetter5.Location = new Point(253, 49);
+        _correctLetter5.Location = new Point(429, 12);
         _correctLetter5.MaxLength = 1;
         _correctLetter5.Multiline = true;
         _correctLetter5.Name = "_correctLetter5";
@@ -134,17 +108,6 @@ partial class WizdleForm : Form
         _correctLetter5.TabIndex = 6;
         _correctLetter5.TextAlign = HorizontalAlignment.Center;
         // 
-        // _misplacedLettersLbl
-        // 
-        _misplacedLettersLbl.AutoSize = true;
-        _misplacedLettersLbl.Font = new Font("Impact", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-        _misplacedLettersLbl.ForeColor = Color.LightSeaGreen;
-        _misplacedLettersLbl.Location = new Point(12, 102);
-        _misplacedLettersLbl.Name = "_misplacedLettersLbl";
-        _misplacedLettersLbl.Size = new Size(212, 34);
-        _misplacedLettersLbl.TabIndex = 7;
-        _misplacedLettersLbl.Text = "Misplaced Letters";
-        // 
         // _misplacedLetter1
         // 
         _misplacedLetter1.BackColor = Color.Khaki;
@@ -152,7 +115,7 @@ partial class WizdleForm : Form
         _misplacedLetter1.CharacterCasing = CharacterCasing.Upper;
         _misplacedLetter1.Font = new Font("Impact", 27.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
         _misplacedLetter1.ForeColor = SystemColors.WindowText;
-        _misplacedLetter1.Location = new Point(29, 139);
+        _misplacedLetter1.Location = new Point(205, 68);
         _misplacedLetter1.MaxLength = 1;
         _misplacedLetter1.Multiline = true;
         _misplacedLetter1.Name = "_misplacedLetter1";
@@ -168,7 +131,7 @@ partial class WizdleForm : Form
         _misplacedLetter2.CharacterCasing = CharacterCasing.Upper;
         _misplacedLetter2.Font = new Font("Impact", 27.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
         _misplacedLetter2.ForeColor = SystemColors.WindowText;
-        _misplacedLetter2.Location = new Point(85, 139);
+        _misplacedLetter2.Location = new Point(261, 68);
         _misplacedLetter2.MaxLength = 1;
         _misplacedLetter2.Multiline = true;
         _misplacedLetter2.Name = "_misplacedLetter2";
@@ -184,7 +147,7 @@ partial class WizdleForm : Form
         _misplacedLetter3.CharacterCasing = CharacterCasing.Upper;
         _misplacedLetter3.Font = new Font("Impact", 27.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
         _misplacedLetter3.ForeColor = SystemColors.WindowText;
-        _misplacedLetter3.Location = new Point(141, 139);
+        _misplacedLetter3.Location = new Point(317, 68);
         _misplacedLetter3.MaxLength = 1;
         _misplacedLetter3.Multiline = true;
         _misplacedLetter3.Name = "_misplacedLetter3";
@@ -200,7 +163,7 @@ partial class WizdleForm : Form
         _misplacedLetter4.CharacterCasing = CharacterCasing.Upper;
         _misplacedLetter4.Font = new Font("Impact", 27.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
         _misplacedLetter4.ForeColor = SystemColors.WindowText;
-        _misplacedLetter4.Location = new Point(197, 139);
+        _misplacedLetter4.Location = new Point(373, 68);
         _misplacedLetter4.MaxLength = 1;
         _misplacedLetter4.Multiline = true;
         _misplacedLetter4.Name = "_misplacedLetter4";
@@ -216,7 +179,7 @@ partial class WizdleForm : Form
         _misplacedLetter5.CharacterCasing = CharacterCasing.Upper;
         _misplacedLetter5.Font = new Font("Impact", 27.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
         _misplacedLetter5.ForeColor = SystemColors.WindowText;
-        _misplacedLetter5.Location = new Point(253, 139);
+        _misplacedLetter5.Location = new Point(429, 68);
         _misplacedLetter5.MaxLength = 1;
         _misplacedLetter5.Multiline = true;
         _misplacedLetter5.Name = "_misplacedLetter5";
@@ -225,17 +188,6 @@ partial class WizdleForm : Form
         _misplacedLetter5.TabIndex = 12;
         _misplacedLetter5.TextAlign = HorizontalAlignment.Center;
         // 
-        // _excludedLettersLbl
-        // 
-        _excludedLettersLbl.AutoSize = true;
-        _excludedLettersLbl.Font = new Font("Impact", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-        _excludedLettersLbl.ForeColor = Color.LightSeaGreen;
-        _excludedLettersLbl.Location = new Point(12, 192);
-        _excludedLettersLbl.Name = "_excludedLettersLbl";
-        _excludedLettersLbl.Size = new Size(195, 34);
-        _excludedLettersLbl.TabIndex = 13;
-        _excludedLettersLbl.Text = "Excluded Letters";
-        // 
         // _excludedLetters
         // 
         _excludedLetters.BackColor = Color.LightGray;
@@ -243,7 +195,7 @@ partial class WizdleForm : Form
         _excludedLetters.CharacterCasing = CharacterCasing.Upper;
         _excludedLetters.Font = new Font("Impact", 27.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
         _excludedLetters.ForeColor = SystemColors.WindowText;
-        _excludedLetters.Location = new Point(29, 229);
+        _excludedLetters.Location = new Point(205, 124);
         _excludedLetters.MaxLength = 26;
         _excludedLetters.Name = "_excludedLetters";
         _excludedLetters.Size = new Size(274, 53);
@@ -252,12 +204,12 @@ partial class WizdleForm : Form
         // 
         // _solveButton
         // 
-        _solveButton.BackColor = Color.BlanchedAlmond;
+        _solveButton.BackColor = Color.DarkSeaGreen;
         _solveButton.FlatAppearance.BorderSize = 2;
         _solveButton.FlatStyle = FlatStyle.Flat;
-        _solveButton.Font = new Font("Impact", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+        _solveButton.Font = new Font("Gadugi", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
         _solveButton.ForeColor = Color.Black;
-        _solveButton.Location = new Point(562, 229);
+        _solveButton.Location = new Point(373, 183);
         _solveButton.Name = "_solveButton";
         _solveButton.Size = new Size(106, 53);
         _solveButton.TabIndex = 15;
@@ -268,31 +220,31 @@ partial class WizdleForm : Form
         // _logsRtb
         // 
         _logsRtb.BackColor = SystemColors.GradientInactiveCaption;
-        _logsRtb.Location = new Point(12, 314);
+        _logsRtb.Location = new Point(12, 256);
         _logsRtb.Name = "_logsRtb";
-        _logsRtb.Size = new Size(656, 86);
+        _logsRtb.Size = new Size(656, 90);
         _logsRtb.TabIndex = 17;
         _logsRtb.Text = "";
         // 
         // _logsLbl
         // 
         _logsLbl.AutoSize = true;
-        _logsLbl.Font = new Font("Impact", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-        _logsLbl.ForeColor = Color.LightSeaGreen;
-        _logsLbl.Location = new Point(12, 285);
+        _logsLbl.Font = new Font("Calibri", 15.75F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+        _logsLbl.ForeColor = SystemColors.ActiveCaptionText;
+        _logsLbl.Location = new Point(12, 227);
         _logsLbl.Name = "_logsLbl";
-        _logsLbl.Size = new Size(56, 26);
+        _logsLbl.Size = new Size(57, 26);
         _logsLbl.TabIndex = 18;
         _logsLbl.Text = "Logs:";
         // 
         // _wordsLbl
         // 
         _wordsLbl.AutoSize = true;
-        _wordsLbl.Font = new Font("Impact", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-        _wordsLbl.ForeColor = Color.LightSeaGreen;
-        _wordsLbl.Location = new Point(12, 403);
+        _wordsLbl.Font = new Font("Calibri", 15.75F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+        _wordsLbl.ForeColor = SystemColors.ActiveCaptionText;
+        _wordsLbl.Location = new Point(12, 349);
         _wordsLbl.Name = "_wordsLbl";
-        _wordsLbl.Size = new Size(72, 26);
+        _wordsLbl.Size = new Size(73, 26);
         _wordsLbl.TabIndex = 19;
         _wordsLbl.Text = "Words:";
         // 
@@ -300,16 +252,16 @@ partial class WizdleForm : Form
         // 
         _wordsRtb.BackColor = SystemColors.GradientInactiveCaption;
         _wordsRtb.Font = new Font("Impact", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-        _wordsRtb.Location = new Point(12, 432);
+        _wordsRtb.Location = new Point(12, 378);
         _wordsRtb.Name = "_wordsRtb";
-        _wordsRtb.Size = new Size(656, 298);
+        _wordsRtb.Size = new Size(656, 402);
         _wordsRtb.TabIndex = 20;
         _wordsRtb.Text = "";
         // 
         // _githubLbl
         // 
         _githubLbl.AutoSize = true;
-        _githubLbl.Location = new Point(475, 733);
+        _githubLbl.Location = new Point(475, 783);
         _githubLbl.Name = "_githubLbl";
         _githubLbl.Size = new Size(193, 15);
         _githubLbl.TabIndex = 21;
@@ -319,8 +271,8 @@ partial class WizdleForm : Form
         // 
         // WizdleForm
         // 
-        BackColor = SystemColors.GradientInactiveCaption;
-        ClientSize = new Size(680, 757);
+        BackColor = SystemColors.InactiveCaption;
+        ClientSize = new Size(680, 805);
         Controls.Add(_githubLbl);
         Controls.Add(_wordsRtb);
         Controls.Add(_wordsLbl);
@@ -328,44 +280,35 @@ partial class WizdleForm : Form
         Controls.Add(_logsRtb);
         Controls.Add(_solveButton);
         Controls.Add(_excludedLetters);
-        Controls.Add(_excludedLettersLbl);
         Controls.Add(_misplacedLetter5);
         Controls.Add(_misplacedLetter4);
         Controls.Add(_misplacedLetter3);
         Controls.Add(_misplacedLetter2);
         Controls.Add(_misplacedLetter1);
-        Controls.Add(_misplacedLettersLbl);
         Controls.Add(_correctLetter5);
         Controls.Add(_correctLetter4);
         Controls.Add(_correctLetter3);
         Controls.Add(_correctLetter2);
-        Controls.Add(_wizdleTitlePictureBox);
-        Controls.Add(_correctLettersLbl);
         Controls.Add(_correctLetter1);
-        FormBorderStyle = FormBorderStyle.Fixed3D;
+        FormBorderStyle = FormBorderStyle.FixedSingle;
         Icon = (Icon)resources.GetObject("$this.Icon");
         MaximizeBox = false;
         Name = "WizdleForm";
         StartPosition = FormStartPosition.CenterScreen;
         Text = "Wizdle";
-        ((ISupportInitialize)_wizdleTitlePictureBox).EndInit();
         ResumeLayout(false);
         PerformLayout();
     }
-    private PictureBox _wizdleTitlePictureBox;
-    private Label _correctLettersLbl;
     private TextBox _correctLetter1;
     private TextBox _correctLetter2;
     private TextBox _correctLetter3;
     private TextBox _correctLetter4;
     private TextBox _correctLetter5;
-    private Label _misplacedLettersLbl;
     private TextBox _misplacedLetter1;
     private TextBox _misplacedLetter2;
     private TextBox _misplacedLetter3;
     private TextBox _misplacedLetter4;
     private TextBox _misplacedLetter5;
-    private Label _excludedLettersLbl;
     private TextBox _excludedLetters;
     private Button _solveButton;
     private RichTextBox _logsRtb;
