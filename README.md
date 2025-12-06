@@ -28,7 +28,7 @@ flowchart LR
 
 | Prerequisite | Note |
 | ---          | ---  |
-| .NET9 SDK    | .NET9 or greater required.<br/>Check current .NET version `dotnet --version`.<br/>Download .NET9 [here](https://dotnet.microsoft.com/en-us/download/dotnet/9.0). |
+| .NET10 SDK   | .NET10 or greater required.<br/>Check current .NET version `dotnet --version`.<br/>Download .NET10 [here](https://dotnet.microsoft.com/en-us/download/dotnet/10.0). |
 
 # 🧙 Wizdle
 The Wizdle core library found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle), is responsbile for translating the request into a list of possible Words.
