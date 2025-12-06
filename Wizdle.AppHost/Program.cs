@@ -3,6 +3,8 @@ namespace Wizdle.AppHost;
 using Aspire.Hosting;
 using Aspire.Hosting.ApplicationModel;
 
+using Microsoft.Extensions.Configuration;
+
 using Projects;
 
 internal sealed class Program
@@ -19,10 +21,13 @@ internal sealed class Program
             .WithReference(apiService)
             .WaitFor(apiService);
 
-        builder.AddProject<Wizdle_Discord>("discord")
-            .WithExternalHttpEndpoints()
-            .WithReference(apiService)
-            .WaitFor(apiService);
+        if (builder.Configuration.GetValue<bool>("EnableDiscord"))
+        {
+            builder.AddProject<Wizdle_Discord>("discord")
+                .WithExternalHttpEndpoints()
+                .WithReference(apiService)
+                .WaitFor(apiService);
+        }
 
         builder.Build().Run();
     }
