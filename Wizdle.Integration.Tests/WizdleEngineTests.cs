@@ -1,4 +1,4 @@
-namespace Wizdle.IntegrationTests;
+namespace Wizdle.Integration.Tests;
 
 using System;
 
