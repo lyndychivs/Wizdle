@@ -4,5 +4,5 @@ using Wizdle.Solver;
 
 internal interface ISolveParametersValidator
 {
-    ValidatorResponse IsValid(SolveParameters solveParameters);
+    bool IsValid(SolveParameters solveParameters);
 }

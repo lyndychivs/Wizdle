@@ -40,8 +40,7 @@ internal class WordSolver : IWordSolver
 
     public IEnumerable<string> Solve(SolveParameters solveParameters)
     {
-        ValidatorResponse validatorResponse = _wordParameterValidator.IsValid(solveParameters);
-        if (validatorResponse.IsValid == false)
+        if (_wordParameterValidator.IsValid(solveParameters) == false)
         {
             _logger.LogWarning($"{nameof(SolveParameters)} is not valid, returning empty");
 
