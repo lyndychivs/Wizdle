@@ -26,15 +26,11 @@ jobs:
     - name: build
       run: dotnet build --no-restore --configuration Release
 
-    - name: test - Unit.Tests
-      run: dotnet test --no-build --configuration Release --logger "trx;LogFileName=unit-results.trx" --filter "FullyQualifiedName~Unit.Tests"
+    - name: test - Wizdle.Unit.Tests
+      run: dotnet test Wizdle.Unit.Tests/Wizdle.Unit.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=Wizdle.Unit.Tests.trx"
 
-    - name: test - Integration.Tests
-      run: dotnet test --no-build --configuration Release --logger "trx;LogFileName=integration-results.trx" --filter "FullyQualifiedName~Integration.Tests"
-
-    - name: list test result files
-      run: Get-ChildItem -Recurse -Filter *.trx | Select-Object FullName
-      shell: pwsh
+    - name: test - Wizdle.Integration.Tests
+      run: dotnet test Wizdle.Integration.Tests/Wizdle.Integration.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=Wizdle.Integration.Tests.trx"
 
     - name: publish test results
       uses: EnricoMi/publish-unit-test-result-action@v2
