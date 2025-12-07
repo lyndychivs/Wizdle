@@ -2,6 +2,8 @@ name: dotnet-build-test-publish
 run-name: .NET Build, Test & Publish
 permissions:
   contents: read
+  checks: write
+  pull-requests: write
 on:
   push:
   schedule:
