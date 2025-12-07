@@ -1,4 +1,4 @@
-name: build-test-publish
+name: dotnet-build-test-publish
 run-name: .NET Build, Test & Publish
 permissions:
   contents: read
@@ -29,9 +29,7 @@ jobs:
       with:
         name: build-output
         path: |
-          **/bin/Release/
-          **/obj/Release/
-          **/*.nupkg
+          **/*
 
   test:
     needs: build
