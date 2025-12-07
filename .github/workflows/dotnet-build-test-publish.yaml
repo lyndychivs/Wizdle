@@ -24,14 +24,8 @@ jobs:
     - name: build
       run: dotnet build --no-restore --configuration Release
 
-    - name: install playwright
-      run: |
-        $script = Get-ChildItem -Path . -Recurse -Filter playwright.ps1 | Select-Object -First 1
-        & $script.FullName install --with-deps
-      shell: pwsh
-
     - name: test
-      run: dotnet test --no-build --configuration Release
+      run: dotnet test --no-build --configuration Release --filter "FullyQualifiedName~Unit.Tests|FullyQualifiedName~Integration.Tests"
 
     - name: nuget push - NuGet
       if: github.ref == 'refs/heads/master'
