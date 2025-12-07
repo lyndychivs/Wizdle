@@ -7,64 +7,30 @@ on:
   schedule:
     - cron: '0 4 * * SUN'
 jobs:
-  build:
+  build-test-publish:
     runs-on: ubuntu-latest
     steps:
     - name: checkout
       uses: actions/checkout@v6
 
-    - name: setup dotnet
+    - name: install dotnet
       uses: actions/setup-dotnet@v5
       with:
         dotnet-version: 10.0.x
 
-    - name: dotnet restore
+    - name: restore
       run: dotnet restore
 
-    - name: dotnet build
+    - name: build
       run: dotnet build --no-restore --configuration Release
 
-    - name: upload build artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: build-output
-        path: |
-          **/*
-
-  test:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-    - name: download build artifacts
-      uses: actions/download-artifact@v4
-      with:
-        name: build-output
-
-    - name: setup dotnet
-      uses: actions/setup-dotnet@v5
-      with:
-        dotnet-version: 10.0.x
-
-    - name: dotnet test
+    - name: test
       run: dotnet test --no-build --configuration Release
 
-  publish:
-    needs: test
-    if: github.ref == 'refs/heads/master'
-    runs-on: ubuntu-latest
-    steps:
-    - name: download build artifacts
-      uses: actions/download-artifact@v4
-      with:
-        name: build-output
-
-    - name: setup dotnet
-      uses: actions/setup-dotnet@v5
-      with:
-        dotnet-version: 10.0.x
-
-    - name: dotnet nuget push to NuGet
+    - name: nuget push - NuGet
+      if: github.ref == 'refs/heads/master'
       run: dotnet nuget push **.nupkg --api-key ${{secrets.NUGET}} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
 
-    - name: dotnet nuget push to GitHub
+    - name: nuget push - GitHub
+      if: github.ref == 'refs/heads/master'
       run: dotnet nuget push **.nupkg --api-key ${{secrets.GITHUB}} --source "https://nuget.pkg.github.com/lyndychivs/index.json" --skip-duplicate
