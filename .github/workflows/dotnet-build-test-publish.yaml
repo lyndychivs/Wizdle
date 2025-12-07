@@ -32,6 +32,10 @@ jobs:
     - name: test - Integration.Tests
       run: dotnet test --no-build --configuration Release --logger "trx;LogFileName=integration-results.trx" --filter "FullyQualifiedName~Integration.Tests"
 
+    - name: list test result files
+      run: Get-ChildItem -Recurse -Filter *.trx | Select-Object FullName
+      shell: pwsh
+
     - name: publish test results
       uses: EnricoMi/publish-unit-test-result-action@v2
       if: (!cancelled())
