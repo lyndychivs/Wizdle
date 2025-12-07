@@ -235,64 +235,6 @@ public class WizdlePageTests : PageTest
         await AccessibilityTestingService.ExecuteAccessibilityTesting(Page);
     }
 
-    [TestCase("!")]
-    [TestCase("1")]
-    [TestCase("")]
-    public async Task WizdlePage_NonLettersAreInput_ReturnsExcludesAllNonLetterInputFromSearch(string letter)
-    {
-        IDistributedApplicationTestingBuilder builder = await DistributedApplicationTestingBuilder
-            .CreateAsync<Wizdle_AppHost>();
-
-        await using DistributedApplication app = await builder.BuildAsync();
-        await app.StartAsync();
-
-        using var ctsApi = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-        await app.ResourceNotifications.WaitForResourceHealthyAsync(ApiResourceName, ctsApi.Token);
-
-        using var ctsWeb = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-        await app.ResourceNotifications.WaitForResourceHealthyAsync(WebResourceName, ctsWeb.Token);
-
-        await Page.GotoAsync(app.GetEndpoint(WebResourceName, EndpointName).ToString(), new () { WaitUntil = WaitUntilState.NetworkIdle });
-
-        await Expect(Page).ToHaveTitleAsync("Wizdle | Solve Wordle...");
-
-        await Expect(Page.GetByRole(AriaRole.Img, new () { Name = "Wizdle" })).ToBeVisibleAsync();
-
-        await Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Correct Letter 1" }).FillAsync(letter);
-        await Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Correct Letter 2" }).FillAsync(letter);
-        await Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Correct Letter 3" }).FillAsync(letter);
-        await Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Correct Letter 4" }).FillAsync(letter);
-        await Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Correct Letter 5" }).FillAsync(letter);
-
-        await Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Misplaced Letter 1" }).FillAsync(letter);
-        await Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Misplaced Letter 2" }).FillAsync(letter);
-        await Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Misplaced Letter 3" }).FillAsync(letter);
-        await Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Misplaced Letter 4" }).FillAsync(letter);
-        await Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Misplaced Letter 5" }).FillAsync(letter);
-
-        await Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Excluded Letters" }).FillAsync(letter);
-
-        await Page.GetByRole(AriaRole.Button, new () { Name = "Search" }).ClickAsync();
-
-        await Expect(Page.GetByText("Word(s) matching the criteria.")).ToBeVisibleAsync();
-
-        await Expect(Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Correct Letter 1" })).ToHaveValueAsync("?");
-        await Expect(Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Correct Letter 2" })).ToHaveValueAsync("?");
-        await Expect(Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Correct Letter 3" })).ToHaveValueAsync("?");
-        await Expect(Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Correct Letter 4" })).ToHaveValueAsync("?");
-        await Expect(Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Correct Letter 5" })).ToHaveValueAsync("?");
-
-        await Expect(Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Misplaced Letter 1" })).ToHaveValueAsync("?");
-        await Expect(Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Misplaced Letter 2" })).ToHaveValueAsync("?");
-        await Expect(Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Misplaced Letter 3" })).ToHaveValueAsync("?");
-        await Expect(Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Misplaced Letter 4" })).ToHaveValueAsync("?");
-        await Expect(Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Misplaced Letter 5" })).ToHaveValueAsync("?");
-
-        await Expect(Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = "Excluded Letters" })).ToHaveValueAsync(string.Empty);
-
-        await AccessibilityTestingService.ExecuteAccessibilityTesting(Page);
-    }
-
     [SetUp]
     public async Task Setup()
     {

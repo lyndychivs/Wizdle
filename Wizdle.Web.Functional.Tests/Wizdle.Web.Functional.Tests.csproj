@@ -22,4 +22,9 @@
     <ItemGroup>
         <ProjectReference Include="..\Wizdle.AppHost\Wizdle.AppHost.csproj" />
     </ItemGroup>
+    <ItemGroup>
+      <None Update=".runsettings">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
 </Project>
