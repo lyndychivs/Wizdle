@@ -24,8 +24,17 @@ jobs:
     - name: build
       run: dotnet build --no-restore --configuration Release
 
-    - name: test
-      run: dotnet test --no-build --configuration Release --filter "FullyQualifiedName~Unit.Tests|FullyQualifiedName~Integration.Tests"
+    - name: test - Unit.Tests
+      run: dotnet test --no-build --configuration Release --logger "trx;LogFileName=unit-results.trx" --filter "FullyQualifiedName~Unit.Tests"
+
+    - name: test - Integration.Tests
+      run: dotnet test --no-build --configuration Release --logger "trx;LogFileName=integration-results.trx" --filter "FullyQualifiedName~Integration.Tests"
+
+    - name: publish test results
+      uses: EnricoMi/publish-unit-test-result-action@v2
+      if: (!cancelled())
+      with:
+        files: '**/*.trx'
 
     - name: nuget push - NuGet
       if: github.ref == 'refs/heads/master'
