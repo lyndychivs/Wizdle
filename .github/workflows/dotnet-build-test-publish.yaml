@@ -24,6 +24,9 @@ jobs:
     - name: build
       run: dotnet build --no-restore --configuration Release
 
+    - name: install playwright
+      run: pwsh bin/Debug/net*/playwright.ps1 install --with-deps
+
     - name: test
       run: dotnet test --no-build --configuration Release
 
