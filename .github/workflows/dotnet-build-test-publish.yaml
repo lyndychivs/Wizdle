@@ -1,0 +1,72 @@
+name: build-test-publish
+run-name: .NET Build, Test & Publish
+permissions:
+  contents: read
+on:
+  push:
+  schedule:
+    - cron: '0 4 * * SUN'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v6
+
+    - name: setup dotnet
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: 10.0.x
+
+    - name: dotnet restore
+      run: dotnet restore
+
+    - name: dotnet build
+      run: dotnet build --no-restore --configuration Release
+
+    - name: upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-output
+        path: |
+          **/bin/Release/
+          **/obj/Release/
+          **/*.nupkg
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: download build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: build-output
+
+    - name: setup dotnet
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: 10.0.x
+
+    - name: dotnet test
+      run: dotnet test --no-build --configuration Release
+
+  publish:
+    needs: test
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+    - name: download build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: build-output
+
+    - name: setup dotnet
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: 10.0.x
+
+    - name: dotnet nuget push to NuGet
+      run: dotnet nuget push **.nupkg --api-key ${{secrets.NUGET}} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
+
+    - name: dotnet nuget push to GitHub
+      run: dotnet nuget push **.nupkg --api-key ${{secrets.GITHUB}} --source "https://nuget.pkg.github.com/lyndychivs/index.json" --skip-duplicate
