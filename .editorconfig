@@ -10,6 +10,8 @@ indent_size = 4
 [*.{cs,vb}]
 # SA0001: All diagnostics of XML documentation comments has been disabled due to the current project configuration.
 dotnet_diagnostic.SA0001.severity = none
+# SA1000: Keywords should be spaced correctly
+dotnet_diagnostic.SA1000.severity = none
 # SA1101: Prefix local calls with this
 dotnet_diagnostic.SA1101.severity = none
 # SA1010: Opening square brackets or parentheses should be spaced correctly
