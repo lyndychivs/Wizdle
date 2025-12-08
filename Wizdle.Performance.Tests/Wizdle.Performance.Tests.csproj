@@ -5,7 +5,6 @@
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="BenchmarkDotNet" />
-        <PackageReference Include="Serilog" />
         <PackageReference Include="Serilog.Extensions.Logging" />
         <PackageReference Include="Serilog.Sinks.Console" />
         <PackageReference Include="StyleCop.Analyzers">
