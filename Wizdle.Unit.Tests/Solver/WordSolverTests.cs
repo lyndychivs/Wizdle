@@ -34,7 +34,7 @@ public class WordSolverTests
     public void Solve_InvalidParameters_ReturnsDefaultResponse()
     {
         // Arrange
-        _solveParametersValidatorMock.Setup(v => v.IsValid(It.IsAny<SolveParameters>())).Returns(new ValidatorResponse { IsValid = false });
+        _solveParametersValidatorMock.Setup(v => v.IsValid(It.IsAny<SolveParameters>())).Returns(false);
         _wordSolver = new WordSolver(_loggerMock.Object, _wordRepositoryMock.Object, _solveParametersValidatorMock.Object);
 
         // Act
@@ -52,7 +52,7 @@ public class WordSolverTests
     public void Solve_NoWordsReturnedFromWordRepository_ReturnsDefaultResponse()
     {
         // Arrange
-        _solveParametersValidatorMock.Setup(v => v.IsValid(It.IsAny<SolveParameters>())).Returns(new ValidatorResponse { IsValid = true });
+        _solveParametersValidatorMock.Setup(v => v.IsValid(It.IsAny<SolveParameters>())).Returns(true);
         _wordRepositoryMock.Setup(r => r.GetWords()).Returns([]);
         _wordSolver = new WordSolver(_loggerMock.Object, _wordRepositoryMock.Object, _solveParametersValidatorMock.Object);
 
@@ -72,7 +72,7 @@ public class WordSolverTests
     {
         // Arrange
         List<string> words = ["hates", "round", "climb"];
-        _solveParametersValidatorMock.Setup(v => v.IsValid(It.IsAny<SolveParameters>())).Returns(new ValidatorResponse { IsValid = true });
+        _solveParametersValidatorMock.Setup(v => v.IsValid(It.IsAny<SolveParameters>())).Returns(true);
         _wordRepositoryMock.Setup(r => r.GetWords()).Returns(words);
         _wordSolver = new WordSolver(_loggerMock.Object, _wordRepositoryMock.Object, _solveParametersValidatorMock.Object);
         var parameters = new SolveParameters
@@ -94,7 +94,7 @@ public class WordSolverTests
     {
         // Arrange
         List<string> words = ["hates", "round"];
-        _solveParametersValidatorMock.Setup(v => v.IsValid(It.IsAny<SolveParameters>())).Returns(new ValidatorResponse { IsValid = true });
+        _solveParametersValidatorMock.Setup(v => v.IsValid(It.IsAny<SolveParameters>())).Returns(true);
         _wordRepositoryMock.Setup(r => r.GetWords()).Returns(words);
         _wordSolver = new WordSolver(_loggerMock.Object, _wordRepositoryMock.Object, _solveParametersValidatorMock.Object);
         var parameters = new SolveParameters
@@ -116,7 +116,7 @@ public class WordSolverTests
     {
         // Arrange
         List<string> words = ["hates", "hater", "hated"];
-        _solveParametersValidatorMock.Setup(v => v.IsValid(It.IsAny<SolveParameters>())).Returns(new ValidatorResponse { IsValid = true });
+        _solveParametersValidatorMock.Setup(v => v.IsValid(It.IsAny<SolveParameters>())).Returns(true);
         _wordRepositoryMock.Setup(r => r.GetWords()).Returns(words);
         _wordSolver = new WordSolver(_loggerMock.Object, _wordRepositoryMock.Object, _solveParametersValidatorMock.Object);
         var parameters = new SolveParameters
@@ -138,7 +138,7 @@ public class WordSolverTests
     {
         // Arrange
         List<string> words = ["a", "b"];
-        _solveParametersValidatorMock.Setup(v => v.IsValid(It.IsAny<SolveParameters>())).Returns(new ValidatorResponse { IsValid = true });
+        _solveParametersValidatorMock.Setup(v => v.IsValid(It.IsAny<SolveParameters>())).Returns(true);
         _wordRepositoryMock.Setup(r => r.GetWords()).Returns(words);
         _wordSolver = new WordSolver(_loggerMock.Object, _wordRepositoryMock.Object, _solveParametersValidatorMock.Object);
         var parameters = new SolveParameters
@@ -160,7 +160,7 @@ public class WordSolverTests
     {
         // Arrange
         List<string> words = ["hates", "hater"];
-        _solveParametersValidatorMock.Setup(v => v.IsValid(It.IsAny<SolveParameters>())).Returns(new ValidatorResponse { IsValid = true });
+        _solveParametersValidatorMock.Setup(v => v.IsValid(It.IsAny<SolveParameters>())).Returns(true);
         _wordRepositoryMock.Setup(r => r.GetWords()).Returns(words);
         _wordSolver = new WordSolver(_loggerMock.Object, _wordRepositoryMock.Object, _solveParametersValidatorMock.Object);
         var parameters = new SolveParameters
@@ -182,7 +182,7 @@ public class WordSolverTests
     {
         // Arrange
         List<string> words = ["snoop", "spoon"];
-        _solveParametersValidatorMock.Setup(v => v.IsValid(It.IsAny<SolveParameters>())).Returns(new ValidatorResponse { IsValid = true });
+        _solveParametersValidatorMock.Setup(v => v.IsValid(It.IsAny<SolveParameters>())).Returns(true);
         _wordRepositoryMock.Setup(r => r.GetWords()).Returns(words);
         _wordSolver = new WordSolver(_loggerMock.Object, _wordRepositoryMock.Object, _solveParametersValidatorMock.Object);
         var parameters = new SolveParameters
@@ -204,7 +204,7 @@ public class WordSolverTests
     {
         // Arrange
         List<string> words = ["hates", "hater", "hated"];
-        _solveParametersValidatorMock.Setup(v => v.IsValid(It.IsAny<SolveParameters>())).Returns(new ValidatorResponse { IsValid = true });
+        _solveParametersValidatorMock.Setup(v => v.IsValid(It.IsAny<SolveParameters>())).Returns(true);
         _wordRepositoryMock.Setup(r => r.GetWords()).Returns(words);
         _wordSolver = new WordSolver(_loggerMock.Object, _wordRepositoryMock.Object, _solveParametersValidatorMock.Object);
         var parameters = new SolveParameters

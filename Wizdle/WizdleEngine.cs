@@ -58,12 +58,12 @@ public class WizdleEngine
     /// <returns>A response containing the matching words and a message.</returns>
     public WizdleResponse ProcessWizdleRequest(WizdleRequest request)
     {
-        ValidatorResponse validatorResponse = _requestValidator.IsValid(request);
-        if (validatorResponse.IsValid == false)
+        IEnumerable<string> requestErrors = _requestValidator.GetErrors(request);
+        if (requestErrors.Any())
         {
             return new WizdleResponse()
             {
-                Messages = validatorResponse.Errors,
+                Messages = requestErrors,
             };
         }
 

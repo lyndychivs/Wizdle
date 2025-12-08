@@ -1,8 +1,10 @@
 namespace Wizdle.Validator;
 
+using System.Collections.Generic;
+
 using Wizdle.Models;
 
 internal interface IRequestValidator
 {
-    ValidatorResponse IsValid(WizdleRequest request);
+    IEnumerable<string> GetErrors(WizdleRequest request);
 }

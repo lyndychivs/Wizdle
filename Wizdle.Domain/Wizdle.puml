@@ -60,36 +60,26 @@ WordSolver --> IWordRepository
 WordSolver --> ISolveParametersValidator
 
 ~interface ISolveParametersValidator {
-    +ValidatorResponse IsValid(SolveParameters)
+    +bool IsValid(SolveParameters)
 }
 
 ~class SolveParametersValidator {
     -ILogger _logger
-    +ValidatorResponse IsValid(SolveParameters)
+    +bool IsValid(SolveParameters)
 }
 
 ISolveParametersValidator <|-- SolveParametersValidator
 
 ~interface IRequestValidator {
-    +ValidatorResponse IsValid(WizdleRequest)
+    +IEnumerable<string> GetErrors(WizdleRequest)
 }
 
 ~class RequestValidator {
     -ILogger _logger
-    +ValidatorResponse IsValid(WizdleRequest)
+    +IEnumerable<string> GetErrors(WizdleRequest)
 }
 
 IRequestValidator <|-- RequestValidator
-
-~class ValidatorResponse {
-    +bool IsValid
-    +IList<string> Errors
-}
-
-IRequestValidator --> ValidatorResponse : uses
-ISolveParametersValidator --> ValidatorResponse : uses
-RequestValidator --> ValidatorResponse : uses
-SolveParametersValidator --> ValidatorResponse : uses
 
 +class WizdleEngine {
     -ILogger _logger

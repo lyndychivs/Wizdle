@@ -12,6 +12,7 @@ using Microsoft.Playwright;
 using Microsoft.Playwright.NUnit;
 
 using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 
 using Projects;
 
@@ -252,8 +253,8 @@ public class WizdlePageTests : PageTest
     [TearDown]
     public async Task TearDown()
     {
-        bool isFailed = TestContext.CurrentContext.Result.Outcome == NUnit.Framework.Interfaces.ResultState.Error
-        || TestContext.CurrentContext.Result.Outcome == NUnit.Framework.Interfaces.ResultState.Failure;
+        bool isFailed = TestContext.CurrentContext.Result.Outcome == ResultState.Error
+        || TestContext.CurrentContext.Result.Outcome == ResultState.Failure;
 
         string tracingFilePath = Path.Combine(
             TestContext.CurrentContext.WorkDirectory,

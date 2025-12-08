@@ -32,7 +32,7 @@ internal class WordSolver : IWordSolver
 
         _words = _wordRepository.GetWords();
 
-        if (_words.Any() == false)
+        if (_words.Any() is false)
         {
             _logger.LogError($"No Words returned from {nameof(IWordRepository)}");
         }
@@ -40,15 +40,14 @@ internal class WordSolver : IWordSolver
 
     public IEnumerable<string> Solve(SolveParameters solveParameters)
     {
-        ValidatorResponse validatorResponse = _wordParameterValidator.IsValid(solveParameters);
-        if (validatorResponse.IsValid == false)
+        if (_wordParameterValidator.IsValid(solveParameters) is false)
         {
             _logger.LogWarning($"{nameof(SolveParameters)} is not valid, returning empty");
 
             return [];
         }
 
-        if (_words.Any() == false)
+        if (_words.Any() is false)
         {
             _logger.LogError($"No Words returned from {nameof(IWordRepository)}, returning empty");
 

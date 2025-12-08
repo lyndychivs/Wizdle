@@ -45,7 +45,7 @@ public class WizdleEngineTests
         // Arrange
         var request = new WizdleRequest();
         List<string> errors = ["Invalid input"];
-        _requestValidatorMock.Setup(v => v.IsValid(request)).Returns(new ValidatorResponse { IsValid = false, Errors = errors });
+        _requestValidatorMock.Setup(v => v.GetErrors(request)).Returns(errors);
 
         // Act
         WizdleResponse response = _wizdleEngine.ProcessWizdleRequest(request);
@@ -72,7 +72,7 @@ public class WizdleEngineTests
         var solveParams = new SolveParameters();
         List<string> words = ["apple", "angle"];
 
-        _requestValidatorMock.Setup(v => v.IsValid(request)).Returns(new ValidatorResponse { IsValid = true, Errors = [] });
+        _requestValidatorMock.Setup(v => v.GetErrors(request)).Returns([]);
         _requestMapperMock.Setup(m => m.MapToSolveParameters(request)).Returns(solveParams);
         _wordSolver.Setup(s => s.Solve(solveParams)).Returns(words);
 
@@ -108,7 +108,7 @@ public class WizdleEngineTests
         var solveParams = new SolveParameters();
         List<string> words = [];
 
-        _requestValidatorMock.Setup(v => v.IsValid(request)).Returns(new ValidatorResponse { IsValid = true, Errors = [] });
+        _requestValidatorMock.Setup(v => v.GetErrors(request)).Returns([]);
         _requestMapperMock.Setup(m => m.MapToSolveParameters(request)).Returns(solveParams);
         _wordSolver.Setup(s => s.Solve(solveParams)).Returns(words);
 

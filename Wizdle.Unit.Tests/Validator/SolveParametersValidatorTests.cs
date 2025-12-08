@@ -25,7 +25,7 @@ public class SolveParametersValidatorTests
     }
 
     [Test]
-    public void IsValid_ValidParameters_ReturnsValid()
+    public void IsValid_ValidParameters_ReturnsTrue()
     {
         var solveParameters = new SolveParameters
         {
@@ -34,32 +34,30 @@ public class SolveParametersValidatorTests
             ExcludeLetters = ['x', 'y', 'z'],
         };
 
-        ValidatorResponse validatorResponse = _solveParametersValidator.IsValid(solveParameters);
+        bool isValid = _solveParametersValidator.IsValid(solveParameters);
 
         using (Assert.EnterMultipleScope())
         {
-            Assert.That(validatorResponse.IsValid, Is.True);
-            Assert.That(validatorResponse.Errors, Is.Empty);
+            Assert.That(isValid, Is.True);
             _loggerMock.VerifyNoOtherCalls();
         }
     }
 
     [Test]
-    public void IsValid_NullSolveParameters_ReturnsInvalid()
+    public void IsValid_NullSolveParameters_ReturnsFalse()
     {
-        ValidatorResponse validatorResponse = _solveParametersValidator.IsValid(null!);
+        bool isValid = _solveParametersValidator.IsValid(null!);
 
         using (Assert.EnterMultipleScope())
         {
-            Assert.That(validatorResponse.IsValid, Is.False);
-            Assert.That(validatorResponse.Errors, Is.EqualTo(["SolveParameters is null"]));
-            _loggerMock.VerifyLogging("SolveParameters is null", LogLevel.Debug, Times.Once());
+            Assert.That(isValid, Is.False);
+            _loggerMock.VerifyLogging("SolveParameters cannot be null", LogLevel.Debug, Times.Once());
         }
     }
 
     [TestCase(4)]
     [TestCase(6)]
-    public void IsValid_CorrectLettersCountNotFive_ReturnsInvalid(int lettersLength)
+    public void IsValid_CorrectLettersCountNotFive_ReturnsFalse(int lettersLength)
     {
         // Arrange
         var solveParameters = new SolveParameters
@@ -72,20 +70,19 @@ public class SolveParametersValidatorTests
         solveParameters.CorrectLetters = [.. Enumerable.Repeat('a', lettersLength)];
 
         // Act
-        ValidatorResponse validatorResponse = _solveParametersValidator.IsValid(solveParameters);
+        bool isValid = _solveParametersValidator.IsValid(solveParameters);
 
         // Assert
         using (Assert.EnterMultipleScope())
         {
-            Assert.That(validatorResponse.IsValid, Is.False);
-            Assert.That(validatorResponse.Errors, Is.EqualTo(["SolveParameters.CorrectLetters Letter count is not equal to 5"]));
+            Assert.That(isValid, Is.False);
             _loggerMock.VerifyLogging("SolveParameters.CorrectLetters Letter count is not equal to 5", LogLevel.Debug, Times.Once());
         }
     }
 
     [TestCase(4)]
     [TestCase(6)]
-    public void IsValid_MisplacedLettersCountNotFive_ReturnsInvalid(int lettersLength)
+    public void IsValid_MisplacedLettersCountNotFive_ReturnsFalse(int lettersLength)
     {
         // Arrange
         var solveParameters = new SolveParameters
@@ -98,19 +95,18 @@ public class SolveParametersValidatorTests
         solveParameters.MisplacedLetters = [.. Enumerable.Repeat('b', lettersLength)];
 
         // Act
-        ValidatorResponse validatorResponse = _solveParametersValidator.IsValid(solveParameters);
+        bool isValid = _solveParametersValidator.IsValid(solveParameters);
 
         // Assert
         using (Assert.EnterMultipleScope())
         {
-            Assert.That(validatorResponse.IsValid, Is.False);
-            Assert.That(validatorResponse.Errors, Is.EqualTo(["SolveParameters.MisplacedLetters Letter count is not equal to 5"]));
+            Assert.That(isValid, Is.False);
             _loggerMock.VerifyLogging("SolveParameters.MisplacedLetters Letter count is not equal to 5", LogLevel.Debug, Times.Once());
         }
     }
 
     [Test]
-    public void IsValid_CorrectAndMisplacedSameLetterAtIndex_ReturnsInvalid()
+    public void IsValid_CorrectAndMisplacedSameLetterAtIndex_ReturnsFalse()
     {
         var solveParameters = new SolveParameters
         {
@@ -119,18 +115,17 @@ public class SolveParametersValidatorTests
             ExcludeLetters = [],
         };
 
-        ValidatorResponse validatorResponse = _solveParametersValidator.IsValid(solveParameters);
+        bool isValid = _solveParametersValidator.IsValid(solveParameters);
 
         using (Assert.EnterMultipleScope())
         {
-            Assert.That(validatorResponse.IsValid, Is.False);
-            Assert.That(validatorResponse.Errors, Is.EqualTo(["CorrectLetters and MisplacedLetters contain the same letter at index 0, Letter: 'a'"]));
+            Assert.That(isValid, Is.False);
             _loggerMock.VerifyLogging("CorrectLetters and MisplacedLetters contain the same letter at index 0, Letter: 'a'", LogLevel.Debug, Times.Once());
         }
     }
 
     [Test]
-    public void IsValid_ExcludeLetterExistsInCorrectLetters_ReturnsInvalid()
+    public void IsValid_ExcludeLetterExistsInCorrectLetters_ReturnsFalse()
     {
         var solveParameters = new SolveParameters
         {
@@ -139,18 +134,17 @@ public class SolveParametersValidatorTests
             ExcludeLetters = ['a'],
         };
 
-        ValidatorResponse validatorResponse = _solveParametersValidator.IsValid(solveParameters);
+        bool isValid = _solveParametersValidator.IsValid(solveParameters);
 
         using (Assert.EnterMultipleScope())
         {
-            Assert.That(validatorResponse.IsValid, Is.False);
-            Assert.That(validatorResponse.Errors, Is.EqualTo(["ExcludeLetters contains a letter that exists in CorrectLetters or MisplacedLetters, Letter: 'a'"]));
+            Assert.That(isValid, Is.False);
             _loggerMock.VerifyLogging("ExcludeLetters contains a letter that exists in CorrectLetters or MisplacedLetters, Letter: 'a'", LogLevel.Debug, Times.Once());
         }
     }
 
     [Test]
-    public void IsValid_ExcludeLetterExistsInMisplacedLetters_ReturnsInvalid()
+    public void IsValid_ExcludeLetterExistsInMisplacedLetters_ReturnsFalse()
     {
         var solveParameters = new SolveParameters
         {
@@ -159,12 +153,11 @@ public class SolveParametersValidatorTests
             ExcludeLetters = ['f'],
         };
 
-        ValidatorResponse validatorResponse = _solveParametersValidator.IsValid(solveParameters);
+        bool isValid = _solveParametersValidator.IsValid(solveParameters);
 
         using (Assert.EnterMultipleScope())
         {
-            Assert.That(validatorResponse.IsValid, Is.False);
-            Assert.That(validatorResponse.Errors, Is.EqualTo(["ExcludeLetters contains a letter that exists in CorrectLetters or MisplacedLetters, Letter: 'f'"]));
+            Assert.That(isValid, Is.False);
             _loggerMock.VerifyLogging("ExcludeLetters contains a letter that exists in CorrectLetters or MisplacedLetters, Letter: 'f'", LogLevel.Debug, Times.Once());
         }
     }
