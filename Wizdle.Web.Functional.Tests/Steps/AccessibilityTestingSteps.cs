@@ -1,4 +1,4 @@
-namespace Wizdle.Web.Functional.Tests;
+namespace Wizdle.Web.Functional.Tests.Steps;
 
 using System;
 using System.Threading.Tasks;
@@ -8,7 +8,7 @@ using Deque.AxeCore.Playwright;
 
 using Microsoft.Playwright;
 
-internal static class AccessibilityTestingService
+internal static class AccessibilityTestingSteps
 {
     public static async Task<AxeResult> ExecuteAccessibilityTesting(IPage page)
     {
