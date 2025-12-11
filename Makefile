@@ -1,4 +1,4 @@
-.PHONY: help build-api build-web build-discord build-all clean test compose stop logs token
+.PHONY: help build-api build-web build-discord build-all clean test compose stop logs docker-prune token
 
 # Variables
 COMPOSE_FILE = docker-compose.yaml
@@ -37,11 +37,15 @@ stop-volumes: ## Stops Wizdle Docker images and removes volumes
 logs: ## Shows logs for Wizdle Docker images
 	@docker compose --file $(COMPOSE_FILE) logs --follow
 
+docker-prune: ## Prune unused Docker resources
+	docker system prune --all --force --volumes
+
 restart: stop-volumes build-all compose ## Rebuild Wizdle Docker images and restart Containers
 
-clean: ## Clean Wizdle build artifacts
+clean: ## Clean Wizdle build artifacts and Docker resources
 	dotnet clean
 	rm -rf **/bin **/obj
+	docker system prune --all --force --volumes
 
 trust-cert: ## Trust the dotnet HTTPS development certificate
 	dotnet dev-certs https --trust

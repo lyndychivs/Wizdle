@@ -19,7 +19,7 @@ internal sealed class Program
     {
         IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder(args);
 
-        builder.AddDockerComposeEnvironment("docker-environment")
+        builder.AddDockerComposeEnvironment("wizdle")
             .WithDashboard(dashboard =>
             {
                 dashboard.WithHostPort(8080)
@@ -27,6 +27,7 @@ internal sealed class Program
             });
 
         IResourceBuilder<ProjectResource> apiService = builder.AddProject<Wizdle_Api>(ApiServiceName)
+            .WithExternalHttpEndpoints()
             .WithScalarDocs()
             .PublishAsDockerComposeService((resource, service) =>
             {

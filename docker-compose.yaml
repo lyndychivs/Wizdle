@@ -1,5 +1,5 @@
 services:
-  docker-environment-dashboard:
+  wizdle-dashboard:
     image: "mcr.microsoft.com/dotnet/nightly/aspire-dashboard:latest"
     environment:
       ASPIRE_DASHBOARD_FORWARDEDHEADERS_ENABLED: "true"
@@ -8,9 +8,9 @@ services:
       DASHBOARD__FRONTEND__AUTHMODE: "${DASHBOARD_FRONTEND_AUTHMODE}"
       DASHBOARD__FRONTEND__BROWSERTOKEN: "${DASHBOARD_FRONTEND_BROWSERTOKEN}"
     ports:
-      - "8080:18888"
+      - "${ASPIRE_API_PORT}:${ASPIRE_API_PORT}"
     expose:
-      - "18889"
+      - "${ASPIRE_OTLP_PORT}"
     networks:
       - "aspire"
     restart: "always"
@@ -22,15 +22,15 @@ services:
       OTEL_DOTNET_EXPERIMENTAL_OTLP_RETRY: "in_memory"
       ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
       HTTP_PORTS: "${WIZDLE_API_PORT}"
-      OTEL_EXPORTER_OTLP_ENDPOINT: "http://docker-environment-dashboard:18889"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://wizdle-dashboard:${ASPIRE_OTLP_PORT}"
       OTEL_EXPORTER_OTLP_PROTOCOL: "grpc"
       OTEL_SERVICE_NAME: "wizdle-api"
       OTEL_EXPORTER_OTLP_HEADERS: "x-otlp-api-key=${DASHBOARD_OTLP_API_KEY}"
       ASPNETCORE_ENVIRONMENT: "${ENVIRONMENT}"
     volumes:
       - api-dataprotection:/root/.aspnet/DataProtection-Keys
-    expose:
-      - "${WIZDLE_API_PORT}"
+    ports:
+      - "${WIZDLE_API_PORT}:${WIZDLE_API_PORT}"
     networks:
       - "aspire"
   wizdle-web:
@@ -44,7 +44,7 @@ services:
       WIZDLE-API_HTTP: "http://wizdle-api:${WIZDLE_API_PORT}"
       services__wizdle-api__http__0: "http://wizdle-api:${WIZDLE_API_PORT}"
       WIZDLE-API_HTTPS: "https://wizdle-api:${WIZDLE_API_PORT}"
-      OTEL_EXPORTER_OTLP_ENDPOINT: "http://docker-environment-dashboard:18889"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://wizdle-dashboard:${ASPIRE_OTLP_PORT}"
       OTEL_EXPORTER_OTLP_PROTOCOL: "grpc"
       OTEL_SERVICE_NAME: "wizdle-web"
       OTEL_EXPORTER_OTLP_HEADERS: "x-otlp-api-key=${DASHBOARD_OTLP_API_KEY}"
@@ -52,7 +52,7 @@ services:
     volumes:
       - web-dataprotection:/root/.aspnet/DataProtection-Keys
     ports:
-      - "${WIZDLE_WEB_PORT}"
+      - "${WIZDLE_WEB_PORT}:${WIZDLE_WEB_PORT}"
     depends_on:
       wizdle-api:
         condition: "service_started"
@@ -67,11 +67,13 @@ services:
       WIZDLE-API_HTTP: "http://wizdle-api:${WIZDLE_API_PORT}"
       services__wizdle-api__http__0: "http://wizdle-api:${WIZDLE_API_PORT}"
       WIZDLE-API_HTTPS: "https://wizdle-api:${WIZDLE_API_PORT}"
-      OTEL_EXPORTER_OTLP_ENDPOINT: "http://docker-environment-dashboard:18889"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://wizdle-dashboard:${ASPIRE_OTLP_PORT}"
       OTEL_EXPORTER_OTLP_PROTOCOL: "grpc"
       OTEL_SERVICE_NAME: "wizdle-discord"
       OTEL_EXPORTER_OTLP_HEADERS: "x-otlp-api-key=${DASHBOARD_OTLP_API_KEY}"
       ASPNETCORE_ENVIRONMENT: "${ENVIRONMENT}"
+      Discord__Token: "${DISCORD_TOKEN}"
+      Discord__PublicKey: "${DISCORD_PUBLIC_KEY}"
     volumes:
       - discord-dataprotection:/root/.aspnet/DataProtection-Keys
     depends_on:
