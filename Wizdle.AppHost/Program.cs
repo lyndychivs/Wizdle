@@ -9,24 +9,48 @@ using Projects;
 
 internal sealed class Program
 {
+    private const string WebServiceName = "wizdle-web";
+
+    private const string ApiServiceName = "wizdle-api";
+
+    private const string DiscordServiceName = "wizdle-discord";
+
     private static void Main(string[] args)
     {
         IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder(args);
 
-        IResourceBuilder<ProjectResource> apiService = builder.AddProject<Wizdle_Api>("api")
-            .WithScalarDocs();
+        builder.AddDockerComposeEnvironment("docker-environment")
+            .WithDashboard(dashboard =>
+            {
+                dashboard.WithHostPort(8080)
+                .WithForwardedHeaders(true);
+            });
 
-        builder.AddProject<Wizdle_Web>("web")
+        IResourceBuilder<ProjectResource> apiService = builder.AddProject<Wizdle_Api>(ApiServiceName)
+            .WithScalarDocs()
+            .PublishAsDockerComposeService((resource, service) =>
+            {
+                service.Name = ApiServiceName;
+            });
+
+        builder.AddProject<Wizdle_Web>(WebServiceName)
             .WithExternalHttpEndpoints()
             .WithReference(apiService)
-            .WaitFor(apiService);
+            .WaitFor(apiService)
+            .PublishAsDockerComposeService((resource, service) =>
+            {
+                service.Name = WebServiceName;
+            });
 
         if (builder.Configuration.GetValue<bool>("EnableDiscord"))
         {
-            builder.AddProject<Wizdle_Discord>("discord")
+            builder.AddProject<Wizdle_Discord>(DiscordServiceName)
                 .WithExternalHttpEndpoints()
                 .WithReference(apiService)
-                .WaitFor(apiService);
+                .WaitFor(apiService).PublishAsDockerComposeService((resource, service) =>
+                {
+                    service.Name = DiscordServiceName;
+                });
         }
 
         builder.Build().Run();

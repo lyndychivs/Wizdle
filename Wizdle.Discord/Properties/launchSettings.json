@@ -1,19 +1,22 @@
 {
-  "profiles": {
-    "Wizdle.Discord": {
-      "commandName": "Project",
-      "environmentVariables": {
-        "DOTNET_ENVIRONMENT": "Development"
-      },
-      "dotnetRunMessages": true
+    "profiles": {
+        "Wizdle.Discord": {
+            "commandName": "Project",
+            "environmentVariables": {
+                "DOTNET_ENVIRONMENT": "Development",
+                "OTEL_EXPORTER_OTLP_ENDPOINT": "http://localhost:4318"
+            },
+            "dotnetRunMessages": true
+        },
+        "WSL": {
+            "commandName": "WSL2",
+            "environmentVariables": {
+                "DOTNET_ENVIRONMENT": "Development",
+                "OTEL_EXPORTER_OTLP_ENDPOINT": "http://localhost:4318"
+            },
+            "dotnetRunMessages": true,
+            "distributionName": ""
+        }
     },
-    "WSL": {
-      "commandName": "WSL2",
-      "environmentVariables": {
-        "DOTNET_ENVIRONMENT": "Development"
-      },
-      "distributionName": ""
-    }
-  },
-  "$schema": "https://json.schemastore.org/launchsettings.json"
+    "$schema": "https://json.schemastore.org/launchsettings.json"
 }

@@ -15,9 +15,9 @@ using Reqnroll.BoDi;
 [Binding]
 internal static class EndpointSetupHook
 {
-    private const string ApiResourceName = "api";
+    private const string ApiResourceName = "wizdle-api";
 
-    private const string WebResourceName = "web";
+    private const string WebResourceName = "wizdle-web";
 
     [BeforeScenario(Order = int.MinValue)]
     public static async Task CreateEndpoint(ObjectContainer objectContainer)

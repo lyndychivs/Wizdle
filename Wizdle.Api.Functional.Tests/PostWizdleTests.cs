@@ -19,7 +19,7 @@ using Wizdle.Models;
 [TestFixture]
 public class PostWizdleTests
 {
-    private const string ApiResourceName = "api";
+    private const string ApiResourceName = "wizdle-api";
 
     private const string RequestUri = "/";
 

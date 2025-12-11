@@ -26,7 +26,7 @@ internal sealed class Program
             .AddApplicationCommands()
             .AddHttpClient<WizdleApiClient>(client =>
             {
-                client.BaseAddress = new Uri("https+http://api");
+                client.BaseAddress = new Uri("https+http://wizdle-api");
             });
 
         IHost host = builder.Build();

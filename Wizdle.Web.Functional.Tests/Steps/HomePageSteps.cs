@@ -6,8 +6,7 @@ using Reqnroll;
 internal sealed class HomePageSteps
 {
     [StepDefinition("the Page title should be {string}")]
-    public static void ThenThePageTitleShouldBe(string p0)
+    public static void ThenThePageTitleShouldBe()
     {
-        var e = p0;
     }
 }
