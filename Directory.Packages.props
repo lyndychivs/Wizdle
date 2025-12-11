@@ -38,5 +38,6 @@
     <PackageVersion Include="Serilog.Sinks.Console" Version="6.1.1" />
     <PackageVersion Include="Serilog.Sinks.RichTextBox.WinForms.Colored" Version="3.2.0" />
     <PackageVersion Include="StyleCop.Analyzers" Version="1.1.118" />
+    <PackageVersion Include="Testcontainers" Version="4.9.0" />
   </ItemGroup>
 </Project>
