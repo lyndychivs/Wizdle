@@ -49,7 +49,22 @@ internal abstract class BasePage
 
     public async Task<bool> DoesPageContainText(string text)
     {
-        return await Page.GetByText(text).IsVisibleAsync();
+        await WaitForNetworkIdle();
+
+        try
+        {
+            await Page.GetByText(text).WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 5_000 });
+            return await Page.GetByText(text).IsVisibleAsync();
+        }
+        catch (TimeoutException)
+        {
+            return false;
+        }
+    }
+
+    protected async Task WaitForNetworkIdle()
+    {
+        await Page.WaitForLoadStateAsync(LoadState.NetworkIdle, new PageWaitForLoadStateOptions() { Timeout = 30_000 });
     }
 
     protected async Task ClickButton(string buttonName)
@@ -59,7 +74,11 @@ internal abstract class BasePage
             throw new ArgumentException("Value cannot be null, empty or whitespace", nameof(buttonName));
         }
 
-        await Page.GetByRole(AriaRole.Button, new PageGetByRoleOptions() { Name = buttonName }).ClickAsync();
+        await WaitForNetworkIdle();
+
+        ILocator button = Page.GetByRole(AriaRole.Button, new PageGetByRoleOptions() { Name = buttonName });
+        await button.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible });
+        await button.ClickAsync();
     }
 
     protected async Task SetTextBox(string textBoxName, string text)
@@ -68,6 +87,8 @@ internal abstract class BasePage
         {
             throw new ArgumentException("Value cannot be null, empty or whitespace", nameof(textBoxName));
         }
+
+        await WaitForNetworkIdle();
 
         await Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = textBoxName }).FillAsync(text);
     }
@@ -89,13 +110,28 @@ internal abstract class BasePage
 
     private async Task<bool> IsAriaRoleVisible(string textBoxName, AriaRole ariaRole)
     {
-        return string.IsNullOrWhiteSpace(textBoxName)
-            ? throw new ArgumentException("Value cannot be null, empty or whitespace", nameof(textBoxName))
-            : await Page.GetByRole(ariaRole, new PageGetByRoleOptions() { Name = textBoxName }).IsVisibleAsync();
+        if (string.IsNullOrWhiteSpace(textBoxName))
+        {
+            throw new ArgumentException("Value cannot be null, empty or whitespace", nameof(textBoxName));
+        }
+
+        await WaitForNetworkIdle();
+
+        try
+        {
+            ILocator locator = Page.GetByRole(ariaRole, new PageGetByRoleOptions() { Name = textBoxName });
+            await locator.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 5_000 });
+            return await locator.IsVisibleAsync();
+        }
+        catch (TimeoutException)
+        {
+            return false;
+        }
     }
 
     private async Task<bool> IsBackgroundColorMatching(string expectedColor)
     {
+        await WaitForNetworkIdle();
         string backgroundColor = await Page.Locator("body").EvaluateAsync<string>("element => window.getComputedStyle(element).backgroundColor");
         return string.Equals(backgroundColor, expectedColor, StringComparison.Ordinal);
     }

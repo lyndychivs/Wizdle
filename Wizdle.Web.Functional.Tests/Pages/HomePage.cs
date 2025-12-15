@@ -1,5 +1,6 @@
 namespace Wizdle.Web.Functional.Tests.Pages;
 
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -159,6 +160,8 @@ internal sealed class HomePage : BasePage
 
     public async Task<IEnumerable<string>> GetPossibleWords()
     {
+        await WaitForNetworkIdle();
+
         ILocator wordLocator = Page.GetByLabel("Word");
         int count = await wordLocator.CountAsync();
 
@@ -179,7 +182,8 @@ internal sealed class HomePage : BasePage
 
     public async Task<bool> IsPossibleWordsVisible()
     {
-        ILocator wordLocator = Page.GetByLabel("Word");
-        return await wordLocator.IsVisibleAsync();
+        await WaitForNetworkIdle();
+
+        return await DoesPageContainText("Possible Words:");
     }
 }

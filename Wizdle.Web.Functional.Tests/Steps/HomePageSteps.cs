@@ -2,6 +2,7 @@ namespace Wizdle.Web.Functional.Tests.Steps;
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 using NUnit.Framework;
@@ -16,9 +17,12 @@ internal sealed class HomePageSteps
 {
     private readonly HomePage _homePage;
 
-    public HomePageSteps(HomePage homePage)
+    private readonly IReqnrollOutputHelper _reqnrollOutputHelper;
+
+    public HomePageSteps(HomePage homePage, IReqnrollOutputHelper reqnrollOutputHelper)
     {
         _homePage = homePage ?? throw new ArgumentNullException(nameof(homePage));
+        _reqnrollOutputHelper = reqnrollOutputHelper ?? throw new ArgumentNullException(nameof(reqnrollOutputHelper));
     }
 
     [StepDefinition("the Home page should display all expected elements")]
@@ -124,6 +128,17 @@ internal sealed class HomePageSteps
             actualWords,
             Is.EqualTo(expectedWords),
             $"Possible Words returned does not match, expected to find only \"{expectedWord}\" but was \"{string.Join(", ", actualWords)}\".");
+    }
+
+    [StepDefinition("on the Home page, the Possible Words should display multiple words")]
+    public async Task AssertPossibleWordsContainsMultipleWords()
+    {
+        IEnumerable<string> actualWords = await _homePage.GetPossibleWords();
+        Assert.That(
+            actualWords.Count(),
+            Is.GreaterThan(1),
+            $"Expected Possible Words to contain multiple words, but found only \"{string.Join(", ", actualWords)}\".");
+        _reqnrollOutputHelper.WriteLine($"Possible Words:{Environment.NewLine}{string.Join(Environment.NewLine, actualWords)}");
     }
 
     [StepDefinition("on the Home page, no Possible Words should be displayed")]
