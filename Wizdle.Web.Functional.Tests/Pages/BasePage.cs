@@ -47,6 +47,11 @@ internal abstract class BasePage
         return await IsBackgroundColorMatching("rgb(255, 255, 255)");
     }
 
+    public async Task<bool> DoesPageContainText(string text)
+    {
+        return await Page.GetByText(text).IsVisibleAsync();
+    }
+
     protected async Task ClickButton(string buttonName)
     {
         if (string.IsNullOrWhiteSpace(buttonName))

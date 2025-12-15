@@ -176,4 +176,10 @@ internal sealed class HomePage : BasePage
 
         return words;
     }
+
+    public async Task<bool> IsPossibleWordsVisible()
+    {
+        ILocator wordLocator = Page.GetByLabel("Word");
+        return await wordLocator.IsVisibleAsync();
+    }
 }

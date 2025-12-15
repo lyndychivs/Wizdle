@@ -123,6 +123,17 @@ internal sealed class HomePageSteps
         Assert.That(
             actualWords,
             Is.EqualTo(expectedWords),
-            $"Possible Words returned does not match, expected to find only \"{expectedWord}\" but was \"{string.Join(", ", actualWords)}\"");
+            $"Possible Words returned does not match, expected to find only \"{expectedWord}\" but was \"{string.Join(", ", actualWords)}\".");
+    }
+
+    [StepDefinition("on the Home page, no Possible Words should be displayed")]
+    public async Task AssertNoPossibleWordsAreDisplayed()
+    {
+        const string PossibleWordsTitleText = "Possible Words:";
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(await _homePage.DoesPageContainText(PossibleWordsTitleText), Is.False, $"Expected Title (\"{PossibleWordsTitleText}\") to not be displayed, but is visible.");
+            Assert.That(await _homePage.IsPossibleWordsVisible(), Is.False, "Expected no Possible Words to be displayed, but some are visible.");
+        }
     }
 }
