@@ -14,13 +14,10 @@ using Wizdle.Web.Functional.Tests.Pages;
 [Binding]
 internal sealed class HomePageSteps
 {
-    private readonly IReqnrollOutputHelper _reqnrollOutputHelper;
-
     private readonly HomePage _homePage;
 
-    public HomePageSteps(IReqnrollOutputHelper reqnrollOutputHelper, HomePage homePage)
+    public HomePageSteps(HomePage homePage)
     {
-        _reqnrollOutputHelper = reqnrollOutputHelper ?? throw new ArgumentNullException(nameof(reqnrollOutputHelper));
         _homePage = homePage ?? throw new ArgumentNullException(nameof(homePage));
     }
 
