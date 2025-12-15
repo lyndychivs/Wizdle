@@ -11,13 +11,13 @@ using Projects;
 
 using Reqnroll;
 
-using Wizdle.Web.Functional.Tests.Data;
+using Wizdle.Web.Functional.Tests.Models;
 
 [Binding]
 internal sealed class ContainerHook
 {
     [BeforeTestRun]
-    public static async Task CreateWizdleContainers(WizdleTestData testData)
+    public static async Task CreateWizdleContainers(Endpoint endpoint)
     {
         INetwork network = new NetworkBuilder()
             .WithName($"wizdle-network-{Guid.NewGuid()}")
@@ -55,6 +55,6 @@ internal sealed class ContainerHook
 
         await webContainer.StartAsync().ConfigureAwait(false);
 
-        testData.Url = $"http://localhost:{webContainer.GetMappedPublicPort(8080)}";
+        endpoint.Url = $"http://localhost:{webContainer.GetMappedPublicPort(8080)}";
     }
 }
