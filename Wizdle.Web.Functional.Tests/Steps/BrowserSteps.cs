@@ -32,7 +32,11 @@ internal sealed class BrowserSteps
     {
         _reqnrollOutputHelper.WriteLine($"Navigating to {_endpoint.Url}");
 
-        await _page.GotoAsync(_endpoint.Url, new PageGotoOptions() { WaitUntil = WaitUntilState.NetworkIdle });
+        await _page.GotoAsync(_endpoint.Url, new PageGotoOptions()
+        {
+            WaitUntil = WaitUntilState.NetworkIdle,
+            Timeout = 30_000,
+        });
     }
 
     [StepDefinition("the Page title should be {string}")]

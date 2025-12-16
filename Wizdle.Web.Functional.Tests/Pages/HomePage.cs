@@ -163,18 +163,43 @@ internal sealed class HomePage : BasePage
         await WaitForNetworkIdle();
 
         ILocator wordLocator = Page.GetByLabel("Word");
+
+        try
+        {
+            await wordLocator.First.WaitForAsync(new LocatorWaitForOptions
+            {
+                State = WaitForSelectorState.Visible,
+                Timeout = VisibilityTimeout,
+            });
+        }
+        catch (TimeoutException)
+        {
+            return [];
+        }
+
         int count = await wordLocator.CountAsync();
 
-        var words = new List<string>();
+        var words = new List<string>(count);
         for (int i = 0; i < count; i++)
         {
-            string? wordText = await wordLocator.Nth(i).TextContentAsync();
-            if (string.IsNullOrWhiteSpace(wordText))
+            try
             {
-                continue;
-            }
+                string? wordText = await wordLocator.Nth(i).TextContentAsync(new LocatorTextContentOptions()
+                {
+                    Timeout = VisibilityTimeout,
+                });
 
-            words.Add(wordText);
+                if (string.IsNullOrWhiteSpace(wordText))
+                {
+                    continue;
+                }
+
+                words.Add(wordText);
+            }
+            catch (TimeoutException)
+            {
+                return words;
+            }
         }
 
         return words;

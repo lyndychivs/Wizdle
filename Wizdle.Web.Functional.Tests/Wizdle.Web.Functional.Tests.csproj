@@ -27,7 +27,7 @@
         <ProjectReference Include="..\Wizdle.AppHost\Wizdle.AppHost.csproj" />
     </ItemGroup>
     <ItemGroup>
-      <None Update=".runsettings">
+      <None Update="local.runsettings">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
       <None Update="reqnroll.json">

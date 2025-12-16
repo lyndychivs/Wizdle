@@ -1,12 +1,17 @@
 namespace Wizdle.Web.Functional.Tests.Pages;
 
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 using Microsoft.Playwright;
 
 internal abstract class BasePage
 {
+    protected const float DefaultTimeout = 30_000;
+
+    protected const float VisibilityTimeout = 5_000;
+
     private const string ButtonDarkmode = "Darkmode";
 
     protected BasePage(IPage page, string expectedTitle)
@@ -53,7 +58,12 @@ internal abstract class BasePage
 
         try
         {
-            await Page.GetByText(text).WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 5_000 });
+            await Page.GetByText(text).WaitForAsync(new LocatorWaitForOptions
+            {
+                State = WaitForSelectorState.Visible,
+                Timeout = VisibilityTimeout,
+            });
+
             return await Page.GetByText(text).IsVisibleAsync();
         }
         catch (TimeoutException)
@@ -62,9 +72,24 @@ internal abstract class BasePage
         }
     }
 
+    public async Task<string> GetScreenshot()
+    {
+        string filePath = Path.Combine("screenshots", $"screenshot-{Guid.NewGuid()}.png");
+        await Page.ScreenshotAsync(new PageScreenshotOptions
+        {
+            FullPage = true,
+            Path = filePath,
+        });
+
+        return filePath;
+    }
+
     protected async Task WaitForNetworkIdle()
     {
-        await Page.WaitForLoadStateAsync(LoadState.NetworkIdle, new PageWaitForLoadStateOptions() { Timeout = 30_000 });
+        await Page.WaitForLoadStateAsync(LoadState.NetworkIdle, new PageWaitForLoadStateOptions()
+        {
+            Timeout = DefaultTimeout,
+        });
     }
 
     protected async Task ClickButton(string buttonName)
@@ -76,8 +101,17 @@ internal abstract class BasePage
 
         await WaitForNetworkIdle();
 
-        ILocator button = Page.GetByRole(AriaRole.Button, new PageGetByRoleOptions() { Name = buttonName });
-        await button.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible });
+        ILocator button = Page.GetByRole(AriaRole.Button, new PageGetByRoleOptions()
+        {
+            Name = buttonName,
+        });
+
+        await button.WaitForAsync(new LocatorWaitForOptions
+        {
+            State = WaitForSelectorState.Visible,
+            Timeout = VisibilityTimeout,
+        });
+
         await button.ClickAsync();
     }
 
@@ -88,9 +122,18 @@ internal abstract class BasePage
             throw new ArgumentException("Value cannot be null, empty or whitespace", nameof(textBoxName));
         }
 
-        await WaitForNetworkIdle();
+        ILocator textBox = Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions()
+        {
+            Name = textBoxName,
+        });
 
-        await Page.GetByRole(AriaRole.Textbox, new PageGetByRoleOptions() { Name = textBoxName }).FillAsync(text);
+        await textBox.WaitForAsync(new LocatorWaitForOptions
+        {
+            State = WaitForSelectorState.Visible,
+            Timeout = VisibilityTimeout,
+        });
+
+        await textBox.FillAsync(text);
     }
 
     protected async Task<bool> IsButtonVisibile(string buttonName)
@@ -119,8 +162,17 @@ internal abstract class BasePage
 
         try
         {
-            ILocator locator = Page.GetByRole(ariaRole, new PageGetByRoleOptions() { Name = textBoxName });
-            await locator.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 5_000 });
+            ILocator locator = Page.GetByRole(ariaRole, new PageGetByRoleOptions()
+            {
+                Name = textBoxName,
+            });
+
+            await locator.WaitForAsync(new LocatorWaitForOptions
+            {
+                State = WaitForSelectorState.Visible,
+                Timeout = VisibilityTimeout,
+            });
+
             return await locator.IsVisibleAsync();
         }
         catch (TimeoutException)
@@ -132,7 +184,9 @@ internal abstract class BasePage
     private async Task<bool> IsBackgroundColorMatching(string expectedColor)
     {
         await WaitForNetworkIdle();
-        string backgroundColor = await Page.Locator("body").EvaluateAsync<string>("element => window.getComputedStyle(element).backgroundColor");
+
+        string backgroundColor = await Page.Locator("body")
+            .EvaluateAsync<string>("element => window.getComputedStyle(element).backgroundColor");
         return string.Equals(backgroundColor, expectedColor, StringComparison.Ordinal);
     }
 }

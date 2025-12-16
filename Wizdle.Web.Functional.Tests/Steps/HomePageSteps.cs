@@ -124,6 +124,8 @@ internal sealed class HomePageSteps
         var expectedWords = new List<string> { expectedWord };
         IEnumerable<string> actualWords = await _homePage.GetPossibleWords();
 
+        await TakeScreenshot();
+
         Assert.That(
             actualWords,
             Is.EqualTo(expectedWords),
@@ -134,6 +136,9 @@ internal sealed class HomePageSteps
     public async Task AssertPossibleWordsContainsMultipleWords()
     {
         IEnumerable<string> actualWords = await _homePage.GetPossibleWords();
+
+        await TakeScreenshot();
+
         Assert.That(
             actualWords.Count(),
             Is.GreaterThan(1),
@@ -144,11 +149,19 @@ internal sealed class HomePageSteps
     [StepDefinition("on the Home page, no Possible Words should be displayed")]
     public async Task AssertNoPossibleWordsAreDisplayed()
     {
+        await TakeScreenshot();
+
         const string PossibleWordsTitleText = "Possible Words:";
         using (Assert.EnterMultipleScope())
         {
             Assert.That(await _homePage.DoesPageContainText(PossibleWordsTitleText), Is.False, $"Expected Title (\"{PossibleWordsTitleText}\") to not be displayed, but is visible.");
             Assert.That(await _homePage.IsPossibleWordsVisible(), Is.False, "Expected no Possible Words to be displayed, but some are visible.");
         }
+    }
+
+    private async Task TakeScreenshot()
+    {
+        string screenshotPath = await _homePage.GetScreenshot();
+        _reqnrollOutputHelper.AddAttachment(screenshotPath);
     }
 }
