@@ -29,6 +29,7 @@ flowchart LR
 | Prerequisite | Note |
 | ---          | ---  |
 | .NET10 SDK   | .NET10 or greater required.<br/>Check current .NET version `dotnet --version`.<br/>Download .NET10 [here](https://dotnet.microsoft.com/en-us/download/dotnet/10.0). |
+| Docker       | Download Docker [here](https://www.docker.com/get-started/). |
 
 # 🧙 Wizdle
 The Wizdle core library found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle), is responsbile for translating the request into a list of possible Words.
@@ -138,7 +139,7 @@ More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/m
 ```
 
 # 📲 Wizdle.Web
-The Wizdle Web contains a deployable Blazor web app instance of the Wizdle library (hosted on the new dotnet Aspire platform).
+The Wizdle Web contains a deployable Blazor web app instance of the Wizdle library (hosted on the new dotnet Aspire platform & Docker).
 
 More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Web)
 
@@ -163,6 +164,69 @@ Invite [link for Discord](https://discord.com/oauth2/authorize?client_id=1381710
   - [Wizdle.Web.Functional.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Web.Functional.Tests) (using axe-core)
 - Mutation Testing
   - [Strkyer.NET](https://dashboard.stryker-mutator.io/reports/github.com/lyndychivs/Wizdle/master) with [my GitHub Action](https://github.com/lyndychivs/dotnet-stryker-action)
- 
+
+# ⚙️ Make
+This project includes a Makefile to simplify common development tasks. Run `make help` to see all available commands.
+
+## Available Commands
+
+| Command | Description |
+|---------|-------------|
+| `make help` | Show all available make commands |
+| `make build` | Build the entire solution in Release mode |
+| `make test` | Run unit and integration tests |
+| `make build-api` | Build the Wizdle.Api Docker image |
+| `make build-web` | Build the Wizdle.Web Docker image |
+| `make build-discord` | Build the Wizdle.Discord Docker image |
+| `make build-all` | Build all Docker images (api, web, discord) |
+| `make compose` | Start all services using docker-compose in detached mode |
+| `make stop` | Stop all running Docker containers |
+| `make stop-volumes` | Stop containers and remove associated volumes |
+| `make logs` | Show and follow logs from all Docker containers |
+| `make restart` | Stop containers, rebuild all images, and restart services |
+| `make clean` | Clean build artifacts and prune all Docker resources |
+| `make docker-prune` | Prune unused Docker resources (images, containers, volumes) |
+| `make trust-cert` | Trust the .NET HTTPS development certificate |
+| `make token` | Generate a random 32-character token for API keys |
+| `make mutation` | Run Stryker mutation testing |
+| `make aspire` | Update Aspire tooling to latest version |
+
+## Quick Start
+
+1. Build the solution:
+   ```bash
+   make build
+   ```
+
+2. Run tests:
+   ```bash
+   make test
+   ```
+
+3. Generate tokens for your `.env` file:
+   ```bash
+   make token
+   ```
+
+4. Build all Docker images:
+   ```bash
+   make build-all
+   ```
+
+5. Start all services:
+   ```bash
+   make compose
+   ```
+
+6. View logs:
+   ```bash
+   make logs
+   ```
+
+7. Stop services:
+   ```bash
+   make stop
+   ```
+
 # TL;DR for the TL;DR
 > Lyndon, did you just spend all this time working on a tool to cheat wordle... rather than actually just solving the word?!
