@@ -61,9 +61,9 @@ jobs:
         name: Wizdle.Web.Functional.Tests
         retention-days: 30
         path: |
-          "**/Wizdle.Web.Functional.Tests/**/reports/Wizdle.Web.html"
-          "**/Wizdle.Web.Functional.Tests/**/screenshots/*.png"
-          "**/Wizdle.Web.Functional.Tests/**/playwright-traces/*.zip"
+          "**/reports/Wizdle.Web.html"
+          "**/screenshots/*.png"
+          "**/playwright-traces/*.zip"
 
     - name: nuget push - NuGet
       if: github.ref == 'refs/heads/master'
