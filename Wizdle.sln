@@ -70,7 +70,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{B20A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{7662659B-F04E-4C01-BC52-409D3DCB5C50}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\dotnet-restore-build-test-publish.yaml = .github\workflows\dotnet-restore-build-test-publish.yaml
+		.github\workflows\dotnet-build-test-publish.yaml = .github\workflows\dotnet-build-test-publish.yaml
 		.github\workflows\dotnet-stryker-action.yaml = .github\workflows\dotnet-stryker-action.yaml
 	EndProjectSection
 EndProject

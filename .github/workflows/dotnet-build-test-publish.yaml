@@ -35,10 +35,7 @@ jobs:
     - name: install Playwright
       run: |
         $playwrightScript = Get-ChildItem -Path . -Recurse -Filter playwright.ps1 | Where-Object { $_.FullName -like '*/bin/*' } | Select-Object -First 1 -ExpandProperty FullName
-        if (-not $playwrightScript)
-        {
-          throw "playwright.ps1 not found"
-        }
+        if (-not $playwrightScript) { throw "Playwright install script not found." }
         & $playwrightScript install --with-deps chromium --only-shell
       shell: pwsh
 
@@ -63,10 +60,11 @@ jobs:
       with:
         name: Wizdle.Web.Functional.Tests
         retention-days: 30
+        if-no-files-found: warn
         path: |
-          "**/reports/Wizdle.Web.html"
-          "**/screenshots/*.png"
-          "**/playwright-traces/*.zip"
+          Wizdle.Web.Functional.Tests/bin/Release/net10.0/reports/
+          Wizdle.Web.Functional.Tests/bin/Release/net10.0/screenshots/
+          Wizdle.Web.Functional.Tests/bin/Release/net10.0/playwright-traces/
 
     - name: nuget push - NuGet
       if: github.ref == 'refs/heads/master'
