@@ -32,6 +32,22 @@ jobs:
     - name: test - Wizdle.Integration.Tests
       run: dotnet test Wizdle.Integration.Tests/Wizdle.Integration.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=Wizdle.Integration.Tests.trx"
 
+    - name: install Playwright
+      run: |
+        $playwrightScript = Get-ChildItem -Path . -Recurse -Filter playwright.ps1 | Where-Object { $_.FullName -like '*/bin/*' } | Select-Object -First 1 -ExpandProperty FullName
+        if (-not $playwrightScript)
+        {
+          throw "playwright.ps1 not found"
+        }
+        & $playwrightScript install --with-deps
+      shell: pwsh
+
+    - name: build Docker images
+      run: make build-all
+
+    - name: test - Wizdle.Web.Functional.Tests
+      run: dotnet test Wizdle.Web.Functional.Tests/Wizdle.Web.Functional.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=Wizdle.Web.Functional.Tests.trx"
+
     - name: publish test results
       uses: EnricoMi/publish-unit-test-result-action@v2
       if: (!cancelled())
