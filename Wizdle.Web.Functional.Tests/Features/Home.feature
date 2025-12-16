@@ -1,4 +1,4 @@
-Feature: Home Page
+Feature: Home
 Users can successfully navigate the Wizdle Home page and interact with its elements.
 
 Scenario: Users can navigate to the Wizdle Home page

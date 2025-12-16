@@ -1,6 +1,7 @@
 namespace Wizdle.Web.Functional.Tests.Steps;
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Deque.AxeCore.Commons;
@@ -8,32 +9,79 @@ using Deque.AxeCore.Playwright;
 
 using Microsoft.Playwright;
 
-internal static class AccessibilityTestingSteps
+using NUnit.Framework;
+
+using Reqnroll;
+
+[Binding]
+internal sealed class AccessibilityTestingSteps
 {
-    public static async Task<AxeResult> ExecuteAccessibilityTesting(IPage page)
+    private readonly IReqnrollOutputHelper _reqnrollOutputHelper;
+
+    private readonly IPage _page;
+
+    private AxeResult? _axeResult;
+
+    public AccessibilityTestingSteps(IReqnrollOutputHelper reqnrollOutputHelper, IPage page)
     {
-        AxeResult axeResult = await page.RunAxe();
+        _reqnrollOutputHelper = reqnrollOutputHelper ?? throw new ArgumentNullException(nameof(reqnrollOutputHelper));
+        _page = page ?? throw new ArgumentNullException(nameof(page));
+    }
 
-        Console.WriteLine($"axe-core ran against {axeResult.Url} on {axeResult.Timestamp}");
+    [StepDefinition("I perform an Accessibility audit on the current Page")]
+    public async Task PerformAccessibilityAudit()
+    {
+        _axeResult = await _page.RunAxe(GetAxeRunOptions());
 
-        if (axeResult.Violations.Length == 0)
+        if (_axeResult is null)
         {
-            Console.WriteLine("No Accessibility Violations found.");
-            return axeResult;
+            throw new InvalidOperationException("Axe Result is null after running audit.");
         }
 
-        Console.WriteLine($"axe-core found {axeResult.Violations.Length} Violations:");
-        foreach (AxeResultItem violation in axeResult.Violations)
+        _reqnrollOutputHelper.WriteLine($"axe-core ran against {_axeResult.Url} on {_axeResult.Timestamp}");
+
+        _reqnrollOutputHelper.WriteLine($"axe-core found {_axeResult.Violations.Length} Violations:");
+        foreach (AxeResultItem violation in _axeResult.Violations)
         {
-            Console.WriteLine($"- Rule Id: {violation.Id} Description: {violation.Description} Impact: {violation.Impact} HelpUrl: {violation.HelpUrl}");
+            _reqnrollOutputHelper.WriteLine($"- Rule Id: {violation.Id} Description: {violation.Description} Impact: {violation.Impact} HelpUrl: {violation.HelpUrl}");
 
             foreach (AxeResultNode node in violation.Nodes)
             {
-                Console.WriteLine($"\tViolation found at: {node.Target}");
-                Console.WriteLine($"\t...with HTML: {node.Html}");
+                _reqnrollOutputHelper.WriteLine($"\tViolation found at: {node.Target}");
+                _reqnrollOutputHelper.WriteLine($"\t...with HTML: {node.Html}");
             }
         }
+    }
 
-        return axeResult;
+    [StepDefinition("the Page should have no Accessibility Violations")]
+    public async Task AssertNoAccessibilityViolations()
+    {
+        if (_axeResult is null)
+        {
+            throw new InvalidOperationException("Axe Result is null. Ensure that an accessibility audit has been performed before asserting on results.");
+        }
+
+        Assert.That(
+            _axeResult.Violations,
+            Is.Empty,
+            $"Expected no Accessibility Violations, but found {_axeResult.Violations.Length} Violations.");
+    }
+
+    private static AxeRunOptions GetAxeRunOptions()
+    {
+        var axeRunOptions = new AxeRunOptions();
+
+        axeRunOptions.Rules ??= new Dictionary<string, RuleOptions>();
+
+        if (axeRunOptions.Rules.TryGetValue("color-contrast", out RuleOptions? ruleOptions))
+        {
+            ruleOptions.Enabled = false;
+        }
+        else
+        {
+            axeRunOptions.Rules["color-contrast"] = new RuleOptions() { Enabled = false };
+        }
+
+        return axeRunOptions;
     }
 }

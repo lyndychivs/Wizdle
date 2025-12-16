@@ -143,7 +143,7 @@ internal sealed class HomePageSteps
             actualWords.Count(),
             Is.GreaterThan(1),
             $"Expected Possible Words to contain multiple words, but found only \"{string.Join(", ", actualWords)}\".");
-        _reqnrollOutputHelper.WriteLine($"Possible Words:{Environment.NewLine}{string.Join(Environment.NewLine, actualWords)}");
+        _reqnrollOutputHelper.WriteLine($"Possible Words (only 15 displayed here):{Environment.NewLine}{string.Join(Environment.NewLine, actualWords.Take(15))}");
     }
 
     [StepDefinition("on the Home page, no Possible Words should be displayed")]
