@@ -42,8 +42,11 @@ jobs:
         & $playwrightScript install --with-deps chromium --only-shell
       shell: pwsh
 
-    - name: build Docker images
-      run: make build-all
+    - name: build Docker - Wizdle.Api
+      run: make build-api
+
+    - name: build Docker - Wizdle.Web
+      run: make build-web
 
     - name: test - Wizdle.Web.Functional.Tests
       run: dotnet test Wizdle.Web.Functional.Tests/Wizdle.Web.Functional.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=Wizdle.Web.Functional.Tests.trx"
@@ -54,7 +57,7 @@ jobs:
       with:
         files: '**/*.trx'
 
-    - name: upload report
+    - name: upload artifacts - Wizdle.Web.Functional.Tests
       uses: actions/upload-artifact@v4
       if: (!cancelled())
       with:
