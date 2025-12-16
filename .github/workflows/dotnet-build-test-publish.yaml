@@ -39,7 +39,7 @@ jobs:
         {
           throw "playwright.ps1 not found"
         }
-        & $playwrightScript install --with-deps
+        & $playwrightScript install --with-deps chromium --only-shell
       shell: pwsh
 
     - name: build Docker images
