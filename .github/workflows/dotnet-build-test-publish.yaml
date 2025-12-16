@@ -54,6 +54,17 @@ jobs:
       with:
         files: '**/*.trx'
 
+    - name: upload report
+      uses: actions/upload-artifact@v4
+      if: (!cancelled())
+      with:
+        name: Wizdle.Web.Functional.Tests
+        retention-days: 30
+        path: |
+          "**/Wizdle.Web.Functional.Tests/**/reports/Wizdle.Web.html"
+          "**/Wizdle.Web.Functional.Tests/**/screenshots/*.png"
+          "**/Wizdle.Web.Functional.Tests/**/playwright-traces/*.zip"
+
     - name: nuget push - NuGet
       if: github.ref == 'refs/heads/master'
       run: dotnet nuget push **.nupkg --api-key ${{secrets.NUGET}} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
