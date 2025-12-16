@@ -7,13 +7,9 @@ using System.Net.Http.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Aspire.Hosting;
-using Aspire.Hosting.Testing;
-
 using NUnit.Framework;
 
-using Projects;
-
+using Wizdle.Api.Functional.Tests.Hooks;
 using Wizdle.Models;
 
 [TestFixture]
@@ -23,16 +19,19 @@ public class PostWizdleTests
 
     private const string RequestUri = "/";
 
+    private readonly HttpClient _httpClient;
+    private readonly string _testUrl;
+
+    public PostWizdleTests()
+    {
+        _httpClient = new HttpClient();
+        _testUrl = ContainerSetup.GetWizdleApiUrl().Result;
+    }
+
     [Test]
     public async Task PostWizdle_WithValidContent_ReturnsSuccess()
     {
         // Arrange
-        IDistributedApplicationTestingBuilder builder = await DistributedApplicationTestingBuilder
-            .CreateAsync<Wizdle_AppHost>();
-
-        await using DistributedApplication app = await builder.BuildAsync();
-        await app.StartAsync();
-
         HttpClient httpClient = app.CreateHttpClient(ApiResourceName);
 
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));

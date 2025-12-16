@@ -62,9 +62,9 @@ jobs:
         retention-days: 30
         if-no-files-found: warn
         path: |
-          Wizdle.Web.Functional.Tests/bin/Release/net10.0/reports/
-          Wizdle.Web.Functional.Tests/bin/Release/net10.0/screenshots/
-          Wizdle.Web.Functional.Tests/bin/Release/net10.0/playwright-traces/
+          Wizdle.Web.Functional.Tests/bin/**/reports/
+          Wizdle.Web.Functional.Tests/bin/**/screenshots/
+          Wizdle.Web.Functional.Tests/bin/**/playwright-traces/
 
     - name: nuget push - NuGet
       if: github.ref == 'refs/heads/master'

@@ -4,7 +4,6 @@
         <IsPackable>false</IsPackable>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Aspire.Hosting.Testing" />
         <PackageReference Include="Deque.AxeCore.Playwright" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" />
         <PackageReference Include="Microsoft.Playwright" />
@@ -22,9 +21,6 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Testcontainers" />
-    </ItemGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\Wizdle.AppHost\Wizdle.AppHost.csproj" />
     </ItemGroup>
     <ItemGroup>
       <None Update="local.runsettings">

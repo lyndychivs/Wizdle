@@ -7,8 +7,6 @@ using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Containers;
 using DotNet.Testcontainers.Networks;
 
-using Projects;
-
 using Reqnroll;
 
 using Wizdle.Web.Functional.Tests.Models;
@@ -28,7 +26,7 @@ internal sealed class ContainerHook
 
         IContainer apiContainer = new ContainerBuilder()
             .WithImage("wizdle-api:latest")
-            .WithName($"{nameof(Wizdle_Api)}-{Guid.NewGuid()}")
+            .WithName($"wizdle-api-{Guid.NewGuid()}")
             .WithAutoRemove(true)
             .WithCleanUp(true)
             .WithNetwork(network)
@@ -41,7 +39,7 @@ internal sealed class ContainerHook
 
         IContainer webContainer = new ContainerBuilder()
             .WithImage("wizdle-web:latest")
-            .WithName($"{nameof(Wizdle_Web)}-{Guid.NewGuid()}")
+            .WithName($"wizdle-web-{Guid.NewGuid()}")
             .WithAutoRemove(true)
             .WithCleanUp(true)
             .WithNetwork(network)

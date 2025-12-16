@@ -24,7 +24,7 @@ internal sealed class Program
 
         builder.Services.AddOutputCache();
 
-        builder.Services.AddHttpClient<WizdleApiClient>(client =>
+        builder.Services.AddHttpClient<WizdleHttpClient>(client =>
         {
             client.BaseAddress = new Uri("https+http://wizdle-api");
         });
