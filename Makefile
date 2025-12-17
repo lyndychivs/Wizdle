@@ -11,8 +11,8 @@ build: ## Build the Solution in Release mode
 	dotnet build --configuration Release
 
 test: ## Run Unit and Integration Tests
-	dotnet test Wizdle.Unit.Tests/Wizdle.Unit.Tests.csproj --configuration Release
-	dotnet test Wizdle.Integration.Tests/Wizdle.Integration.Tests.csproj --configuration Release
+	dotnet test Wizdle.Unit.Tests/Wizdle.Unit.Tests.csproj --configuration Release --no-build
+	dotnet test Wizdle.Integration.Tests/Wizdle.Integration.Tests.csproj --configuration Release --no-build
 
 build-api: ## Build Wizdle.Api Docker image (wizdle-api:latest)
 	dotnet publish Wizdle.Api/Wizdle.Api.csproj --configuration Release -t:PublishContainer --os linux --arch x64 -p:ContainerImageTag=latest -p:ContainerRepository=wizdle-api
