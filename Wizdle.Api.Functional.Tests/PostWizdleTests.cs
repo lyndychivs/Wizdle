@@ -4,19 +4,16 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Threading;
 using System.Threading.Tasks;
 
 using NUnit.Framework;
 
-using Wizdle.Api.Functional.Tests.Hooks;
+using Wizdle.Api.Functional.Tests.Setup;
 using Wizdle.Models;
 
 [TestFixture]
 public class PostWizdleTests
 {
-    private const string ApiResourceName = "wizdle-api";
-
     private const string RequestUri = "/";
 
     private readonly HttpClient _httpClient;
@@ -25,18 +22,20 @@ public class PostWizdleTests
     public PostWizdleTests()
     {
         _httpClient = new HttpClient();
+
         _testUrl = ContainerSetup.GetWizdleApiUrl().Result;
+        if (string.IsNullOrWhiteSpace(_testUrl))
+        {
+            throw new InvalidOperationException("Failed to obtain Wizdle API URL from container setup.");
+        }
+
+        _httpClient.BaseAddress = new Uri(_testUrl);
     }
 
     [Test]
     public async Task PostWizdle_WithValidContent_ReturnsSuccess()
     {
         // Arrange
-        HttpClient httpClient = app.CreateHttpClient(ApiResourceName);
-
-        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
-        await app.ResourceNotifications.WaitForResourceHealthyAsync(ApiResourceName, cts.Token);
-
         var request = new WizdleRequest
         {
             CorrectLetters = "s?ort",
@@ -51,14 +50,14 @@ public class PostWizdleTests
         };
 
         // Act
-        HttpResponseMessage response = httpClient.PostAsJsonAsync(RequestUri, request).Result;
+        HttpResponseMessage response = await _httpClient.PostAsJsonAsync(RequestUri, request);
 
         // Assert
         using (Assert.EnterMultipleScope())
         {
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 
-            WizdleResponse? result = response.Content.ReadFromJsonAsync<WizdleResponse>().Result;
+            WizdleResponse? result = await response.Content.ReadFromJsonAsync<WizdleResponse>();
 
             Assert.That(result?.Messages, Is.EqualTo(expectedResponse.Messages));
             Assert.That(result?.Words, Is.EqualTo(expectedResponse.Words));
@@ -68,28 +67,16 @@ public class PostWizdleTests
     [TestCase("")]
     [TestCase(" ")]
     [TestCase(null!)]
-    public async Task PostWizdle_WithInvalidContent_ReturnsInternalServerError(string content)
+    public async Task PostWizdle_WithInvalidContent_ReturnsBadRequest(string content)
     {
-        // Arrange
-        IDistributedApplicationTestingBuilder builder = await DistributedApplicationTestingBuilder
-            .CreateAsync<Wizdle_AppHost>();
-
-        await using DistributedApplication app = await builder.BuildAsync();
-        await app.StartAsync();
-
-        HttpClient httpClient = app.CreateHttpClient(ApiResourceName);
-
-        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
-        await app.ResourceNotifications.WaitForResourceHealthyAsync(ApiResourceName, cts.Token);
-
-        // Act
-        HttpResponseMessage response = await httpClient.PostAsJsonAsync(RequestUri, content);
+        // Arrange & Act
+        HttpResponseMessage response = await _httpClient.PostAsJsonAsync(RequestUri, content);
 
         // Assert
         using (Assert.EnterMultipleScope())
         {
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.InternalServerError));
-            Assert.That(response.Content.ReadAsStringAsync().Result, Is.EqualTo("An unexpected error occurred. Please try again later."));
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(await response.Content.ReadAsStringAsync(), Is.EqualTo(string.Empty));
         }
     }
 
@@ -97,17 +84,6 @@ public class PostWizdleTests
     public async Task PostWizdle_WithNullCorrectLetters_ReturnsMessageWithWarning()
     {
         // Arrange
-        IDistributedApplicationTestingBuilder builder = await DistributedApplicationTestingBuilder
-            .CreateAsync<Wizdle_AppHost>();
-
-        await using DistributedApplication app = await builder.BuildAsync();
-        await app.StartAsync();
-
-        HttpClient httpClient = app.CreateHttpClient(ApiResourceName);
-
-        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
-        await app.ResourceNotifications.WaitForResourceHealthyAsync(ApiResourceName, cts.Token);
-
         var request = new WizdleRequest
         {
             CorrectLetters = null!,
@@ -120,14 +96,14 @@ public class PostWizdleTests
         };
 
         // Act
-        HttpResponseMessage response = httpClient.PostAsJsonAsync(RequestUri, request).Result;
+        HttpResponseMessage response = await _httpClient.PostAsJsonAsync(RequestUri, request);
 
         // Assert
         using (Assert.EnterMultipleScope())
         {
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 
-            WizdleResponse? result = response.Content.ReadFromJsonAsync<WizdleResponse>().Result;
+            WizdleResponse? result = await response.Content.ReadFromJsonAsync<WizdleResponse>();
 
             Assert.That(result?.Messages, Is.EqualTo(expectedResponse.Messages));
             Assert.That(result?.Words, Is.EqualTo(expectedResponse.Words));
@@ -138,17 +114,6 @@ public class PostWizdleTests
     public async Task PostWizdle_WithNullMisplacedLetters_ReturnsMessageWithWarning()
     {
         // Arrange
-        IDistributedApplicationTestingBuilder builder = await DistributedApplicationTestingBuilder
-            .CreateAsync<Wizdle_AppHost>();
-
-        await using DistributedApplication app = await builder.BuildAsync();
-        await app.StartAsync();
-
-        HttpClient httpClient = app.CreateHttpClient(ApiResourceName);
-
-        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
-        await app.ResourceNotifications.WaitForResourceHealthyAsync(ApiResourceName, cts.Token);
-
         var request = new WizdleRequest
         {
             MisplacedLetters = null!,
@@ -161,14 +126,14 @@ public class PostWizdleTests
         };
 
         // Act
-        HttpResponseMessage response = httpClient.PostAsJsonAsync(RequestUri, request).Result;
+        HttpResponseMessage response = await _httpClient.PostAsJsonAsync(RequestUri, request);
 
         // Assert
         using (Assert.EnterMultipleScope())
         {
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 
-            WizdleResponse? result = response.Content.ReadFromJsonAsync<WizdleResponse>().Result;
+            WizdleResponse? result = await response.Content.ReadFromJsonAsync<WizdleResponse>();
 
             Assert.That(result?.Messages, Is.EqualTo(expectedResponse.Messages));
             Assert.That(result?.Words, Is.EqualTo(expectedResponse.Words));
@@ -179,17 +144,6 @@ public class PostWizdleTests
     public async Task PostWizdle_WithNullExcludeLetters_ReturnsMessageWithWarning()
     {
         // Arrange
-        IDistributedApplicationTestingBuilder builder = await DistributedApplicationTestingBuilder
-            .CreateAsync<Wizdle_AppHost>();
-
-        await using DistributedApplication app = await builder.BuildAsync();
-        await app.StartAsync();
-
-        HttpClient httpClient = app.CreateHttpClient(ApiResourceName);
-
-        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
-        await app.ResourceNotifications.WaitForResourceHealthyAsync(ApiResourceName, cts.Token);
-
         var request = new WizdleRequest
         {
             ExcludeLetters = null!,
@@ -202,14 +156,14 @@ public class PostWizdleTests
         };
 
         // Act
-        HttpResponseMessage response = httpClient.PostAsJsonAsync(RequestUri, request).Result;
+        HttpResponseMessage response = await _httpClient.PostAsJsonAsync(RequestUri, request);
 
         // Assert
         using (Assert.EnterMultipleScope())
         {
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 
-            WizdleResponse? result = response.Content.ReadFromJsonAsync<WizdleResponse>().Result;
+            WizdleResponse? result = await response.Content.ReadFromJsonAsync<WizdleResponse>();
 
             Assert.That(result?.Messages, Is.EqualTo(expectedResponse.Messages));
             Assert.That(result?.Words, Is.EqualTo(expectedResponse.Words));
@@ -221,31 +175,20 @@ public class PostWizdleTests
     public async Task PostWizdle_WithEmptyCorrectLetters_ReturnsResponseWithWords(string letters)
     {
         // Arrange
-        IDistributedApplicationTestingBuilder builder = await DistributedApplicationTestingBuilder
-            .CreateAsync<Wizdle_AppHost>();
-
-        await using DistributedApplication app = await builder.BuildAsync();
-        await app.StartAsync();
-
-        HttpClient httpClient = app.CreateHttpClient(ApiResourceName);
-
-        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
-        await app.ResourceNotifications.WaitForResourceHealthyAsync(ApiResourceName, cts.Token);
-
         var request = new WizdleRequest
         {
             CorrectLetters = letters,
         };
 
         // Act
-        HttpResponseMessage response = httpClient.PostAsJsonAsync(RequestUri, request).Result;
+        HttpResponseMessage response = await _httpClient.PostAsJsonAsync(RequestUri, request);
 
         // Assert
         using (Assert.EnterMultipleScope())
         {
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 
-            WizdleResponse? result = response.Content.ReadFromJsonAsync<WizdleResponse>().Result;
+            WizdleResponse? result = await response.Content.ReadFromJsonAsync<WizdleResponse>();
 
             Assert.That(result?.Messages, Is.EqualTo(["Found 2334 Word(s) matching the criteria."]));
             Assert.That(result?.Words, Is.Not.Empty);
@@ -257,31 +200,20 @@ public class PostWizdleTests
     public async Task PostWizdle_WithEmptyMisplacedLetters_ReturnsResponseWithWords(string letters)
     {
         // Arrange
-        IDistributedApplicationTestingBuilder builder = await DistributedApplicationTestingBuilder
-            .CreateAsync<Wizdle_AppHost>();
-
-        await using DistributedApplication app = await builder.BuildAsync();
-        await app.StartAsync();
-
-        HttpClient httpClient = app.CreateHttpClient(ApiResourceName);
-
-        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
-        await app.ResourceNotifications.WaitForResourceHealthyAsync(ApiResourceName, cts.Token);
-
         var request = new WizdleRequest
         {
             MisplacedLetters = letters,
         };
 
         // Act
-        HttpResponseMessage response = httpClient.PostAsJsonAsync(RequestUri, request).Result;
+        HttpResponseMessage response = await _httpClient.PostAsJsonAsync(RequestUri, request);
 
         // Assert
         using (Assert.EnterMultipleScope())
         {
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 
-            WizdleResponse? result = response.Content.ReadFromJsonAsync<WizdleResponse>().Result;
+            WizdleResponse? result = await response.Content.ReadFromJsonAsync<WizdleResponse>();
 
             Assert.That(result?.Messages, Is.EqualTo(["Found 2334 Word(s) matching the criteria."]));
             Assert.That(result?.Words, Is.Not.Empty);
@@ -293,31 +225,20 @@ public class PostWizdleTests
     public async Task PostWizdle_WithEmptyExcludeLetters_ReturnsResponseWithWords(string letters)
     {
         // Arrange
-        IDistributedApplicationTestingBuilder builder = await DistributedApplicationTestingBuilder
-            .CreateAsync<Wizdle_AppHost>();
-
-        await using DistributedApplication app = await builder.BuildAsync();
-        await app.StartAsync();
-
-        HttpClient httpClient = app.CreateHttpClient(ApiResourceName);
-
-        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
-        await app.ResourceNotifications.WaitForResourceHealthyAsync(ApiResourceName, cts.Token);
-
         var request = new WizdleRequest
         {
             ExcludeLetters = letters,
         };
 
         // Act
-        HttpResponseMessage response = httpClient.PostAsJsonAsync(RequestUri, request).Result;
+        HttpResponseMessage response = await _httpClient.PostAsJsonAsync(RequestUri, request);
 
         // Assert
         using (Assert.EnterMultipleScope())
         {
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 
-            WizdleResponse? result = response.Content.ReadFromJsonAsync<WizdleResponse>().Result;
+            WizdleResponse? result = await response.Content.ReadFromJsonAsync<WizdleResponse>();
 
             Assert.That(result?.Messages, Is.EqualTo(["Found 2334 Word(s) matching the criteria."]));
             Assert.That(result?.Words, Is.Not.Empty);
@@ -328,17 +249,6 @@ public class PostWizdleTests
     public async Task PostWizdle_WithNonLetterInputs_ReturnsResponseWithWordsIgnoringNonLetterInputs()
     {
         // Arrange
-        IDistributedApplicationTestingBuilder builder = await DistributedApplicationTestingBuilder
-            .CreateAsync<Wizdle_AppHost>();
-
-        await using DistributedApplication app = await builder.BuildAsync();
-        await app.StartAsync();
-
-        HttpClient httpClient = app.CreateHttpClient(ApiResourceName);
-
-        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
-        await app.ResourceNotifications.WaitForResourceHealthyAsync(ApiResourceName, cts.Token);
-
         var request = new WizdleRequest
         {
             CorrectLetters = "1!",
@@ -347,17 +257,23 @@ public class PostWizdleTests
         };
 
         // Act
-        HttpResponseMessage response = httpClient.PostAsJsonAsync(RequestUri, request).Result;
+        HttpResponseMessage response = await _httpClient.PostAsJsonAsync(RequestUri, request);
 
         // Assert
         using (Assert.EnterMultipleScope())
         {
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 
-            WizdleResponse? result = response.Content.ReadFromJsonAsync<WizdleResponse>().Result;
+            WizdleResponse? result = await response.Content.ReadFromJsonAsync<WizdleResponse>();
 
             Assert.That(result?.Messages, Is.EqualTo(["Found 2334 Word(s) matching the criteria."]));
             Assert.That(result?.Words, Is.Not.Empty);
         }
+    }
+
+    [OneTimeTearDown]
+    public void Dispose()
+    {
+        _httpClient.Dispose();
     }
 }

@@ -24,10 +24,7 @@ internal sealed class Program
         builder.Services
             .AddDiscordGateway(op => op.Intents = GatewayIntents.Guilds)
             .AddApplicationCommands()
-            .AddHttpClient<WizdleApiClient>(client =>
-            {
-                client.BaseAddress = new Uri("https+http://wizdle-api");
-            });
+            .AddHttpClient<WizdleApiClient>(client => client.BaseAddress = new Uri("https+http://wizdle-api"));
 
         IHost host = builder.Build();
 

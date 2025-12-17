@@ -71,7 +71,7 @@ internal sealed class AccessibilityTestingSteps
     {
         var axeRunOptions = new AxeRunOptions();
 
-        axeRunOptions.Rules ??= new Dictionary<string, RuleOptions>();
+        axeRunOptions.Rules ??= [];
 
         if (axeRunOptions.Rules.TryGetValue("color-contrast", out RuleOptions? ruleOptions))
         {

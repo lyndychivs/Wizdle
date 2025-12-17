@@ -1,4 +1,4 @@
-namespace Wizdle.Api.Functional.Tests.Hooks;
+namespace Wizdle.Api.Functional.Tests.Setup;
 
 using System;
 using System.Threading.Tasks;

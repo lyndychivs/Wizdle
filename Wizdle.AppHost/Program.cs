@@ -20,38 +20,26 @@ internal sealed class Program
         IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder(args);
 
         builder.AddDockerComposeEnvironment("wizdle")
-            .WithDashboard(dashboard =>
-            {
-                dashboard.WithHostPort(8080)
-                .WithForwardedHeaders(true);
-            });
+            .WithDashboard(dashboard => dashboard.WithHostPort(8080)
+                .WithForwardedHeaders(true));
 
         IResourceBuilder<ProjectResource> apiService = builder.AddProject<Wizdle_Api>(ApiServiceName)
             .WithExternalHttpEndpoints()
             .WithScalarDocs()
-            .PublishAsDockerComposeService((resource, service) =>
-            {
-                service.Name = ApiServiceName;
-            });
+            .PublishAsDockerComposeService((resource, service) => service.Name = ApiServiceName);
 
         builder.AddProject<Wizdle_Web>(WebServiceName)
             .WithExternalHttpEndpoints()
             .WithReference(apiService)
             .WaitFor(apiService)
-            .PublishAsDockerComposeService((resource, service) =>
-            {
-                service.Name = WebServiceName;
-            });
+            .PublishAsDockerComposeService((resource, service) => service.Name = WebServiceName);
 
         if (builder.Configuration.GetValue<bool>("EnableDiscord"))
         {
             builder.AddProject<Wizdle_Discord>(DiscordServiceName)
                 .WithExternalHttpEndpoints()
                 .WithReference(apiService)
-                .WaitFor(apiService).PublishAsDockerComposeService((resource, service) =>
-                {
-                    service.Name = DiscordServiceName;
-                });
+                .WaitFor(apiService).PublishAsDockerComposeService((resource, service) => service.Name = DiscordServiceName);
         }
 
         builder.Build().Run();
