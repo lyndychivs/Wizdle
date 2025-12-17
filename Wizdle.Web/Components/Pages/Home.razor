@@ -2,7 +2,7 @@
 @attribute [StreamRendering(true)]
 
 @inject ISnackbar Snackbar
-@inject WizdleApiClient WizdleApiClient
+@inject WizdleHttpClient WizdleClient
 
 @using Wizdle.Models
 
@@ -224,7 +224,7 @@
             ExcludeLetters = _excludedLetters,
         };
 
-        _wizdleResponse = await WizdleApiClient.PostWizdleRequestAsync(request);
+        _wizdleResponse = await WizdleClient.PostAsync(request);
 
         foreach (string message in _wizdleResponse.Messages)
         {

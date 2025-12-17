@@ -487,3 +487,6 @@ Installer/Output/
 
 # Stryker outputs
 StrykerOutput/
+
+# Reqnroll Feature.cs
+*.feature.cs

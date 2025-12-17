@@ -9,9 +9,9 @@ using Microsoft.AspNetCore.Http;
 
 using Wizdle.Models;
 
-internal sealed class WizdleApiClient(HttpClient httpClient)
+internal sealed class WizdleHttpClient(HttpClient httpClient)
 {
-    public async Task<WizdleResponse> PostWizdleRequestAsync(WizdleRequest wizdleRequest, CancellationToken cancellationToken = default)
+    public async Task<WizdleResponse> PostAsync(WizdleRequest wizdleRequest, CancellationToken cancellationToken = default)
     {
         HttpResponseMessage httpResponseMessage = await httpClient.PostAsJsonAsync("/", wizdleRequest, cancellationToken);
 

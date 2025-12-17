@@ -4,10 +4,9 @@
         <IsPackable>false</IsPackable>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Aspire.Hosting.Testing" />
         <PackageReference Include="Deque.AxeCore.Playwright" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" />
-        <PackageReference Include="Microsoft.Playwright.NUnit" />
+        <PackageReference Include="Microsoft.Playwright" />
         <PackageReference Include="NUnit" />
         <PackageReference Include="NUnit.Analyzers">
             <PrivateAssets>all</PrivateAssets>
@@ -16,16 +15,18 @@
         <PackageReference Include="NUnit3TestAdapter">
             <TreatAsUsed>true</TreatAsUsed>
         </PackageReference>
+        <PackageReference Include="Reqnroll.NUnit" />
         <PackageReference Include="StyleCop.Analyzers">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="Testcontainers" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Wizdle.AppHost\Wizdle.AppHost.csproj" />
-    </ItemGroup>
-    <ItemGroup>
-      <None Update=".runsettings">
+      <None Update="local.runsettings">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="reqnroll.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
     </ItemGroup>

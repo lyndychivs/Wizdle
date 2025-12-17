@@ -1,0 +1,11 @@
+{
+    "$schema": "https://schemas.reqnroll.net/reqnroll-config-latest.json",
+    "language": {
+        "feature": "en"
+    },
+    "formatters": {
+        "html": {
+            "outputFilePath": "reports/Wizdle.Web.html"
+        }
+    }
+}

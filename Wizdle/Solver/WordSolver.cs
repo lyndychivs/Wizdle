@@ -110,7 +110,6 @@ internal class WordSolver : IWordSolver
 
     private static List<string> FilterExcludeLetters(IEnumerable<string> wordsToFilter, List<char> excludeLetters)
     {
-        return wordsToFilter.Where(word => !excludeLetters.Any(letter => word.Contains(letter)))
-            .ToList();
+        return [.. wordsToFilter.Where(word => !excludeLetters.Any(letter => word.Contains(letter)))];
     }
 }
