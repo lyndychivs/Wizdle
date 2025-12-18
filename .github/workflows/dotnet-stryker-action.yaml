@@ -19,10 +19,3 @@ jobs:
           configurationFile: "stryker-config.json"
           dashboardApiKey: ${{ secrets.STRYKER_DASHBOARD }}
           version: ${{ github.ref_name }}
-
-      - name: Upload Stryker.NET Report
-        uses: actions/upload-artifact@v6
-        with:
-          name: dotnet-stryker-action-report
-          path: "${{ github.workspace }}/StrykerOutput/**/*.html"
-          overwrite: true
