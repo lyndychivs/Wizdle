@@ -51,7 +51,7 @@ jobs:
       run: dotnet test Wizdle.Web.Functional.Tests/Wizdle.Web.Functional.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --logger "trx;LogFileName=Wizdle.Web.Functional.Tests.trx"
 
     - name: Upload Artifacts for Wizdle.Web.Functional.Tests
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       if: (!cancelled())
       with:
         name: Wizdle.Web.Functional.Tests
