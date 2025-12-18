@@ -11,7 +11,9 @@
         <ProjectReference Include="..\Wizdle.Web\Wizdle.Web.csproj" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Aspire.Hosting.AppHost" />
+        <PackageReference Include="Aspire.Hosting.AppHost">
+          <TreatAsUsed>true</TreatAsUsed>
+        </PackageReference>
         <PackageReference Include="Aspire.Hosting.Docker" />
         <PackageReference Include="StyleCop.Analyzers">
             <PrivateAssets>all</PrivateAssets>
