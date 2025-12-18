@@ -1,4 +1,4 @@
-name: dotnet-stryker-action
+name: Mutation Testing with Stryker.NET
 run-name: Mutation Testing with Stryker.NET
 permissions:
   contents: read
@@ -7,14 +7,14 @@ on:
   schedule:
     - cron: '0 4 * * SUN'
 jobs:
-  dotnet-stryker-action:
+  mutation-testing:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v6
 
       - name: Run Stryker.NET
-        uses: lyndychivs/dotnet-stryker-action@v1.3
+        uses: lyndychivs/dotnet-stryker-action@v1.4
         with:
           configurationFile: "stryker-config.json"
           dashboardApiKey: ${{ secrets.STRYKER_DASHBOARD }}
