@@ -29,6 +29,9 @@ jobs:
     - name: build
       run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }}
 
+    - name: install Playwright
+      run: pwsh Wizdle.Web.Functional.Tests/bin/${{ env.CONFIGURATION }}/${{ env.TARGET_FRAMEWORK }}/playwright.ps1 install --with-deps chromium --only-shell
+
     - name: test - Wizdle.Unit.Tests
       run: dotnet test Wizdle.Unit.Tests/Wizdle.Unit.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --logger "trx;LogFileName=Wizdle.Unit.Tests.trx"
 
@@ -43,9 +46,6 @@ jobs:
 
     - name: build Docker - Wizdle.Web
       run: make build-web
-
-    - name: install Playwright
-      run: pwsh Wizdle.Web.Functional.Tests/bin/${{ env.CONFIGURATION }}/${{ env.TARGET_FRAMEWORK }}/playwright.ps1 install --with-deps chromium
 
     - name: test - Wizdle.Web.Functional.Tests
       run: dotnet test Wizdle.Web.Functional.Tests/Wizdle.Web.Functional.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --logger "trx;LogFileName=Wizdle.Web.Functional.Tests.trx"
