@@ -23,15 +23,12 @@ internal sealed class Program
 
         builder.Services
             .AddDiscordGateway(op => op.Intents = GatewayIntents.Guilds)
+            .AddGatewayHandlers(typeof(Program).Assembly)
             .AddApplicationCommands()
             .AddHttpClient<WizdleApiClient>(client => client.BaseAddress = new Uri("https+http://wizdle-api"));
 
         IHost host = builder.Build();
 
-        host.AddModules(typeof(Program).Assembly);
-
-        host.UseGatewayEventHandlers();
-
-        await host.RunAsync().ConfigureAwait(false);
+        await host.RunAsync();
     }
 }

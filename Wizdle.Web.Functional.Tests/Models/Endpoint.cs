@@ -2,5 +2,5 @@ namespace Wizdle.Web.Functional.Tests.Models;
 
 internal sealed class Endpoint
 {
-    required public string Url { get; set; } = string.Empty;
+    public required string Url { get; set; } = string.Empty;
 }

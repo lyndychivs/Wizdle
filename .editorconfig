@@ -46,3 +46,7 @@ dotnet_diagnostic.IDE0079.severity = none
 dotnet_diagnostic.CA1707.severity = none
 # CA1305: Specify IFormatProvider
 dotnet_diagnostic.CA1305.severity = none
+
+[*.feature.cs]
+# SA1518: The line endings at the end of a file do not match the settings for the project.
+dotnet_diagnostic.SA1518.severity = none
