@@ -1,6 +1,6 @@
 <p align="center"><img src="Resources/WizdleTitle.png" alt="Test Miner" width="512" height="512"></p>
 
-[![Mutation testing badge](https://img.shields.io/endpoint?style=for-the-badge&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Flyndychivs%2FWizdle%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/lyndychivs/Wizdle/master)
+[![Mutation testing badge](https://img.shields.io/endpoint?style=for-the-badge&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Flyndychivs%2FWizdle%2Fmain)](https://dashboard.stryker-mutator.io/reports/github.com/lyndychivs/Wizdle/main)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/Wizdle?style=for-the-badge&logo=nuget)](https://www.nuget.org/packages/Wizdle/)
 
 # 🔭 High Level
@@ -32,7 +32,7 @@ flowchart LR
 | Docker       | Download Docker [here](https://www.docker.com/get-started/). |
 
 # 🧙 Wizdle
-The Wizdle core library found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle), is responsbile for translating the request into a list of possible Words.
+The Wizdle core library found [here](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle), is responsbile for translating the request into a list of possible Words.
 
 ## Example
 ```csharp
@@ -57,7 +57,7 @@ Available on:
 # 💻 Wizdle.Console
 The Wizdle Console application allows us to access all the functionality of the Wizdle library via the CLI.
 
-More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Console)
+More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Console)
 
 ## Example
 **Command:**
@@ -79,14 +79,14 @@ sport
 # 🪟 Wizdle.Windows
 The Wizdle Windows application allows us to access all the functionality of the Wizdle library via a GUI on Windows.
 
-More information (and installers) can be found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Windows).
+More information (and installers) can be found [here](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Windows).
 
 ![Wizdle.Windows](Resources/Wizdle.Windows.png)
 
 # 📨 Wizdle.Api
 The Wizdle Api Service contains a deployable API instance of the Wizdle library.
 
-More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Api)
+More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Api)
 
 ## 🎯 `POST`
 
@@ -141,7 +141,7 @@ More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/m
 # 📲 Wizdle.Web
 The Wizdle Web contains a deployable Blazor web app instance of the Wizdle library (hosted on the new dotnet Aspire platform & Docker).
 
-More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Web)
+More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Web)
 
 ![Wizdle.Web Screenshot](Resources/WizdleWebScreenshot.png)
 
@@ -152,18 +152,18 @@ Invite [link for Discord](https://discord.com/oauth2/authorize?client_id=1381710
 
 # 🧪 Testing
 - Unit Testing
-  - [Wizdle.Unit.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Unit.Tests)
+  - [Wizdle.Unit.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Unit.Tests)
 - Integration Testing
-  - [Wizdle.Integration.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Integration.Tests)
+  - [Wizdle.Integration.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Integration.Tests)
 - Functional Testing
-  - [Wizdle.Api.Functional.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Api.Functional.Tests)
-  - [Wizdle.Web.Functional.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Web.Functional.Tests) (using Playwright)
+  - [Wizdle.Api.Functional.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Api.Functional.Tests)
+  - [Wizdle.Web.Functional.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Web.Functional.Tests) (using Playwright)
 - Performance Testing
-  - [Wizdle.Performance.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Performance.Tests) (using BenchmarkDotNet)
+  - [Wizdle.Performance.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Performance.Tests) (using BenchmarkDotNet)
 - Accessibility Testing
-  - [Wizdle.Web.Functional.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Web.Functional.Tests) (using axe-core)
+  - [Wizdle.Web.Functional.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Web.Functional.Tests) (using axe-core)
 - Mutation Testing
-  - [Strkyer.NET](https://dashboard.stryker-mutator.io/reports/github.com/lyndychivs/Wizdle/master) with [my GitHub Action](https://github.com/lyndychivs/dotnet-stryker-action)
+  - [Strkyer.NET](https://dashboard.stryker-mutator.io/reports/github.com/lyndychivs/Wizdle/main) with [my GitHub Action](https://github.com/lyndychivs/dotnet-stryker-action)
 
 # ⚙️ Make
 This project includes a Makefile to simplify common development tasks. Run `make help` to see all available commands.

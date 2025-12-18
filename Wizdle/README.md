@@ -3,7 +3,7 @@ A library for solving Wordle challenges in C#
 
 | Prerequisite        | Note |
 | :---                | :--- |
-| `ILogger` implementation|This library requires an implementation of `Microsoft.Extensions.Logging` to construct. (See my `SeriLog` example [here](https://github.com/lyndychivs/Wizdle/blob/master/Wizdle.Integration.Tests/WizdleEngineTests.cs#L273).)|
+| `ILogger` implementation|This library requires an implementation of `Microsoft.Extensions.Logging` to construct. (See my `SeriLog` example [here](https://github.com/lyndychivs/Wizdle/blob/main/Wizdle.Integration.Tests/WizdleEngineTests.cs#L273).)|
 
 ## Example
 ```csharp
@@ -21,7 +21,7 @@ WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
 ```
 
 ## Tests
-All Unit Tests can be found under the [Wizdle.Unit.Tests](https://github.com/lyndychivs/Wizdle/tree/master/Wizdle.Unit.Tests) namespace.
+All Unit Tests can be found under the [Wizdle.Unit.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Unit.Tests) namespace.
 
 ## Package
 Available on:

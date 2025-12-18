@@ -70,9 +70,9 @@ jobs:
         action_fail_on_inconclusive: true
 
     - name: NuGet Push to NuGet
-      if: github.ref == 'refs/heads/master'
+      if: github.ref == 'refs/heads/main'
       run: dotnet nuget push **.nupkg --api-key ${{secrets.NUGET}} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
 
     - name: NuGet Push to GitHub
-      if: github.ref == 'refs/heads/master'
+      if: github.ref == 'refs/heads/main'
       run: dotnet nuget push **.nupkg --api-key ${{secrets.GITHUB}} --source "https://nuget.pkg.github.com/lyndychivs/index.json" --skip-duplicate
