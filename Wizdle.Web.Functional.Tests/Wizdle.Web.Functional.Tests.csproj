@@ -5,6 +5,7 @@
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Deque.AxeCore.Playwright" />
+        <PackageReference Include="lyndychivs.Retry" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" />
         <PackageReference Include="Microsoft.Playwright" />
         <PackageReference Include="NUnit" />

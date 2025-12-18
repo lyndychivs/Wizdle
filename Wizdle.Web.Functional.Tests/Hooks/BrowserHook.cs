@@ -14,6 +14,8 @@ using NUnit.Framework.Interfaces;
 using Reqnroll;
 using Reqnroll.BoDi;
 
+using Retry;
+
 [Binding]
 internal static class BrowserHook
 {
@@ -30,10 +32,23 @@ internal static class BrowserHook
         ObjectContainer objectContainer,
         ScenarioContext scenarioContext)
     {
+        var retry = new Retry(TimeSpan.FromSeconds(30), TimeSpan.FromSeconds(3));
+
         string browserType = Environment.GetEnvironmentVariable(BrowserEnvironmentVariable) ?? BrowserDefault;
         bool isHeadless = bool.Parse(Environment.GetEnvironmentVariable(HeadlessEnvironmentVariable) ?? HeadlessDefault);
 
-        IPlaywright playwright = await Playwright.CreateAsync();
+        IPlaywright playwright = null!;
+        await retry.UntilAsync(async () =>
+        {
+            playwright = await Playwright.CreateAsync();
+            return await Task.FromResult(playwright is not null);
+        });
+
+        if (playwright is null)
+        {
+            throw new InvalidOperationException("Failed to initialize Playwright.");
+        }
+
         IBrowser browser = await playwright[browserType].LaunchAsync(new BrowserTypeLaunchOptions
         {
             Headless = isHeadless,
