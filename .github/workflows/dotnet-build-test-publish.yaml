@@ -11,6 +11,9 @@ on:
 jobs:
   build-test-publish:
     runs-on: ubuntu-latest
+    env:
+      CONFIGURATION: Release
+      TARGET_FRAMEWORK: net10.0
     steps:
     - name: checkout
       uses: actions/checkout@v6
@@ -24,32 +27,28 @@ jobs:
       run: dotnet restore
 
     - name: build
-      run: dotnet build --no-restore --configuration Release
+      run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }}
 
     - name: test - Wizdle.Unit.Tests
-      run: dotnet test Wizdle.Unit.Tests/Wizdle.Unit.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=Wizdle.Unit.Tests.trx"
+      run: dotnet test Wizdle.Unit.Tests/Wizdle.Unit.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --logger "trx;LogFileName=Wizdle.Unit.Tests.trx"
 
     - name: test - Wizdle.Integration.Tests
-      run: dotnet test Wizdle.Integration.Tests/Wizdle.Integration.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=Wizdle.Integration.Tests.trx"
+      run: dotnet test Wizdle.Integration.Tests/Wizdle.Integration.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --logger "trx;LogFileName=Wizdle.Integration.Tests.trx"
 
     - name: build Docker - Wizdle.Api
       run: make build-api
 
     - name: test - Wizdle.Api.Functional.Tests
-      run: dotnet test Wizdle.Api.Functional.Tests/Wizdle.Api.Functional.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=Wizdle.Api.Functional.Tests.trx"
+      run: dotnet test Wizdle.Api.Functional.Tests/Wizdle.Api.Functional.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --logger "trx;LogFileName=Wizdle.Api.Functional.Tests.trx"
 
     - name: build Docker - Wizdle.Web
       run: make build-web
 
     - name: install Playwright
-      run: |
-        $playwrightScript = Get-ChildItem -Path . -Recurse -Filter playwright.ps1 | Where-Object { $_.FullName -like '*/bin/*' } | Select-Object -First 1 -ExpandProperty FullName
-        if (-not $playwrightScript) { throw "Playwright install script not found." }
-        & $playwrightScript install --with-deps chromium --only-shell
-      shell: pwsh
+      run: pwsh Wizdle.Web.Functional.Tests/bin/${{ env.CONFIGURATION }}/${{ env.TARGET_FRAMEWORK }}/playwright.ps1 install --with-deps chromium
 
     - name: test - Wizdle.Web.Functional.Tests
-      run: dotnet test Wizdle.Web.Functional.Tests/Wizdle.Web.Functional.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=Wizdle.Web.Functional.Tests.trx"
+      run: dotnet test Wizdle.Web.Functional.Tests/Wizdle.Web.Functional.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --logger "trx;LogFileName=Wizdle.Web.Functional.Tests.trx"
 
     - name: upload artifacts - Wizdle.Web.Functional.Tests
       uses: actions/upload-artifact@v4
