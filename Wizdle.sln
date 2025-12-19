@@ -50,8 +50,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Wizdle.Domain", "Wizdle.Domain", "{15ECD09E-9654-4843-AFC5-C61920BC8E8B}"
 	ProjectSection(SolutionItems) = preProject
 		Wizdle.Domain\README.md = Wizdle.Domain\README.md
-		Wizdle.Domain\Wizdle.png = Wizdle.Domain\Wizdle.png
-		Wizdle.Domain\Wizdle.puml = Wizdle.Domain\Wizdle.puml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{1E13E649-E3A5-4916-9905-1096DCE3C7E5}"
