@@ -2,7 +2,6 @@
 Class Domain model created using [PlantUML](https://plantuml.com/).
 
 ```mermaid
-@startuml
 !theme plain
 
 ~interface IWords {
@@ -116,5 +115,4 @@ WizdleEngine --> WizdleResponse : uses
 
 WizdleEngine --> ILogger
 
-@enduml
 ```
