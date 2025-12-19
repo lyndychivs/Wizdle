@@ -1,116 +1,128 @@
 # Wizdle.Domain
-Class Domain model created using [PlantUML](https://plantuml.com/).
+Class Domain model created using [mermaid](https://www.mermaidchart.com/).
 
 ```mermaid
-~interface IWords {
-    +IEnumerable<string> GetWords()
-}
+---
+config:
+  class:
+    hideEmptyMembersBox: true
+  look: neo
+  theme: neo
+  layout: elk
+title: Wizdle Domain
+---
+classDiagram
+direction TB
+    namespace Wizdle {
+        class IWords {
+            +GetWords() IEnumerable~string~
+        }
 
-~class Words {
-    +IEnumerable<string> GetWords()
-}
+        class Words {
+            +GetWords() IEnumerable~string~
+        }
 
-IWords <|-- Words
+        class IRequestMapper {
+            +MapToSolveParameters(WizdleRequest) SolveParameters
+        }
 
-~interface IRequestMapper {
-    +SolveParameters MapToSolveParameters(WizdleRequest)
-}
+        class RequestMapper {
+            -ILogger _logger
+            +MapToSolveParameters(WizdleRequest) SolveParameters
+        }
 
-~class RequestMapper {
-    -ILogger _logger
-    +SolveParameters MapToSolveParameters(WizdleRequest)
-}
+        class IWordRepository {
+            +GetWords() IEnumerable~string~
+        }
 
-IRequestMapper <|-- RequestMapper
+        class WordRepository {
+            -ILogger _logger
+            -IWords _words
+            +GetWords() IEnumerable~string~
+        }
 
-~interface IWordRepository {
-    +IEnumerable<string> GetWords()
-}
+        class IWordSolver {
+            +Solve(SolveParameters) IEnumerable~string~
+        }
 
-~class WordRepository {
-    -ILogger _logger
-    -IWords _words
-    +IEnumerable<string> GetWords()
-}
+        class WordSolver {
+            -ILogger _logger
+            -IWordRepository _wordRepository
+            -ISolveParametersValidator _wordParameterValidator
+            -IEnumerable~string~ _words
+            +Solve(SolveParameters) IEnumerable~string~
+        }
 
-IWordRepository <|-- WordRepository
-WordRepository --> IWords
+        class SolveParameters {
+            +IList~char~ CorrectLetters
+            +IList~char~ MisplacedLetters
+            +IList~char~ ExcludeLetters
+        }
 
-~interface IWordSolver {
-    +IEnumerable<string> Solve(SolveParameters)
-}
+        class ISolveParametersValidator {
+            +IsValid(SolveParameters) bool
+        }
 
-~class WordSolver {
-    -ILogger _logger
-    -IWordRepository _wordRepository
-    -ISolveParametersValidator _wordParameterValidator
-    -IEnumerable<string> _words
-    +IEnumerable<string> Solve(SolveParameters)
-}
+        class SolveParametersValidator {
+            -ILogger _logger
+            +IsValid(SolveParameters) bool
+        }
 
-~class SolveParameters {
-    +IList<char> CorrectLetters
-    +IList<char> MisplacedLetters
-    +IList<char> ExcludeLetters
-}
+        class IRequestValidator {
+            +GetErrors(WizdleRequest) IEnumerable~string~
+        }
 
-IWordSolver <|-- WordSolver
-IWordSolver --> SolveParameters : uses
-WordSolver --> SolveParameters : uses
-WordSolver --> IWordRepository
-WordSolver --> ISolveParametersValidator
+        class RequestValidator {
+            -ILogger _logger
+            +GetErrors(WizdleRequest) IEnumerable~string~
+        }
 
-~interface ISolveParametersValidator {
-    +bool IsValid(SolveParameters)
-}
+        class WizdleEngine {
+            -ILogger _logger
+            -IRequestValidator _requestValidator
+            -IWordSolver _wordSolver
+            -IRequestMapper _requestMapper
+            +ProcessWizdleRequest(WizdleRequest) WizdleResponse
+        }
 
-~class SolveParametersValidator {
-    -ILogger _logger
-    +bool IsValid(SolveParameters)
-}
+        class WizdleResponse {
+            +IEnumerable~string~ Messages
+            +IEnumerable~string~ Words
+        }
 
-ISolveParametersValidator <|-- SolveParametersValidator
+        class WizdleRequest {
+            +string CorrectLetters
+            +string MisplacedLetters
+            +string ExcludeLetters
+        }
 
-~interface IRequestValidator {
-    +IEnumerable<string> GetErrors(WizdleRequest)
-}
+        class ILogger {
+        }
+    }
 
-~class RequestValidator {
-    -ILogger _logger
-    +IEnumerable<string> GetErrors(WizdleRequest)
-}
+    <<interface>> IWords
+    <<interface>> IRequestMapper
+    <<interface>> IWordRepository
+    <<interface>> IWordSolver
+    <<interface>> ISolveParametersValidator
+    <<interface>> IRequestValidator
+    <<interface>> ILogger
 
-IRequestValidator <|-- RequestValidator
-
-+class WizdleEngine {
-    -ILogger _logger
-    -IRequestValidator _requestValidator
-    -IWordSolver _wordSolver
-    -IRequestMapper _requestMapper
-    +WizdleResponse ProcessWizdleRequest(WizdleRequest)
-}
-
-WizdleEngine --> IRequestValidator
-WizdleEngine --> IWordSolver
-WizdleEngine --> IRequestMapper
-
-+class WizdleResponse {
-    +IEnumerable<string> Messages
-    +IEnumerable<string> Words
-}
-
-+class WizdleRequest {
-    +string CorrectLetters
-    +string MisplacedLetters
-    +string ExcludeLetters
-}
-
-WizdleEngine --> WizdleRequest : uses
-WizdleEngine --> WizdleResponse : uses
-
-+interface ILogger {
-}
-
-WizdleEngine --> ILogger
-
+    IWords <|.. Words
+    IRequestMapper <|.. RequestMapper
+    IWordRepository <|.. WordRepository
+    WordRepository --> IWords
+    IWordSolver <|.. WordSolver
+    IWordSolver --> SolveParameters : uses
+    WordSolver --> SolveParameters : uses
+    WordSolver --> IWordRepository
+    WordSolver --> ISolveParametersValidator
+    ISolveParametersValidator <|.. SolveParametersValidator
+    IRequestValidator <|.. RequestValidator
+    WizdleEngine --> IRequestValidator
+    WizdleEngine --> IWordSolver
+    WizdleEngine --> IRequestMapper
+    WizdleEngine --> WizdleRequest : uses
+    WizdleEngine --> WizdleResponse : uses
+    WizdleEngine --> ILogger
 ```
