@@ -2,8 +2,6 @@
 Class Domain model created using [PlantUML](https://plantuml.com/).
 
 ```mermaid
-!theme plain
-
 ~interface IWords {
     +IEnumerable<string> GetWords()
 }
