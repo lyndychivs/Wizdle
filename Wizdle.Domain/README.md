@@ -98,6 +98,7 @@ direction TB
 
         class ILogger {
         }
+
     }
 
     <<interface>> IWords
@@ -125,4 +126,5 @@ direction TB
     WizdleEngine --> WizdleRequest : uses
     WizdleEngine --> WizdleResponse : uses
     WizdleEngine --> ILogger
+
 ```
