@@ -33,7 +33,7 @@
     <PackageVersion Include="Reqnroll" Version="3.2.1" />
     <PackageVersion Include="Reqnroll.NUnit" Version="3.3.0" />
     <PackageVersion Include="Reqnroll.Tools.MsBuild.Generation" Version="3.2.1" />
-    <PackageVersion Include="Scalar.AspNetCore" Version="2.11.7" />
+    <PackageVersion Include="Scalar.AspNetCore" Version="2.11.8" />
     <PackageVersion Include="Serilog" Version="4.3.0" />
     <PackageVersion Include="Serilog.Extensions.Logging" Version="10.0.0" />
     <PackageVersion Include="Serilog.Sinks.Console" Version="6.1.1" />
