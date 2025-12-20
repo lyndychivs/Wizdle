@@ -1,44 +1,44 @@
 <Project>
-  <PropertyGroup>
-    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageVersion Include="Aspire.Hosting.AppHost" Version="13.1.0" />
-    <PackageVersion Include="Aspire.Hosting.Docker" Version="13.1.0-preview.1.25616.3" />
-    <PackageVersion Include="Aspire.Hosting.Testing" Version="13.0.2" />
-    <PackageVersion Include="BenchmarkDotNet" Version="0.15.8" />
-    <PackageVersion Include="CommandLineParser" Version="2.9.1" />
-    <PackageVersion Include="Deque.AxeCore.Playwright" Version="4.11.0" />
-    <PackageVersion Include="lyndychivs.Retry" Version="1.0.3" />
-    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.1.0" />
-    <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="10.1.0" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
-    <PackageVersion Include="Microsoft.Playwright" Version="1.57.0" />
-    <PackageVersion Include="Moq" Version="4.20.72" />
-    <PackageVersion Include="MudBlazor" Version="8.15.0" />
-    <PackageVersion Include="NetCord.Hosting.Services" Version="1.0.0-alpha.450" />
-    <PackageVersion Include="NUnit" Version="4.4.0" />
-    <PackageVersion Include="NUnit.Analyzers" Version="4.11.2" />
-    <PackageVersion Include="NUnit3TestAdapter" Version="6.0.0" />
-    <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.14.0" />
-    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.14.0" />
-    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.14.0" />
-    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.14.0" />
-    <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.14.0" />
-    <PackageVersion Include="Reqnroll" Version="3.2.1" />
-    <PackageVersion Include="Reqnroll.NUnit" Version="3.3.0" />
-    <PackageVersion Include="Reqnroll.Tools.MsBuild.Generation" Version="3.2.1" />
-    <PackageVersion Include="Scalar.AspNetCore" Version="2.11.8" />
-    <PackageVersion Include="Serilog" Version="4.3.0" />
-    <PackageVersion Include="Serilog.Extensions.Logging" Version="10.0.0" />
-    <PackageVersion Include="Serilog.Sinks.Console" Version="6.1.1" />
-    <PackageVersion Include="Serilog.Sinks.RichTextBox.WinForms.Colored" Version="3.2.0" />
-    <PackageVersion Include="StyleCop.Analyzers" Version="1.2.0-beta.556" />
-    <PackageVersion Include="Testcontainers" Version="4.9.0" />
-  </ItemGroup>
+    <PropertyGroup>
+        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageVersion Include="Aspire.Hosting.AppHost" Version="13.1.0" />
+        <PackageVersion Include="Aspire.Hosting.Docker" Version="13.1.0-preview.1.25616.3" />
+        <PackageVersion Include="Aspire.Hosting.Testing" Version="13.0.2" />
+        <PackageVersion Include="BenchmarkDotNet" Version="0.15.8" />
+        <PackageVersion Include="CommandLineParser" Version="2.9.1" />
+        <PackageVersion Include="Deque.AxeCore.Playwright" Version="4.11.0" />
+        <PackageVersion Include="lyndychivs.Retry" Version="1.0.3" />
+        <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1" />
+        <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
+        <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.0" />
+        <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.1.0" />
+        <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.0" />
+        <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.1" />
+        <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="10.1.0" />
+        <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
+        <PackageVersion Include="Microsoft.Playwright" Version="1.57.0" />
+        <PackageVersion Include="Moq" Version="4.20.72" />
+        <PackageVersion Include="MudBlazor" Version="8.15.0" />
+        <PackageVersion Include="NetCord.Hosting.Services" Version="1.0.0-alpha.450" />
+        <PackageVersion Include="NUnit" Version="4.4.0" />
+        <PackageVersion Include="NUnit.Analyzers" Version="4.11.2" />
+        <PackageVersion Include="NUnit3TestAdapter" Version="6.0.0" />
+        <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.14.0" />
+        <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.14.0" />
+        <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.14.0" />
+        <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.14.0" />
+        <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.14.0" />
+        <PackageVersion Include="Reqnroll" Version="3.2.1" />
+        <PackageVersion Include="Reqnroll.NUnit" Version="3.3.0" />
+        <PackageVersion Include="Reqnroll.Tools.MsBuild.Generation" Version="3.2.1" />
+        <PackageVersion Include="Scalar.AspNetCore" Version="2.11.8" />
+        <PackageVersion Include="Serilog" Version="4.3.0" />
+        <PackageVersion Include="Serilog.Extensions.Logging" Version="10.0.0" />
+        <PackageVersion Include="Serilog.Sinks.Console" Version="6.1.1" />
+        <PackageVersion Include="Serilog.Sinks.RichTextBox.WinForms.Colored" Version="3.2.0" />
+        <PackageVersion Include="StyleCop.Analyzers" Version="1.2.0-beta.556" />
+        <PackageVersion Include="Testcontainers" Version="4.9.0" />
+    </ItemGroup>
 </Project>
