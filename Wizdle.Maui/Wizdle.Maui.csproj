@@ -51,4 +51,9 @@
         <PackageReference Include="Microsoft.Maui.Controls" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Wizdle.Models\Wizdle.Models.csproj" />
+      <ProjectReference Include="..\Wizdle\Wizdle.csproj" />
+    </ItemGroup>
+
 </Project>

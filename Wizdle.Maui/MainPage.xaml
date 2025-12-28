@@ -139,6 +139,27 @@
                     HorizontalOptions="Center"
                     WidthRequest="200"
                     Clicked="OnSolveClicked" />
+
+            <Label x:Name="ResultsLabel"
+                   IsVisible="False"
+                   Text="Results"
+                   HorizontalOptions="Center" />
+
+            <CollectionView x:Name="WordsCollectionView"
+                            SelectionMode="None">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" ItemSpacing="10" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Label Text="{Binding .}"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               FontSize="16"
+                               Padding="5" />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
