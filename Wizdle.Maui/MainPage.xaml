@@ -4,18 +4,132 @@
              x:Class="Wizdle.Maui.MainPage">
     <ScrollView>
         <VerticalStackLayout Padding="30,0" Spacing="25">
-            <Image
-                Source="wizdle_title.png"
-                HeightRequest="185"
-                Aspect="AspectFit"
-                SemanticProperties.Description="Wizdle" />
+            <Image Source="wizdle_title.png"
+                   HeightRequest="185"
+                   Aspect="AspectFit"
+                   SemanticProperties.Description="Wizdle" />
 
-            <Button
-                x:Name="CounterBtn"
-                Text="Click me" 
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Fill" />
+            <Label Text="Correct"
+                   HorizontalOptions="Center" />
+
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                <Entry x:Name="Correct1"
+                       WidthRequest="50"
+                       HeightRequest="50"
+                       MaxLength="1"
+                       BackgroundColor="Green"
+                       TextColor="Black"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       FontSize="24" />
+                <Entry x:Name="Correct2"
+                       WidthRequest="50"
+                       HeightRequest="50"
+                       MaxLength="1"
+                       BackgroundColor="Green"
+                       TextColor="Black"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       FontSize="24" />
+                <Entry x:Name="Correct3"
+                       WidthRequest="50"
+                       HeightRequest="50"
+                       MaxLength="1"
+                       BackgroundColor="Green"
+                       TextColor="Black"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       FontSize="24" />
+                <Entry x:Name="Correct4"
+                       WidthRequest="50"
+                       HeightRequest="50"
+                       MaxLength="1"
+                       BackgroundColor="Green"
+                       TextColor="Black"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       FontSize="24" />
+                <Entry x:Name="Correct5"
+                       WidthRequest="50"
+                       HeightRequest="50"
+                       MaxLength="1"
+                       BackgroundColor="Green"
+                       TextColor="Black"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       FontSize="24" />
+            </HorizontalStackLayout>
+
+            <Label Text="Misplaced"
+                   HorizontalOptions="Center" />
+
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                <Entry x:Name="Misplaced1"
+                       WidthRequest="50"
+                       HeightRequest="50"
+                       MaxLength="1"
+                       BackgroundColor="Yellow"
+                       TextColor="Black"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       FontSize="24" />
+                <Entry x:Name="Misplaced2"
+                       WidthRequest="50"
+                       HeightRequest="50"
+                       MaxLength="1"
+                       BackgroundColor="Yellow"
+                       TextColor="Black"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       FontSize="24" />
+                <Entry x:Name="Misplaced3"
+                       WidthRequest="50"
+                       HeightRequest="50"
+                       MaxLength="1"
+                       BackgroundColor="Yellow"
+                       TextColor="Black"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       FontSize="24" />
+                <Entry x:Name="Misplaced4"
+                       WidthRequest="50"
+                       HeightRequest="50"
+                       MaxLength="1"
+                       BackgroundColor="Yellow"
+                       TextColor="Black"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       FontSize="24" />
+                <Entry x:Name="Misplaced5"
+                       WidthRequest="50"
+                       HeightRequest="50"
+                       MaxLength="1"
+                       BackgroundColor="Yellow"
+                       TextColor="Black"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       FontSize="24" />
+            </HorizontalStackLayout>
+
+            <Label Text="Excluded"
+                   HorizontalOptions="Center" />
+
+            <Entry x:Name="Excluded"
+                   WidthRequest="290"
+                   HeightRequest="50"
+                   MaxLength="26"
+                   BackgroundColor="Gray"
+                   TextColor="Black"
+                   HorizontalTextAlignment="Center"
+                   VerticalTextAlignment="Center"
+                   FontSize="24"
+                   HorizontalOptions="Center" />
+
+            <Button x:Name="SolveButton"
+                    Text="Solve"
+                    HorizontalOptions="Center"
+                    WidthRequest="200"
+                    Clicked="OnSolveClicked" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

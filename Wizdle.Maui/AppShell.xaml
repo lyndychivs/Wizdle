@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:Wizdle.Maui"
     Title="Wizdle">
     <ShellContent
-        Title="Home"
+        Title=""
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 </Shell>
