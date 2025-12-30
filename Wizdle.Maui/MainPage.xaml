@@ -156,7 +156,7 @@
                                HorizontalOptions="Center"
                                VerticalOptions="Center"
                                FontSize="16"
-                               Padding="5" />
+                               Padding="10,30" />
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
