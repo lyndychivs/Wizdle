@@ -83,8 +83,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".aspire", ".aspire", "{A563
 		.aspire\settings.json = .aspire\settings.json
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Maui", "Wizdle.Maui\Wizdle.Maui.csproj", "{223BD741-A761-41C5-AD50-3F5635232CD4}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Wpf", "Wizdle.Wpf\Wizdle.Wpf.csproj", "{375A9383-466E-4C1D-B3FE-9597A01B4201}"
 EndProject
 Global
@@ -167,14 +165,6 @@ Global
 		{193A2E87-2AEF-8F20-006B-C06A03E7E1B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{193A2E87-2AEF-8F20-006B-C06A03E7E1B2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{193A2E87-2AEF-8F20-006B-C06A03E7E1B2}.Stryker|Any CPU.ActiveCfg = Stryker|Any CPU
-		{223BD741-A761-41C5-AD50-3F5635232CD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{223BD741-A761-41C5-AD50-3F5635232CD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{223BD741-A761-41C5-AD50-3F5635232CD4}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{223BD741-A761-41C5-AD50-3F5635232CD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{223BD741-A761-41C5-AD50-3F5635232CD4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{223BD741-A761-41C5-AD50-3F5635232CD4}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{223BD741-A761-41C5-AD50-3F5635232CD4}.Stryker|Any CPU.ActiveCfg = Stryker|Any CPU
-		{223BD741-A761-41C5-AD50-3F5635232CD4}.Stryker|Any CPU.Build.0 = Stryker|Any CPU
 		{375A9383-466E-4C1D-B3FE-9597A01B4201}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{375A9383-466E-4C1D-B3FE-9597A01B4201}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{375A9383-466E-4C1D-B3FE-9597A01B4201}.Release|Any CPU.ActiveCfg = Release|Any CPU
