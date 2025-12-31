@@ -1,6 +1,6 @@
 name: wizdle
 services:
-  app:
-    language: dotnet
-    project: ./Wizdle.AppHost.csproj
-    host: containerapp
+    app:
+        language: dotnet
+        project: ./Wizdle.AppHost.csproj
+        host: containerapp

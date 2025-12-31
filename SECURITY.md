@@ -1,6 +1,7 @@
 # Security Policy
 
 ## Supported Versions
+
 Versions currently supported with security updates.
 
 | Version | Supported          |

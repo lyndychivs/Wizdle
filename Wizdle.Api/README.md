@@ -17,19 +17,18 @@ A simple API to help solve word puzzles by narrowing down possible matches based
 #### Body Parameters
 
 | Name               | Type     |
-|--------------------|----------|
+| ------------------ | -------- |
 | `correctLetters`   | `string` |
 | `misplacedLetters` | `string` |
 | `excludeLetters`   | `string` |
-
 
 **Example:**
 
 ```json
 {
-  "correctLetters": "a__le",
-  "misplacedLetters": "t",
-  "excludeLetters": "xyz"
+    "correctLetters": "a__le",
+    "misplacedLetters": "t",
+    "excludeLetters": "xyz"
 }
 ```
 
@@ -41,18 +40,17 @@ A simple API to help solve word puzzles by narrowing down possible matches based
 
 #### Body
 
-| Name        | Type              |
-|-------------|-------------------|
-| `messages`  | `array of string` |
-| `words`     | `array of string` |
-
+| Name       | Type              |
+| ---------- | ----------------- |
+| `messages` | `array of string` |
+| `words`    | `array of string` |
 
 **Example:**
 
 ```json
 {
-  "messages": ["Found 2 Word(s) matching the criteria."],
-  "words": ["apple", "angle"]
+    "messages": ["Found 2 Word(s) matching the criteria."],
+    "words": ["apple", "angle"]
 }
 ```
 

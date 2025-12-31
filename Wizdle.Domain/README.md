@@ -1,4 +1,5 @@
 # Wizdle.Domain
+
 Class Domain model created using [mermaid](https://www.mermaidchart.com/).
 
 ```mermaid
