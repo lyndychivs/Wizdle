@@ -11,7 +11,10 @@
         <ProjectReference Include="..\Wizdle.ServiceDefaults\Wizdle.ServiceDefaults.csproj" />
     </ItemGroup>
     <ItemGroup>
-        <Content Update="wwwroot\WizdleTitle.png">
+        <Content Update="wwwroot\logo.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Update="wwwroot\title.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
     </ItemGroup>

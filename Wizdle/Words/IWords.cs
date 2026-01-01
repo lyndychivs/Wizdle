@@ -1,9 +1,8 @@
-namespace Wizdle.Words
-{
-    using System.Collections.Generic;
+namespace Wizdle.Words;
 
-    internal interface IWords
-    {
-        IEnumerable<string> GetWords();
-    }
+using System.Collections.Generic;
+
+internal interface IWords
+{
+    IEnumerable<string> GetWords();
 }

@@ -8,7 +8,6 @@ using Microsoft.Extensions.Hosting;
 
 using NetCord.Gateway;
 using NetCord.Hosting.Gateway;
-using NetCord.Hosting.Services;
 using NetCord.Hosting.Services.ApplicationCommands;
 
 using Wizdle.ServiceDefaults;

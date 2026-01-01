@@ -12,6 +12,7 @@
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <EnableNETAnalyzers>True</EnableNETAnalyzers>
         <AnalysisLevel>latest-recommended</AnalysisLevel>
+        <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
 
         <Version>1.0.1</Version>
         <AssemblyVersion>1.0.1</AssemblyVersion>
@@ -23,6 +24,7 @@
         <Company>lyndychivs</Company>
         <Product>Wizdle</Product>
         <Copyright>lyndychivs Wizdle © 2026</Copyright>
+        <PackageTags>wordle;solver;wizard;wizdle;helper;word;guess;challenge</PackageTags>
 
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageProjectUrl>https://github.com/lyndychivs/Wizdle</PackageProjectUrl>
@@ -32,8 +34,8 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
         <Optimize>true</Optimize>
-        <DebugType>none</DebugType>
-        <DebugSymbols>false</DebugSymbols>
+        <DebugType>full</DebugType>
+        <DebugSymbols>true</DebugSymbols>
         <WarningLevel>9999</WarningLevel>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">

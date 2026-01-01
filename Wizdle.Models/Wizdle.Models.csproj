@@ -1,22 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
+        <OutputType>Library</OutputType>
+
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <PackageId>Wizdle.Models</PackageId>
         <Title>Wizdle.Models</Title>
-        <Description>A library for solving Wordle. (Models component)</Description>
-        <PackageIcon>Wizdle.png</PackageIcon>
-        <PackageTags>wordle;solver;wizard;wizdle;helper;word;guess;challenge</PackageTags>
-        <IncludeSymbols>False</IncludeSymbols>
+        <Description>The Models component for solving Wordle.</Description>
+        <PackageIcon>logo.png</PackageIcon>
+
+        <IncludeSymbols>True</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-        <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+        <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
     </PropertyGroup>
     <ItemGroup>
         <None Include="..\README.md">
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
         </None>
-        <EmbeddedResource Include="..\Wizdle\Resources\Wizdle.png">
+        <EmbeddedResource Include="..\Resources\logo.png">
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
         </EmbeddedResource>

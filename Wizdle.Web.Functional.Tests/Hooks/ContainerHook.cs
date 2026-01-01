@@ -24,8 +24,7 @@ internal sealed class ContainerHook
 
         await network.CreateAsync().ConfigureAwait(false);
 
-        IContainer apiContainer = new ContainerBuilder()
-            .WithImage("wizdle-api:latest")
+        IContainer apiContainer = new ContainerBuilder("wizdle-api:latest")
             .WithName($"wizdle-api-{Guid.NewGuid()}")
             .WithAutoRemove(true)
             .WithCleanUp(true)
@@ -37,8 +36,7 @@ internal sealed class ContainerHook
 
         await apiContainer.StartAsync().ConfigureAwait(false);
 
-        IContainer webContainer = new ContainerBuilder()
-            .WithImage("wizdle-web:latest")
+        IContainer webContainer = new ContainerBuilder("wizdle-web:latest")
             .WithName($"wizdle-web-{Guid.NewGuid()}")
             .WithAutoRemove(true)
             .WithCleanUp(true)

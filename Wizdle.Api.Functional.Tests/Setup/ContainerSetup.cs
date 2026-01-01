@@ -10,8 +10,7 @@ internal static class ContainerSetup
 {
     public static async Task<string> GetWizdleApiUrl()
     {
-        IContainer apiContainer = new ContainerBuilder()
-            .WithImage("wizdle-api:latest")
+        IContainer apiContainer = new ContainerBuilder("wizdle-api:latest")
             .WithName($"wizdle-api-{Guid.NewGuid()}")
             .WithAutoRemove(true)
             .WithCleanUp(true)

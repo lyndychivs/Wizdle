@@ -61,15 +61,37 @@ public partial class MainWindow : Window
         }
     }
 
+    private static char GetLetterFromTextBox(TextBox textbox)
+    {
+        return string.IsNullOrWhiteSpace(textbox.Text)
+            ? '?'
+            : textbox.Text[0];
+    }
+
+    private static Visibility GetVisibility(bool isVisible)
+    {
+        return isVisible ? Visibility.Visible : Visibility.Hidden;
+    }
+
+    private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+    {
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = e.Uri.AbsoluteUri,
+            UseShellExecute = true,
+        });
+        e.Handled = true;
+    }
+
     private void ShowSnackbar(string message)
     {
         SnackbarText.Text = message;
-        
+
         var fadeIn = new DoubleAnimation
         {
             From = 0,
             To = 1,
-            Duration = TimeSpan.FromMilliseconds(300)
+            Duration = TimeSpan.FromMilliseconds(300),
         };
 
         SnackbarBorder.Visibility = Visibility.Visible;
@@ -78,7 +100,7 @@ public partial class MainWindow : Window
         _snackbarTimer?.Stop();
         _snackbarTimer = new DispatcherTimer
         {
-            Interval = TimeSpan.FromSeconds(3)
+            Interval = TimeSpan.FromSeconds(3),
         };
         _snackbarTimer.Tick += (s, e) =>
         {
@@ -94,7 +116,7 @@ public partial class MainWindow : Window
         {
             From = 1,
             To = 0,
-            Duration = TimeSpan.FromMilliseconds(300)
+            Duration = TimeSpan.FromMilliseconds(300),
         };
 
         fadeOut.Completed += (s, e) =>
@@ -103,27 +125,5 @@ public partial class MainWindow : Window
         };
 
         SnackbarBorder.BeginAnimation(OpacityProperty, fadeOut);
-    }
-
-    private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
-    {
-        Process.Start(new ProcessStartInfo
-        {
-            FileName = e.Uri.AbsoluteUri,
-            UseShellExecute = true
-        });
-        e.Handled = true;
-    }
-
-    private static char GetLetterFromTextBox(TextBox textbox)
-    {
-        return string.IsNullOrWhiteSpace(textbox.Text)
-            ? '?'
-            : textbox.Text[0];
-    }
-
-    private static Visibility GetVisibility(bool isVisible)
-    {
-        return isVisible ? Visibility.Visible : Visibility.Hidden;
     }
 }
