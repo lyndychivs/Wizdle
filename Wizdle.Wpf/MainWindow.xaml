@@ -26,7 +26,8 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Image x:Name="WizdleTitle" Grid.Row="0"
+        <Image x:Name="WizdleTitle"
+               Grid.Row="0"
                Source="/Resources/title.png"
                HorizontalAlignment="Center"
                VerticalAlignment="Top"
