@@ -5,7 +5,7 @@
 #define MyAppVersion "1.0.2"
 #define MyAppPublisher "lyndychivs"
 #define MyAppURL "https://github.com/lyndychivs/Wizdle"
-#define MyAppExeName "Wizdle.Windows.exe"
+#define MyAppExeName "Wizdle.Wpf.exe"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
@@ -36,8 +36,8 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\git\Wizdle\Wizdle.Windows\bin\Release\net10.0-windows7.0\publish\win-x86\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\git\Wizdle\Wizdle.Windows\bin\Release\net10.0-windows7.0\publish\win-x86\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\git\Wizdle\Wizdle.Wpf\bin\Release\net10.0-windows\publish\win-x86\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\git\Wizdle\Wizdle.Wpf\bin\Release\net10.0-windows\publish\win-x86\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

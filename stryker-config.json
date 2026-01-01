@@ -1,51 +1,46 @@
 {
-  "stryker-config": {
-    "project-info": {
-      "name": "github.com/lyndychivs/Wizdle",
-      "module": "Wizdle",
-      "version": "main"
-    },
-    "concurrency": 4,
-    "mutation-level": "Complete",
-    "language-version": "latest",
-    "additional-timeout": 5000,
-    "mutate": [
-      "**/*"
-    ],
-    "solution": "Wizdle.sln",
-    "configuration": "Stryker",
-    "target-framework": "net10.0",
-    "project": "Wizdle.csproj",
-    "coverage-analysis": "perTest",
-    "disable-bail": false,
-    "disable-mix-mutants": false,
-    "thresholds": {
-      "high": 80,
-      "low": 60,
-      "break": 0
-    },
-    "verbosity": "info",
-    "reporters": [
-      "Progress",
-      "Html"
-    ],
-    "since": {
-      "enabled": false,
-      "ignore-changes-in": [],
-      "target": "main"
-    },
-    "baseline": {
-      "enabled": false,
-      "provider": "disk",
-      "azure-fileshare-url": "",
-      "fallback-version": "main"
-    },
-    "dashboard-url": "https://dashboard.stryker-mutator.io",
-    "test-projects": ["/Wizdle.Unit.Tests/Wizdle.Unit.Tests.csproj"],
-    "test-case-filter": "",
-    "ignore-mutations": [],
-    "ignore-methods": [],
-    "report-file-name": "mutation-report.html",
-    "break-on-initial-test-failure": false
-  }
+    "stryker-config": {
+        "project-info": {
+            "name": "github.com/lyndychivs/Wizdle",
+            "module": "Wizdle",
+            "version": "main"
+        },
+        "concurrency": 4,
+        "mutation-level": "Complete",
+        "language-version": "latest",
+        "additional-timeout": 5000,
+        "mutate": ["**/*"],
+        "solution": "Wizdle.sln",
+        "configuration": "Stryker",
+        "target-framework": "net10.0",
+        "project": "Wizdle.csproj",
+        "coverage-analysis": "perTest",
+        "disable-bail": false,
+        "disable-mix-mutants": false,
+        "thresholds": {
+            "high": 80,
+            "low": 60,
+            "break": 0
+        },
+        "verbosity": "info",
+        "reporters": ["Progress", "Html"],
+        "since": {
+            "enabled": false,
+            "ignore-changes-in": [],
+            "target": "main"
+        },
+        "baseline": {
+            "enabled": false,
+            "provider": "disk",
+            "azure-fileshare-url": "",
+            "fallback-version": "main"
+        },
+        "dashboard-url": "https://dashboard.stryker-mutator.io",
+        "test-projects": ["/Wizdle.Unit.Tests/Wizdle.Unit.Tests.csproj"],
+        "test-case-filter": "",
+        "ignore-mutations": [],
+        "ignore-methods": [],
+        "report-file-name": "mutation-report.html",
+        "break-on-initial-test-failure": false
+    }
 }

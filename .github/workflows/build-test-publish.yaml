@@ -1,89 +1,89 @@
 name: Build, Test & Publish
 run-name: Build, Test & Publish
 permissions:
-  contents: read
-  checks: write
-  pull-requests: write
+    contents: read
+    checks: write
+    pull-requests: write
 on:
-  push:
-  schedule:
-    - cron: '0 4 * * SUN'
+    push:
+    schedule:
+        - cron: "0 4 * * SUN"
 jobs:
-  build-test-publish:
-    runs-on: ubuntu-latest
-    env:
-      CONFIGURATION: Release
-      TARGET_FRAMEWORK: net10.0
-    steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v6
+    build-test-publish:
+        runs-on: ubuntu-latest
+        env:
+            CONFIGURATION: Release
+            TARGET_FRAMEWORK: net10.0
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v6
 
-    - name: Install .NET
-      uses: actions/setup-dotnet@v5
-      with:
-        dotnet-version: 10.0.x
+            - name: Install .NET
+              uses: actions/setup-dotnet@v5
+              with:
+                  dotnet-version: 10.0.x
 
-    - name: Restore
-      run: dotnet restore
+            - name: Restore
+              run: dotnet restore
 
-    - name: Build
-      id: build
-      run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }}
+            - name: Build
+              id: build
+              run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }}
 
-    - name: Test Wizdle.Unit.Tests
-      if: steps.build.outcome == 'success'
-      run: dotnet test Wizdle.Unit.Tests/Wizdle.Unit.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --logger "trx;LogFileName=Wizdle.Unit.Tests.trx"
+            - name: Test Wizdle.Unit.Tests
+              if: steps.build.outcome == 'success'
+              run: dotnet test Wizdle.Unit.Tests/Wizdle.Unit.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --logger "trx;LogFileName=Wizdle.Unit.Tests.trx"
 
-    - name: Test Wizdle.Integration.Tests
-      if: steps.build.outcome == 'success'
-      run: dotnet test Wizdle.Integration.Tests/Wizdle.Integration.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --logger "trx;LogFileName=Wizdle.Integration.Tests.trx"
+            - name: Test Wizdle.Integration.Tests
+              if: steps.build.outcome == 'success'
+              run: dotnet test Wizdle.Integration.Tests/Wizdle.Integration.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --logger "trx;LogFileName=Wizdle.Integration.Tests.trx"
 
-    - name: Build Docker for Wizdle.Api
-      id: build-api
-      if: steps.build.outcome == 'success'
-      run: make build-api
+            - name: Build Docker for Wizdle.Api
+              id: build-api
+              if: steps.build.outcome == 'success'
+              run: make build-api
 
-    - name: Test Wizdle.Api.Functional.Tests
-      if: steps.build-api.outcome == 'success'
-      run: dotnet test Wizdle.Api.Functional.Tests/Wizdle.Api.Functional.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --logger "trx;LogFileName=Wizdle.Api.Functional.Tests.trx"
-    
-    - name: Install Playwright
-      id: install-playwright
-      if: steps.build.outcome == 'success'
-      run: pwsh Wizdle.Web.Functional.Tests/bin/${{ env.CONFIGURATION }}/${{ env.TARGET_FRAMEWORK }}/playwright.ps1 install --with-deps chromium --only-shell
+            - name: Test Wizdle.Api.Functional.Tests
+              if: steps.build-api.outcome == 'success'
+              run: dotnet test Wizdle.Api.Functional.Tests/Wizdle.Api.Functional.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --logger "trx;LogFileName=Wizdle.Api.Functional.Tests.trx"
 
-    - name: Build Docker for Wizdle.Web
-      id: build-web
-      if: steps.install-playwright.outcome == 'success'
-      run: make build-web
+            - name: Install Playwright
+              id: install-playwright
+              if: steps.build.outcome == 'success'
+              run: pwsh Wizdle.Web.Functional.Tests/bin/${{ env.CONFIGURATION }}/${{ env.TARGET_FRAMEWORK }}/playwright.ps1 install --with-deps chromium --only-shell
 
-    - name: Test Wizdle.Web.Functional.Tests
-      if: steps.build-web.outcome == 'success'
-      run: dotnet test Wizdle.Web.Functional.Tests/Wizdle.Web.Functional.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --logger "trx;LogFileName=Wizdle.Web.Functional.Tests.trx"
+            - name: Build Docker for Wizdle.Web
+              id: build-web
+              if: steps.install-playwright.outcome == 'success'
+              run: make build-web
 
-    - name: Upload Artifacts for Wizdle.Web.Functional.Tests
-      uses: actions/upload-artifact@v6
-      if: (!cancelled())
-      with:
-        name: Wizdle.Web.Functional.Tests
-        retention-days: 20
-        if-no-files-found: error
-        path: |
-          Wizdle.Web.Functional.Tests/bin/**/reports/
-          Wizdle.Web.Functional.Tests/bin/**/screenshots/
-          Wizdle.Web.Functional.Tests/bin/**/playwright-traces/
+            - name: Test Wizdle.Web.Functional.Tests
+              if: steps.build-web.outcome == 'success'
+              run: dotnet test Wizdle.Web.Functional.Tests/Wizdle.Web.Functional.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --logger "trx;LogFileName=Wizdle.Web.Functional.Tests.trx"
 
-    - name: Publish All Test Results
-      uses: EnricoMi/publish-unit-test-result-action@v2
-      if: (!cancelled())
-      with:
-        files: '**/*.trx'
-        action_fail_on_inconclusive: true
+            - name: Upload Artifacts for Wizdle.Web.Functional.Tests
+              uses: actions/upload-artifact@v6
+              if: (!cancelled())
+              with:
+                  name: Wizdle.Web.Functional.Tests
+                  retention-days: 20
+                  if-no-files-found: error
+                  path: |
+                      Wizdle.Web.Functional.Tests/bin/**/reports/
+                      Wizdle.Web.Functional.Tests/bin/**/screenshots/
+                      Wizdle.Web.Functional.Tests/bin/**/playwright-traces/
 
-    - name: NuGet Push to NuGet
-      if: github.ref == 'refs/heads/main' && success()
-      run: dotnet nuget push **.nupkg --api-key ${{secrets.NUGET}} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
+            - name: Publish All Test Results
+              uses: EnricoMi/publish-unit-test-result-action@v2
+              if: (!cancelled())
+              with:
+                  files: "**/*.trx"
+                  action_fail_on_inconclusive: true
 
-    - name: NuGet Push to GitHub
-      if: github.ref == 'refs/heads/main' && success()
-      run: dotnet nuget push **.nupkg --api-key ${{secrets.GITHUB}} --source "https://nuget.pkg.github.com/lyndychivs/index.json" --skip-duplicate
+            - name: NuGet Push to NuGet
+              if: github.ref == 'refs/heads/main' && success()
+              run: dotnet nuget push **.nupkg --api-key ${{secrets.NUGET}} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
+
+            - name: NuGet Push to GitHub
+              if: github.ref == 'refs/heads/main' && success()
+              run: dotnet nuget push **.nupkg --api-key ${{secrets.GITHUB}} --source "https://nuget.pkg.github.com/lyndychivs/index.json" --skip-duplicate

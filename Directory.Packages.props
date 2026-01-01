@@ -11,6 +11,7 @@
         <PackageVersion Include="Deque.AxeCore.Playwright" Version="4.11.0" />
         <PackageVersion Include="lyndychivs.Retry" Version="1.0.3" />
         <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1" />
+        <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.1" />
         <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
         <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.0" />
         <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.1.0" />

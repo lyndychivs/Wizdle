@@ -23,9 +23,9 @@ You agree to use Wizdle in accordance with:
 
 You must not:
 
-- Use Wizdle for unlawful, harmful, or abusive purposes  
-- Attempt to gain unauthorized access to Wizdle or its related systems  
-- Interfere with the normal operation of the bot  
+- Use Wizdle for unlawful, harmful, or abusive purposes
+- Attempt to gain unauthorized access to Wizdle or its related systems
+- Interfere with the normal operation of the bot
 
 ---
 
