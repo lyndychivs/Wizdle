@@ -21,6 +21,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Image x:Name="WizdleTitle" Grid.Row="0"
@@ -193,5 +194,31 @@
                 HorizontalAlignment="Center"
                 Margin="0,20,0,0"
                 Click="SolveButton_Click" />
+        <TextBlock x:Name="ResultsLabel"
+                   Grid.Row="8"
+                   Text="Results"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Top"
+                   FontSize="24"
+                   FontWeight="Bold"
+                   Margin="0,20,0,0"
+                   Visibility="Hidden" />
+        <ListBox x:Name="ResultsListBox"
+                 Grid.Row="9"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Top"
+                 Width="400"
+                 MaxHeight="300"
+                 FontSize="18"
+                 Margin="0,20,0,20"
+                 Visibility="Hidden" >
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}"
+                               Padding="5"
+                               TextAlignment="Center"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </Window>

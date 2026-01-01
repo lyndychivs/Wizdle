@@ -3,8 +3,10 @@ namespace Wizdle.Wpf;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Linq;
 
 using Wizdle.Models;
+using System.Globalization;
 
 public partial class MainWindow : Window
 {
@@ -40,6 +42,12 @@ public partial class MainWindow : Window
         };
 
         WizdleResponse wizdleResponse = _wizdleEngine.ProcessWizdleRequest(wizdleRequest);
+
+        ResultsListBox.ItemsSource = wizdleResponse.Words.Select(w => w.ToUpper(CultureInfo.InvariantCulture));
+
+        Visibility visibility = GetVisibility(wizdleResponse.Words.Any());
+        ResultsLabel.Visibility = visibility;
+        ResultsListBox.Visibility = visibility;
     }
 
     private static char GetLetterFromTextBox(TextBox textbox)
@@ -47,5 +55,10 @@ public partial class MainWindow : Window
         return string.IsNullOrWhiteSpace(textbox.Text)
             ? '?'
             : textbox.Text[0];
+    }
+
+    private static Visibility GetVisibility(bool isVisible)
+    {
+        return isVisible ? Visibility.Visible : Visibility.Hidden;
     }
 }
