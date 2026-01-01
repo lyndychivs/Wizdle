@@ -5,9 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wizdle.Wpf"
         mc:Ignorable="d"
-        Title="Wizdle" Height="700" Width="800" Icon="/Resources/logo.png">
+        Title="Wizdle"
+        Height="1000"
+        Width="850"
+        MinHeight="800"
+        MinWidth="700"
+        Icon="/Resources/logo.png">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -177,5 +183,15 @@
                  Background="#D3D3D3"
                  HorizontalAlignment="Center"
                  Margin="0,20,0,0" />
+        <Button x:Name="SolveButton"
+                Grid.Row="7"
+                Content="Solve"
+                Width="150"
+                Height="50"
+                FontSize="20"
+                FontWeight="Bold"
+                HorizontalAlignment="Center"
+                Margin="0,20,0,0"
+                Click="SolveButton_Click" />
     </Grid>
 </Window>
