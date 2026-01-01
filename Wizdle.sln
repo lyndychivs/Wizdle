@@ -54,7 +54,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Wizdle.Domain", "Wizdle.Dom
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{1E13E649-E3A5-4916-9905-1096DCE3C7E5}"
 	ProjectSection(SolutionItems) = preProject
+		Resources\wizdle-logo.ico = Resources\wizdle-logo.ico
+		Resources\wizdle-logo.png = Resources\wizdle-logo.png
 		Resources\Wizdle.Windows.png = Resources\Wizdle.Windows.png
+		Resources\WizdleSocialPreview.png = Resources\WizdleSocialPreview.png
 		Resources\WizdleTitle.png = Resources\WizdleTitle.png
 		Resources\WizdleWebScreenshot.png = Resources\WizdleWebScreenshot.png
 	EndProjectSection
