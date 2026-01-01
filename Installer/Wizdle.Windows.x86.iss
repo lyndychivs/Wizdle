@@ -25,7 +25,7 @@ LicenseFile=C:\git\Wizdle\LICENSE
 ; Uncomment the following line to run in non administrative install mode (install for current user only).
 ;PrivilegesRequired=lowest
 OutputBaseFilename=mysetup-x86
-SetupIconFile=C:\git\Wizdle\Wizdle\Resources\logo.ico
+SetupIconFile=C:\git\Wizdle\Resources\logo.ico
 SolidCompression=yes
 WizardStyle=modern
 
