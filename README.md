@@ -86,6 +86,13 @@ snort
 sport
 ```
 
+# 🪟 Wizdle.Wpf
+The Wizdle WPF application allows us to access all the functionality of the Wizdle library via a GUI on Windows.
+
+More information (and installers) can be found [here](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Wpf).
+
+![Wizdle.Wpf](Resources/Wizdle.Wpf.png)
+
 # 📨 Wizdle.Api
 
 The Wizdle Api Service contains a deployable API instance of the Wizdle library.

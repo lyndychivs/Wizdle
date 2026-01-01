@@ -54,6 +54,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{
 	ProjectSection(SolutionItems) = preProject
 		Resources\wizdle-logo.ico = Resources\wizdle-logo.ico
 		Resources\wizdle-logo.png = Resources\wizdle-logo.png
+		Resources\Wizdle.Wpf.png = Resources\Wizdle.Wpf.png
 		Resources\WizdleSocialPreview.png = Resources\WizdleSocialPreview.png
 		Resources\WizdleTitle.png = Resources\WizdleTitle.png
 		Resources\WizdleWebScreenshot.png = Resources\WizdleWebScreenshot.png
@@ -84,6 +85,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".aspire", ".aspire", "{A563
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Wpf", "Wizdle.Wpf\Wizdle.Wpf.csproj", "{375A9383-466E-4C1D-B3FE-9597A01B4201}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Installer", "Installer", "{9057E9E9-FBA1-40DC-A36B-18D967B4015D}"
+	ProjectSection(SolutionItems) = preProject
+		Installer\Wizdle.Windows.x64.iss = Installer\Wizdle.Windows.x64.iss
+		Installer\Wizdle.Windows.x86.iss = Installer\Wizdle.Windows.x86.iss
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
