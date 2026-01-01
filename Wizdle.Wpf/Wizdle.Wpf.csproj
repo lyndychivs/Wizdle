@@ -13,4 +13,7 @@
     <ProjectReference Include="..\Wizdle.Models\Wizdle.Models.csproj" />
     <ProjectReference Include="..\Wizdle\Wizdle.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\wizdle-logo.png" />
+  </ItemGroup>
 </Project>
