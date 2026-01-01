@@ -4,6 +4,8 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Linq;
+using System.Diagnostics;
+using System.Windows.Navigation;
 
 using Wizdle.Models;
 using System.Globalization;
@@ -48,6 +50,16 @@ public partial class MainWindow : Window
         Visibility visibility = GetVisibility(wizdleResponse.Words.Any());
         ResultsLabel.Visibility = visibility;
         ResultsListBox.Visibility = visibility;
+    }
+
+    private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+    {
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = e.Uri.AbsoluteUri,
+            UseShellExecute = true
+        });
+        e.Handled = true;
     }
 
     private static char GetLetterFromTextBox(TextBox textbox)

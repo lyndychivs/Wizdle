@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Wizdle.Wpf"
         mc:Ignorable="d"
         Title="Wizdle"
-        Height="1100"
+        Height="1000"
         Width="850"
         MinHeight="950"
         MinWidth="700"
@@ -24,12 +24,13 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Image x:Name="WizdleTitle" Grid.Row="0"
                Source="/Resources/title.png"
                HorizontalAlignment="Center"
                VerticalAlignment="Top"
-               MaxHeight="200"
+               MaxHeight="150"
                Stretch="Uniform"
                RenderOptions.BitmapScalingMode="HighQuality"
                RenderOptions.EdgeMode="Aliased"
@@ -272,5 +273,16 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        <TextBlock Grid.Row="10"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center"
+                   Margin="0,10,15,10">
+            <Hyperlink NavigateUri="https://github.com/lyndychivs/Wizdle"
+                       RequestNavigate="Hyperlink_RequestNavigate"
+                       Foreground="#818384"
+                       TextDecorations="None">
+                <Run Text="GitHub - lyndychivs - Wizdle - 2026"/>
+            </Hyperlink>
+        </TextBlock>
     </Grid>
 </Window>
