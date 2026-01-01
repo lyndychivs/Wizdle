@@ -3,6 +3,7 @@
         <ImportDirectoryBuildProps>true</ImportDirectoryBuildProps>
     </PropertyGroup>
     <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
         <Configurations>Debug;Release;Stryker</Configurations>
 
         <LangVersion>latest</LangVersion>

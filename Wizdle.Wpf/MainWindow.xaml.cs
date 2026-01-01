@@ -1,5 +1,6 @@
 namespace Wizdle.Wpf;
 
+using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;

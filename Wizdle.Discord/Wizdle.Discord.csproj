@@ -1,7 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Worker">
-    <PropertyGroup>
-        <TargetFramework>net10.0</TargetFramework>
-    </PropertyGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
     <ItemGroup>
         <PackageReference Include="NetCord.Hosting.Services" />
         <PackageReference Include="StyleCop.Analyzers">
