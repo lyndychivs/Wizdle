@@ -15,7 +15,7 @@
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
     </PropertyGroup>
     <ItemGroup>
-        <None Include="..\README.md">
+        <None Include="..\Wizdle\README.md">
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
         </None>
