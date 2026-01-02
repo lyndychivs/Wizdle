@@ -185,27 +185,30 @@ This project includes a Makefile to simplify common development tasks. Run `make
 
 ## Available Commands
 
-| Command              | Description                                                 |
-| -------------------- | ----------------------------------------------------------- |
-| `make help`          | Show all available make commands                            |
-| `make build`         | Build the entire solution in Release mode                   |
-| `make test`          | Run unit and integration tests                              |
-| `make build-api`     | Build the Wizdle.Api Docker image                           |
-| `make build-web`     | Build the Wizdle.Web Docker image                           |
-| `make build-discord` | Build the Wizdle.Discord Docker image                       |
-| `make build-all`     | Build all Docker images (api, web, discord)                 |
-| `make compose`       | Start all services using docker-compose in detached mode    |
-| `make stop`          | Stop all running Docker containers                          |
-| `make stop-volumes`  | Stop containers and remove associated volumes               |
-| `make logs`          | Show and follow logs from all Docker containers             |
-| `make restart`       | Stop containers, rebuild all images, and restart services   |
-| `make clean`         | Clean build artifacts and prune all Docker resources        |
-| `make docker-prune`  | Prune unused Docker resources (images, containers, volumes) |
-| `make trust-cert`    | Trust the .NET HTTPS development certificate                |
-| `make token`         | Generate a random 32-character token for API keys           |
-| `make mutation`      | Run Stryker mutation testing                                |
-| `make aspire`        | Update Aspire tooling to latest version                     |
-| `make playwright`    | Install Playwright browsers                                 |
+| Command                | Description                                                 |
+| ---------------------- | ----------------------------------------------------------- |
+| `make help`            | Show all available make commands                            |
+| `make build`           | Build the entire solution in Release mode                   |
+| `make test`            | Run unit and integration tests                              |
+| `make build-api`       | Build the Wizdle.Api Docker image                           |
+| `make build-web`       | Build the Wizdle.Web Docker image                           |
+| `make build-discord`   | Build the Wizdle.Discord Docker image                       |
+| `make build-all`       | Build all Docker images (api, web, discord)                 |
+| `make compose`         | Start all services using docker-compose in detached mode    |
+| `make stop`            | Stop all running Docker containers                          |
+| `make stop-volumes`    | Stop containers and remove associated volumes               |
+| `make logs`            | Show and follow logs from all Docker containers             |
+| `make restart`         | Stop containers, rebuild all images, and restart services   |
+| `make clean`           | Clean build artifacts and prune all Docker resources        |
+| `make docker-prune`    | Prune unused Docker resources (images, containers, volumes) |
+| `make trust-cert`      | Trust the .NET HTTPS development certificate                |
+| `make token`           | Generate a random 32-character token for API keys           |
+| `make mutation`        | Run Stryker mutation testing                                |
+| `make aspire`          | Update Aspire tooling to latest version                     |
+| `make playwright`      | Install Playwright browsers                                 |
+| `make solve`           | Attempts to solve Wordle using Wizdle                       |
+| `make test-functional` | Run all functional tests                                    |
+| `make test-all`        | Run all tests (unit, integration, functional, solve)        |
 
 ## Quick Start
 
