@@ -1,0 +1,55 @@
+name: Solving Wordle
+run-name: Solving Wordle
+permissions:
+    contents: read
+on:
+    schedule:
+        - cron: "0 8 * * *"
+jobs:
+    solve-wordle:
+        runs-on: ubuntu-latest
+        env:
+            CONFIGURATION: Release
+            TARGET_FRAMEWORK: net10.0
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v6
+
+            - name: Install .NET
+              uses: actions/setup-dotnet@v5
+              with:
+                  dotnet-version: 10.0.x
+
+            - name: Restore
+              run: dotnet restore
+
+            - name: Build
+              id: build
+              run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }}
+
+            - name: Install Playwright
+              id: install-playwright
+              if: steps.build.outcome == 'success'
+              run: pwsh Wizdle.Functional.Tests/bin/${{ env.CONFIGURATION }}/${{ env.TARGET_FRAMEWORK }}/playwright.ps1 install --with-deps --no-shell
+
+            - name: Test Wizdle.Functional.Tests
+              if: steps.install-playwright.outcome == 'success'
+              run: dotnet test Wizdle.Functional.Tests/Wizdle.Functional.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --logger "trx;LogFileName=Wizdle.Functional.Tests.trx"
+
+            - name: Upload Artifacts for Wizdle.Functional.Tests
+              uses: actions/upload-artifact@v6
+              if: (!cancelled())
+              with:
+                  name: Wizdle.Functional.Tests
+                  retention-days: 20
+                  if-no-files-found: error
+                  path: |
+                      Wizdle.Functional.Tests/bin/**/screenshots/
+                      Wizdle.Functional.Tests/bin/**/playwright-traces/
+
+            - name: Publish All Test Results
+              uses: EnricoMi/publish-unit-test-result-action@v2
+              if: (!cancelled())
+              with:
+                  files: "**/*.trx"
+                  action_fail_on_inconclusive: true
