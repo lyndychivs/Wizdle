@@ -50,7 +50,7 @@ jobs:
             - name: Install Playwright
               id: install-playwright
               if: steps.build.outcome == 'success'
-              run: pwsh Wizdle.Web.Functional.Tests/bin/${{ env.CONFIGURATION }}/${{ env.TARGET_FRAMEWORK }}/playwright.ps1 install --with-deps chromium --only-shell
+              run: pwsh Wizdle.Web.Functional.Tests/bin/${{ env.CONFIGURATION }}/${{ env.TARGET_FRAMEWORK }}/playwright.ps1 install --with-deps --no-shell
 
             - name: Build Docker for Wizdle.Web
               id: build-web
