@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Wizdle"
-#define MyAppVersion "1.0.2"
+#define MyAppVersion "1.0.3"
 #define MyAppPublisher "lyndychivs"
 #define MyAppURL "https://github.com/lyndychivs/Wizdle"
 #define MyAppExeName "Wizdle.Wpf.exe"
@@ -24,7 +24,7 @@ DisableProgramGroupPage=yes
 LicenseFile=C:\git\Wizdle\LICENSE
 ; Uncomment the following line to run in non administrative install mode (install for current user only).
 ;PrivilegesRequired=lowest
-OutputBaseFilename=mysetup-x86
+OutputBaseFilename=wizdle-setup-x86
 SetupIconFile=C:\git\Wizdle\Resources\logo.ico
 SolidCompression=yes
 WizardStyle=modern
