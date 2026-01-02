@@ -23,9 +23,13 @@ internal static class BrowserHook
 
     private const string HeadlessEnvironmentVariable = "PLAYWRIGHT_HEADLESS";
 
+    private const string ChannelEnvironmentVariable = "PLAYWRIGHT_CHANNEL";
+
     private const string BrowserDefault = "chromium";
 
     private const string HeadlessDefault = "true";
+
+    private const string ChannelDefault = "chromium";
 
     [BeforeScenario]
     public static async Task CreateBrowserInstance(
@@ -36,6 +40,7 @@ internal static class BrowserHook
 
         string browserType = Environment.GetEnvironmentVariable(BrowserEnvironmentVariable) ?? BrowserDefault;
         bool isHeadless = bool.Parse(Environment.GetEnvironmentVariable(HeadlessEnvironmentVariable) ?? HeadlessDefault);
+        string channel = Environment.GetEnvironmentVariable(ChannelEnvironmentVariable) ?? ChannelDefault;
 
         IPlaywright playwright = null!;
         await retry.UntilAsync(async () =>
@@ -52,6 +57,7 @@ internal static class BrowserHook
         IBrowser browser = await playwright[browserType].LaunchAsync(new BrowserTypeLaunchOptions
         {
             Headless = isHeadless,
+            Channel = channel,
         });
 
         IBrowserContext browserContext = await browser.NewContextAsync();

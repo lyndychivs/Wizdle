@@ -4,6 +4,7 @@
         <EnvironmentVariables>
             <PLAYWRIGHT_BROWSER>chromium</PLAYWRIGHT_BROWSER>
             <PLAYWRIGHT_HEADLESS>false</PLAYWRIGHT_HEADLESS>
+            <PLAYWRIGHT_CHANNEL>chromium</PLAYWRIGHT_CHANNEL>
         </EnvironmentVariables>
     </RunConfiguration>
 </RunSettings>

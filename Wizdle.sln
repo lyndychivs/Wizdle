@@ -93,6 +93,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Installer", "Installer", "{
 		Installer\Wizdle.Windows.x86.iss = Installer\Wizdle.Windows.x86.iss
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizdle.Functional.Tests", "Wizdle.Functional.Tests\Wizdle.Functional.Tests.csproj", "{45538474-C8A8-4713-8FD0-01E30B6B66AD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -173,6 +175,11 @@ Global
 		{375A9383-466E-4C1D-B3FE-9597A01B4201}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{375A9383-466E-4C1D-B3FE-9597A01B4201}.Release|Any CPU.Build.0 = Release|Any CPU
 		{375A9383-466E-4C1D-B3FE-9597A01B4201}.Stryker|Any CPU.ActiveCfg = Stryker|Any CPU
+		{45538474-C8A8-4713-8FD0-01E30B6B66AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45538474-C8A8-4713-8FD0-01E30B6B66AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45538474-C8A8-4713-8FD0-01E30B6B66AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45538474-C8A8-4713-8FD0-01E30B6B66AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45538474-C8A8-4713-8FD0-01E30B6B66AD}.Stryker|Any CPU.ActiveCfg = Stryker|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

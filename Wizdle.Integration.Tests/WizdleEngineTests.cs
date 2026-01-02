@@ -2,10 +2,9 @@ namespace Wizdle.Integration.Tests;
 
 using System;
 
-using NUnit.Framework;
+using Microsoft.Extensions.Logging;
 
-using Serilog;
-using Serilog.Extensions.Logging;
+using NUnit.Framework;
 
 using Wizdle.Models;
 
@@ -18,7 +17,7 @@ public class WizdleEngineTests
 
     public WizdleEngineTests()
     {
-        _logger = CreateConsoleLogger();
+        _logger = Logger.CreateConsoleLogger<WizdleEngineTests>();
     }
 
     [Test]
@@ -43,8 +42,8 @@ public class WizdleEngineTests
             Assert.That(response.Words, Has.Exactly(65).Items);
         }
 
-        Console.WriteLine(string.Join(Environment.NewLine, response.Messages));
-        Console.WriteLine(string.Join(Environment.NewLine, response.Words));
+        _logger.LogInformation(string.Join(Environment.NewLine, response.Messages));
+        _logger.LogInformation(string.Join(Environment.NewLine, response.Words));
     }
 
     [Test]
@@ -69,8 +68,8 @@ public class WizdleEngineTests
             Assert.That(response.Words, Is.EqualTo(["skirt", "snort", "sport"]));
         }
 
-        Console.WriteLine(string.Join(Environment.NewLine, response.Messages));
-        Console.WriteLine(string.Join(Environment.NewLine, response.Words));
+        _logger.LogInformation(string.Join(Environment.NewLine, response.Messages));
+        _logger.LogInformation(string.Join(Environment.NewLine, response.Words));
     }
 
     [Test]
@@ -95,8 +94,8 @@ public class WizdleEngineTests
             Assert.That(response.Words, Is.EqualTo(["snort", "sport"]));
         }
 
-        Console.WriteLine(string.Join(Environment.NewLine, response.Messages));
-        Console.WriteLine(string.Join(Environment.NewLine, response.Words));
+        _logger.LogInformation(string.Join(Environment.NewLine, response.Messages));
+        _logger.LogInformation(string.Join(Environment.NewLine, response.Words));
     }
 
     [Test]
@@ -121,8 +120,8 @@ public class WizdleEngineTests
             Assert.That(response.Words, Is.EqualTo(["sport"]));
         }
 
-        Console.WriteLine(string.Join(Environment.NewLine, response.Messages));
-        Console.WriteLine(string.Join(Environment.NewLine, response.Words));
+        _logger.LogInformation(string.Join(Environment.NewLine, response.Messages));
+        _logger.LogInformation(string.Join(Environment.NewLine, response.Words));
     }
 
     [Test]
@@ -268,14 +267,5 @@ public class WizdleEngineTests
             Assert.That(response.Messages, Is.EqualTo(["Found 2334 Word(s) matching the criteria."]));
             Assert.That(response.Words, Is.Not.Empty);
         }
-    }
-
-    private ILogger CreateConsoleLogger()
-    {
-        return new SerilogLoggerFactory(
-            new LoggerConfiguration()
-            .MinimumLevel.Verbose()
-            .WriteTo.Console()
-            .CreateLogger()).CreateLogger(nameof(WizdleEngine));
     }
 }

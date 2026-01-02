@@ -203,6 +203,7 @@ This project includes a Makefile to simplify common development tasks. Run `make
 | `make token`         | Generate a random 32-character token for API keys           |
 | `make mutation`      | Run Stryker mutation testing                                |
 | `make aspire`        | Update Aspire tooling to latest version                     |
+| `make playwright`    | Install Playwright browsers                                 |
 
 ## Quick Start
 

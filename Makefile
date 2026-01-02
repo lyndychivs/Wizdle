@@ -1,4 +1,4 @@
-.PHONY: help build-api build-web build-discord build-all clean test compose stop logs docker-prune token aspire
+.PHONY: help build-api build-web build-discord build-all clean test compose stop logs docker-prune token aspire playwright mutation trust-cert restart
 
 # Variables
 COMPOSE_FILE = docker-compose.yaml
@@ -59,3 +59,6 @@ mutation: ## Run Stryker Mutation Testing
 aspire: ## Update Aspire namespace
 	dotnet tool update -g --all
 	aspire update
+
+playwright: ## Install Playwright browsers
+	pwsh -Command "& (Get-ChildItem -Path Wizdle.Web.Functional.Tests -Filter playwright.ps1 -Recurse | Select-Object -First 1).FullName install"
