@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using System.Windows.Threading;
@@ -71,6 +72,23 @@ public partial class MainWindow : Window
     private static Visibility GetVisibility(bool isVisible)
     {
         return isVisible ? Visibility.Visible : Visibility.Hidden;
+    }
+
+    private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+    {
+        if (sender is TextBox textBox)
+        {
+            textBox.SelectAll();
+        }
+    }
+
+    private void TextBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is TextBox textBox && !textBox.IsKeyboardFocusWithin)
+        {
+            textBox.Focus();
+            e.Handled = true;
+        }
     }
 
     private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
