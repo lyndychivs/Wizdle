@@ -12,7 +12,7 @@ internal static class Logger
         return new SerilogLoggerFactory(
             new LoggerConfiguration()
             .MinimumLevel.Verbose()
-            .WriteTo.Console()
-            .CreateLogger()).CreateLogger(nameof(T));
+            .WriteTo.Console().CreateLogger())
+            .CreateLogger(nameof(T));
     }
 }

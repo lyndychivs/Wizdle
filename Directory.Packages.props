@@ -9,7 +9,7 @@
         <PackageVersion Include="BenchmarkDotNet" Version="0.15.8" />
         <PackageVersion Include="CommandLineParser" Version="2.9.1" />
         <PackageVersion Include="Deque.AxeCore.Playwright" Version="4.11.0" />
-        <PackageVersion Include="lyndychivs.Retry" Version="1.0.3" />
+        <PackageVersion Include="lyndychivs.Retry" Version="1.0.4" />
         <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1" />
         <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.1" />
         <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
@@ -23,7 +23,7 @@
         <PackageVersion Include="Microsoft.Playwright.NUnit" Version="1.57.0" />
         <PackageVersion Include="Moq" Version="4.20.72" />
         <PackageVersion Include="MudBlazor" Version="8.15.0" />
-        <PackageVersion Include="NetCord.Hosting.Services" Version="1.0.0-alpha.450" />
+        <PackageVersion Include="NetCord.Hosting.Services" Version="1.0.0-alpha.452" />
         <PackageVersion Include="NUnit" Version="4.4.0" />
         <PackageVersion Include="NUnit.Analyzers" Version="4.11.2" />
         <PackageVersion Include="NUnit3TestAdapter" Version="6.0.1" />

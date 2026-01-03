@@ -34,13 +34,16 @@ internal static class BrowserHook
     [BeforeScenario]
     public static async Task CreateBrowserInstance(
         ObjectContainer objectContainer,
-        ScenarioContext scenarioContext)
+        ScenarioContext scenarioContext,
+        IReqnrollOutputHelper reqnrollOutputHelper)
     {
         var retry = new Retry(TimeSpan.FromSeconds(30), TimeSpan.FromSeconds(3));
 
         string browserType = Environment.GetEnvironmentVariable(BrowserEnvironmentVariable) ?? BrowserDefault;
         bool isHeadless = bool.Parse(Environment.GetEnvironmentVariable(HeadlessEnvironmentVariable) ?? HeadlessDefault);
         string channel = Environment.GetEnvironmentVariable(ChannelEnvironmentVariable) ?? ChannelDefault;
+
+        reqnrollOutputHelper.WriteLine($"Browser: {browserType}{Environment.NewLine}Channel: {channel}{Environment.NewLine}Headless: {isHeadless}");
 
         IPlaywright playwright = null!;
         await retry.UntilAsync(async () =>

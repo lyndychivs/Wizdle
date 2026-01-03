@@ -69,7 +69,7 @@ public class WizdleEngineTests
         return new SerilogLoggerFactory(
             new LoggerConfiguration()
             .MinimumLevel.Verbose()
-            .WriteTo.Console()
-            .CreateLogger()).CreateLogger<WizdleEngine>();
+            .WriteTo.Console().CreateLogger())
+            .CreateLogger<WizdleEngine>();
     }
 }

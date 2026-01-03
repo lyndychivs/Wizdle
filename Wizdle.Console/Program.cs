@@ -52,8 +52,8 @@ internal sealed class Program
         return new SerilogLoggerFactory(
             new LoggerConfiguration()
             .MinimumLevel.Information()
-            .WriteTo.Console(outputTemplate: "{Message}{NewLine}{Exception}")
-            .CreateLogger()).CreateLogger(nameof(WizdleEngine));
+            .WriteTo.Console(outputTemplate: "{Message}{NewLine}{Exception}").CreateLogger())
+            .CreateLogger(nameof(WizdleEngine));
     }
 
     private static void TrySetTitle()
