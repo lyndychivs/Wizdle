@@ -37,6 +37,8 @@ public class WordleTest : PageTest
 
     private readonly ILogger _logger;
 
+    private int _attemptCount;
+
     public WordleTest()
     {
         /*
@@ -90,6 +92,8 @@ public class WordleTest : PageTest
         {
             TestContext.AddTestAttachment(tracingFilePath, "Playwright Trace");
         }
+
+        WriteGitHubActionsSummary(isFailed);
     }
 
     [Test]
@@ -109,21 +113,22 @@ public class WordleTest : PageTest
 
         await ClickButtonIfPresent("Close");
 
-        for (int attempts = 0; attempts < MaxAttempts; attempts++)
+        for (_attemptCount = 0; _attemptCount < MaxAttempts; _attemptCount++)
         {
-            await SubmitWordOnPage(_words[attempts]);
+            await SubmitWordOnPage(_words[_attemptCount]);
 
             if (await IsGameOver())
             {
-                _logger.LogInformation($"Game ended after {attempts + 1} attempt(s).");
+                _attemptCount++;
+                _logger.LogInformation($"Game ended after {_attemptCount} attempt(s).");
                 break;
             }
 
-            await UpdateWordStatusFromPage(_words[attempts]);
+            await UpdateWordStatusFromPage(_words[_attemptCount]);
 
-            UpdateWizdleRequestData(_words[attempts]);
+            UpdateWizdleRequestData(_words[_attemptCount]);
 
-            if (attempts < 2)
+            if (_attemptCount < 2)
             {
                 continue;
             }
@@ -308,5 +313,41 @@ public class WordleTest : PageTest
         }
 
         return false;
+    }
+
+    private void WriteGitHubActionsSummary(bool isFailed)
+    {
+        if (Environment.GetEnvironmentVariable("GITHUB_ACTIONS") != "true")
+        {
+            return;
+        }
+
+        var summaryFile = Environment.GetEnvironmentVariable("GITHUB_STEP_SUMMARY");
+        if (string.IsNullOrEmpty(summaryFile))
+        {
+            return;
+        }
+
+        var today = DateTime.UtcNow.ToString("MMMM d, yyyy", CultureInfo.InvariantCulture);
+        var summary = new StringBuilder();
+
+        summary.AppendLine($"## 🎮 Wordle Results - {today}\n");
+
+        if (isFailed)
+        {
+            summary.AppendLine($"### ❌ Failed to solve Wordle after {_attemptCount} attempt(s).");
+        }
+        else
+        {
+            summary.AppendLine($"### ✅ Solved Wordle after {_attemptCount} attempts!\n");
+            summary.AppendLine($"### 🎉 {_words.Last().ToString().ToUpper(CultureInfo.InvariantCulture)}\n\n");
+            summary.AppendLine("**Words used:**\n");
+            foreach (Word word in _words)
+            {
+                summary.AppendLine($"- `{word.ToString().ToUpper(CultureInfo.InvariantCulture)}`");
+            }
+        }
+
+        File.AppendAllText(summaryFile, summary.ToString());
     }
 }
