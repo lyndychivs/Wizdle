@@ -3,6 +3,7 @@ run-name: Solving Wordle
 permissions:
     contents: read
 on:
+    push:
     schedule:
         - cron: "0 8 * * *"
 jobs:
@@ -34,7 +35,7 @@ jobs:
 
             - name: Test Wizdle.Functional.Tests
               if: steps.install-playwright.outcome == 'success'
-              run: dotnet test Wizdle.Functional.Tests/Wizdle.Functional.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --logger "trx;LogFileName=Wizdle.Functional.Tests.trx"
+              run: dotnet test Wizdle.Functional.Tests/Wizdle.Functional.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --settings Wizdle.Functional.Tests/.runsettings --logger "trx;LogFileName=Wizdle.Functional.Tests.trx"
 
             - name: Upload Artifacts for Wizdle.Functional.Tests
               uses: actions/upload-artifact@v6
