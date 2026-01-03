@@ -172,6 +172,7 @@ Invite [link for Discord](https://discord.com/oauth2/authorize?client_id=1381710
 - Functional Testing
     - [Wizdle.Api.Functional.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Api.Functional.Tests)
     - [Wizdle.Web.Functional.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Web.Functional.Tests) (using Playwright)
+    - [Wizdle.Functional.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Functional.Tests) (solving Wordle end-to-end)
 - Performance Testing
     - [Wizdle.Performance.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Performance.Tests) (using BenchmarkDotNet)
 - Accessibility Testing
