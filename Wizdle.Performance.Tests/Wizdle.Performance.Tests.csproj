@@ -4,6 +4,7 @@
         <IsTestProject>true</IsTestProject>
         <IsPackable>false</IsPackable>
     </PropertyGroup>
+
     <ItemGroup>
         <PackageReference Include="BenchmarkDotNet" />
         <PackageReference Include="Serilog.Extensions.Logging" />
@@ -13,6 +14,7 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
     </ItemGroup>
+
     <ItemGroup>
         <ProjectReference Include="..\Wizdle\Wizdle.csproj" />
     </ItemGroup>

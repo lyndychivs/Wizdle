@@ -72,6 +72,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\build-test-publish.yaml = .github\workflows\build-test-publish.yaml
 		.github\workflows\dotnet-stryker-action.yaml = .github\workflows\dotnet-stryker-action.yaml
+		.github\workflows\release.yaml = .github\workflows\release.yaml
 		.github\workflows\solve-wordle.yaml = .github\workflows\solve-wordle.yaml
 	EndProjectSection
 EndProject

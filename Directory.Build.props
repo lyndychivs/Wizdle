@@ -14,9 +14,14 @@
         <AnalysisLevel>latest-recommended</AnalysisLevel>
         <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
 
-        <Version>1.0.4</Version>
-        <AssemblyVersion>1.0.4</AssemblyVersion>
-        <FileVersion>1.0.4</FileVersion>
+        <!-- Version can be overridden by CI/CD via environment variable -->
+        <Version Condition="'$(Version)' == ''">1.0.4</Version>
+        <AssemblyVersion Condition="'$(AssemblyVersion)' == ''">$(Version)</AssemblyVersion>
+        <FileVersion Condition="'$(FileVersion)' == ''">$(Version)</FileVersion>
+
+        <IncludeSymbols>True</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
 
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
 
@@ -24,26 +29,32 @@
         <Company>lyndychivs</Company>
         <Product>Wizdle</Product>
         <Copyright>lyndychivs Wizdle © 2026</Copyright>
+        <Description>A library for solving Wordle.</Description>
         <PackageTags>wordle;solver;wizard;wizdle;helper;word;guess;challenge</PackageTags>
 
         <PackageReadmeFile>README.md</PackageReadmeFile>
+
         <PackageProjectUrl>https://github.com/lyndychivs/Wizdle</PackageProjectUrl>
         <RepositoryUrl>https://github.com/lyndychivs/Wizdle</RepositoryUrl>
+
         <RepositoryType>git</RepositoryType>
         <NeutralLanguage>en</NeutralLanguage>
     </PropertyGroup>
+
     <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
         <Optimize>true</Optimize>
         <DebugType>full</DebugType>
         <DebugSymbols>true</DebugSymbols>
         <WarningLevel>9999</WarningLevel>
     </PropertyGroup>
+
     <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
         <Optimize>false</Optimize>
         <DebugType>full</DebugType>
         <DebugSymbols>true</DebugSymbols>
         <WarningLevel>9999</WarningLevel>
     </PropertyGroup>
+
     <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Stryker|AnyCPU'">
         <Optimize>true</Optimize>
         <DebugType>full</DebugType>

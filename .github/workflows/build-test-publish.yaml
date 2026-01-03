@@ -17,6 +17,16 @@ jobs:
         steps:
             - name: Checkout Repository
               uses: actions/checkout@v6
+              with:
+                  fetch-depth: 0
+
+            - name: Get Version from Git Tag
+              id: get_version
+              run: |
+                  TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v1.0.4")
+                  VERSION=${TAG#v}
+                  echo "version=$VERSION" >> $GITHUB_OUTPUT
+                  echo "Building version: $VERSION"
 
             - name: Install .NET
               uses: actions/setup-dotnet@v5
@@ -28,7 +38,7 @@ jobs:
 
             - name: Build
               id: build
-              run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }}
+              run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }} /p:Version=${{ steps.get_version.outputs.version }}
 
             - name: Test Wizdle.Unit.Tests
               if: steps.build.outcome == 'success'
