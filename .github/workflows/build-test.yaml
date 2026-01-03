@@ -1,5 +1,5 @@
-name: Build, Test & Publish
-run-name: Build, Test & Publish
+name: Build & Test
+run-name: Build & Test
 permissions:
     contents: read
     checks: write
@@ -9,7 +9,7 @@ on:
     schedule:
         - cron: "0 4 * * SUN"
 jobs:
-    build-test-publish:
+    build-test:
         runs-on: ubuntu-latest
         env:
             CONFIGURATION: Release
@@ -89,11 +89,3 @@ jobs:
               with:
                   files: "**/*.trx"
                   action_fail_on_inconclusive: true
-
-            - name: NuGet Push to NuGet
-              if: github.ref == 'refs/heads/main' && success()
-              run: dotnet nuget push **.nupkg --api-key ${{secrets.NUGET}} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
-
-            - name: NuGet Push to GitHub
-              if: github.ref == 'refs/heads/main' && success()
-              run: dotnet nuget push **.nupkg --api-key ${{secrets.GITHUB}} --source "https://nuget.pkg.github.com/lyndychivs/index.json" --skip-duplicate

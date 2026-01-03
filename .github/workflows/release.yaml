@@ -1,7 +1,7 @@
 name: Release
 run-name: Release ${{ github.ref_name }}
 permissions:
-    contents: read
+    contents: write
     checks: write
 on:
     release:
@@ -42,48 +42,6 @@ jobs:
             - name: Test Wizdle.Integration.Tests
               if: steps.build.outcome == 'success'
               run: dotnet test Wizdle.Integration.Tests/Wizdle.Integration.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --logger "trx;LogFileName=Wizdle.Integration.Tests.trx"
-
-            - name: Build Docker for Wizdle.Api
-              id: build-api
-              if: steps.build.outcome == 'success'
-              run: make build-api
-
-            - name: Test Wizdle.Api.Functional.Tests
-              if: steps.build-api.outcome == 'success'
-              run: dotnet test Wizdle.Api.Functional.Tests/Wizdle.Api.Functional.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --logger "trx;LogFileName=Wizdle.Api.Functional.Tests.trx"
-
-            - name: Install Playwright
-              id: install-playwright
-              if: steps.build.outcome == 'success'
-              run: pwsh Wizdle.Web.Functional.Tests/bin/${{ env.CONFIGURATION }}/${{ env.TARGET_FRAMEWORK }}/playwright.ps1 install --with-deps --no-shell
-
-            - name: Build Docker for Wizdle.Web
-              id: build-web
-              if: steps.install-playwright.outcome == 'success'
-              run: make build-web
-
-            - name: Test Wizdle.Web.Functional.Tests
-              if: steps.build-web.outcome == 'success'
-              run: dotnet test Wizdle.Web.Functional.Tests/Wizdle.Web.Functional.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --logger "trx;LogFileName=Wizdle.Web.Functional.Tests.trx"
-
-            - name: Upload Artifacts for Wizdle.Web.Functional.Tests
-              uses: actions/upload-artifact@v6
-              if: (!cancelled())
-              with:
-                  name: Wizdle.Web.Functional.Tests
-                  retention-days: 20
-                  if-no-files-found: error
-                  path: |
-                      Wizdle.Web.Functional.Tests/bin/**/reports/
-                      Wizdle.Web.Functional.Tests/bin/**/screenshots/
-                      Wizdle.Web.Functional.Tests/bin/**/playwright-traces/
-
-            - name: Publish All Test Results
-              uses: EnricoMi/publish-unit-test-result-action@v2
-              if: (!cancelled())
-              with:
-                  files: "**/*.trx"
-                  action_fail_on_inconclusive: true
 
             - name: NuGet Push to NuGet.org
               if: success()
@@ -126,14 +84,11 @@ jobs:
             - name: Restore
               run: dotnet restore
 
-            - name: Build Wizdle.Wpf
-              run: dotnet build Wizdle.Wpf/Wizdle.Wpf.csproj --no-restore --configuration ${{ env.CONFIGURATION }} /p:Version=${{ steps.get_version.outputs.version }}
-
             - name: Publish Wizdle.Wpf for win-x64
-              run: dotnet publish Wizdle.Wpf/Wizdle.Wpf.csproj --no-build --configuration ${{ env.CONFIGURATION }} --runtime win-x64 --self-contained true /p:PublishSingleFile=true /p:Version=${{ steps.get_version.outputs.version }}
+              run: dotnet publish Wizdle.Wpf/Wizdle.Wpf.csproj --configuration ${{ env.CONFIGURATION }} --runtime win-x64 --self-contained true /p:PublishSingleFile=true /p:Version=${{ steps.get_version.outputs.version }}
 
             - name: Publish Wizdle.Wpf for win-x86
-              run: dotnet publish Wizdle.Wpf/Wizdle.Wpf.csproj --no-build --configuration ${{ env.CONFIGURATION }} --runtime win-x86 --self-contained true /p:PublishSingleFile=true /p:Version=${{ steps.get_version.outputs.version }}
+              run: dotnet publish Wizdle.Wpf/Wizdle.Wpf.csproj --configuration ${{ env.CONFIGURATION }} --runtime win-x86 --self-contained true /p:PublishSingleFile=true /p:Version=${{ steps.get_version.outputs.version }}
 
             - name: Update ISS version for x64
               shell: pwsh
