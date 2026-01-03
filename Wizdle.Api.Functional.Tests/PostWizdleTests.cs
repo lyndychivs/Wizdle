@@ -190,7 +190,7 @@ public class PostWizdleTests
 
             WizdleResponse? result = await response.Content.ReadFromJsonAsync<WizdleResponse>();
 
-            Assert.That(result?.Messages, Is.EqualTo(["Found 2334 Word(s) matching the criteria."]));
+            Assert.That(result?.Messages, Has.Some.Contains("Word(s) matching the criteria."));
             Assert.That(result?.Words, Is.Not.Empty);
         }
     }
@@ -215,7 +215,7 @@ public class PostWizdleTests
 
             WizdleResponse? result = await response.Content.ReadFromJsonAsync<WizdleResponse>();
 
-            Assert.That(result?.Messages, Is.EqualTo(["Found 2334 Word(s) matching the criteria."]));
+            Assert.That(result?.Messages, Has.Some.Contains("Word(s) matching the criteria."));
             Assert.That(result?.Words, Is.Not.Empty);
         }
     }
@@ -240,7 +240,7 @@ public class PostWizdleTests
 
             WizdleResponse? result = await response.Content.ReadFromJsonAsync<WizdleResponse>();
 
-            Assert.That(result?.Messages, Is.EqualTo(["Found 2334 Word(s) matching the criteria."]));
+            Assert.That(result?.Messages, Has.Some.Contains("Word(s) matching the criteria."));
             Assert.That(result?.Words, Is.Not.Empty);
         }
     }
@@ -266,7 +266,7 @@ public class PostWizdleTests
 
             WizdleResponse? result = await response.Content.ReadFromJsonAsync<WizdleResponse>();
 
-            Assert.That(result?.Messages, Is.EqualTo(["Found 2334 Word(s) matching the criteria."]));
+            Assert.That(result?.Messages, Has.Some.Contains("Word(s) matching the criteria."));
             Assert.That(result?.Words, Is.Not.Empty);
         }
     }

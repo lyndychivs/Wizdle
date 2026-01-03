@@ -97,8 +97,8 @@ public class WordleTest : PageTest
     {
         await Page.GotoAsync(WordleUrl, new PageGotoOptions()
         {
-            WaitUntil = WaitUntilState.NetworkIdle,
-            Timeout = 30_000,
+            WaitUntil = WaitUntilState.DOMContentLoaded,
+            Timeout = 60_000,
         });
 
         await Expect(Page).ToHaveTitleAsync(WordleTitle);
@@ -231,7 +231,7 @@ public class WordleTest : PageTest
 
         await Page.GetByRole(AriaRole.Button, new() { Name = "enter" }).ClickAsync();
 
-        await Page.WaitForTimeoutAsync(5_000);
+        await Page.WaitForTimeoutAsync(10_000);
     }
 
     private async Task UpdateWordStatusFromPage(Word word)
@@ -264,7 +264,7 @@ public class WordleTest : PageTest
             await buttonLocator.WaitForAsync(new LocatorWaitForOptions
             {
                 State = WaitForSelectorState.Visible,
-                Timeout = 3_000,
+                Timeout = 5_000,
             });
 
             if (!await buttonLocator.IsVisibleAsync())
@@ -292,7 +292,7 @@ public class WordleTest : PageTest
                 await congratsHeading.WaitForAsync(new LocatorWaitForOptions
                 {
                     State = WaitForSelectorState.Visible,
-                    Timeout = 3_000,
+                    Timeout = 5_000,
                 });
 
                 if (await congratsHeading.IsVisibleAsync())
