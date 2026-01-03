@@ -1781,6 +1781,7 @@ internal class Words : IWords
             "singe",
             "siren",
             "sissy",
+            "sitar",
             "sixth",
             "sixty",
             "skate",
