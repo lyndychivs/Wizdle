@@ -3,17 +3,14 @@
         <TargetFramework>netstandard2.0</TargetFramework>
         <OutputType>Library</OutputType>
 
-        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <PackageId>Wizdle.Models</PackageId>
         <Title>Wizdle.Models</Title>
-        <Description>The Models component for solving Wordle.</Description>
-        <PackageIcon>logo.png</PackageIcon>
-
-        <IncludeSymbols>True</IncludeSymbols>
-        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-        <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
+
+        <PackageIcon>logo.png</PackageIcon>
     </PropertyGroup>
+
     <ItemGroup>
         <None Include="..\Wizdle\README.md">
             <Pack>True</Pack>
@@ -24,6 +21,7 @@
             <PackagePath>\</PackagePath>
         </EmbeddedResource>
     </ItemGroup>
+
     <ItemGroup>
         <PackageReference Include="StyleCop.Analyzers">
             <PrivateAssets>all</PrivateAssets>

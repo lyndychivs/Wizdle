@@ -6,6 +6,7 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
     </ItemGroup>
+
     <ItemGroup>
         <ProjectReference Include="..\Wizdle.Models\Wizdle.Models.csproj" />
         <ProjectReference Include="..\Wizdle.ServiceDefaults\Wizdle.ServiceDefaults.csproj" />

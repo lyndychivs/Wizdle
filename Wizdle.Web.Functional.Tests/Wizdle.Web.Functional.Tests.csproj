@@ -3,6 +3,7 @@
         <IsTestProject>true</IsTestProject>
         <IsPackable>false</IsPackable>
     </PropertyGroup>
+
     <ItemGroup>
         <PackageReference Include="Deque.AxeCore.Playwright" />
         <PackageReference Include="lyndychivs.Retry" />
@@ -23,6 +24,7 @@
         </PackageReference>
         <PackageReference Include="Testcontainers" />
     </ItemGroup>
+
     <ItemGroup>
       <None Update="local.runsettings">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

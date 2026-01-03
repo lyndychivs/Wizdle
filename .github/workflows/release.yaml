@@ -1,13 +1,11 @@
-name: Build, Test & Publish
-run-name: Build, Test & Publish
+name: Release
+run-name: Release ${{ github.ref_name }}
 permissions:
     contents: read
     checks: write
-    pull-requests: write
 on:
-    push:
-    schedule:
-        - cron: "0 4 * * SUN"
+    release:
+        types: [published]
 jobs:
     build-test-publish:
         runs-on: ubuntu-latest
@@ -17,16 +15,13 @@ jobs:
         steps:
             - name: Checkout Repository
               uses: actions/checkout@v6
-              with:
-                  fetch-depth: 0
 
-            - name: Get Version from Git Tag
+            - name: Get Version from Release Tag
               id: get_version
               run: |
-                  TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v1.0.4")
-                  VERSION=${TAG#v}
+                  VERSION=${GITHUB_REF_NAME#v}
                   echo "version=$VERSION" >> $GITHUB_OUTPUT
-                  echo "Building version: $VERSION"
+                  echo "Building release version: $VERSION"
 
             - name: Install .NET
               uses: actions/setup-dotnet@v5
@@ -90,10 +85,18 @@ jobs:
                   files: "**/*.trx"
                   action_fail_on_inconclusive: true
 
-            - name: NuGet Push to NuGet
-              if: github.ref == 'refs/heads/main' && success()
+            - name: NuGet Push to NuGet.org
+              if: success()
               run: dotnet nuget push **.nupkg --api-key ${{secrets.NUGET}} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
 
-            - name: NuGet Push to GitHub
-              if: github.ref == 'refs/heads/main' && success()
+            - name: NuGet Push to GitHub Packages
+              if: success()
               run: dotnet nuget push **.nupkg --api-key ${{secrets.GITHUB}} --source "https://nuget.pkg.github.com/lyndychivs/index.json" --skip-duplicate
+
+            - name: Upload NuGet Package to Release
+              if: success()
+              uses: softprops/action-gh-release@v2
+              with:
+                  files: |
+                      **/*.nupkg
+                      **/*.snupkg
