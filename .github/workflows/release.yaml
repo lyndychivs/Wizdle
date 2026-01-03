@@ -100,3 +100,73 @@ jobs:
                   files: |
                       **/*.nupkg
                       **/*.snupkg
+
+    build-wpf-installer:
+        runs-on: windows-latest
+        env:
+            CONFIGURATION: Release
+            TARGET_FRAMEWORK: net10.0-windows
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v6
+
+            - name: Get Version from Release Tag
+              id: get_version
+              shell: pwsh
+              run: |
+                  $VERSION = $env:GITHUB_REF_NAME -replace '^v', ''
+                  echo "version=$VERSION" >> $env:GITHUB_OUTPUT
+                  echo "Building release version: $VERSION"
+
+            - name: Install .NET
+              uses: actions/setup-dotnet@v5
+              with:
+                  dotnet-version: 10.0.x
+
+            - name: Restore
+              run: dotnet restore
+
+            - name: Build Wizdle.Wpf
+              run: dotnet build Wizdle.Wpf/Wizdle.Wpf.csproj --no-restore --configuration ${{ env.CONFIGURATION }} /p:Version=${{ steps.get_version.outputs.version }}
+
+            - name: Publish Wizdle.Wpf for win-x64
+              run: dotnet publish Wizdle.Wpf/Wizdle.Wpf.csproj --no-build --configuration ${{ env.CONFIGURATION }} --runtime win-x64 --self-contained true /p:PublishSingleFile=true /p:Version=${{ steps.get_version.outputs.version }}
+
+            - name: Publish Wizdle.Wpf for win-x86
+              run: dotnet publish Wizdle.Wpf/Wizdle.Wpf.csproj --no-build --configuration ${{ env.CONFIGURATION }} --runtime win-x86 --self-contained true /p:PublishSingleFile=true /p:Version=${{ steps.get_version.outputs.version }}
+
+            - name: Update ISS version for x64
+              shell: pwsh
+              run: |
+                  $content = Get-Content 'Installer/Wizdle.Windows.x64.iss' -Raw
+                  $content = $content -replace '#define MyAppVersion ".*"', "#define MyAppVersion `"${{ steps.get_version.outputs.version }}`""
+                  Set-Content 'Installer/Wizdle.Windows.x64.iss' -Value $content
+
+            - name: Update ISS version for x86
+              shell: pwsh
+              run: |
+                  $content = Get-Content 'Installer/Wizdle.Windows.x86.iss' -Raw
+                  $content = $content -replace '#define MyAppVersion ".*"', "#define MyAppVersion `"${{ steps.get_version.outputs.version }}`""
+                  Set-Content 'Installer/Wizdle.Windows.x86.iss' -Value $content
+
+            - name: Install Inno Setup
+              shell: pwsh
+              run: |
+                  choco install innosetup -y
+
+            - name: Compile x64 Installer
+              shell: pwsh
+              run: |
+                  & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "Installer\Wizdle.Windows.x64.iss"
+
+            - name: Compile x86 Installer
+              shell: pwsh
+              run: |
+                  & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "Installer\Wizdle.Windows.x86.iss"
+
+            - name: Upload Installers to Release
+              if: success()
+              uses: softprops/action-gh-release@v2
+              with:
+                  files: |
+                      Installer/Output/*.exe
