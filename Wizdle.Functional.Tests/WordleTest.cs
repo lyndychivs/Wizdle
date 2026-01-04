@@ -195,16 +195,48 @@ public class WordleTest : PageTest
             {
                 case LetterStatus.Correct:
                     _correctLetters[i] = letter;
+
+                    if (_misplacedLetters[i] == letter)
+                    {
+                        _misplacedLetters[i] = '?';
+                    }
+
+                    CheckIfLetterHasBeenExcludeLetters(letter);
+
                     break;
 
                 case LetterStatus.Present:
+
+                    if (_correctLetters[i] == letter)
+                    {
+                        break;
+                    }
+
                     _misplacedLetters[i] = letter;
+
+                    CheckIfLetterHasBeenExcludeLetters(letter);
+
                     break;
 
                 case LetterStatus.Absent:
+
+                    if (_correctLetters.Contains(letter)
+                        || _misplacedLetters.Contains(letter))
+                    {
+                        break;
+                    }
+
                     _excludeLetters.Append(letter);
                     break;
             }
+        }
+    }
+
+    private void CheckIfLetterHasBeenExcludeLetters(char letter)
+    {
+        if (_excludeLetters.ToString().Contains(letter))
+        {
+            _excludeLetters.Replace(letter.ToString(), string.Empty);
         }
     }
 
