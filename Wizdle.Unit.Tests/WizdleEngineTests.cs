@@ -1,8 +1,10 @@
 namespace Wizdle.Unit.Tests;
 
 using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Testing;
 
 using Moq;
 
@@ -16,7 +18,7 @@ using Wizdle.Validator;
 [TestFixture]
 public class WizdleEngineTests
 {
-    private readonly Mock<ILogger> _loggerMock;
+    private readonly FakeLogger<WizdleEngine> _logger;
 
     private readonly Mock<IRequestValidator> _requestValidatorMock;
 
@@ -28,12 +30,12 @@ public class WizdleEngineTests
 
     public WizdleEngineTests()
     {
-        _loggerMock = new Mock<ILogger>();
+        _logger = new FakeLogger<WizdleEngine>();
         _requestValidatorMock = new Mock<IRequestValidator>();
         _requestMapperMock = new Mock<IRequestMapper>();
         _wordSolver = new Mock<IWordSolver>();
         _wizdleEngine = new WizdleEngine(
-            _loggerMock.Object,
+            _logger,
             _requestValidatorMock.Object,
             _requestMapperMock.Object,
             _wordSolver.Object);
@@ -84,14 +86,17 @@ public class WizdleEngineTests
         {
             Assert.That(response.Words, Is.EqualTo(words));
             Assert.That(response.Messages, Is.EqualTo(["Found 2 Word(s) matching the criteria."]));
-            _loggerMock.VerifyLogging(
-                "Processing WizdleRequest: CorrectLetters: \"a....\"   MisplacedLetters: \"l....\" ExcludeLetters: \"c\"",
-                LogLevel.Information,
-                Times.Once());
-            _loggerMock.VerifyLogging(
-                "Found 2          Word(s) matching the criteria.",
-                LogLevel.Information,
-                Times.Once());
+
+            var logs = _logger.Collector.GetSnapshot();
+
+            var processingLog = logs.Single(e => e.Id == 1 && e.Level == LogLevel.Information);
+            Assert.That(processingLog.Message, Does.Contain("Processing WizdleRequest"));
+            Assert.That(processingLog.Message, Does.Contain("CorrectLetters: \"a....\""));
+            Assert.That(processingLog.Message, Does.Contain("MisplacedLetters: \"l....\""));
+            Assert.That(processingLog.Message, Does.Contain("ExcludeLetters: \"c\""));
+
+            var foundLog = logs.Single(e => e.Id == 2 && e.Level == LogLevel.Information);
+            Assert.That(foundLog.Message, Does.Contain("Found 2 Word(s) matching the criteria"));
         }
     }
 
@@ -120,14 +125,17 @@ public class WizdleEngineTests
         {
             Assert.That(response.Words, Is.Empty);
             Assert.That(response.Messages, Is.EqualTo(["Found 0 Word(s) matching the criteria."]));
-            _loggerMock.VerifyLogging(
-                "Processing WizdleRequest: CorrectLetters: \"X\"       MisplacedLetters: \"Y\"     ExcludeLetters: \"Z\"",
-                LogLevel.Information,
-                Times.Once());
-            _loggerMock.VerifyLogging(
-                "Found 0          Word(s) matching the criteria.",
-                LogLevel.Information,
-                Times.Once());
+
+            var logs = _logger.Collector.GetSnapshot();
+
+            var processingLog = logs.Single(e => e.Id == 1 && e.Level == LogLevel.Information);
+            Assert.That(processingLog.Message, Does.Contain("Processing WizdleRequest"));
+            Assert.That(processingLog.Message, Does.Contain("CorrectLetters: \"X\""));
+            Assert.That(processingLog.Message, Does.Contain("MisplacedLetters: \"Y\""));
+            Assert.That(processingLog.Message, Does.Contain("ExcludeLetters: \"Z\""));
+
+            var foundLog = logs.Single(e => e.Id == 2 && e.Level == LogLevel.Information);
+            Assert.That(foundLog.Message, Does.Contain("Found 0 Word(s) matching the criteria"));
         }
     }
 }

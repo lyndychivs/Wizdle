@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 using Wizdle.Words;
 
-internal class WordRepository : IWordRepository
+internal sealed partial class WordRepository : IWordRepository
 {
     private readonly ILogger _logger;
 
@@ -31,7 +31,7 @@ internal class WordRepository : IWordRepository
         {
             if (string.IsNullOrWhiteSpace(word))
             {
-                _logger.LogWarning("Found NullOrWhiteSpace in Word file, skipping.");
+                LogNullOrWhiteSpaceWord(_logger);
 
                 continue;
             }
@@ -40,7 +40,7 @@ internal class WordRepository : IWordRepository
 
             if (response.Length != 5)
             {
-                _logger.LogWarning($"Found Word with length {response.Length} in Word file, skipping: {response}");
+                LogInvalidWordLength(_logger, response.Length, response);
 
                 continue;
             }
@@ -48,4 +48,19 @@ internal class WordRepository : IWordRepository
             yield return response;
         }
     }
+
+    [LoggerMessage(
+        EventId = 1,
+        Level = LogLevel.Warning,
+        Message = "Found NullOrWhiteSpace in Words, skipping")]
+    static partial void LogNullOrWhiteSpaceWord(ILogger logger);
+
+    [LoggerMessage(
+        EventId = 2,
+        Level = LogLevel.Warning,
+        Message = "Found Word with length {Length} in Words, skipping: {Word}")]
+    static partial void LogInvalidWordLength(
+        ILogger logger,
+        int length,
+        string word);
 }

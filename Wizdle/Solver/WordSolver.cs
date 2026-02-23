@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 using Wizdle.Repository;
 using Wizdle.Validator;
 
-internal class WordSolver : IWordSolver
+internal sealed partial class WordSolver : IWordSolver
 {
     private readonly ILogger _logger;
 
@@ -34,7 +34,7 @@ internal class WordSolver : IWordSolver
 
         if (_words.Any() is false)
         {
-            _logger.LogError($"No Words returned from {nameof(IWordRepository)}");
+            LogNoWords(_logger, nameof(IWordRepository));
         }
     }
 
@@ -42,14 +42,14 @@ internal class WordSolver : IWordSolver
     {
         if (_wordParameterValidator.IsValid(solveParameters) is false)
         {
-            _logger.LogWarning($"{nameof(SolveParameters)} is not valid, returning empty");
+            LogInvalidParametersReturningEmpty(_logger, nameof(SolveParameters));
 
             return [];
         }
 
         if (_words.Any() is false)
         {
-            _logger.LogError($"No Words returned from {nameof(IWordRepository)}, returning empty");
+            LogNoWordsReturningEmpty(_logger, nameof(IWordRepository));
 
             return [];
         }
@@ -112,4 +112,28 @@ internal class WordSolver : IWordSolver
     {
         return [.. wordsToFilter.Where(word => !excludeLetters.Any(letter => word.Contains(letter)))];
     }
+
+    [LoggerMessage(
+        EventId = 1,
+        Level = LogLevel.Error,
+        Message = "No Words returned from {RepositoryType}")]
+    static partial void LogNoWords(
+        ILogger logger,
+        string repositoryType);
+
+    [LoggerMessage(
+        EventId = 2,
+        Level = LogLevel.Warning,
+        Message = "{ParametersType} is not valid, returning empty")]
+    static partial void LogInvalidParametersReturningEmpty(
+        ILogger logger,
+        string parametersType);
+
+    [LoggerMessage(
+        EventId = 3,
+        Level = LogLevel.Error,
+        Message = "No Words returned from {RepositoryType}, returning empty")]
+    static partial void LogNoWordsReturningEmpty(
+        ILogger logger,
+        string repositoryType);
 }

@@ -1,6 +1,7 @@
 namespace Wizdle.Mapper;
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 
 using Microsoft.Extensions.Logging;
@@ -8,7 +9,7 @@ using Microsoft.Extensions.Logging;
 using Wizdle.Models;
 using Wizdle.Solver;
 
-internal class RequestMapper : IRequestMapper
+internal sealed partial class RequestMapper : IRequestMapper
 {
     private const int MaxWordLength = 5;
 
@@ -23,19 +24,16 @@ internal class RequestMapper : IRequestMapper
     {
         if (request is null)
         {
-            _logger.LogError($"Received null {nameof(WizdleRequest)}, returning default {nameof(SolveParameters)}");
-
+            LogNullRequest(_logger, nameof(WizdleRequest), nameof(SolveParameters));
             return new SolveParameters();
         }
 
-        _logger.LogInformation(
-            string.Format(
-                CultureInfo.InvariantCulture,
-                "{0,-25} {1,-25} {2,-25} {3}",
-                $"Mapping {nameof(WizdleRequest)}:",
-                $"{nameof(WizdleRequest.CorrectLetters)}: \"{request.CorrectLetters}\"",
-                $"{nameof(WizdleRequest.MisplacedLetters)}: \"{request.MisplacedLetters}\"",
-                $"{nameof(WizdleRequest.ExcludeLetters)}: \"{request.ExcludeLetters}\""));
+        LogMappingRequest(
+            _logger,
+            nameof(WizdleRequest),
+            request.CorrectLetters,
+            request.MisplacedLetters,
+            request.ExcludeLetters);
 
         var solveParameters = new SolveParameters();
 
@@ -83,13 +81,44 @@ internal class RequestMapper : IRequestMapper
             }
         }
 
-        _logger.LogInformation(
-            string.Format(
-                CultureInfo.InvariantCulture,
-                "{0,-25} {1}",
-                $"Mapped {nameof(SolveParameters)}:",
-                $"{solveParameters}"));
+        LogMappedParameters(
+            _logger,
+            nameof(SolveParameters),
+            solveParameters.CorrectLetters,
+            solveParameters.MisplacedLetters,
+            solveParameters.ExcludeLetters);
 
         return solveParameters;
     }
+
+    [LoggerMessage(
+        EventId = 1,
+        Level = LogLevel.Error,
+        Message = "Received null {RequestType}, returning default {ParametersType}")]
+    static partial void LogNullRequest(
+        ILogger logger,
+        string requestType,
+        string parametersType);
+
+    [LoggerMessage(
+        EventId = 2,
+        Level = LogLevel.Information,
+        Message = "Mapping {RequestType}: [CorrectLetters: \"{CorrectLetters}\", MisplacedLetters: \"{MisplacedLetters}\", ExcludeLetters: \"{ExcludeLetters}\"]")]
+    static partial void LogMappingRequest(
+        ILogger logger,
+        string requestType,
+        string correctLetters,
+        string misplacedLetters,
+        string excludeLetters);
+
+    [LoggerMessage(
+        EventId = 3,
+        Level = LogLevel.Information,
+        Message = "Mapped {ParametersType}: [CorrectLetters: \"{CorrectLetters}\", MisplacedLetters: \"{MisplacedLetters}\", ExcludeLetters: \"{ExcludeLetters}\"]")]
+    static partial void LogMappedParameters(
+        ILogger logger,
+        string parametersType,
+        List<char> correctLetters,
+        List<char> misplacedLetters,
+        List<char> excludeLetters);
 }

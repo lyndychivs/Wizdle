@@ -6,14 +6,14 @@ using Microsoft.Extensions.Logging;
 
 using NetCord.Services.ApplicationCommands;
 
-public class HelpSlashCommand(ILogger<HelpSlashCommand> logger)
+public partial class HelpSlashCommand(ILogger<HelpSlashCommand> logger)
     : ApplicationCommandModule<ApplicationCommandContext>
 {
     [SlashCommand("help", "Help with Wizdle")]
     public string GetHelp()
     {
-        logger.LogInformation(
-            "Received {Interaction} request from {Username} {Id}",
+        LogReceivedInteraction(
+            logger,
             Context.Interaction.Data.Name,
             Context.User.Username,
             Context.User.Id);
@@ -25,4 +25,14 @@ public class HelpSlashCommand(ILogger<HelpSlashCommand> logger)
             $"  - `misplaced`: The misplaced letters known to exist in the Word, follow the format of `a?b?c` where unknown letters are represented by a question mark (`?`){Environment.NewLine}" +
             $"  - `exclude`: The letters known to not exist in the Word, follow the format of `abc`";
     }
+
+    [LoggerMessage(
+        EventId = 1,
+        Level = LogLevel.Information,
+        Message = "Received {Interaction} request from {Username} {UserId}")]
+    static partial void LogReceivedInteraction(
+        ILogger logger,
+        string interaction,
+        string username,
+        ulong userId);
 }

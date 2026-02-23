@@ -1,8 +1,10 @@
 namespace Wizdle.Unit.Tests.Solver;
 
 using System;
+using System.Linq;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Testing;
 
 using Moq;
 
@@ -15,7 +17,7 @@ using Wizdle.Validator;
 [TestFixture]
 public class WordSolverConstructorTests
 {
-    private readonly Mock<ILogger> _loggerMock;
+    private readonly FakeLogger<WordSolver> _logger;
 
     private readonly Mock<IWordRepository> _wordRepositoryMock;
 
@@ -23,7 +25,7 @@ public class WordSolverConstructorTests
 
     public WordSolverConstructorTests()
     {
-        _loggerMock = new Mock<ILogger>();
+        _logger = new FakeLogger<WordSolver>();
         _wordRepositoryMock = new Mock<IWordRepository>();
         _solveParametersValidatorMock = new Mock<ISolveParametersValidator>();
     }
@@ -34,12 +36,15 @@ public class WordSolverConstructorTests
         _wordRepositoryMock.Setup(r => r.GetWords()).Returns(["a"]);
 
         var result = new WordSolver(
-            _loggerMock.Object,
+            _logger,
             _wordRepositoryMock.Object,
             _solveParametersValidatorMock.Object);
 
-        Assert.That(result, Is.Not.Null);
-        _loggerMock.VerifyNoOtherCalls();
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result, Is.Not.Null);
+            Assert.That(_logger.Collector.GetSnapshot(), Is.Empty);
+        }
     }
 
     [Test]
@@ -48,7 +53,7 @@ public class WordSolverConstructorTests
         ArgumentNullException? ex = Assert.Throws<ArgumentNullException>(
             () =>
             new WordSolver(
-                null!,
+                (ILogger)null!,
                 _wordRepositoryMock.Object,
                 _solveParametersValidatorMock.Object));
 
@@ -65,7 +70,7 @@ public class WordSolverConstructorTests
         ArgumentNullException? ex = Assert.Throws<ArgumentNullException>(
             () =>
             new WordSolver(
-                _loggerMock.Object,
+                _logger,
                 null!,
                 _solveParametersValidatorMock.Object));
 
@@ -82,7 +87,7 @@ public class WordSolverConstructorTests
         ArgumentNullException? ex = Assert.Throws<ArgumentNullException>(
             () =>
             new WordSolver(
-                _loggerMock.Object,
+                _logger,
                 _wordRepositoryMock.Object,
                 null!));
 
@@ -99,11 +104,14 @@ public class WordSolverConstructorTests
         _wordRepositoryMock.Setup(r => r.GetWords()).Returns([]);
 
         var result = new WordSolver(
-            _loggerMock.Object,
+            _logger,
             _wordRepositoryMock.Object,
             _solveParametersValidatorMock.Object);
 
         Assert.That(result, Is.Not.Null);
-        _loggerMock.VerifyLogging("No Words returned from IWordRepository", LogLevel.Error, Times.Once());
+
+        var logs = _logger.Collector.GetSnapshot();
+        var errorLog = logs.Single(e => e.Level == LogLevel.Error);
+        Assert.That(errorLog.Message, Does.Contain("No Words returned from IWordRepository"));
     }
 }

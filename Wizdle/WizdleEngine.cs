@@ -2,7 +2,6 @@ namespace Wizdle;
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 
 using Microsoft.Extensions.Logging;
@@ -15,7 +14,7 @@ using Wizdle.Validator;
 /// <summary>
 /// The engine for processing requests to the Wizdle library.
 /// </summary>
-public class WizdleEngine
+public sealed partial class WizdleEngine
 {
     private readonly ILogger _logger;
 
@@ -30,7 +29,11 @@ public class WizdleEngine
     /// </summary>
     /// <param name="logger">The <see cref="ILogger"/> interface to use.</param>
     public WizdleEngine(ILogger logger)
-        : this(logger, new RequestValidator(logger), new RequestMapper(logger), new WordSolver(logger))
+        : this(
+              logger,
+              new RequestValidator(logger),
+              new RequestMapper(logger),
+              new WordSolver(logger))
     {
     }
 
@@ -39,11 +42,19 @@ public class WizdleEngine
     /// </summary>
     /// <param name="logger">The <see cref="ILogger"/> interface to use.</param>
     public WizdleEngine(ILogger<WizdleEngine> logger)
-        : this(logger, new RequestValidator(logger), new RequestMapper(logger), new WordSolver(logger))
+        : this(
+              logger,
+              new RequestValidator(logger),
+              new RequestMapper(logger),
+              new WordSolver(logger))
     {
     }
 
-    internal WizdleEngine(ILogger logger, IRequestValidator requestValidator, IRequestMapper requestMapper, IWordSolver solver)
+    internal WizdleEngine(
+        ILogger logger,
+        IRequestValidator requestValidator,
+        IRequestMapper requestMapper,
+        IWordSolver solver)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _requestValidator = requestValidator ?? throw new ArgumentNullException(nameof(requestValidator));
@@ -67,31 +78,41 @@ public class WizdleEngine
             };
         }
 
-        _logger.LogInformation(
-            string.Format(
-                CultureInfo.InvariantCulture,
-                "{0,-25} {1,-25} {2,-25} {3}",
-                $"Processing {nameof(WizdleRequest)}:",
-                $"{nameof(request.CorrectLetters)}: \"{request.CorrectLetters}\"",
-                $"{nameof(request.MisplacedLetters)}: \"{request.MisplacedLetters}\"",
-                $"{nameof(request.ExcludeLetters)}: \"{request.ExcludeLetters}\""));
+        LogProcessingRequest(
+            _logger,
+            nameof(WizdleRequest),
+            request.CorrectLetters,
+            request.MisplacedLetters,
+            request.ExcludeLetters);
 
         SolveParameters solveParameters = _requestMapper.MapToSolveParameters(request);
 
         IEnumerable<string> words = _wordSolver.Solve(solveParameters);
+        int wordCount = words.Count();
 
-        _logger.LogInformation(
-            string.Format(
-                CultureInfo.InvariantCulture,
-                "{0,-5} {1,-10} {2}",
-                $"Found",
-                words.Count(),
-                "Word(s) matching the criteria."));
+        LogFoundWords(_logger, wordCount);
 
         return new WizdleResponse()
         {
             Words = words,
-            Messages = [$"Found {words.Count()} Word(s) matching the criteria."],
+            Messages = [$"Found {wordCount} Word(s) matching the criteria."],
         };
     }
+
+    [LoggerMessage(
+        EventId = 1,
+        Level = LogLevel.Information,
+        Message = "Processing {RequestType}: CorrectLetters: \"{CorrectLetters}\", MisplacedLetters: \"{MisplacedLetters}\", ExcludeLetters: \"{ExcludeLetters}\"")]
+    static partial void LogProcessingRequest(
+        ILogger logger,
+        string requestType,
+        string correctLetters,
+        string misplacedLetters,
+        string excludeLetters);
+
+    [LoggerMessage(
+        EventId = 2,
+        Level = LogLevel.Information,
+        Message = "Found {WordCount} Word(s) matching the criteria.")]
+    static partial void LogFoundWords(ILogger logger, int wordCount);
 }

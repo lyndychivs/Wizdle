@@ -20,7 +20,7 @@ using Wizdle.Functional.Tests.Models;
 using Wizdle.Models;
 
 [TestFixture]
-public class WordleTest : PageTest
+public partial class WordleTest : PageTest
 {
     private const string WordleUrl = "https://www.nytimes.com/games/wordle/index.html";
 
@@ -120,7 +120,7 @@ public class WordleTest : PageTest
             if (await IsGameOver())
             {
                 _attemptCount++;
-                _logger.LogInformation($"Game ended after {_attemptCount} attempt(s).");
+                LogGameEnded(_logger, _attemptCount);
                 break;
             }
 
@@ -157,6 +157,30 @@ public class WordleTest : PageTest
         return LetterStatus.Absent;
     }
 
+    [LoggerMessage(
+        EventId = 1,
+        Level = LogLevel.Information,
+        Message = "Game ended after {AttemptCount} attempt(s).")]
+    static partial void LogGameEnded(ILogger logger, int attemptCount);
+
+    [LoggerMessage(
+        EventId = 2,
+        Level = LogLevel.Information,
+        Message = "Wizdle Suggestions:\n{Words}")]
+    static partial void LogSuggestionWords(ILogger logger, string words);
+
+    [LoggerMessage(
+        EventId = 3,
+        Level = LogLevel.Information,
+        Message = "Submit: {Word}")]
+    static partial void LogSubmitWord(ILogger logger, Word word);
+
+    [LoggerMessage(
+        EventId = 4,
+        Level = LogLevel.Information,
+        Message = "Solved Wordle!")]
+    static partial void LogSolvedWordle(ILogger logger);
+
     private Word GetNewWordFromWizdle()
     {
         var wizdleRequest = new WizdleRequest
@@ -168,20 +192,13 @@ public class WordleTest : PageTest
 
         WizdleResponse wizdleResponse = _wizdleEngine.ProcessWizdleRequest(wizdleRequest);
 
-        if (!wizdleResponse.Words.Any())
-        {
-            Assert.Fail("Wizdle returned no possible words.");
-        }
+        string words = string.Join(Environment.NewLine, wizdleResponse.Words);
 
-        _logger.LogInformation("Wizdle Suggestions:");
-        _logger.LogInformation(string.Join(", ", wizdleResponse.Words));
+        Assert.That(string.IsNullOrWhiteSpace(words), Is.False, "Wizdle returned no possible words.");
 
-        if (wizdleResponse.Words.Count() == 1)
-        {
-            return new Word(wizdleResponse.Words.First());
-        }
+        LogSuggestionWords(_logger, words);
 
-        int index = new Random().Next(0, wizdleResponse.Words.Count() - 1);
+        int index = new Random().Next(0, wizdleResponse.Words.Count());
         return new Word(wizdleResponse.Words.ElementAt(index));
     }
 
@@ -242,7 +259,7 @@ public class WordleTest : PageTest
 
     private async Task SubmitWordOnPage(Word word)
     {
-        _logger.LogInformation($"Submit: {word}");
+        LogSubmitWord(_logger, word);
 
         foreach (char letter in word.ToString())
         {
@@ -334,7 +351,7 @@ public class WordleTest : PageTest
 
                 if (await congratsHeading.IsVisibleAsync())
                 {
-                    _logger.LogInformation($"Solved Wordle!");
+                    LogSolvedWordle(_logger);
                     return true;
                 }
             }

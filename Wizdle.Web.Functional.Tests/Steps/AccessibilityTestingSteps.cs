@@ -31,12 +31,8 @@ internal sealed class AccessibilityTestingSteps
     [StepDefinition("I perform an Accessibility audit on the current Page")]
     public async Task PerformAccessibilityAudit()
     {
-        _axeResult = await _page.RunAxe(GetAxeRunOptions());
-
-        if (_axeResult is null)
-        {
-            throw new InvalidOperationException("Axe Result is null after running audit.");
-        }
+        _axeResult = await _page.RunAxe(GetAxeRunOptions())
+            ?? throw new InvalidOperationException("Axe Result is null after running audit.");
 
         _reqnrollOutputHelper.WriteLine($"axe-core ran against {_axeResult.Url} on {_axeResult.Timestamp}");
 

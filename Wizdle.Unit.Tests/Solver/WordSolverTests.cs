@@ -1,8 +1,10 @@
 namespace Wizdle.Unit.Tests.Solver;
 
 using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Testing;
 
 using Moq;
 
@@ -15,17 +17,15 @@ using Wizdle.Validator;
 [TestFixture]
 public class WordSolverTests
 {
-    private readonly Mock<ILogger> _loggerMock;
+    private readonly FakeLogger<WordSolver> _logger;
 
     private readonly Mock<IWordRepository> _wordRepositoryMock;
 
     private readonly Mock<ISolveParametersValidator> _solveParametersValidatorMock;
 
-    private WordSolver? _wordSolver;
-
     public WordSolverTests()
     {
-        _loggerMock = new Mock<ILogger>();
+        _logger = new FakeLogger<WordSolver>();
         _wordRepositoryMock = new Mock<IWordRepository>();
         _solveParametersValidatorMock = new Mock<ISolveParametersValidator>();
     }
@@ -35,17 +35,20 @@ public class WordSolverTests
     {
         // Arrange
         _solveParametersValidatorMock.Setup(v => v.IsValid(It.IsAny<SolveParameters>())).Returns(false);
-        _wordSolver = new WordSolver(_loggerMock.Object, _wordRepositoryMock.Object, _solveParametersValidatorMock.Object);
+        var wordSolver = new WordSolver(
+            _logger,
+            _wordRepositoryMock.Object,
+            _solveParametersValidatorMock.Object);
 
         // Act
-        IEnumerable<string> result = _wordSolver.Solve(new SolveParameters());
+        IEnumerable<string> result = wordSolver.Solve(new SolveParameters());
 
         // Assert
         Assert.That(result, Is.Empty);
-        _loggerMock.VerifyLogging(
-            "SolveParameters is not valid, returning empty",
-            LogLevel.Warning,
-            Times.Once());
+
+        var logs = _logger.Collector.GetSnapshot();
+        var warningLog = logs.Single(e => e.Level == LogLevel.Warning);
+        Assert.That(warningLog.Message, Is.EqualTo("SolveParameters is not valid, returning empty"));
     }
 
     [Test]
@@ -53,18 +56,20 @@ public class WordSolverTests
     {
         // Arrange
         _solveParametersValidatorMock.Setup(v => v.IsValid(It.IsAny<SolveParameters>())).Returns(true);
-        _wordRepositoryMock.Setup(r => r.GetWords()).Returns([]);
-        _wordSolver = new WordSolver(_loggerMock.Object, _wordRepositoryMock.Object, _solveParametersValidatorMock.Object);
+        var wordSolver = new WordSolver(
+            _logger,
+            _wordRepositoryMock.Object,
+            _solveParametersValidatorMock.Object);
 
         // Act
-        IEnumerable<string> result = _wordSolver.Solve(new SolveParameters());
+        IEnumerable<string> result = wordSolver.Solve(new SolveParameters());
 
         // Assert
         Assert.That(result, Is.Empty);
-        _loggerMock.VerifyLogging(
-            "No Words returned from IWordRepository, returning empty",
-            LogLevel.Error,
-            Times.Once());
+
+        var logs = _logger.Collector.GetSnapshot();
+        var errorLog = logs.Single(e => e.Id == 3 && e.Level == LogLevel.Error);
+        Assert.That(errorLog.Message, Is.EqualTo("No Words returned from IWordRepository, returning empty"));
     }
 
     [Test]
@@ -74,7 +79,11 @@ public class WordSolverTests
         List<string> words = ["hates", "round", "climb"];
         _solveParametersValidatorMock.Setup(v => v.IsValid(It.IsAny<SolveParameters>())).Returns(true);
         _wordRepositoryMock.Setup(r => r.GetWords()).Returns(words);
-        _wordSolver = new WordSolver(_loggerMock.Object, _wordRepositoryMock.Object, _solveParametersValidatorMock.Object);
+        var wordSolver = new WordSolver(
+            _logger,
+            _wordRepositoryMock.Object,
+            _solveParametersValidatorMock.Object);
+
         var parameters = new SolveParameters
         {
             ExcludeLetters = ['a'],
@@ -83,7 +92,7 @@ public class WordSolverTests
         };
 
         // Act
-        IEnumerable<string> result = _wordSolver.Solve(parameters);
+        IEnumerable<string> result = wordSolver.Solve(parameters);
 
         // Assert
         Assert.That(result, Is.EqualTo(["round", "climb"]));
@@ -96,7 +105,11 @@ public class WordSolverTests
         List<string> words = ["hates", "round"];
         _solveParametersValidatorMock.Setup(v => v.IsValid(It.IsAny<SolveParameters>())).Returns(true);
         _wordRepositoryMock.Setup(r => r.GetWords()).Returns(words);
-        _wordSolver = new WordSolver(_loggerMock.Object, _wordRepositoryMock.Object, _solveParametersValidatorMock.Object);
+        var wordSolver = new WordSolver(
+            _logger,
+            _wordRepositoryMock.Object,
+            _solveParametersValidatorMock.Object);
+
         var parameters = new SolveParameters
         {
             ExcludeLetters = ['h', 'r'],
@@ -105,7 +118,7 @@ public class WordSolverTests
         };
 
         // Act
-        IEnumerable<string> result = _wordSolver.Solve(parameters);
+        IEnumerable<string> result = wordSolver.Solve(parameters);
 
         // Assert
         Assert.That(result, Is.Empty);
@@ -118,7 +131,11 @@ public class WordSolverTests
         List<string> words = ["hates", "hater", "hated"];
         _solveParametersValidatorMock.Setup(v => v.IsValid(It.IsAny<SolveParameters>())).Returns(true);
         _wordRepositoryMock.Setup(r => r.GetWords()).Returns(words);
-        _wordSolver = new WordSolver(_loggerMock.Object, _wordRepositoryMock.Object, _solveParametersValidatorMock.Object);
+        var wordSolver = new WordSolver(
+            _logger,
+            _wordRepositoryMock.Object,
+            _solveParametersValidatorMock.Object);
+
         var parameters = new SolveParameters
         {
             ExcludeLetters = [],
@@ -127,7 +144,7 @@ public class WordSolverTests
         };
 
         // Act
-        IEnumerable<string> result = _wordSolver.Solve(parameters);
+        IEnumerable<string> result = wordSolver.Solve(parameters);
 
         // Assert
         Assert.That(result, Is.EquivalentTo(["hates"]));
@@ -140,7 +157,11 @@ public class WordSolverTests
         List<string> words = ["a", "b"];
         _solveParametersValidatorMock.Setup(v => v.IsValid(It.IsAny<SolveParameters>())).Returns(true);
         _wordRepositoryMock.Setup(r => r.GetWords()).Returns(words);
-        _wordSolver = new WordSolver(_loggerMock.Object, _wordRepositoryMock.Object, _solveParametersValidatorMock.Object);
+        var wordSolver = new WordSolver(
+            _logger,
+            _wordRepositoryMock.Object,
+            _solveParametersValidatorMock.Object);
+
         var parameters = new SolveParameters
         {
             ExcludeLetters = [],
@@ -149,7 +170,7 @@ public class WordSolverTests
         };
 
         // Act
-        IEnumerable<string> result = _wordSolver.Solve(parameters);
+        IEnumerable<string> result = wordSolver.Solve(parameters);
 
         // Assert
         Assert.That(result, Is.EqualTo(words));
@@ -162,7 +183,11 @@ public class WordSolverTests
         List<string> words = ["hates", "hater"];
         _solveParametersValidatorMock.Setup(v => v.IsValid(It.IsAny<SolveParameters>())).Returns(true);
         _wordRepositoryMock.Setup(r => r.GetWords()).Returns(words);
-        _wordSolver = new WordSolver(_loggerMock.Object, _wordRepositoryMock.Object, _solveParametersValidatorMock.Object);
+        var wordSolver = new WordSolver(
+            _logger,
+            _wordRepositoryMock.Object,
+            _solveParametersValidatorMock.Object);
+
         var parameters = new SolveParameters
         {
             ExcludeLetters = [],
@@ -171,7 +196,7 @@ public class WordSolverTests
         };
 
         // Act
-        IEnumerable<string> result = _wordSolver.Solve(parameters);
+        IEnumerable<string> result = wordSolver.Solve(parameters);
 
         // Assert
         Assert.That(result, Is.EqualTo(["hates"]));
@@ -184,7 +209,11 @@ public class WordSolverTests
         List<string> words = ["snoop", "spoon"];
         _solveParametersValidatorMock.Setup(v => v.IsValid(It.IsAny<SolveParameters>())).Returns(true);
         _wordRepositoryMock.Setup(r => r.GetWords()).Returns(words);
-        _wordSolver = new WordSolver(_loggerMock.Object, _wordRepositoryMock.Object, _solveParametersValidatorMock.Object);
+        var wordSolver = new WordSolver(
+            _logger,
+            _wordRepositoryMock.Object,
+            _solveParametersValidatorMock.Object);
+
         var parameters = new SolveParameters
         {
             ExcludeLetters = [],
@@ -193,7 +222,7 @@ public class WordSolverTests
         };
 
         // Act
-        IEnumerable<string> result = _wordSolver.Solve(parameters);
+        IEnumerable<string> result = wordSolver.Solve(parameters);
 
         // Assert
         Assert.That(result, Is.EqualTo(["spoon"]));
@@ -206,7 +235,11 @@ public class WordSolverTests
         List<string> words = ["hates", "hater", "hated"];
         _solveParametersValidatorMock.Setup(v => v.IsValid(It.IsAny<SolveParameters>())).Returns(true);
         _wordRepositoryMock.Setup(r => r.GetWords()).Returns(words);
-        _wordSolver = new WordSolver(_loggerMock.Object, _wordRepositoryMock.Object, _solveParametersValidatorMock.Object);
+        var wordSolver = new WordSolver(
+            _logger,
+            _wordRepositoryMock.Object,
+            _solveParametersValidatorMock.Object);
+
         var parameters = new SolveParameters
         {
             ExcludeLetters = [],
@@ -215,7 +248,7 @@ public class WordSolverTests
         };
 
         // Act
-        IEnumerable<string> result = _wordSolver.Solve(parameters);
+        IEnumerable<string> result = wordSolver.Solve(parameters);
 
         // Assert
         Assert.That(result, Is.EqualTo(["hater"]));

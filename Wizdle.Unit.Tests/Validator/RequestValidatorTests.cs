@@ -1,10 +1,10 @@
 namespace Wizdle.Unit.Tests.Validator;
 
 using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.Extensions.Logging;
-
-using Moq;
+using Microsoft.Extensions.Logging.Testing;
 
 using NUnit.Framework;
 
@@ -14,14 +14,14 @@ using Wizdle.Validator;
 [TestFixture]
 public class RequestValidatorTests
 {
-    private readonly Mock<ILogger> _loggerMock;
+    private readonly FakeLogger<RequestValidator> _logger;
 
     private readonly RequestValidator _requestValidator;
 
     public RequestValidatorTests()
     {
-        _loggerMock = new Mock<ILogger>();
-        _requestValidator = new RequestValidator(_loggerMock.Object);
+        _logger = new FakeLogger<RequestValidator>();
+        _requestValidator = new RequestValidator(_logger);
     }
 
     [Test]
@@ -40,7 +40,7 @@ public class RequestValidatorTests
         using (Assert.EnterMultipleScope())
         {
             Assert.That(errors, Is.Empty);
-            _loggerMock.VerifyNoOtherCalls();
+            Assert.That(_logger.Collector.GetSnapshot(), Is.Empty);
         }
     }
 
@@ -54,14 +54,17 @@ public class RequestValidatorTests
         using (Assert.EnterMultipleScope())
         {
             Assert.That(errors, Has.Exactly(1).EqualTo(expectedError));
-            _loggerMock.VerifyLogging(expectedError, LogLevel.Debug, Times.Once());
+
+            var logs = _logger.Collector.GetSnapshot();
+            var debugLog = logs.Single(e => e.Level == LogLevel.Debug);
+            Assert.That(debugLog.Message, Is.EqualTo(expectedError));
         }
     }
 
     [Test]
     public void GetErrors_NullCorrectLetters_ReturnsError()
     {
-        string expectedError = "WizdleRequest.CorrectLetters cannot be null";
+        string expectedError = "WizdleRequest CorrectLetters cannot be null";
         var request = new WizdleRequest
         {
             CorrectLetters = null!,
@@ -74,14 +77,17 @@ public class RequestValidatorTests
         using (Assert.EnterMultipleScope())
         {
             Assert.That(errors, Has.Exactly(1).EqualTo(expectedError));
-            _loggerMock.VerifyLogging(expectedError, LogLevel.Debug, Times.Once());
+
+            var logs = _logger.Collector.GetSnapshot();
+            var debugLog = logs.Single(e => e.Level == LogLevel.Debug);
+            Assert.That(debugLog.Message, Is.EqualTo(expectedError));
         }
     }
 
     [Test]
     public void GetErrors_NullMisplacedLetters_ReturnsError()
     {
-        string expectedError = "WizdleRequest.MisplacedLetters cannot be null";
+        string expectedError = "WizdleRequest MisplacedLetters cannot be null";
         var request = new WizdleRequest
         {
             CorrectLetters = "a",
@@ -94,14 +100,17 @@ public class RequestValidatorTests
         using (Assert.EnterMultipleScope())
         {
             Assert.That(errors, Has.Exactly(1).EqualTo(expectedError));
-            _loggerMock.VerifyLogging(expectedError, LogLevel.Debug, Times.Once());
+
+            var logs = _logger.Collector.GetSnapshot();
+            var debugLog = logs.Single(e => e.Level == LogLevel.Debug);
+            Assert.That(debugLog.Message, Is.EqualTo(expectedError));
         }
     }
 
     [Test]
     public void GetErrors_NullExcludedLetters_ReturnsError()
     {
-        string expectedError = "WizdleRequest.ExcludeLetters cannot be null";
+        string expectedError = "WizdleRequest ExcludeLetters cannot be null";
         var request = new WizdleRequest
         {
             CorrectLetters = "a",
@@ -114,14 +123,17 @@ public class RequestValidatorTests
         using (Assert.EnterMultipleScope())
         {
             Assert.That(errors, Has.Exactly(1).EqualTo(expectedError));
-            _loggerMock.VerifyLogging(expectedError, LogLevel.Debug, Times.Once());
+
+            var logs = _logger.Collector.GetSnapshot();
+            var debugLog = logs.Single(e => e.Level == LogLevel.Debug);
+            Assert.That(debugLog.Message, Is.EqualTo(expectedError));
         }
     }
 
     [Test]
     public void GetErrors_CorrectLettersTooLong_ReturnsError()
     {
-        string expectedError = "WizdleRequest.CorrectLetters cannot be longer than 5 characters";
+        string expectedError = "WizdleRequest CorrectLetters cannot be longer than 5 characters";
         var request = new WizdleRequest
         {
             CorrectLetters = "abcdef",
@@ -134,14 +146,17 @@ public class RequestValidatorTests
         using (Assert.EnterMultipleScope())
         {
             Assert.That(errors, Has.Exactly(1).EqualTo(expectedError));
-            _loggerMock.VerifyLogging(expectedError, LogLevel.Debug, Times.Once());
+
+            var logs = _logger.Collector.GetSnapshot();
+            var debugLog = logs.Single(e => e.Level == LogLevel.Debug);
+            Assert.That(debugLog.Message, Is.EqualTo(expectedError));
         }
     }
 
     [Test]
     public void GetErrors_MisplacedLettersTooLong_ReturnsError()
     {
-        string expectedError = "WizdleRequest.MisplacedLetters cannot be longer than 5 characters";
+        string expectedError = "WizdleRequest MisplacedLetters cannot be longer than 5 characters";
         var request = new WizdleRequest
         {
             CorrectLetters = "a",
@@ -154,7 +169,10 @@ public class RequestValidatorTests
         using (Assert.EnterMultipleScope())
         {
             Assert.That(errors, Has.Exactly(1).EqualTo(expectedError));
-            _loggerMock.VerifyLogging(expectedError, LogLevel.Debug, Times.Once());
+
+            var logs = _logger.Collector.GetSnapshot();
+            var debugLog = logs.Single(e => e.Level == LogLevel.Debug);
+            Assert.That(debugLog.Message, Is.EqualTo(expectedError));
         }
     }
 }

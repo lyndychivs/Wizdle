@@ -3,8 +3,7 @@ namespace Wizdle.Unit.Tests.Validator;
 using System.Linq;
 
 using Microsoft.Extensions.Logging;
-
-using Moq;
+using Microsoft.Extensions.Logging.Testing;
 
 using NUnit.Framework;
 
@@ -14,14 +13,14 @@ using Wizdle.Validator;
 [TestFixture]
 public class SolveParametersValidatorTests
 {
-    private readonly Mock<ILogger> _loggerMock;
+    private readonly FakeLogger<SolveParametersValidator> _logger;
 
     private readonly SolveParametersValidator _solveParametersValidator;
 
     public SolveParametersValidatorTests()
     {
-        _loggerMock = new Mock<ILogger>();
-        _solveParametersValidator = new SolveParametersValidator(_loggerMock.Object);
+        _logger = new FakeLogger<SolveParametersValidator>();
+        _solveParametersValidator = new SolveParametersValidator(_logger);
     }
 
     [Test]
@@ -39,7 +38,7 @@ public class SolveParametersValidatorTests
         using (Assert.EnterMultipleScope())
         {
             Assert.That(isValid, Is.True);
-            _loggerMock.VerifyNoOtherCalls();
+            Assert.That(_logger.Collector.GetSnapshot(), Is.Empty);
         }
     }
 
@@ -51,7 +50,10 @@ public class SolveParametersValidatorTests
         using (Assert.EnterMultipleScope())
         {
             Assert.That(isValid, Is.False);
-            _loggerMock.VerifyLogging("SolveParameters cannot be null", LogLevel.Debug, Times.Once());
+
+            var logs = _logger.Collector.GetSnapshot();
+            var errorLogs = logs.Single(e => e.Level == LogLevel.Error);
+            Assert.That(errorLogs.Message, Does.Contain("solveParameters cannot be null"));
         }
     }
 
@@ -76,7 +78,10 @@ public class SolveParametersValidatorTests
         using (Assert.EnterMultipleScope())
         {
             Assert.That(isValid, Is.False);
-            _loggerMock.VerifyLogging("SolveParameters.CorrectLetters Letter count is not equal to 5", LogLevel.Debug, Times.Once());
+
+            var logs = _logger.Collector.GetSnapshot();
+            var debugLog = logs.Single(e => e.Level == LogLevel.Debug);
+            Assert.That(debugLog.Message, Does.Contain("CorrectLetters Letter count is not equal to 5"));
         }
     }
 
@@ -101,7 +106,10 @@ public class SolveParametersValidatorTests
         using (Assert.EnterMultipleScope())
         {
             Assert.That(isValid, Is.False);
-            _loggerMock.VerifyLogging("SolveParameters.MisplacedLetters Letter count is not equal to 5", LogLevel.Debug, Times.Once());
+
+            var logs = _logger.Collector.GetSnapshot();
+            var debugLog = logs.Single(e => e.Level == LogLevel.Debug);
+            Assert.That(debugLog.Message, Does.Contain("MisplacedLetters Letter count is not equal to 5"));
         }
     }
 
@@ -120,7 +128,11 @@ public class SolveParametersValidatorTests
         using (Assert.EnterMultipleScope())
         {
             Assert.That(isValid, Is.False);
-            _loggerMock.VerifyLogging("CorrectLetters and MisplacedLetters contain the same letter at index 0, Letter: 'a'", LogLevel.Debug, Times.Once());
+
+            var logs = _logger.Collector.GetSnapshot();
+            var debugLog = logs.Single(e => e.Level == LogLevel.Debug);
+            Assert.That(debugLog.Message, Does.Contain("CorrectLetters and MisplacedLetters contain the same letter at index 0"));
+            Assert.That(debugLog.Message, Does.Contain("Letter: 'a'"));
         }
     }
 
@@ -139,7 +151,11 @@ public class SolveParametersValidatorTests
         using (Assert.EnterMultipleScope())
         {
             Assert.That(isValid, Is.False);
-            _loggerMock.VerifyLogging("ExcludeLetters contains a letter that exists in CorrectLetters or MisplacedLetters, Letter: 'a'", LogLevel.Debug, Times.Once());
+
+            var logs = _logger.Collector.GetSnapshot();
+            var debugLog = logs.Single(e => e.Level == LogLevel.Debug);
+            Assert.That(debugLog.Message, Does.Contain("ExcludeLetters contains a letter that exists in CorrectLetters or MisplacedLetters"));
+            Assert.That(debugLog.Message, Does.Contain("Letter: 'a'"));
         }
     }
 
@@ -158,7 +174,11 @@ public class SolveParametersValidatorTests
         using (Assert.EnterMultipleScope())
         {
             Assert.That(isValid, Is.False);
-            _loggerMock.VerifyLogging("ExcludeLetters contains a letter that exists in CorrectLetters or MisplacedLetters, Letter: 'f'", LogLevel.Debug, Times.Once());
+
+            var logs = _logger.Collector.GetSnapshot();
+            var debugLog = logs.Single(e => e.Level == LogLevel.Debug);
+            Assert.That(debugLog.Message, Does.Contain("ExcludeLetters contains a letter that exists in CorrectLetters or MisplacedLetters"));
+            Assert.That(debugLog.Message, Does.Contain("Letter: 'f'"));
         }
     }
 }

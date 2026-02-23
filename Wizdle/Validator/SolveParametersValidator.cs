@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 using Wizdle.Solver;
 
-internal class SolveParametersValidator : ISolveParametersValidator
+internal sealed partial class SolveParametersValidator : ISolveParametersValidator
 {
     private readonly ILogger _logger;
 
@@ -21,20 +21,20 @@ internal class SolveParametersValidator : ISolveParametersValidator
 
         if (solveParameters is null)
         {
-            _logger.LogDebug($"{nameof(SolveParameters)} cannot be null");
+            LogParameterCannotBeNull(_logger, nameof(solveParameters));
             return false;
         }
 
         if (solveParameters.CorrectLetters.Count != 5)
         {
             isValid = false;
-            _logger.LogDebug($"{nameof(SolveParameters)}.{nameof(SolveParameters.CorrectLetters)} Letter count is not equal to 5");
+            LogParameterWithInvalidLettersCount(_logger, nameof(solveParameters.CorrectLetters));
         }
 
         if (solveParameters.MisplacedLetters.Count != 5)
         {
             isValid = false;
-            _logger.LogDebug($"{nameof(SolveParameters)}.{nameof(SolveParameters.MisplacedLetters)} Letter count is not equal to 5");
+            LogParameterWithInvalidLettersCount(_logger, nameof(solveParameters.MisplacedLetters));
         }
 
         for (int i = 0; i < Math.Min(solveParameters.CorrectLetters.Count, 5); i++)
@@ -52,7 +52,7 @@ internal class SolveParametersValidator : ISolveParametersValidator
             if (solveParameters.CorrectLetters[i] == solveParameters.MisplacedLetters[i])
             {
                 isValid = false;
-                _logger.LogDebug($"{nameof(SolveParameters.CorrectLetters)} and {nameof(SolveParameters.MisplacedLetters)} contain the same letter at index {i}, Letter: '{solveParameters.CorrectLetters[i]}'");
+                LogDuplicateLetterAtIndex(_logger, i, solveParameters.CorrectLetters[i]);
             }
         }
 
@@ -61,10 +61,34 @@ internal class SolveParametersValidator : ISolveParametersValidator
             if (solveParameters.CorrectLetters.Contains(c) || solveParameters.MisplacedLetters.Contains(c))
             {
                 isValid = false;
-                _logger.LogDebug($"{nameof(SolveParameters.ExcludeLetters)} contains a letter that exists in {nameof(SolveParameters.CorrectLetters)} or {nameof(SolveParameters.MisplacedLetters)}, Letter: '{c}'");
+                LogExcludedLetterConflict(_logger, c);
             }
         }
 
         return isValid;
     }
+
+    [LoggerMessage(
+        EventId = 1,
+        Level = LogLevel.Error,
+        Message = "{ParameterName} cannot be null")]
+    static partial void LogParameterCannotBeNull(ILogger logger, string parameterName);
+
+    [LoggerMessage(
+        EventId = 2,
+        Level = LogLevel.Debug,
+        Message = "{ParameterName} Letter count is not equal to 5")]
+    static partial void LogParameterWithInvalidLettersCount(ILogger logger, string parameterName);
+
+    [LoggerMessage(
+        EventId = 3,
+        Level = LogLevel.Debug,
+        Message = "CorrectLetters and MisplacedLetters contain the same letter at index {Index}, Letter: '{Letter}'")]
+    static partial void LogDuplicateLetterAtIndex(ILogger logger, int index, char letter);
+
+    [LoggerMessage(
+        EventId = 4,
+        Level = LogLevel.Debug,
+        Message = "ExcludeLetters contains a letter that exists in CorrectLetters or MisplacedLetters, Letter: '{Letter}'")]
+    static partial void LogExcludedLetterConflict(ILogger logger, char letter);
 }

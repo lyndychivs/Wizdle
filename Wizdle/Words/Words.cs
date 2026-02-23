@@ -2,7 +2,7 @@ namespace Wizdle.Words;
 
 using System.Collections.Generic;
 
-internal class Words : IWords
+internal sealed class Words : IWords
 {
     public IEnumerable<string> GetWords()
     {
