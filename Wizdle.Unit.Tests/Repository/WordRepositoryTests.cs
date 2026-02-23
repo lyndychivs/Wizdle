@@ -1,8 +1,10 @@
 namespace Wizdle.Unit.Tests.Repository;
 
 using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Testing;
 
 using Moq;
 
@@ -14,7 +16,7 @@ using Wizdle.Words;
 [TestFixture]
 public class WordRepositoryTests
 {
-    private readonly Mock<ILogger> _loggerMock;
+    private readonly FakeLogger<WordRepository> _logger;
 
     private readonly Mock<IWords> _wordsMock;
 
@@ -22,9 +24,9 @@ public class WordRepositoryTests
 
     public WordRepositoryTests()
     {
-        _loggerMock = new Mock<ILogger>();
+        _logger = new FakeLogger<WordRepository>();
         _wordsMock = new Mock<IWords>();
-        _wordRepository = new WordRepository(_loggerMock.Object, _wordsMock.Object);
+        _wordRepository = new WordRepository(_logger, _wordsMock.Object);
     }
 
     [Test]
@@ -96,10 +98,10 @@ public class WordRepositoryTests
 
         // Assert
         Assert.That(results, Is.Empty);
-        _loggerMock.VerifyLogging(
-            "Found NullOrWhiteSpace in Word file, skipping.",
-            LogLevel.Warning,
-            Times.Once());
+
+        var logs = _logger.Collector.GetSnapshot();
+        var warningLog = logs.Single(e => e.Level == LogLevel.Warning);
+        Assert.That(warningLog.Message, Is.EqualTo("Found NullOrWhiteSpace in Words, skipping"));
     }
 
     [TestCase("a")]
@@ -116,10 +118,10 @@ public class WordRepositoryTests
 
         // Assert
         Assert.That(results, Is.Empty);
-        _loggerMock.VerifyLogging(
-            $"Found Word with length {word.Length} in Word file, skipping: {word}",
-            LogLevel.Warning,
-            Times.Once());
+
+        var logs = _logger.Collector.GetSnapshot();
+        var warningLog = logs.Single(e => e.Level == LogLevel.Warning);
+        Assert.That(warningLog.Message, Is.EqualTo($"Found Word with length {word.Length} in Words, skipping: {word}"));
     }
 
     [Test]

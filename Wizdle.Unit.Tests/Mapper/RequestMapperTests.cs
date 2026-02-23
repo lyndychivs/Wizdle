@@ -1,8 +1,9 @@
 namespace Wizdle.Unit.Tests.Mapper;
 
-using Microsoft.Extensions.Logging;
+using System.Linq;
 
-using Moq;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Testing;
 
 using NUnit.Framework;
 
@@ -13,14 +14,14 @@ using Wizdle.Solver;
 [TestFixture]
 public class RequestMapperTests
 {
-    private readonly Mock<ILogger> _loggerMock;
+    private readonly FakeLogger<WizdleEngine> _logger;
 
     private readonly RequestMapper _requestMapper;
 
     public RequestMapperTests()
     {
-        _loggerMock = new Mock<ILogger>();
-        _requestMapper = new RequestMapper(_loggerMock.Object);
+        _logger = new FakeLogger<WizdleEngine>();
+        _requestMapper = new RequestMapper(_logger);
     }
 
     [Test]
@@ -42,15 +43,13 @@ public class RequestMapperTests
             Assert.That(result.MisplacedLetters, Is.EqualTo(['b', '?', '?', '?', '?']));
             Assert.That(result.ExcludeLetters, Is.EqualTo(['c']));
 
-            _loggerMock.VerifyLogging(
-                "Mapping WizdleRequest:    CorrectLetters: \"a....\"   MisplacedLetters: \"b....\" ExcludeLetters: \"c\"",
-                LogLevel.Information,
-                Times.Once());
+            var logs = _logger.Collector.GetSnapshot();
 
-            _loggerMock.VerifyLogging(
-                $"Mapped SolveParameters:   CorrectLetters: \"a????\"   MisplacedLetters: \"b????\" ExcludeLetters: \"c\"",
-                LogLevel.Information,
-                Times.Once());
+            var mappingLog = logs.Single(e => e.Id == 2 && e.Level == LogLevel.Information);
+            Assert.That(mappingLog.Message, Is.EqualTo("Mapping WizdleRequest: [CorrectLetters: \"a....\", MisplacedLetters: \"b....\", ExcludeLetters: \"c\"]"));
+
+            var mappedLog = logs.Single(e => e.Id == 3 && e.Level == LogLevel.Information);
+            Assert.That(mappedLog.Message, Is.EqualTo("Mapped SolveParameters: [CorrectLetters: \"a, ?, ?, ?, ?\", MisplacedLetters: \"b, ?, ?, ?, ?\", ExcludeLetters: \"c\"]"));
         }
     }
 
@@ -65,10 +64,11 @@ public class RequestMapperTests
             Assert.That(result.CorrectLetters, Is.Empty);
             Assert.That(result.MisplacedLetters, Is.Empty);
             Assert.That(result.ExcludeLetters, Is.Empty);
-            _loggerMock.VerifyLogging(
-                "Received null WizdleRequest, returning default SolveParameters",
-                LogLevel.Error,
-                Times.Once());
+
+            var logs = _logger.Collector.GetSnapshot();
+            var errorLog = logs.Single(e => e.Id == 1 && e.Level == LogLevel.Error);
+            Assert.That(errorLog.Message, Does.Contain("Received null WizdleRequest"));
+            Assert.That(errorLog.Message, Does.Contain("returning default SolveParameters"));
         }
     }
 

@@ -1,6 +1,6 @@
 namespace Wizdle.Integration.Tests;
 
-using System;
+using System.Collections.Generic;
 
 using Microsoft.Extensions.Logging;
 
@@ -11,20 +11,21 @@ using Wizdle.Models;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 [TestFixture]
-public class WizdleEngineTests
+public partial class WizdleEngineTests
 {
     private readonly ILogger _logger;
+
+    private readonly WizdleEngine _wizdleEngine;
 
     public WizdleEngineTests()
     {
         _logger = Logger.CreateConsoleLogger<WizdleEngineTests>();
+        _wizdleEngine = new WizdleEngine(_logger);
     }
 
     [Test]
-    public void WizdleEngine_ValidRequestOne_ReturnsResponseWithWords()
+    public void WizdleEngine_ValidRequest_ReturnsResponseWithWords()
     {
-        var wizdleEngine = new WizdleEngine(_logger);
-
         var request = new WizdleRequest
         {
             CorrectLetters = ".....",
@@ -32,7 +33,7 @@ public class WizdleEngineTests
             ExcludeLetters = "hae",
         };
 
-        WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
+        WizdleResponse response = _wizdleEngine.ProcessWizdleRequest(request);
 
         Assert.That(response, Is.Not.Null);
         using (Assert.EnterMultipleScope())
@@ -41,15 +42,13 @@ public class WizdleEngineTests
             Assert.That(response.Words, Is.Not.Empty);
         }
 
-        _logger.LogInformation(string.Join(Environment.NewLine, response.Messages));
-        _logger.LogInformation(string.Join(Environment.NewLine, response.Words));
+        LogMessages(_logger, response.Messages);
+        LogWords(_logger, response.Words);
     }
 
     [Test]
-    public void WizdleEngine_ValidRequestTwo_ReturnsResponseWithWords()
+    public void WizdleEngine_ValidRequestBasedOffRequestOneResponse_ReturnsResponseWithWords()
     {
-        var wizdleEngine = new WizdleEngine(_logger);
-
         var request = new WizdleRequest
         {
             CorrectLetters = "....t",
@@ -57,7 +56,7 @@ public class WizdleEngineTests
             ExcludeLetters = "haebu",
         };
 
-        WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
+        WizdleResponse response = _wizdleEngine.ProcessWizdleRequest(request);
 
         Assert.That(response, Is.Not.Null);
         using (Assert.EnterMultipleScope())
@@ -66,15 +65,13 @@ public class WizdleEngineTests
             Assert.That(response.Words, Is.SupersetOf(["skirt", "snort", "sport"]));
         }
 
-        _logger.LogInformation(string.Join(Environment.NewLine, response.Messages));
-        _logger.LogInformation(string.Join(Environment.NewLine, response.Words));
+        LogMessages(_logger, response.Messages);
+        LogWords(_logger, response.Words);
     }
 
     [Test]
-    public void WizdleEngine_ValidRequestThree_ReturnsResponseWithWords()
+    public void WizdleEngine_ValidRequestBasedOffRequestTwoResponse_ReturnsResponseWithWords()
     {
-        var wizdleEngine = new WizdleEngine(_logger);
-
         var request = new WizdleRequest
         {
             CorrectLetters = "s..rt",
@@ -82,7 +79,7 @@ public class WizdleEngineTests
             ExcludeLetters = "haebuki",
         };
 
-        WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
+        WizdleResponse response = _wizdleEngine.ProcessWizdleRequest(request);
 
         Assert.That(response, Is.Not.Null);
         using (Assert.EnterMultipleScope())
@@ -91,15 +88,13 @@ public class WizdleEngineTests
             Assert.That(response.Words, Is.SupersetOf(["snort", "sport"]));
         }
 
-        _logger.LogInformation(string.Join(Environment.NewLine, response.Messages));
-        _logger.LogInformation(string.Join(Environment.NewLine, response.Words));
+        LogMessages(_logger, response.Messages);
+        LogWords(_logger, response.Words);
     }
 
     [Test]
-    public void WizdleEngine_ValidRequestFour_ReturnsResponseWithWords()
+    public void WizdleEngine_ValidRequestBasedOffRequestThreeResponse_ReturnsResponseWithWords()
     {
-        var wizdleEngine = new WizdleEngine(_logger);
-
         var request = new WizdleRequest
         {
             CorrectLetters = "s.ort",
@@ -107,7 +102,7 @@ public class WizdleEngineTests
             ExcludeLetters = "haebukin",
         };
 
-        WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
+        WizdleResponse response = _wizdleEngine.ProcessWizdleRequest(request);
 
         Assert.That(response, Is.Not.Null);
         using (Assert.EnterMultipleScope())
@@ -116,26 +111,24 @@ public class WizdleEngineTests
             Assert.That(response.Words, Is.SupersetOf(["sport"]));
         }
 
-        _logger.LogInformation(string.Join(Environment.NewLine, response.Messages));
-        _logger.LogInformation(string.Join(Environment.NewLine, response.Words));
+        LogMessages(_logger, response.Messages);
+        LogWords(_logger, response.Words);
     }
 
     [Test]
     public void WizdleEngine_NullCorrectLetters_ReturnsMessageWithWarning()
     {
-        var wizdleEngine = new WizdleEngine(_logger);
-
         var request = new WizdleRequest
         {
             CorrectLetters = null!,
         };
 
-        WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
+        WizdleResponse response = _wizdleEngine.ProcessWizdleRequest(request);
 
         Assert.That(response, Is.Not.Null);
         using (Assert.EnterMultipleScope())
         {
-            Assert.That(response.Messages, Is.EqualTo(["WizdleRequest.CorrectLetters cannot be null"]));
+            Assert.That(response.Messages, Is.EqualTo(["WizdleRequest CorrectLetters cannot be null"]));
             Assert.That(response.Words, Is.Empty);
         }
     }
@@ -143,19 +136,17 @@ public class WizdleEngineTests
     [Test]
     public void WizdleEngine_NullMisplacedLetters_ReturnsMessageWithWarning()
     {
-        var wizdleEngine = new WizdleEngine(_logger);
-
         var request = new WizdleRequest
         {
             MisplacedLetters = null!,
         };
 
-        WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
+        WizdleResponse response = _wizdleEngine.ProcessWizdleRequest(request);
 
         Assert.That(response, Is.Not.Null);
         using (Assert.EnterMultipleScope())
         {
-            Assert.That(response.Messages, Is.EqualTo(["WizdleRequest.MisplacedLetters cannot be null"]));
+            Assert.That(response.Messages, Is.EqualTo(["WizdleRequest MisplacedLetters cannot be null"]));
             Assert.That(response.Words, Is.Empty);
         }
     }
@@ -163,19 +154,17 @@ public class WizdleEngineTests
     [Test]
     public void WizdleEngine_NullExcludeLetters_ReturnsMessageWithWarning()
     {
-        var wizdleEngine = new WizdleEngine(_logger);
-
         var request = new WizdleRequest
         {
             ExcludeLetters = null!,
         };
 
-        WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
+        WizdleResponse response = _wizdleEngine.ProcessWizdleRequest(request);
 
         Assert.That(response, Is.Not.Null);
         using (Assert.EnterMultipleScope())
         {
-            Assert.That(response.Messages, Is.EqualTo(["WizdleRequest.ExcludeLetters cannot be null"]));
+            Assert.That(response.Messages, Is.EqualTo(["WizdleRequest ExcludeLetters cannot be null"]));
             Assert.That(response.Words, Is.Empty);
         }
     }
@@ -184,14 +173,12 @@ public class WizdleEngineTests
     [TestCase(" ")]
     public void WizdleEngine_EmptyCorrectLetters_ReturnsResponseWithWords(string letters)
     {
-        var wizdleEngine = new WizdleEngine(_logger);
-
         var request = new WizdleRequest
         {
             CorrectLetters = letters!,
         };
 
-        WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
+        WizdleResponse response = _wizdleEngine.ProcessWizdleRequest(request);
 
         Assert.That(response, Is.Not.Null);
         using (Assert.EnterMultipleScope())
@@ -205,14 +192,12 @@ public class WizdleEngineTests
     [TestCase(" ")]
     public void WizdleEngine_EmptyMisplacedLetters_ReturnsResponseWithWords(string letters)
     {
-        var wizdleEngine = new WizdleEngine(_logger);
-
         var request = new WizdleRequest
         {
             MisplacedLetters = letters!,
         };
 
-        WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
+        WizdleResponse response = _wizdleEngine.ProcessWizdleRequest(request);
 
         Assert.That(response, Is.Not.Null);
         using (Assert.EnterMultipleScope())
@@ -226,14 +211,12 @@ public class WizdleEngineTests
     [TestCase(" ")]
     public void WizdleEngine_EmptyExcludeLetters_ReturnsResponseWithWords(string letters)
     {
-        var wizdleEngine = new WizdleEngine(_logger);
-
         var request = new WizdleRequest
         {
             ExcludeLetters = letters!,
         };
 
-        WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
+        WizdleResponse response = _wizdleEngine.ProcessWizdleRequest(request);
 
         Assert.That(response, Is.Not.Null);
         using (Assert.EnterMultipleScope())
@@ -246,8 +229,6 @@ public class WizdleEngineTests
     [Test]
     public void WizdleEngine_NonLetterInputs_ReturnsResponseWithWordsIgnoringNonLetterInputs()
     {
-        var wizdleEngine = new WizdleEngine(_logger);
-
         var request = new WizdleRequest
         {
             CorrectLetters = "1!",
@@ -255,7 +236,7 @@ public class WizdleEngineTests
             ExcludeLetters = "3>",
         };
 
-        WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
+        WizdleResponse response = _wizdleEngine.ProcessWizdleRequest(request);
 
         Assert.That(response, Is.Not.Null);
         using (Assert.EnterMultipleScope())
@@ -264,4 +245,16 @@ public class WizdleEngineTests
             Assert.That(response.Words, Is.Not.Empty);
         }
     }
+
+    [LoggerMessage(
+        EventId = 1,
+        Level = LogLevel.Information,
+        Message = "{Messages}")]
+    static partial void LogMessages(ILogger logger, IEnumerable<string> messages);
+
+    [LoggerMessage(
+        EventId = 2,
+        Level = LogLevel.Information,
+        Message = "{Words}")]
+    static partial void LogWords(ILogger logger, IEnumerable<string> words);
 }

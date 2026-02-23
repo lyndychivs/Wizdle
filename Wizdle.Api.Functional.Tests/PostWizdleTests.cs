@@ -91,7 +91,7 @@ public class PostWizdleTests
 
         var expectedResponse = new WizdleResponse
         {
-            Messages = ["WizdleRequest.CorrectLetters cannot be null"],
+            Messages = ["WizdleRequest CorrectLetters cannot be null"],
             Words = [],
         };
 
@@ -121,7 +121,7 @@ public class PostWizdleTests
 
         var expectedResponse = new WizdleResponse
         {
-            Messages = ["WizdleRequest.MisplacedLetters cannot be null"],
+            Messages = ["WizdleRequest MisplacedLetters cannot be null"],
             Words = [],
         };
 
@@ -151,7 +151,7 @@ public class PostWizdleTests
 
         var expectedResponse = new WizdleResponse
         {
-            Messages = ["WizdleRequest.ExcludeLetters cannot be null"],
+            Messages = ["WizdleRequest ExcludeLetters cannot be null"],
             Words = [],
         };
 

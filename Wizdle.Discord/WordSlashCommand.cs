@@ -11,7 +11,7 @@ using NetCord.Services.ApplicationCommands;
 
 using Wizdle.Models;
 
-public class WordSlashCommand(ILogger<WordSlashCommand> logger, WizdleApiClient wizdleApiClient)
+public partial class WordSlashCommand(ILogger<WordSlashCommand> logger, WizdleApiClient wizdleApiClient)
     : ApplicationCommandModule<ApplicationCommandContext>
 {
     [SlashCommand("word", "Search for possible Wordle Words")]
@@ -35,8 +35,8 @@ public class WordSlashCommand(ILogger<WordSlashCommand> logger, WizdleApiClient 
         MinLength = 0)]
     string excludeLetters = "")
     {
-        logger.LogInformation(
-            "Received {Interaction} request from {Username} {Id}",
+        LogReceivedInteraction(
+            logger,
             Context.Interaction.Data.Name,
             Context.User.Username,
             Context.User.Id);
@@ -72,4 +72,14 @@ public class WordSlashCommand(ILogger<WordSlashCommand> logger, WizdleApiClient 
 
         return string.Join(", ", response);
     }
+
+    [LoggerMessage(
+        EventId = 1,
+        Level = LogLevel.Information,
+        Message = "Received {Interaction} request from {Username} {UserId}")]
+    static partial void LogReceivedInteraction(
+        ILogger logger,
+        string interaction,
+        string username,
+        ulong userId);
 }

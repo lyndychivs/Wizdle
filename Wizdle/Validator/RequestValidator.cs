@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 using Wizdle.Models;
 
-internal class RequestValidator : IRequestValidator
+internal sealed partial class RequestValidator : IRequestValidator
 {
     private readonly ILogger _logger;
 
@@ -22,48 +22,68 @@ internal class RequestValidator : IRequestValidator
 
         if (request is null)
         {
-            string error = $"{nameof(WizdleRequest)} cannot be null";
-            _logger.LogDebug(error);
-            errorList.Add(error);
+            errorList.Add($"{nameof(WizdleRequest)} cannot be null");
+            LogRequestNull(_logger, nameof(WizdleRequest));
 
             return errorList;
         }
 
         if (request.CorrectLetters is null)
         {
-            string error = $"{nameof(WizdleRequest)}.{nameof(WizdleRequest.CorrectLetters)} cannot be null";
-            _logger.LogDebug(error);
-            errorList.Add(error);
+            errorList.Add($"{nameof(WizdleRequest)} {nameof(WizdleRequest.CorrectLetters)} cannot be null");
+            LogPropertyNull(_logger, nameof(WizdleRequest), nameof(WizdleRequest.CorrectLetters));
         }
 
         if (request.MisplacedLetters is null)
         {
-            string error = $"{nameof(WizdleRequest)}.{nameof(WizdleRequest.MisplacedLetters)} cannot be null";
-            _logger.LogDebug(error);
-            errorList.Add(error);
+            errorList.Add($"{nameof(WizdleRequest)} {nameof(WizdleRequest.MisplacedLetters)} cannot be null");
+            LogPropertyNull(_logger, nameof(WizdleRequest), nameof(WizdleRequest.MisplacedLetters));
         }
 
         if (request.ExcludeLetters is null)
         {
-            string error = $"{nameof(WizdleRequest)}.{nameof(WizdleRequest.ExcludeLetters)} cannot be null";
-            _logger.LogDebug(error);
-            errorList.Add(error);
+            errorList.Add($"{nameof(WizdleRequest)} {nameof(WizdleRequest.ExcludeLetters)} cannot be null");
+            LogPropertyNull(_logger, nameof(WizdleRequest), nameof(WizdleRequest.ExcludeLetters));
         }
 
         if (request.CorrectLetters?.Length > 5)
         {
-            string error = $"{nameof(WizdleRequest)}.{nameof(WizdleRequest.CorrectLetters)} cannot be longer than 5 characters";
-            _logger.LogDebug(error);
-            errorList.Add(error);
+            errorList.Add($"{nameof(WizdleRequest)} {nameof(WizdleRequest.CorrectLetters)} cannot be longer than 5 characters");
+            LogPropertyTooLong(_logger, nameof(WizdleRequest), nameof(WizdleRequest.CorrectLetters));
         }
 
         if (request.MisplacedLetters?.Length > 5)
         {
-            string error = $"{nameof(WizdleRequest)}.{nameof(WizdleRequest.MisplacedLetters)} cannot be longer than 5 characters";
-            _logger.LogDebug(error);
-            errorList.Add(error);
+            errorList.Add($"{nameof(WizdleRequest)} {nameof(WizdleRequest.MisplacedLetters)} cannot be longer than 5 characters");
+            LogPropertyTooLong(_logger, nameof(WizdleRequest), nameof(WizdleRequest.MisplacedLetters));
         }
 
         return errorList;
     }
+
+    [LoggerMessage(
+        EventId = 1,
+        Level = LogLevel.Debug,
+        Message = "{RequestType} cannot be null")]
+    static partial void LogRequestNull(
+        ILogger logger,
+        string requestType);
+
+    [LoggerMessage(
+        EventId = 2,
+        Level = LogLevel.Debug,
+        Message = "{RequestType} {PropertyName} cannot be null")]
+    static partial void LogPropertyNull(
+        ILogger logger,
+        string requestType,
+        string propertyName);
+
+    [LoggerMessage(
+        EventId = 3,
+        Level = LogLevel.Debug,
+        Message = "{RequestType} {PropertyName} cannot be longer than 5 characters")]
+    static partial void LogPropertyTooLong(
+        ILogger logger,
+        string requestType,
+        string propertyName);
 }

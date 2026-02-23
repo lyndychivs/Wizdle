@@ -1,7 +1,6 @@
 namespace Wizdle.Console;
 
 using System;
-using System.Linq;
 
 using CommandLine;
 
@@ -14,7 +13,7 @@ using Wizdle.Models;
 
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
-internal sealed class Program
+internal sealed partial class Program
 {
     internal static void Main(string[] args)
     {
@@ -36,14 +35,16 @@ internal sealed class Program
 
         WizdleResponse response = wizdleEngine.ProcessWizdleRequest(wizdleRequest);
 
-        if (response.Messages.Any())
+        string messages = string.Join(Environment.NewLine, response.Messages);
+        if (string.IsNullOrWhiteSpace(messages) is false)
         {
-            logger.LogInformation(string.Join(Environment.NewLine, response.Messages));
+            LogMessages(logger, messages);
         }
 
-        if (response.Words.Any())
+        string words = string.Join(Environment.NewLine, response.Words);
+        if (string.IsNullOrWhiteSpace(words) is false)
         {
-            logger.LogInformation(string.Join(Environment.NewLine, response.Words));
+            LogWords(logger, words);
         }
     }
 
@@ -66,4 +67,16 @@ internal sealed class Program
         {
         }
     }
+
+    [LoggerMessage(
+        EventId = 1,
+        Level = LogLevel.Information,
+        Message = "{Messages}")]
+    static partial void LogMessages(ILogger logger, string messages);
+
+    [LoggerMessage(
+        EventId = 2,
+        Level = LogLevel.Information,
+        Message = "{Words}")]
+    static partial void LogWords(ILogger logger, string words);
 }
