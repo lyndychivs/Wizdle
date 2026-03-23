@@ -965,6 +965,7 @@ internal sealed class Words : IWords
             "gusty",
             "gypsy",
             "habit",
+            "hague",
             "hairy",
             "halve",
             "handy",
