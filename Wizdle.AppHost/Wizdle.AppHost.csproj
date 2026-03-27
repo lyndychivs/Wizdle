@@ -12,9 +12,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Aspire.Hosting.AppHost">
-          <TreatAsUsed>true</TreatAsUsed>
-        </PackageReference>
         <PackageReference Include="Aspire.Hosting.Docker" />
     </ItemGroup>
 </Project>
