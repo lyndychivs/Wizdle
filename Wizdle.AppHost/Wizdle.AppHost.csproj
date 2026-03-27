@@ -1,4 +1,4 @@
-<Project Sdk="Aspire.AppHost.Sdk">
+<Project Sdk="Aspire.AppHost.Sdk/13.2.0">
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <IsAspireHost>true</IsAspireHost>
@@ -12,9 +12,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Aspire.Hosting.AppHost">
-          <TreatAsUsed>true</TreatAsUsed>
-        </PackageReference>
         <PackageReference Include="Aspire.Hosting.Docker" />
     </ItemGroup>
 </Project>
