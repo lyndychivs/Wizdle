@@ -349,6 +349,7 @@ internal sealed class Words : IWords
             "carat",
             "cargo",
             "carol",
+            "carom",
             "carry",
             "carve",
             "caste",
