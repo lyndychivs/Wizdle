@@ -53,7 +53,7 @@ jobs:
 
             - name: Upload NuGet Package to Release
               if: success()
-              uses: softprops/action-gh-release@v2
+              uses: softprops/action-gh-release@v3
               with:
                   files: |
                       **/*.nupkg
@@ -121,7 +121,7 @@ jobs:
 
             - name: Upload Installers to Release
               if: success()
-              uses: softprops/action-gh-release@v2
+              uses: softprops/action-gh-release@v3
               with:
                   files: |
                       Installer/Output/*.exe
