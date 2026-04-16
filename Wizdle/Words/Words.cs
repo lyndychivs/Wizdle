@@ -515,6 +515,7 @@ internal sealed class Words : IWords
             "crust",
             "crypt",
             "cubic",
+            "cubit",
             "cumin",
             "curio",
             "curly",
