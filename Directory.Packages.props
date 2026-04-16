@@ -1,6 +1,7 @@
 <Project>
     <PropertyGroup>
         <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+        <CentralPackageFloatingVersionsEnabled>true</CentralPackageFloatingVersionsEnabled>
     </PropertyGroup>
     <ItemGroup>
         <PackageVersion Include="Aspire.Hosting.Docker" Version="13.*" />
