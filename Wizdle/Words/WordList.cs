@@ -2117,6 +2117,7 @@ internal sealed class WordList : IWords
             "tithe",
             "title",
             "tizzy",
+            "toady",
             "toast",
             "today",
             "toddy",
