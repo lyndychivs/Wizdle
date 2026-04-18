@@ -30,13 +30,25 @@ jobs:
               id: build
               run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }}
 
-            - name: Install Playwright
-              id: install-playwright
+            - name: Cache Playwright Browsers
+              id: playwright-cache
               if: steps.build.outcome == 'success'
-              run: pwsh Wizdle.Functional.Tests/bin/${{ env.CONFIGURATION }}/${{ env.TARGET_FRAMEWORK }}/playwright.ps1 install --with-deps --no-shell
+              uses: actions/cache@v4
+              with:
+                  path: ~/.cache/ms-playwright
+                  key: playwright-${{ runner.os }}-${{ hashFiles('Directory.Packages.props') }}
+
+            - name: Install Playwright Browsers
+              id: install-playwright
+              if: steps.playwright-cache.outputs.cache-hit != 'true' && steps.build.outcome == 'success'
+              run: pwsh Wizdle.Functional.Tests/bin/${{ env.CONFIGURATION }}/${{ env.TARGET_FRAMEWORK }}/playwright.ps1 install --with-deps
+
+            - name: Install Playwright OS Dependencies
+              if: steps.playwright-cache.outputs.cache-hit == 'true' && steps.build.outcome == 'success'
+              run: pwsh Wizdle.Functional.Tests/bin/${{ env.CONFIGURATION }}/${{ env.TARGET_FRAMEWORK }}/playwright.ps1 install-deps
 
             - name: Test Wizdle.Functional.Tests
-              if: steps.install-playwright.outcome == 'success'
+              if: steps.build.outcome == 'success'
               run: dotnet test Wizdle.Functional.Tests/Wizdle.Functional.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --logger "console;verbosity=normal"
 
             - name: Upload Artifacts for Wizdle.Functional.Tests
