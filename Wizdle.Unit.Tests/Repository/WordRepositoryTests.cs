@@ -25,7 +25,7 @@ public class WordRepositoryTests
     public WordRepositoryTests()
     {
         _logger = new FakeLogger<WordRepository>();
-        _wordsMock = new Mock<IWords>();
+        _wordsMock = new Mock<IWords>(MockBehavior.Strict);
         _wordRepository = new WordRepository(_logger, _wordsMock.Object);
     }
 

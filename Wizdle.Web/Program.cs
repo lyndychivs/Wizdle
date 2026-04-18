@@ -11,7 +11,7 @@ using MudBlazor.Services;
 using Wizdle.ServiceDefaults;
 using Wizdle.Web.Components;
 
-internal sealed class Program
+internal static class Program
 {
     private static void Main(string[] args)
     {

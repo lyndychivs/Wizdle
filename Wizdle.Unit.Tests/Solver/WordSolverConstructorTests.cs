@@ -26,8 +26,8 @@ public class WordSolverConstructorTests
     public WordSolverConstructorTests()
     {
         _logger = new FakeLogger<WordSolver>();
-        _wordRepositoryMock = new Mock<IWordRepository>();
-        _solveParametersValidatorMock = new Mock<ISolveParametersValidator>();
+        _wordRepositoryMock = new Mock<IWordRepository>(MockBehavior.Strict);
+        _solveParametersValidatorMock = new Mock<ISolveParametersValidator>(MockBehavior.Strict);
     }
 
     [Test]

@@ -12,7 +12,7 @@ using NetCord.Hosting.Services.ApplicationCommands;
 
 using Wizdle.ServiceDefaults;
 
-internal sealed class Program
+internal static class Program
 {
     private static async Task Main(string[] args)
     {
@@ -28,6 +28,6 @@ internal sealed class Program
 
         IHost host = builder.Build();
 
-        await host.RunAsync();
+        await host.RunAsync().ConfigureAwait(false);
     }
 }

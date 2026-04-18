@@ -95,7 +95,7 @@ public sealed partial class WizdleEngine
         return new WizdleResponse()
         {
             Words = words,
-            Messages = [$"Found {wordCount} Word(s) matching the criteria."],
+            Messages = [FormattableString.Invariant($"Found {wordCount} Word(s) matching the criteria.")],
         };
     }
 

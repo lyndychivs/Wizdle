@@ -110,7 +110,7 @@ internal sealed partial class WordSolver : IWordSolver
 
     private static List<string> FilterExcludeLetters(IEnumerable<string> wordsToFilter, List<char> excludeLetters)
     {
-        return [.. wordsToFilter.Where(word => !excludeLetters.Any(letter => word.Contains(letter)))];
+        return [.. wordsToFilter.Where(word => !excludeLetters.Exists(letter => word.Contains(letter)))];
     }
 
     [LoggerMessage(

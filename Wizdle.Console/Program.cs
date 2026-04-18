@@ -13,7 +13,7 @@ using Wizdle.Models;
 
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
-internal sealed partial class Program
+internal static partial class Program
 {
     internal static void Main(string[] args)
     {

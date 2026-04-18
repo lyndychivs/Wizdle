@@ -4,11 +4,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" />
         <PackageReference Include="NUnit" />
-        <PackageReference Include="NUnit3TestAdapter">
-          <TreatAsUsed>true</TreatAsUsed>
-        </PackageReference>
         <PackageReference Include="Serilog.Extensions.Logging" />
         <PackageReference Include="Serilog.Sinks.Console" />
     </ItemGroup>

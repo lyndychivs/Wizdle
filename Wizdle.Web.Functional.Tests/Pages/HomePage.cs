@@ -35,132 +35,132 @@ internal sealed class HomePage : BasePage
 
     public async Task<bool> IsCorrectLetter1Visible()
     {
-        return await IsTextBoxVisible(TextBoxCorretLetter1);
+        return await IsTextBoxVisible(TextBoxCorretLetter1).ConfigureAwait(false);
     }
 
     public async Task<bool> IsCorrectLetter2Visible()
     {
-        return await IsTextBoxVisible(TextBoxCorretLetter2);
+        return await IsTextBoxVisible(TextBoxCorretLetter2).ConfigureAwait(false);
     }
 
     public async Task<bool> IsCorrectLetter3Visible()
     {
-        return await IsTextBoxVisible(TextBoxCorretLetter3);
+        return await IsTextBoxVisible(TextBoxCorretLetter3).ConfigureAwait(false);
     }
 
     public async Task<bool> IsCorrectLetter4Visible()
     {
-        return await IsTextBoxVisible(TextBoxCorretLetter4);
+        return await IsTextBoxVisible(TextBoxCorretLetter4).ConfigureAwait(false);
     }
 
     public async Task<bool> IsCorrectLetter5Visible()
     {
-        return await IsTextBoxVisible(TextBoxCorretLetter5);
+        return await IsTextBoxVisible(TextBoxCorretLetter5).ConfigureAwait(false);
     }
 
     public async Task<bool> IsMisplacedLetter1Visible()
     {
-        return await IsTextBoxVisible(TextBoxMisplacedLetter1);
+        return await IsTextBoxVisible(TextBoxMisplacedLetter1).ConfigureAwait(false);
     }
 
     public async Task<bool> IsMisplacedLetter2Visible()
     {
-        return await IsTextBoxVisible(TextBoxMisplacedLetter2);
+        return await IsTextBoxVisible(TextBoxMisplacedLetter2).ConfigureAwait(false);
     }
 
     public async Task<bool> IsMisplacedLetter3Visible()
     {
-        return await IsTextBoxVisible(TextBoxMisplacedLetter3);
+        return await IsTextBoxVisible(TextBoxMisplacedLetter3).ConfigureAwait(false);
     }
 
     public async Task<bool> IsMisplacedLetter4Visible()
     {
-        return await IsTextBoxVisible(TextBoxMisplacedLetter4);
+        return await IsTextBoxVisible(TextBoxMisplacedLetter4).ConfigureAwait(false);
     }
 
     public async Task<bool> IsMisplacedLetter5Visible()
     {
-        return await IsTextBoxVisible(TextBoxMisplacedLetter5);
+        return await IsTextBoxVisible(TextBoxMisplacedLetter5).ConfigureAwait(false);
     }
 
     public async Task<bool> IsExcludedLettersVisible()
     {
-        return await IsTextBoxVisible(TextBoxExcludedLetters);
+        return await IsTextBoxVisible(TextBoxExcludedLetters).ConfigureAwait(false);
     }
 
     public async Task<bool> IsSearchButtonVisible()
     {
-        return await IsButtonVisibile(ButtonSearch);
+        return await IsButtonVisibile(ButtonSearch).ConfigureAwait(false);
     }
 
     public async Task<bool> IsWizdleLogoVisible()
     {
-        return await IsImageVisible(ImageWizdleLogo);
+        return await IsImageVisible(ImageWizdleLogo).ConfigureAwait(false);
     }
 
     public async Task ClickSearchButton()
     {
-        await ClickButton(ButtonSearch);
+        await ClickButton(ButtonSearch).ConfigureAwait(false);
     }
 
     public async Task SetCorrectLetter1(char letter)
     {
-        await SetTextBox(TextBoxCorretLetter1, letter.ToString());
+        await SetTextBox(TextBoxCorretLetter1, letter.ToString()).ConfigureAwait(false);
     }
 
     public async Task SetCorrectLetter2(char letter)
     {
-        await SetTextBox(TextBoxCorretLetter2, letter.ToString());
+        await SetTextBox(TextBoxCorretLetter2, letter.ToString()).ConfigureAwait(false);
     }
 
     public async Task SetCorrectLetter3(char letter)
     {
-        await SetTextBox(TextBoxCorretLetter3, letter.ToString());
+        await SetTextBox(TextBoxCorretLetter3, letter.ToString()).ConfigureAwait(false);
     }
 
     public async Task SetCorrectLetter4(char letter)
     {
-        await SetTextBox(TextBoxCorretLetter4, letter.ToString());
+        await SetTextBox(TextBoxCorretLetter4, letter.ToString()).ConfigureAwait(false);
     }
 
     public async Task SetCorrectLetter5(char letter)
     {
-        await SetTextBox(TextBoxCorretLetter5, letter.ToString());
+        await SetTextBox(TextBoxCorretLetter5, letter.ToString()).ConfigureAwait(false);
     }
 
     public async Task SetMisplacedLetter1(char letter)
     {
-        await SetTextBox(TextBoxMisplacedLetter1, letter.ToString());
+        await SetTextBox(TextBoxMisplacedLetter1, letter.ToString()).ConfigureAwait(false);
     }
 
     public async Task SetMisplacedLetter2(char letter)
     {
-        await SetTextBox(TextBoxMisplacedLetter2, letter.ToString());
+        await SetTextBox(TextBoxMisplacedLetter2, letter.ToString()).ConfigureAwait(false);
     }
 
     public async Task SetMisplacedLetter3(char letter)
     {
-        await SetTextBox(TextBoxMisplacedLetter3, letter.ToString());
+        await SetTextBox(TextBoxMisplacedLetter3, letter.ToString()).ConfigureAwait(false);
     }
 
     public async Task SetMisplacedLetter4(char letter)
     {
-        await SetTextBox(TextBoxMisplacedLetter4, letter.ToString());
+        await SetTextBox(TextBoxMisplacedLetter4, letter.ToString()).ConfigureAwait(false);
     }
 
     public async Task SetMisplacedLetter5(char letter)
     {
-        await SetTextBox(TextBoxMisplacedLetter5, letter.ToString());
+        await SetTextBox(TextBoxMisplacedLetter5, letter.ToString()).ConfigureAwait(false);
     }
 
     public async Task SetExcludedLetters(string letters)
     {
-        await SetTextBox(TextBoxExcludedLetters, letters);
+        await SetTextBox(TextBoxExcludedLetters, letters).ConfigureAwait(false);
     }
 
     public async Task<IEnumerable<string>> GetPossibleWords()
     {
-        await WaitForNetworkIdle();
+        await WaitForNetworkIdle().ConfigureAwait(false);
 
         ILocator wordLocator = Page.GetByLabel("Word");
 
@@ -170,14 +170,14 @@ internal sealed class HomePage : BasePage
             {
                 State = WaitForSelectorState.Visible,
                 Timeout = VisibilityTimeout,
-            });
+            }).ConfigureAwait(false);
         }
         catch (TimeoutException)
         {
             return [];
         }
 
-        int count = await wordLocator.CountAsync();
+        int count = await wordLocator.CountAsync().ConfigureAwait(false);
 
         var words = new List<string>(count);
         for (int i = 0; i < count; i++)
@@ -187,7 +187,7 @@ internal sealed class HomePage : BasePage
                 string? wordText = await wordLocator.Nth(i).TextContentAsync(new LocatorTextContentOptions()
                 {
                     Timeout = VisibilityTimeout,
-                });
+                }).ConfigureAwait(false);
 
                 if (string.IsNullOrWhiteSpace(wordText))
                 {
@@ -207,8 +207,8 @@ internal sealed class HomePage : BasePage
 
     public async Task<bool> IsPossibleWordsVisible()
     {
-        await WaitForNetworkIdle();
+        await WaitForNetworkIdle().ConfigureAwait(false);
 
-        return await DoesPageContainText("Possible Words:");
+        return await DoesPageContainText("Possible Words:").ConfigureAwait(false);
     }
 }

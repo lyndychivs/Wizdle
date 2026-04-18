@@ -5,7 +5,7 @@
     },
     "formatters": {
         "html": {
-            "outputFilePath": "reports/Wizdle.Web.html"
+            "outputFilePath": "reports/Wizdle.Web.Functional.Tests.html"
         }
     }
 }

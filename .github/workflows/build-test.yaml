@@ -58,14 +58,26 @@ jobs:
               if: steps.build-api.outcome == 'success'
               run: dotnet test Wizdle.Api.Functional.Tests/Wizdle.Api.Functional.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --logger "trx;LogFileName=Wizdle.Api.Functional.Tests.trx"
 
-            - name: Install Playwright
-              id: install-playwright
+            - name: Cache Playwright Browsers
+              id: playwright-cache
               if: steps.build.outcome == 'success'
-              run: pwsh Wizdle.Web.Functional.Tests/bin/${{ env.CONFIGURATION }}/${{ env.TARGET_FRAMEWORK }}/playwright.ps1 install --with-deps --no-shell
+              uses: actions/cache@v4
+              with:
+                  path: ~/.cache/ms-playwright
+                  key: playwright-${{ runner.os }}-${{ hashFiles('Directory.Packages.props') }}
+
+            - name: Install Playwright Browsers
+              id: install-playwright
+              if: steps.playwright-cache.outputs.cache-hit != 'true' && steps.build.outcome == 'success'
+              run: pwsh Wizdle.Web.Functional.Tests/bin/${{ env.CONFIGURATION }}/${{ env.TARGET_FRAMEWORK }}/playwright.ps1 install --with-deps
+
+            - name: Install Playwright OS Dependencies
+              if: steps.playwright-cache.outputs.cache-hit == 'true' && steps.build.outcome == 'success'
+              run: pwsh Wizdle.Web.Functional.Tests/bin/${{ env.CONFIGURATION }}/${{ env.TARGET_FRAMEWORK }}/playwright.ps1 install-deps
 
             - name: Build Docker for Wizdle.Web
               id: build-web
-              if: steps.install-playwright.outcome == 'success'
+              if: steps.build.outcome == 'success'
               run: make build-web
 
             - name: Test Wizdle.Web.Functional.Tests

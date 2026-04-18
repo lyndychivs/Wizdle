@@ -36,13 +36,13 @@ internal sealed class BrowserSteps
         {
             WaitUntil = WaitUntilState.NetworkIdle,
             Timeout = 30_000,
-        });
+        }).ConfigureAwait(false);
     }
 
     [StepDefinition("the Page title should be {string}")]
     public async Task AssertPageTitleShouldBe(string expectedTitle)
     {
-        string actualTitle = await _page.TitleAsync();
+        string actualTitle = await _page.TitleAsync().ConfigureAwait(false);
         Assert.That(
             actualTitle,
             Is.EqualTo(expectedTitle),

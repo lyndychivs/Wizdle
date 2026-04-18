@@ -44,23 +44,23 @@ public partial class WordSlashCommand(ILogger<WordSlashCommand> logger, WizdleAp
         var wizdleRequest = new WizdleRequest();
         if (!string.IsNullOrWhiteSpace(correctLetters))
         {
-            wizdleRequest.CorrectLetters = correctLetters.Replace(Environment.NewLine, string.Empty);
+            wizdleRequest.CorrectLetters = correctLetters.Replace(Environment.NewLine, string.Empty, StringComparison.OrdinalIgnoreCase);
         }
 
         if (!string.IsNullOrWhiteSpace(misplacedLetters))
         {
-            wizdleRequest.MisplacedLetters = misplacedLetters.Replace(Environment.NewLine, string.Empty);
+            wizdleRequest.MisplacedLetters = misplacedLetters.Replace(Environment.NewLine, string.Empty, StringComparison.OrdinalIgnoreCase);
         }
 
         if (!string.IsNullOrWhiteSpace(excludeLetters))
         {
-            wizdleRequest.ExcludeLetters = excludeLetters.Replace(Environment.NewLine, string.Empty);
+            wizdleRequest.ExcludeLetters = excludeLetters.Replace(Environment.NewLine, string.Empty, StringComparison.OrdinalIgnoreCase);
         }
 
-        WizdleResponse wizdleResponse = await wizdleApiClient.PostWizdleRequestAsync(wizdleRequest);
+        WizdleResponse wizdleResponse = await wizdleApiClient.PostWizdleRequestAsync(wizdleRequest).ConfigureAwait(false);
 
         IEnumerable<string> response = wizdleResponse.Words;
-        if (wizdleResponse.Words.Count() > 600)
+        if (wizdleResponse.Words.Skip(600).Any())
         {
             response = wizdleResponse.Words.Take(600);
         }

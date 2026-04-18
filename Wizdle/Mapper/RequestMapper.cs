@@ -39,37 +39,8 @@ internal sealed partial class RequestMapper : IRequestMapper
 
         for (int i = 0; i < MaxWordLength; i++)
         {
-            if (i < request.CorrectLetters.Length)
-            {
-                if (char.IsLetter(request.CorrectLetters[i]))
-                {
-                    solveParameters.CorrectLetters.Add(char.ToLower(request.CorrectLetters[i], CultureInfo.InvariantCulture));
-                }
-                else
-                {
-                    solveParameters.CorrectLetters.Add('?');
-                }
-            }
-            else
-            {
-                solveParameters.CorrectLetters.Add('?');
-            }
-
-            if (i < request.MisplacedLetters.Length)
-            {
-                if (char.IsLetter(request.MisplacedLetters[i]))
-                {
-                    solveParameters.MisplacedLetters.Add(char.ToLower(request.MisplacedLetters[i], CultureInfo.InvariantCulture));
-                }
-                else
-                {
-                    solveParameters.MisplacedLetters.Add('?');
-                }
-            }
-            else
-            {
-                solveParameters.MisplacedLetters.Add('?');
-            }
+            solveParameters.CorrectLetters.Add(MapLetterAtPosition(request.CorrectLetters, i));
+            solveParameters.MisplacedLetters.Add(MapLetterAtPosition(request.MisplacedLetters, i));
         }
 
         foreach (char letter in request.ExcludeLetters)
@@ -89,6 +60,16 @@ internal sealed partial class RequestMapper : IRequestMapper
             solveParameters.ExcludeLetters);
 
         return solveParameters;
+    }
+
+    private static char MapLetterAtPosition(string letters, int index)
+    {
+        if (index < letters.Length && char.IsLetter(letters[index]))
+        {
+            return char.ToLower(letters[index], CultureInfo.InvariantCulture);
+        }
+
+        return '?';
     }
 
     [LoggerMessage(

@@ -31,9 +31,9 @@ public class WizdleEngineTests
     public WizdleEngineTests()
     {
         _logger = new FakeLogger<WizdleEngine>();
-        _requestValidatorMock = new Mock<IRequestValidator>();
-        _requestMapperMock = new Mock<IRequestMapper>();
-        _wordSolver = new Mock<IWordSolver>();
+        _requestValidatorMock = new Mock<IRequestValidator>(MockBehavior.Strict);
+        _requestMapperMock = new Mock<IRequestMapper>(MockBehavior.Strict);
+        _wordSolver = new Mock<IWordSolver>(MockBehavior.Strict);
         _wizdleEngine = new WizdleEngine(
             _logger,
             _requestValidatorMock.Object,

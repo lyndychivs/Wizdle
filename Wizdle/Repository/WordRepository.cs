@@ -15,7 +15,7 @@ internal sealed partial class WordRepository : IWordRepository
     private readonly IWords _words;
 
     internal WordRepository(ILogger logger)
-        : this(logger, new Words())
+        : this(logger, new WordList())
     {
     }
 

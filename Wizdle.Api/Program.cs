@@ -11,7 +11,7 @@ using Wizdle;
 using Wizdle.Models;
 using Wizdle.ServiceDefaults;
 
-internal sealed class Program
+internal static class Program
 {
     private static void Main(string[] args)
     {
