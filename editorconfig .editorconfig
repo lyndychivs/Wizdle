@@ -1,2 +1,0 @@
-# MA0182: Internal type is apparently never used
-dotnet_diagnostic.MA0182.severity = none
