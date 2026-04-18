@@ -13,8 +13,8 @@ internal sealed class WizdleHttpClient(HttpClient httpClient)
 {
     public async Task<WizdleResponse> PostAsync(WizdleRequest wizdleRequest, CancellationToken cancellationToken = default)
     {
-        HttpResponseMessage httpResponseMessage = await httpClient.PostAsJsonAsync("/", wizdleRequest, cancellationToken);
+        HttpResponseMessage httpResponseMessage = await httpClient.PostAsJsonAsync("/", wizdleRequest, cancellationToken).ConfigureAwait(false);
 
-        return await httpResponseMessage.Content.ReadFromJsonAsync<WizdleResponse>(cancellationToken) ?? new WizdleResponse();
+        return await httpResponseMessage.Content.ReadFromJsonAsync<WizdleResponse>(cancellationToken).ConfigureAwait(false) ?? new WizdleResponse();
     }
 }

@@ -56,6 +56,6 @@ internal static class ResourceBuilderExtensions
                     ErrorMessage = ex.ToString(),
                 };
             }
-        });
+        }).ConfigureAwait(false);
     }
 }

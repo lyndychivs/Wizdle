@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 
 using Projects;
 
-internal sealed class Program
+internal static class Program
 {
     private const string WebServiceName = "wizdle-web";
 

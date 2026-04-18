@@ -69,7 +69,7 @@ public partial class WordleTest : PageTest
             Snapshots = true,
             Sources = true,
             Name = TestContext.CurrentContext.Test.FullName,
-        });
+        }).ConfigureAwait(false);
     }
 
     [TearDown]
@@ -86,7 +86,7 @@ public partial class WordleTest : PageTest
         await Page.Context.Tracing.StopAsync(new TracingStopOptions()
         {
             Path = isFailed ? tracingFilePath : null,
-        });
+        }).ConfigureAwait(false);
 
         if (isFailed)
         {
@@ -103,28 +103,28 @@ public partial class WordleTest : PageTest
         {
             WaitUntil = WaitUntilState.DOMContentLoaded,
             Timeout = 60_000,
-        });
+        }).ConfigureAwait(false);
 
-        await Expect(Page).ToHaveTitleAsync(WordleTitle);
+        await Expect(Page).ToHaveTitleAsync(WordleTitle).ConfigureAwait(false);
 
-        await ClickButtonIfPresent("Reject All");
+        await ClickButtonIfPresent("Reject All").ConfigureAwait(false);
 
-        await Page.GetByTestId("Play").ClickAsync();
+        await Page.GetByTestId("Play").ClickAsync().ConfigureAwait(false);
 
-        await ClickButtonIfPresent("Close");
+        await ClickButtonIfPresent("Close").ConfigureAwait(false);
 
         for (_attemptCount = 0; _attemptCount < MaxAttempts; _attemptCount++)
         {
-            await SubmitWordOnPage(_words[_attemptCount]);
+            await SubmitWordOnPage(_words[_attemptCount]).ConfigureAwait(false);
 
-            if (await IsGameOver())
+            if (await IsGameOver().ConfigureAwait(false))
             {
                 _attemptCount++;
                 LogGameEnded(_logger, _attemptCount);
                 break;
             }
 
-            await UpdateWordStatusFromPage(_words[_attemptCount]);
+            await UpdateWordStatusFromPage(_words[_attemptCount]).ConfigureAwait(false);
 
             UpdateWizdleRequestData(_words[_attemptCount]);
 
@@ -140,7 +140,7 @@ public partial class WordleTest : PageTest
     private static async Task<LetterStatus> GetLetterStatusFromElement(ILocator letterElement)
     {
         string accessibleName = await letterElement.GetAttributeAsync("aria-label")
-            ?? throw new ArgumentNullException(
+.ConfigureAwait(false) ?? throw new ArgumentNullException(
                 nameof(letterElement),
                 $"Failed to get {nameof(LetterStatus)} from {nameof(letterElement)}");
 
@@ -251,7 +251,7 @@ public partial class WordleTest : PageTest
 
     private void CheckIfLetterHasBeenExcludeLetters(char letter)
     {
-        if (_excludeLetters.ToString().Contains(letter))
+        if (_excludeLetters.ToString().Contains(letter, StringComparison.OrdinalIgnoreCase))
         {
             _excludeLetters.Replace(letter.ToString(), string.Empty);
         }
@@ -265,36 +265,36 @@ public partial class WordleTest : PageTest
         {
             char lowLetter = char.ToLower(letter, CultureInfo.InvariantCulture);
 
-            if (await ClickButtonIfPresent($"add {lowLetter}"))
+            if (await ClickButtonIfPresent($"add {lowLetter}").ConfigureAwait(false))
             {
                 continue;
             }
 
-            if (await ClickButtonIfPresent($"{lowLetter} present"))
+            if (await ClickButtonIfPresent($"{lowLetter} present").ConfigureAwait(false))
             {
                 continue;
             }
 
-            if (await ClickButtonIfPresent($"{lowLetter} absent"))
+            if (await ClickButtonIfPresent($"{lowLetter} absent").ConfigureAwait(false))
             {
                 continue;
             }
 
-            await Page.GetByRole(AriaRole.Button, new() { Name = $"{lowLetter} correct" }).ClickAsync();
+            await Page.GetByRole(AriaRole.Button, new() { Name = $"{lowLetter} correct" }).ClickAsync().ConfigureAwait(false);
         }
 
-        await Page.GetByRole(AriaRole.Button, new() { Name = "enter" }).ClickAsync();
+        await Page.GetByRole(AriaRole.Button, new() { Name = "enter" }).ClickAsync().ConfigureAwait(false);
 
-        await Page.WaitForTimeoutAsync(10_000);
+        await Page.WaitForTimeoutAsync(10_000).ConfigureAwait(false);
     }
 
     private async Task UpdateWordStatusFromPage(Word word)
     {
-        word.SetLetterStatus(0, await GetLetterStatusFromImage("1st", word.GetCharUpper(0)));
-        word.SetLetterStatus(1, await GetLetterStatusFromImage("2nd", word.GetCharUpper(1)));
-        word.SetLetterStatus(2, await GetLetterStatusFromImage("3rd", word.GetCharUpper(2)));
-        word.SetLetterStatus(3, await GetLetterStatusFromImage("4th", word.GetCharUpper(3)));
-        word.SetLetterStatus(4, await GetLetterStatusFromImage("5th", word.GetCharUpper(4)));
+        word.SetLetterStatus(0, await GetLetterStatusFromImage("1st", word.GetCharUpper(0)).ConfigureAwait(false));
+        word.SetLetterStatus(1, await GetLetterStatusFromImage("2nd", word.GetCharUpper(1)).ConfigureAwait(false));
+        word.SetLetterStatus(2, await GetLetterStatusFromImage("3rd", word.GetCharUpper(2)).ConfigureAwait(false));
+        word.SetLetterStatus(3, await GetLetterStatusFromImage("4th", word.GetCharUpper(3)).ConfigureAwait(false));
+        word.SetLetterStatus(4, await GetLetterStatusFromImage("5th", word.GetCharUpper(4)).ConfigureAwait(false));
     }
 
     private async Task<LetterStatus> GetLetterStatusFromImage(string position, char letter)
@@ -304,9 +304,9 @@ public partial class WordleTest : PageTest
             Name = $"{position} letter, {letter},",
         }).Nth(0);
 
-        await Expect(fifthLetterElement).ToBeVisibleAsync();
+        await Expect(fifthLetterElement).ToBeVisibleAsync().ConfigureAwait(false);
 
-        return await GetLetterStatusFromElement(fifthLetterElement);
+        return await GetLetterStatusFromElement(fifthLetterElement).ConfigureAwait(false);
     }
 
     private async Task<bool> ClickButtonIfPresent(string buttonName)
@@ -319,14 +319,14 @@ public partial class WordleTest : PageTest
             {
                 State = WaitForSelectorState.Visible,
                 Timeout = 5_000,
-            });
+            }).ConfigureAwait(false);
 
-            if (!await buttonLocator.IsVisibleAsync())
+            if (!await buttonLocator.IsVisibleAsync().ConfigureAwait(false))
             {
                 return false;
             }
 
-            await buttonLocator.ClickAsync();
+            await buttonLocator.ClickAsync().ConfigureAwait(false);
             return true;
         }
         catch (TimeoutException)
@@ -337,7 +337,7 @@ public partial class WordleTest : PageTest
 
     private async Task<bool> IsGameOver()
     {
-        if (await ClickButtonIfPresent("Close"))
+        if (await ClickButtonIfPresent("Close").ConfigureAwait(false))
         {
             var congratsHeading = Page.GetByRole(AriaRole.Heading, new() { Name = "Congratulations!" });
 
@@ -347,9 +347,9 @@ public partial class WordleTest : PageTest
                 {
                     State = WaitForSelectorState.Visible,
                     Timeout = 5_000,
-                });
+                }).ConfigureAwait(false);
 
-                if (await congratsHeading.IsVisibleAsync())
+                if (await congratsHeading.IsVisibleAsync().ConfigureAwait(false))
                 {
                     LogSolvedWordle(_logger);
                     return true;
@@ -366,7 +366,7 @@ public partial class WordleTest : PageTest
 
     private void WriteGitHubActionsSummary(bool isFailed)
     {
-        if (Environment.GetEnvironmentVariable("GITHUB_ACTIONS") != "true")
+        if (!string.Equals(Environment.GetEnvironmentVariable("GITHUB_ACTIONS"), "true", StringComparison.Ordinal))
         {
             return;
         }
@@ -384,16 +384,16 @@ public partial class WordleTest : PageTest
 
         if (isFailed)
         {
-            summary.AppendLine($"### ❌ Failed to solve Wordle after {_attemptCount} attempt(s).");
+            summary.Append(CultureInfo.InvariantCulture, $"### ❌ Failed to solve Wordle after {_attemptCount} attempt(s).").AppendLine();
         }
         else
         {
-            summary.AppendLine($"### ✅ Solved Wordle after {_attemptCount} attempts!\n");
-            summary.AppendLine($"### 🎉 {_words.Last().ToString().ToUpper(CultureInfo.InvariantCulture)}\n\n");
+            summary.Append(CultureInfo.InvariantCulture, $"### \u2705 Solved Wordle after {_attemptCount} attempts!\n").AppendLine();
+            summary.Append(CultureInfo.InvariantCulture, $"### \uD83C\uDF89 {_words[^1].ToString().ToUpper(CultureInfo.InvariantCulture)}\n\n").AppendLine();
             summary.AppendLine("**Words used:**\n");
             foreach (Word word in _words)
             {
-                summary.AppendLine($"- `{word.ToString().ToUpper(CultureInfo.InvariantCulture)}`");
+                summary.Append(CultureInfo.InvariantCulture, $"- `{word.ToString().ToUpper(CultureInfo.InvariantCulture)}`").AppendLine();
             }
         }
 

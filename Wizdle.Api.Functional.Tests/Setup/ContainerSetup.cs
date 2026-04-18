@@ -14,7 +14,7 @@ internal static class ContainerSetup
             .WithName($"wizdle-api-{Guid.NewGuid()}")
             .WithAutoRemove(true)
             .WithCleanUp(true)
-            .WithPortBinding(8080, true)
+            .WithPortBinding(8080, assignRandomHostPort: true)
             .WithWaitStrategy(Wait.ForUnixContainer().UntilHttpRequestIsSucceeded(r => r.ForPort(8080).ForPath("/health")))
             .Build();
 

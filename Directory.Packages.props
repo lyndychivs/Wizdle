@@ -9,6 +9,7 @@
         <PackageVersion Include="CommandLineParser" Version="2.*" />
         <PackageVersion Include="Deque.AxeCore.Playwright" Version="4.*" />
         <PackageVersion Include="lyndychivs.Retry" Version="1.*" />
+        <PackageVersion Include="Meziantou.Analyzer" Version="3.*" />
         <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.*" />
         <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.*" />
         <PackageVersion Include="Microsoft.Extensions.Diagnostics.Testing" Version="10.*" />
@@ -19,6 +20,7 @@
         <PackageVersion Include="Microsoft.Playwright" Version="1.*" />
         <PackageVersion Include="Microsoft.Playwright.NUnit" Version="1.*" />
         <PackageVersion Include="Moq" Version="4.*" />
+        <PackageVersion Include="Moq.Analyzers" Version="0.*" />
         <PackageVersion Include="MudBlazor" Version="9.*" />
         <PackageVersion Include="NetCord.Hosting.Services" Version="1.*-*" />
         <PackageVersion Include="NUnit" Version="4.*" />

@@ -19,7 +19,7 @@ public class CustomExceptionHandler : IExceptionHandler
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public ValueTask<bool> TryHandleAsync(
+    public async ValueTask<bool> TryHandleAsync(
         HttpContext httpContext,
         Exception exception,
         CancellationToken cancellationToken)
@@ -28,8 +28,8 @@ public class CustomExceptionHandler : IExceptionHandler
 
         httpContext.Response.StatusCode = 500;
         httpContext.Response.ContentType = Text.Plain;
-        httpContext.Response.WriteAsync("An unexpected error occurred. Please try again later.", cancellationToken);
+        await httpContext.Response.WriteAsync("An unexpected error occurred. Please try again later.", cancellationToken).ConfigureAwait(false);
 
-        return ValueTask.FromResult(true);
+        return true;
     }
 }

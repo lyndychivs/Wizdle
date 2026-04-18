@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Microsoft.Playwright;
 
 using NUnit.Framework;
-
 using NUnit.Framework.Interfaces;
 
 using Reqnroll;
@@ -16,21 +15,11 @@ using Reqnroll.BoDi;
 
 using Retry;
 
+using Wizdle.Web.Functional.Tests.Configuration;
+
 [Binding]
 internal static class BrowserHook
 {
-    private const string BrowserEnvironmentVariable = "PLAYWRIGHT_BROWSER";
-
-    private const string HeadlessEnvironmentVariable = "PLAYWRIGHT_HEADLESS";
-
-    private const string ChannelEnvironmentVariable = "PLAYWRIGHT_CHANNEL";
-
-    private const string BrowserDefault = "chromium";
-
-    private const string HeadlessDefault = "true";
-
-    private const string ChannelDefault = "chromium";
-
     [BeforeScenario]
     public static async Task CreateBrowserInstance(
         ObjectContainer objectContainer,
@@ -39,32 +28,30 @@ internal static class BrowserHook
     {
         var retry = new Retry(TimeSpan.FromSeconds(30), TimeSpan.FromSeconds(3));
 
-        string browserType = Environment.GetEnvironmentVariable(BrowserEnvironmentVariable) ?? BrowserDefault;
-        bool isHeadless = bool.Parse(Environment.GetEnvironmentVariable(HeadlessEnvironmentVariable) ?? HeadlessDefault);
-        string channel = Environment.GetEnvironmentVariable(ChannelEnvironmentVariable) ?? ChannelDefault;
+        IPlaywrightConfiguration configuration = new RunSettingsPlaywrightConfiguration();
 
-        reqnrollOutputHelper.WriteLine($"Browser: {browserType}{Environment.NewLine}Channel: {channel}{Environment.NewLine}Headless: {isHeadless}");
+        reqnrollOutputHelper.WriteLine(configuration.ToString());
 
         IPlaywright playwright = null!;
         await retry.UntilAsync(async () =>
         {
-            playwright = await Playwright.CreateAsync();
-            return await Task.FromResult(playwright is not null);
-        });
+            playwright = await Playwright.CreateAsync().ConfigureAwait(false);
+            return await Task.FromResult(playwright is not null).ConfigureAwait(false);
+        }).ConfigureAwait(false);
 
         if (playwright is null)
         {
             throw new InvalidOperationException("Failed to initialize Playwright.");
         }
 
-        IBrowser browser = await playwright[browserType].LaunchAsync(new BrowserTypeLaunchOptions
+        IBrowser browser = await playwright[configuration.BrowserName].LaunchAsync(new BrowserTypeLaunchOptions
         {
-            Headless = isHeadless,
-            Channel = channel,
-        });
+            Headless = configuration.Headless,
+            Channel = configuration.Channel,
+        }).ConfigureAwait(false);
 
-        IBrowserContext browserContext = await browser.NewContextAsync();
-        IPage page = await browserContext.NewPageAsync();
+        IBrowserContext browserContext = await browser.NewContextAsync().ConfigureAwait(false);
+        IPage page = await browserContext.NewPageAsync().ConfigureAwait(false);
 
         await page.Context.Tracing.StartAsync(new TracingStartOptions()
         {
@@ -73,7 +60,7 @@ internal static class BrowserHook
             Snapshots = true,
             Sources = true,
             Name = scenarioContext.ScenarioInfo.Title,
-        });
+        }).ConfigureAwait(false);
 
         objectContainer.RegisterInstanceAs(playwright);
         objectContainer.RegisterInstanceAs(browser);
@@ -101,7 +88,7 @@ internal static class BrowserHook
         await page.Context.Tracing.StopAsync(new TracingStopOptions()
         {
             Path = isFailed ? tracingFilePath : null,
-        });
+        }).ConfigureAwait(false);
 
         if (isFailed)
         {
@@ -109,9 +96,9 @@ internal static class BrowserHook
             reqnrollOutputHelper.AddAttachment(tracingFilePath);
         }
 
-        await page.CloseAsync();
-        await browser.CloseAsync();
-        await browserContext.CloseAsync();
+        await page.CloseAsync().ConfigureAwait(false);
+        await browser.CloseAsync().ConfigureAwait(false);
+        await browserContext.CloseAsync().ConfigureAwait(false);
         playwright.Dispose();
     }
 

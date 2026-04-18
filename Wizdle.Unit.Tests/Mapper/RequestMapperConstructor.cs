@@ -16,7 +16,7 @@ public class RequestMapperConstructor
     [Test]
     public void Constructor_WithValidLogger_ReturnsRequestMapper()
     {
-        var loggerMock = new Mock<ILogger>();
+        var loggerMock = new Mock<ILogger>(MockBehavior.Strict);
 
         var result = new RequestMapper(loggerMock.Object);
 

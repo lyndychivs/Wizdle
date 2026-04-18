@@ -11,11 +11,11 @@ using Wizdle.Words;
 [TestFixture]
 public class WordsTests
 {
-    private readonly Words _words;
+    private readonly WordList _words;
 
     public WordsTests()
     {
-        _words = new Words();
+        _words = new WordList();
     }
 
     [Test]
@@ -55,6 +55,6 @@ public class WordsTests
     {
         IEnumerable<string> result = _words.GetWords();
 
-        Assert.That(result.Count(), Is.EqualTo(result.Distinct().Count()));
+        Assert.That(result.Count(), Is.EqualTo(result.Distinct(StringComparer.Ordinal).Count()));
     }
 }

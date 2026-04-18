@@ -1,5 +1,35 @@
 <Project>
 
+    <!-- Auto-inject NUnit test infrastructure when NUnit is referenced -->
+    <Target Name="_InjectNUnitInfrastructure" BeforeTargets="CollectPackageReferences">
+        <ItemGroup>
+            <_NUnitRef Include="@(PackageReference)" Condition="'%(Identity)' == 'NUnit'" />
+        </ItemGroup>
+        <ItemGroup Condition="'@(_NUnitRef)' != ''">
+            <PackageReference Include="NUnit3TestAdapter">
+                <TreatAsUsed>true</TreatAsUsed>
+            </PackageReference>
+            <PackageReference Include="Microsoft.NET.Test.Sdk" />
+            <PackageReference Include="NUnit.Analyzers">
+                <PrivateAssets>all</PrivateAssets>
+                <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            </PackageReference>
+        </ItemGroup>
+    </Target>
+
+    <!-- Auto-inject Moq.Analyzers when Moq is referenced -->
+    <Target Name="_InjectMoqAnalyzers" BeforeTargets="CollectPackageReferences">
+        <ItemGroup>
+            <_MoqRef Include="@(PackageReference)" Condition="'%(Identity)' == 'Moq'" />
+        </ItemGroup>
+        <ItemGroup Condition="'@(_MoqRef)' != ''">
+            <PackageReference Include="Moq.Analyzers">
+                <PrivateAssets>all</PrivateAssets>
+                <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            </PackageReference>
+        </ItemGroup>
+    </Target>
+
     <!-- Enforce that any project named *.Tests has IsTestProject=true -->
     <Target Name="ValidateTestProjectConvention" BeforeTargets="Build">
         <Error

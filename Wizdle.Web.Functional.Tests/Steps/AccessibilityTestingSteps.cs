@@ -2,6 +2,7 @@ namespace Wizdle.Web.Functional.Tests.Steps;
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 
 using Deque.AxeCore.Commons;
@@ -32,9 +33,9 @@ internal sealed class AccessibilityTestingSteps
     public async Task PerformAccessibilityAudit()
     {
         _axeResult = await _page.RunAxe(GetAxeRunOptions())
-            ?? throw new InvalidOperationException("Axe Result is null after running audit.");
+.ConfigureAwait(false) ?? throw new InvalidOperationException("Axe Result is null after running audit.");
 
-        _reqnrollOutputHelper.WriteLine($"axe-core ran against {_axeResult.Url} on {_axeResult.Timestamp}");
+        _reqnrollOutputHelper.WriteLine(string.Create(CultureInfo.InvariantCulture, $"axe-core ran against {_axeResult.Url} on {_axeResult.Timestamp}"));
 
         _reqnrollOutputHelper.WriteLine($"axe-core found {_axeResult.Violations.Length} Violations:");
         foreach (AxeResultItem violation in _axeResult.Violations)

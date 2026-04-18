@@ -16,7 +16,7 @@ public class SolveParametersValidatorConstructorTests
     [Test]
     public void Constructor_WithValidLogger_ReturnsSolveParametersValidator()
     {
-        var loggerMock = new Mock<ILogger>();
+        var loggerMock = new Mock<ILogger>(MockBehavior.Strict);
 
         var result = new SolveParametersValidator(loggerMock.Object);
 

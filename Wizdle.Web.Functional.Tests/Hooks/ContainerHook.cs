@@ -12,7 +12,7 @@ using Reqnroll;
 using Wizdle.Web.Functional.Tests.Models;
 
 [Binding]
-internal sealed class ContainerHook
+internal static class ContainerHook
 {
     [BeforeTestRun]
     public static async Task CreateWizdleContainers(Endpoint endpoint)
@@ -30,7 +30,7 @@ internal sealed class ContainerHook
             .WithCleanUp(true)
             .WithNetwork(network)
             .WithNetworkAliases("wizdle-api")
-            .WithPortBinding(8080, true)
+            .WithPortBinding(8080, assignRandomHostPort: true)
             .WithWaitStrategy(Wait.ForUnixContainer().UntilHttpRequestIsSucceeded(r => r.ForPort(8080).ForPath("/health")))
             .Build();
 
@@ -44,7 +44,7 @@ internal sealed class ContainerHook
             .WithEnvironment("ASPNETCORE_URLS", "http://+:8080")
             .WithEnvironment("services__wizdle-api__http__0", "http://wizdle-api:8080")
             .WithEnvironment("services__wizdle-api__https__0", "http://wizdle-api:8080")
-            .WithPortBinding(8080, true)
+            .WithPortBinding(8080, assignRandomHostPort: true)
             .WithWaitStrategy(Wait.ForUnixContainer().UntilHttpRequestIsSucceeded(r => r.ForPort(8080)))
             .DependsOn(apiContainer)
             .Build();

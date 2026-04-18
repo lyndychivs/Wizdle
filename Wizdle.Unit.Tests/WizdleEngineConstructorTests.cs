@@ -25,10 +25,10 @@ public class WizdleEngineConstructorTests
 
     public WizdleEngineConstructorTests()
     {
-        _loggerMock = new Mock<ILogger>();
-        _requestValidatorMock = new Mock<IRequestValidator>();
-        _requestMapperMock = new Mock<IRequestMapper>();
-        _wordSolverMock = new Mock<IWordSolver>();
+        _loggerMock = new Mock<ILogger>(MockBehavior.Strict);
+        _requestValidatorMock = new Mock<IRequestValidator>(MockBehavior.Strict);
+        _requestMapperMock = new Mock<IRequestMapper>(MockBehavior.Strict);
+        _wordSolverMock = new Mock<IWordSolver>(MockBehavior.Strict);
     }
 
     [Test]

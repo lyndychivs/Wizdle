@@ -17,8 +17,8 @@ public class WordRepositoryConstructorTests
     [Test]
     public void Constructor_WithValidParameters_ReturnsWordRepository()
     {
-        var loggerMock = new Mock<ILogger>();
-        var wordsMock = new Mock<IWords>();
+        var loggerMock = new Mock<ILogger>(MockBehavior.Strict);
+        var wordsMock = new Mock<IWords>(MockBehavior.Strict);
 
         var result = new WordRepository(loggerMock.Object, wordsMock.Object);
 
@@ -28,7 +28,7 @@ public class WordRepositoryConstructorTests
     [Test]
     public void SingleConstructor_WithValidLogger_ReturnsWordRepository()
     {
-        var loggerMock = new Mock<ILogger>();
+        var loggerMock = new Mock<ILogger>(MockBehavior.Strict);
 
         var result = new WordRepository(loggerMock.Object);
 
@@ -38,7 +38,7 @@ public class WordRepositoryConstructorTests
     [Test]
     public void Constructor_WithNullLogger_ThrowsArgumentNullException()
     {
-        var wordsMock = new Mock<IWords>();
+        var wordsMock = new Mock<IWords>(MockBehavior.Strict);
 
         ArgumentNullException? ex = Assert.Throws<ArgumentNullException>(() => new WordRepository(null!, wordsMock.Object));
         using (Assert.EnterMultipleScope())
@@ -62,7 +62,7 @@ public class WordRepositoryConstructorTests
     [Test]
     public void Constructor_WithNullWordFile_ThrowsArgumentNullException()
     {
-        var loggerMock = new Mock<ILogger>();
+        var loggerMock = new Mock<ILogger>(MockBehavior.Strict);
 
         ArgumentNullException? ex = Assert.Throws<ArgumentNullException>(() => new WordRepository(loggerMock.Object, null!));
         using (Assert.EnterMultipleScope())

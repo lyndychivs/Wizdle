@@ -16,7 +16,7 @@ public class RequestValidatorConstructorTests
     [Test]
     public void Constructor_WithValidLogger_ReturnsRequestValidator()
     {
-        var logger = new Mock<ILogger>();
+        var logger = new Mock<ILogger>(MockBehavior.Strict);
 
         var result = new RequestValidator(logger.Object);
 
