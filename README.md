@@ -33,6 +33,7 @@ flowchart LR
 | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | .NET10 SDK   | .NET10 or greater required.<br/>Check current .NET version `dotnet --version`.<br/>Download .NET10 [here](https://dotnet.microsoft.com/en-us/download/dotnet/10.0). |
 | Docker       | Download Docker [here](https://www.docker.com/get-started/).                                                                                                        |
+| PowerShell   | PowerShell (pwsh) required.<br/>Check current version `pwsh --version`.<br/>Download PowerShell [here](https://github.com/PowerShell/PowerShell/releases).          |
 
 # 🧙 Wizdle
 
