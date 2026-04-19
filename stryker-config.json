@@ -10,7 +10,7 @@
         "language-version": "latest",
         "additional-timeout": 5000,
         "mutate": ["**/*"],
-        "solution": "Wizdle.sln",
+        "solution": "Wizdle.slnx",
         "configuration": "Stryker",
         "target-framework": "net10.0",
         "project": "Wizdle.csproj",
