@@ -81,4 +81,10 @@
         <IsPackable>false</IsPackable>
         <RunSettingsFilePath>$(MSBuildThisFileDirectory).runsettings</RunSettingsFilePath>
     </PropertyGroup>
+
+    <!-- Microsoft.Testing.Platform: opt-in to NUnit runner for test projects -->
+    <PropertyGroup Condition="$(MSBuildProjectName.EndsWith('.Tests')) AND '$(MSBuildProjectName)' != 'Wizdle.Performance.Tests'">
+        <EnableNUnitRunner>true</EnableNUnitRunner>
+        <TestingPlatformShowTestsFailure>true</TestingPlatformShowTestsFailure>
+    </PropertyGroup>
 </Project>

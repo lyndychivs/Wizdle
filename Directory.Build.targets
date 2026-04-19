@@ -1,5 +1,10 @@
 <Project>
 
+    <!-- Microsoft.Testing.Platform: test projects must be executables -->
+    <PropertyGroup Condition="'$(IsTestProject)' == 'true'">
+        <OutputType>Exe</OutputType>
+    </PropertyGroup>
+
     <!-- Auto-inject NUnit test infrastructure when NUnit is referenced -->
     <Target Name="_InjectNUnitInfrastructure" BeforeTargets="CollectPackageReferences">
         <ItemGroup>
@@ -9,7 +14,6 @@
             <PackageReference Include="NUnit3TestAdapter">
                 <TreatAsUsed>true</TreatAsUsed>
             </PackageReference>
-            <PackageReference Include="Microsoft.NET.Test.Sdk" />
             <PackageReference Include="NUnit.Analyzers">
                 <PrivateAssets>all</PrivateAssets>
                 <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -30,10 +34,10 @@
         </ItemGroup>
     </Target>
 
-    <!-- Enforce that any project named *.Tests has IsTestProject=true -->
+    <!-- Enforce that any project named *.Tests has IsTestProject=true (except benchmarks) -->
     <Target Name="ValidateTestProjectConvention" BeforeTargets="Build">
         <Error
-            Condition="$(MSBuildProjectName.EndsWith('.Tests')) AND '$(IsTestProject)' != 'true'"
+            Condition="$(MSBuildProjectName.EndsWith('.Tests')) AND '$(IsTestProject)' != 'true' AND '$(MSBuildProjectName)' != 'Wizdle.Performance.Tests'"
             Text="'$(MSBuildProjectName)' ends in '.Tests' but IsTestProject is not set to 'true'." />
     </Target>
 
