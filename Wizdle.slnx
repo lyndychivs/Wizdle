@@ -1,0 +1,98 @@
+<Solution>
+    <Configurations>
+        <BuildType Name="Debug" />
+        <BuildType Name="Release" />
+        <BuildType Name="Stryker" />
+    </Configurations>
+    <Folder Name="/.aspire/">
+        <File Path=".aspire/settings.json" />
+    </Folder>
+    <Folder Name="/.github/">
+        <File Path=".github/dependabot.yaml" />
+        <File Path=".github/FUNDING.yaml" />
+        <File Path=".github/PULL_REQUEST_TEMPLATE.md" />
+    </Folder>
+    <Folder Name="/.github/ISSUE_TEMPLATE/">
+        <File Path=".github/ISSUE_TEMPLATE/bug_report.md" />
+        <File Path=".github/ISSUE_TEMPLATE/feature_request.md" />
+    </Folder>
+    <Folder Name="/.github/workflows/">
+        <File Path=".github/workflows/build-test.yaml" />
+        <File Path=".github/workflows/dotnet-stryker-action.yaml" />
+        <File Path=".github/workflows/release.yaml" />
+        <File Path=".github/workflows/solve-wordle.yaml" />
+    </Folder>
+    <Folder Name="/Installer/">
+        <File Path="Installer/Wizdle.Windows.x64.iss" />
+        <File Path="Installer/Wizdle.Windows.x86.iss" />
+    </Folder>
+    <Folder Name="/Resources/">
+        <File Path="Resources/background.png" />
+        <File Path="Resources/logo.ico" />
+        <File Path="Resources/logo.png" />
+        <File Path="Resources/title.png" />
+        <File Path="Resources/Wizdle.Wpf.png" />
+        <File Path="Resources/WizdleSocialPreview.png" />
+        <File Path="Resources/WizdleWebScreenshot.png" />
+    </Folder>
+    <Folder Name="/Solution Items/">
+        <File Path=".editorconfig" />
+        <File Path=".env.template" />
+        <File Path=".gitignore" />
+        <File Path=".runsettings" />
+        <File Path="CODE_OF_CONDUCT.md" />
+        <File Path="CONTRIBUTING.md" />
+        <File Path="Directory.Build.props" />
+        <File Path="Directory.Build.targets" />
+        <File Path="Directory.Packages.props" />
+        <File Path="docker-compose.yaml" />
+        <File Path="global.json" />
+        <File Path="LICENSE" />
+        <File Path="Makefile" />
+        <File Path="README.md" />
+        <File Path="SECURITY.md" />
+        <File Path="stryker-config.json" />
+    </Folder>
+    <Folder Name="/Wizdle.Domain/">
+        <File Path="Wizdle.Domain/README.md" />
+    </Folder>
+    <Project Path="Wizdle.Api.Functional.Tests/Wizdle.Api.Functional.Tests.csproj">
+        <Build Solution="Stryker|*" Project="false" />
+    </Project>
+    <Project Path="Wizdle.Api/Wizdle.Api.csproj">
+        <Build Solution="Stryker|*" Project="false" />
+    </Project>
+    <Project Path="Wizdle.AppHost/Wizdle.AppHost.csproj">
+        <Build Solution="Stryker|*" Project="false" />
+    </Project>
+    <Project Path="Wizdle.Console/Wizdle.Console.csproj">
+        <Build Solution="Stryker|*" Project="false" />
+    </Project>
+    <Project Path="Wizdle.Discord/Wizdle.Discord.csproj">
+        <Build Solution="Stryker|*" Project="false" />
+    </Project>
+    <Project Path="Wizdle.Functional.Tests/Wizdle.Functional.Tests.csproj">
+        <Build Solution="Stryker|*" Project="false" />
+    </Project>
+    <Project Path="Wizdle.Integration.Tests/Wizdle.Integration.Tests.csproj">
+        <Build Solution="Stryker|*" Project="false" />
+    </Project>
+    <Project Path="Wizdle.Models/Wizdle.Models.csproj" />
+    <Project Path="Wizdle.Performance.Tests/Wizdle.Performance.Tests.csproj">
+        <Build Solution="Stryker|*" Project="false" />
+    </Project>
+    <Project Path="Wizdle.ServiceDefaults/Wizdle.ServiceDefaults.csproj">
+        <Build Solution="Stryker|*" Project="false" />
+    </Project>
+    <Project Path="Wizdle.Unit.Tests/Wizdle.Unit.Tests.csproj" />
+    <Project Path="Wizdle.Web.Functional.Tests/Wizdle.Web.Functional.Tests.csproj">
+        <Build Solution="Stryker|*" Project="false" />
+    </Project>
+    <Project Path="Wizdle.Web/Wizdle.Web.csproj">
+        <Build Solution="Stryker|*" Project="false" />
+    </Project>
+    <Project Path="Wizdle.Wpf/Wizdle.Wpf.csproj">
+        <Build Solution="Stryker|*" Project="false" />
+    </Project>
+    <Project Path="Wizdle/Wizdle.csproj" />
+</Solution>
