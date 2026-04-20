@@ -10,6 +10,7 @@
         <PackageVersion Include="Deque.AxeCore.Playwright" Version="4.*" />
         <PackageVersion Include="lyndychivs.Retry" Version="1.*" />
         <PackageVersion Include="Meziantou.Analyzer" Version="3.*" />
+        <PackageVersion Include="Microsoft.Testing.Extensions.TrxReport" Version="1.*" />
         <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.*" />
         <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.*" />
         <PackageVersion Include="Microsoft.Extensions.Diagnostics.Testing" Version="10.*" />
