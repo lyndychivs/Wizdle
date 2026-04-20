@@ -38,11 +38,11 @@ jobs:
 
             - name: Test Wizdle.Unit.Tests
               if: steps.build.outcome == 'success'
-              run: dotnet test Wizdle.Unit.Tests/Wizdle.Unit.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --logger "trx;LogFileName=Wizdle.Unit.Tests.trx"
+              run: dotnet test Wizdle.Unit.Tests/Wizdle.Unit.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} -- --report-trx --report-trx-filename Wizdle.Unit.Tests.trx
 
             - name: Test Wizdle.Integration.Tests
               if: steps.build.outcome == 'success'
-              run: dotnet test Wizdle.Integration.Tests/Wizdle.Integration.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --logger "trx;LogFileName=Wizdle.Integration.Tests.trx"
+              run: dotnet test Wizdle.Integration.Tests/Wizdle.Integration.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} -- --report-trx --report-trx-filename Wizdle.Integration.Tests.trx
 
             - name: NuGet Push to NuGet.org
               if: success()
