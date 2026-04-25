@@ -77,6 +77,8 @@ More information can be found in the [Wizdle.Console project](https://github.com
 
 ```bash
 ./Wizdle.Console.exe solve --correct "....t" --misplaced "..rs." --exclude "haebu"
+```
+
 **Response:**
 
 ```text
