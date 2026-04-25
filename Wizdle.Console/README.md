@@ -25,7 +25,7 @@ solve [parameters]
 **Command:**
 
 ```bash
-$ ./Wizdle.Console.exe solve --correct "....t" --misplaced "..rs." --exclude "haebu"
+./Wizdle.Console.exe solve --correct "....t" --misplaced "..rs." --exclude "haebu"
 ```
 
 **Response:**

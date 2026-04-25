@@ -7,9 +7,9 @@
 
 A library for solving Wordle challenges in C#
 
-| Prerequisite             | Note                                                                                                                                                                                                          |
-| :----------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `ILogger` implementation | This library requires an implementation of `Microsoft.Extensions.Logging` to construct. (See my `SeriLog` example [here](https://github.com/lyndychivs/Wizdle/blob/main/Wizdle.Integration.Tests/Logger.cs).) |
+| Prerequisite | Note |
+| --- | --- |
+| `ILogger` implementation | This library requires an implementation of `Microsoft.Extensions.Logging` to construct. (See my `SeriLog` example in [Wizdle.Integration.Tests/Logger.cs](https://github.com/lyndychivs/Wizdle/blob/main/Wizdle.Integration.Tests/Logger.cs).) |
 
 ## Example
 

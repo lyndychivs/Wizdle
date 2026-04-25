@@ -2,7 +2,7 @@
 
 ## Latest
 
-```
+```text
 BenchmarkDotNet v0.15.0, Windows 11 (10.0.26100.4061/24H2/2024Update/HudsonValley)
 Unknown processor
 .NET SDK 9.0.204

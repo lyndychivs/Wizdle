@@ -1,11 +1,14 @@
-<p align="center"><img src="Resources/title.png" alt="Wizdle" width="512" height="512"></p>
+# Wizdle
+
+![Wizdle](Resources/title.png)
 
 [![Build & Test](https://github.com/lyndychivs/Wizdle/actions/workflows/build-test.yaml/badge.svg?branch=main)](https://github.com/lyndychivs/Wizdle/actions/workflows/build-test.yaml)
 [![Solve Wordle Today](https://github.com/lyndychivs/Wizdle/actions/workflows/solve-wordle.yaml/badge.svg?branch=main)](https://github.com/lyndychivs/Wizdle/actions/workflows/solve-wordle.yaml)
 [![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Flyndychivs%2FWizdle%2Fmain)](https://dashboard.stryker-mutator.io/reports/github.com/lyndychivs/Wizdle/main)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/Wizdle?style=flat&logo=nuget)](https://www.nuget.org/packages/Wizdle/)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/lyndychivs/Wizdle)
 
-# 🔭 High Level
+## 🔭 High Level
 
 A library for solving Wordle.
 
@@ -29,15 +32,15 @@ flowchart LR
 
 ## Prerequisites
 
-| Prerequisite | Note                                                                                                                                                                |
-| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| .NET10 SDK   | .NET10 or greater required.<br/>Check current .NET version `dotnet --version`.<br/>Download .NET10 [here](https://dotnet.microsoft.com/en-us/download/dotnet/10.0). |
-| Docker       | Download Docker [here](https://www.docker.com/get-started/).                                                                                                        |
-| PowerShell   | PowerShell (pwsh) required.<br/>Check current version `pwsh --version`.<br/>Download PowerShell [here](https://github.com/PowerShell/PowerShell/releases).          |
+| Prerequisite | Note |
+| --- | --- |
+| .NET10 SDK | .NET10 or greater required. Check current .NET version `dotnet --version`. Download .NET10 from [the official download page](https://dotnet.microsoft.com/en-us/download/dotnet/10.0). |
+| Docker | Download Docker from [Docker Get Started](https://www.docker.com/get-started/). |
+| PowerShell | PowerShell (pwsh) required. Check current version `pwsh --version`. Download PowerShell from [PowerShell Releases](https://github.com/PowerShell/PowerShell/releases). |
 
-# 🧙 Wizdle
+## 🧙 Wizdle
 
-The Wizdle core library found [here](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle), is responsbile for translating the request into a list of possible Words.
+The Wizdle core library in the [Wizdle project](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle) is responsbile for translating the request into a list of possible Words.
 
 ## Example
 
@@ -62,23 +65,23 @@ Available on:
 - [NuGet](https://www.nuget.org/packages/Wizdle/)
 - [GitHub](https://github.com/lyndychivs/Wizdle/pkgs/nuget/Wizdle)
 
-# 💻 Wizdle.Console
+## 💻 Wizdle.Console
 
 The Wizdle Console application allows us to access all the functionality of the Wizdle library via the CLI.
 
-More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Console)
+More information can be found in the [Wizdle.Console project](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Console)
 
-## Example
+## CLI Example
 
 **Command:**
 
-```
-$ ./Wizdle.Console.exe solve --correct "....t" --misplaced "..rs." --exclude "haebu"
+```bash
+./Wizdle.Console.exe solve --correct "....t" --misplaced "..rs." --exclude "haebu"
 ```
 
 **Response:**
 
-```
+```text
 Processing WizdleRequest: CorrectLetters: "....t"   MisplacedLetters: "..rs." ExcludeLetters: "haebu"
 Mapping WizdleRequest:    CorrectLetters: "....t"   MisplacedLetters: "..rs." ExcludeLetters: "haebu"
 Mapped SolveParameters:   CorrectLetters: "????t"   MisplacedLetters: "??rs?" ExcludeLetters: "haebu"
@@ -89,18 +92,19 @@ snort
 sport
 ```
 
-# 🪟 Wizdle.Wpf
+## 🪟 Wizdle.Wpf
+
 The Wizdle WPF application allows us to access all the functionality of the Wizdle library via a GUI on Windows.
 
-More information (and installers) can be found [here](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Wpf).
+More information (and installers) can be found in the [Wizdle.Wpf project](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Wpf).
 
 ![Wizdle.Wpf](Resources/Wizdle.Wpf.png)
 
-# 📨 Wizdle.Api
+## 📨 Wizdle.Api
 
 The Wizdle Api Service contains a deployable API instance of the Wizdle library.
 
-More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Api)
+More information can be found in the [Wizdle.Api project](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Api)
 
 ## 🎯 `POST`
 
@@ -150,38 +154,38 @@ More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/m
 }
 ```
 
-# 📲 Wizdle.Web
+## 📲 Wizdle.Web
 
 The Wizdle Web contains a deployable Blazor web app instance of the Wizdle library (hosted on the new dotnet Aspire platform & Docker).
 
-More information can be found [here](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Web)
+More information can be found in the [Wizdle.Web project](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Web)
 
 ![Wizdle.Web Screenshot](Resources/WizdleWebScreenshot.png)
 
-# 🤖 Wizdle.Discord
+## 🤖 Wizdle.Discord
 
 A Discord bot hosting all the functionality of the Wizdle library, users can integrate the bot into their Discord servers.
 
 Invite [link for Discord](https://discord.com/oauth2/authorize?client_id=1381710402458620066&permissions=2048&integration_type=0&scope=bot).
 
-# 🧪 Testing
+## 🧪 Testing
 
 - Unit Testing
-    - [Wizdle.Unit.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Unit.Tests)
+  - [Wizdle.Unit.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Unit.Tests)
 - Integration Testing
-    - [Wizdle.Integration.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Integration.Tests)
+  - [Wizdle.Integration.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Integration.Tests)
 - Functional Testing
-    - [Wizdle.Api.Functional.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Api.Functional.Tests)
-    - [Wizdle.Web.Functional.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Web.Functional.Tests) (using Playwright)
-    - [Wizdle.Functional.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Functional.Tests) (solving Wordle end-to-end)
+  - [Wizdle.Api.Functional.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Api.Functional.Tests)
+  - [Wizdle.Web.Functional.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Web.Functional.Tests) (using Playwright)
+  - [Wizdle.Functional.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Functional.Tests) (solving Wordle end-to-end)
 - Performance Testing
-    - [Wizdle.Performance.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Performance.Tests) (using BenchmarkDotNet)
+  - [Wizdle.Performance.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Performance.Tests) (using BenchmarkDotNet)
 - Accessibility Testing
-    - [Wizdle.Web.Functional.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Web.Functional.Tests) (using axe-core)
+  - [Wizdle.Web.Functional.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Web.Functional.Tests) (using axe-core)
 - Mutation Testing
-    - [Strkyer.NET](https://dashboard.stryker-mutator.io/reports/github.com/lyndychivs/Wizdle/main) with [my GitHub Action](https://github.com/lyndychivs/dotnet-stryker-action)
+  - [Strkyer.NET](https://dashboard.stryker-mutator.io/reports/github.com/lyndychivs/Wizdle/main) with [my GitHub Action](https://github.com/lyndychivs/dotnet-stryker-action)
 
-# ⚙️ Make
+## ⚙️ Make
 
 This project includes a Makefile to simplify common development tasks. Run `make help` to see all available commands.
 
@@ -251,10 +255,11 @@ This project includes a Makefile to simplify common development tasks. Run `make
     ```
 
 7. Stop services:
+
     ```bash
     make stop
     ```
 
-# TL;DR for the TL;DR
+## TL;DR for the TL;DR
 
 > Lyndon, did you just spend all this time working on a tool to cheat wordle... rather than actually just solving the word?!
