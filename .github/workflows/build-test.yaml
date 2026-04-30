@@ -43,11 +43,11 @@ jobs:
 
             - name: Test Wizdle.Unit.Tests
               if: steps.build.outcome == 'success'
-              run: dotnet test Wizdle.Unit.Tests/Wizdle.Unit.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --logger "trx;LogFileName=Wizdle.Unit.Tests.trx"
+              run: dotnet test --project Wizdle.Unit.Tests/Wizdle.Unit.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} -- --report-trx --report-trx-filename Wizdle.Unit.Tests.trx
 
             - name: Test Wizdle.Integration.Tests
               if: steps.build.outcome == 'success'
-              run: dotnet test Wizdle.Integration.Tests/Wizdle.Integration.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --logger "trx;LogFileName=Wizdle.Integration.Tests.trx"
+              run: dotnet test --project Wizdle.Integration.Tests/Wizdle.Integration.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} -- --report-trx --report-trx-filename Wizdle.Integration.Tests.trx
 
             - name: Build Docker for Wizdle.Api
               id: build-api
@@ -56,7 +56,7 @@ jobs:
 
             - name: Test Wizdle.Api.Functional.Tests
               if: steps.build-api.outcome == 'success'
-              run: dotnet test Wizdle.Api.Functional.Tests/Wizdle.Api.Functional.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --logger "trx;LogFileName=Wizdle.Api.Functional.Tests.trx"
+              run: dotnet test --project Wizdle.Api.Functional.Tests/Wizdle.Api.Functional.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} -- --report-trx --report-trx-filename Wizdle.Api.Functional.Tests.trx
 
             - name: Cache Playwright Browsers
               id: playwright-cache
@@ -82,7 +82,7 @@ jobs:
 
             - name: Test Wizdle.Web.Functional.Tests
               if: steps.build-web.outcome == 'success'
-              run: dotnet test Wizdle.Web.Functional.Tests/Wizdle.Web.Functional.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --logger "trx;LogFileName=Wizdle.Web.Functional.Tests.trx"
+              run: dotnet test --project Wizdle.Web.Functional.Tests/Wizdle.Web.Functional.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} -- --report-trx --report-trx-filename Wizdle.Web.Functional.Tests.trx
 
             - name: Upload Artifacts for Wizdle.Web.Functional.Tests
               uses: actions/upload-artifact@v7

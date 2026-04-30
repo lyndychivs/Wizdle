@@ -11,17 +11,17 @@ build: ## Build the Solution in Release mode
 	dotnet build --configuration Release
 
 test: ## Run Unit and Integration Tests
-	dotnet test Wizdle.Unit.Tests/Wizdle.Unit.Tests.csproj --configuration Release --no-build
-	dotnet test Wizdle.Integration.Tests/Wizdle.Integration.Tests.csproj --configuration Release --no-build
+	dotnet test --project Wizdle.Unit.Tests/Wizdle.Unit.Tests.csproj --configuration Release --no-build
+	dotnet test --project Wizdle.Integration.Tests/Wizdle.Integration.Tests.csproj --configuration Release --no-build
 
 test-functional: ## Run Functional Tests
-	dotnet test Wizdle.Api.Functional.Tests/Wizdle.Api.Functional.Tests.csproj --configuration Release --no-build
-	dotnet test Wizdle.Web.Functional.Tests/Wizdle.Web.Functional.Tests.csproj --configuration Release --no-build
+	dotnet test --project Wizdle.Api.Functional.Tests/Wizdle.Api.Functional.Tests.csproj --configuration Release --no-build
+	dotnet test --project Wizdle.Web.Functional.Tests/Wizdle.Web.Functional.Tests.csproj --configuration Release --no-build
 
 test-all: test test-functional solve ## Run all tests
 
 solve: ## Attempts to solve Wordle using Wizdle
-	dotnet test Wizdle.Functional.Tests/Wizdle.Functional.Tests.csproj --configuration Release --no-build
+	dotnet test --project Wizdle.Functional.Tests/Wizdle.Functional.Tests.csproj --configuration Release --no-build
 
 build-api: ## Build Wizdle.Api Docker image (wizdle-api:latest)
 	dotnet publish Wizdle.Api/Wizdle.Api.csproj --configuration Release -t:PublishContainer --os linux --arch x64 -p:ContainerImageTag=latest -p:ContainerRepository=wizdle-api

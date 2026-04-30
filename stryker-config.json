@@ -5,6 +5,7 @@
             "module": "Wizdle",
             "version": "main"
         },
+        "test-runner": "mtp",
         "concurrency": 4,
         "mutation-level": "Complete",
         "language-version": "latest",
