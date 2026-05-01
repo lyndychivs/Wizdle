@@ -37,6 +37,8 @@ public partial class WordleTests : PageTest
 
     private readonly ILogger _logger;
 
+    private readonly Random _random;
+
     private int _attemptCount;
 
     public WordleTests()
@@ -57,6 +59,8 @@ public partial class WordleTests : PageTest
 
         _logger = Logger.CreateConsoleLogger<WordleTests>();
         _wizdleEngine = new WizdleEngine(_logger);
+
+        _random = new Random();
     }
 
     [SetUp]
@@ -199,7 +203,7 @@ public partial class WordleTests : PageTest
         string words = string.Join(", ", unclaimedWords);
         LogSuggestionWords(_logger, words);
 
-        int index = new Random().Next(0, unclaimedWords.Count());
+        int index = _random.Next(0, unclaimedWords.Count());
         return new Word(unclaimedWords.ElementAt(index));
     }
 
