@@ -10,6 +10,10 @@ jobs:
     build-test-publish:
         runs-on: ubuntu-latest
         timeout-minutes: 10
+        permissions:
+            id-token: write
+            contents: write
+            checks: write
         env:
             CONFIGURATION: Release
             TARGET_FRAMEWORK: net10.0
@@ -44,9 +48,16 @@ jobs:
               if: steps.build.outcome == 'success'
               run: dotnet test --project Wizdle.Integration.Tests/Wizdle.Integration.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} -- --report-trx --report-trx-filename Wizdle.Integration.Tests.trx
 
+            - name: NuGet Login
+              if: success()
+              uses: NuGet/login@v1
+              id: nuget_login
+              with:
+                  user: ${{ secrets.NUGET_USER }}
+
             - name: NuGet Push to NuGet.org
               if: success()
-              run: dotnet nuget push **.nupkg --api-key ${{secrets.NUGET}} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
+              run: dotnet nuget push **.nupkg --api-key ${{ steps.nuget_login.outputs.NUGET_API_KEY }} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
 
             - name: NuGet Push to GitHub Packages
               if: success()
