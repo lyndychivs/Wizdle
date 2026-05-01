@@ -20,7 +20,7 @@ using Wizdle.Functional.Tests.Models;
 using Wizdle.Models;
 
 [TestFixture]
-public partial class WordleTest : PageTest
+public partial class WordleTests : PageTest
 {
     private const string WordleUrl = "https://www.nytimes.com/games/wordle/index.html";
 
@@ -37,9 +37,11 @@ public partial class WordleTest : PageTest
 
     private readonly ILogger _logger;
 
+    private readonly Random _random;
+
     private int _attemptCount;
 
-    public WordleTest()
+    public WordleTests()
     {
         /*
          * For a one seed strategy the best word is "tales".
@@ -55,8 +57,10 @@ public partial class WordleTest : PageTest
         _misplacedLetters = ['?', '?', '?', '?', '?'];
         _excludeLetters = new StringBuilder();
 
-        _logger = Logger.CreateConsoleLogger<WordleTest>();
+        _logger = Logger.CreateConsoleLogger<WordleTests>();
         _wizdleEngine = new WizdleEngine(_logger);
+
+        _random = new Random();
     }
 
     [SetUp]
@@ -192,14 +196,15 @@ public partial class WordleTest : PageTest
 
         WizdleResponse wizdleResponse = _wizdleEngine.ProcessWizdleRequest(wizdleRequest);
 
-        string words = string.Join(Environment.NewLine, wizdleResponse.Words);
+        IEnumerable<string> unclaimedWords = GetWordsThatAreNotClaimed(wizdleResponse.Words);
 
-        Assert.That(string.IsNullOrWhiteSpace(words), Is.False, "Wizdle returned no possible words.");
+        Assert.That(unclaimedWords, Is.Not.Empty, "Wizdle returned no possible words.");
 
+        string words = string.Join(", ", unclaimedWords);
         LogSuggestionWords(_logger, words);
 
-        int index = new Random().Next(0, wizdleResponse.Words.Count());
-        return new Word(wizdleResponse.Words.ElementAt(index));
+        int index = _random.Next(0, unclaimedWords.Count());
+        return new Word(unclaimedWords.ElementAt(index));
     }
 
     private void UpdateWizdleRequestData(Word word)
@@ -255,6 +260,12 @@ public partial class WordleTest : PageTest
         {
             _excludeLetters.Replace(letter.ToString(), string.Empty);
         }
+    }
+
+    private IEnumerable<string> GetWordsThatAreNotClaimed(IEnumerable<string> wizdleWords)
+    {
+        var claimedWords = _words.Select(w => w.ToString());
+        return wizdleWords.Where(w => !claimedWords.Contains(w, StringComparer.OrdinalIgnoreCase));
     }
 
     private async Task SubmitWordOnPage(Word word)
