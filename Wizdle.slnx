@@ -92,6 +92,9 @@
     <Project Path="Wizdle.Web.Functional.Tests/Wizdle.Web.Functional.Tests.csproj">
         <Build Solution="Stryker|*" Project="false" />
     </Project>
+    <Project Path="Wizdle.Web.Unit.Tests/Wizdle.Web.Unit.Tests.csproj">
+        <Build Solution="Stryker|*" Project="false" />
+    </Project>
     <Project Path="Wizdle.Web/Wizdle.Web.csproj">
         <Build Solution="Stryker|*" Project="false" />
     </Project>

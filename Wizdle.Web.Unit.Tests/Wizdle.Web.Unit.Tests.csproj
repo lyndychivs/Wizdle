@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+    <PropertyGroup>
+        <IsTestProject>true</IsTestProject>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="bunit" />
+        <PackageReference Include="Moq" />
+        <PackageReference Include="NUnit" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Wizdle.Web\Wizdle.Web.csproj" />
+    </ItemGroup>
+</Project>

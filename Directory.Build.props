@@ -87,4 +87,18 @@
         <EnableNUnitRunner>true</EnableNUnitRunner>
         <TestingPlatformShowTestsFailure>true</TestingPlatformShowTestsFailure>
     </PropertyGroup>
+
+    <!-- Automatically expose internals to test projects following naming conventions -->
+    <ItemGroup Condition="'$(IsTestProject)' != 'true'">
+        <!-- Pattern: ProjectName -> ProjectName.Unit.Tests -->
+        <InternalsVisibleTo Include="$(AssemblyName).Unit.Tests" />
+        <!-- Pattern: ProjectName -> ProjectName.Integration.Tests -->
+        <InternalsVisibleTo Include="$(AssemblyName).Integration.Tests" />
+        <!-- Pattern: ProjectName -> ProjectName.Functional.Tests -->
+        <InternalsVisibleTo Include="$(AssemblyName).Functional.Tests" />
+        <!-- For Moq dynamic proxies (used in unit testing) -->
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
 </Project>

@@ -45,7 +45,7 @@ internal static class ContainerHook
             .WithEnvironment("services__wizdle-api__http__0", "http://wizdle-api:8080")
             .WithEnvironment("services__wizdle-api__https__0", "http://wizdle-api:8080")
             .WithPortBinding(8080, assignRandomHostPort: true)
-            .WithWaitStrategy(Wait.ForUnixContainer().UntilHttpRequestIsSucceeded(r => r.ForPort(8080)))
+            .WithWaitStrategy(Wait.ForUnixContainer().UntilHttpRequestIsSucceeded(r => r.ForPort(8080).ForPath("/health")))
             .DependsOn(apiContainer)
             .Build();
 

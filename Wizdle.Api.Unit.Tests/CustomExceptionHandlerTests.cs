@@ -67,7 +67,7 @@ public class CustomExceptionHandlerTests
 
         body.Seek(0, SeekOrigin.Begin);
         using StreamReader reader = new(body);
-        string content = await reader.ReadToEndAsync();
+        string content = await reader.ReadToEndAsync(TestContext.CurrentContext.CancellationToken);
 
         Assert.That(content, Is.EqualTo("An unexpected error occurred. Please try again later."));
     }
