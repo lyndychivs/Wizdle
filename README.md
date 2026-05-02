@@ -205,12 +205,13 @@ This project includes a Makefile to simplify common development tasks. Run `make
 | `make stop-volumes`    | Stop containers and remove associated volumes               |
 | `make logs`            | Show and follow logs from all Docker containers             |
 | `make restart`         | Stop containers, rebuild all images, and restart services   |
-| `make clean`           | Clean build artifacts and prune all Docker resources        |
+| `make clean`           | Clean build artifacts, TestResults, BenchmarkDotNet.Artifacts, and prune all Docker resources |
 | `make docker-prune`    | Prune unused Docker resources (images, containers, volumes) |
 | `make trust-cert`      | Trust the .NET HTTPS development certificate                |
 | `make token`           | Generate a random 32-character token for API keys           |
-| `make mutation`        | Run Stryker mutation testing                                |
-| `make aspire`          | Update Aspire tooling to latest version                     |
+| `make tools`           | Restore dotnet tools                                        |
+| `make mutate`          | Run Stryker mutation testing                                |
+| `make perf`            | Run performance tests (BenchmarkDotNet)                     |
 | `make playwright`      | Install Playwright browsers                                 |
 | `make solve`           | Attempts to solve Wordle using Wizdle                       |
 | `make test-functional` | Run all functional tests                                    |

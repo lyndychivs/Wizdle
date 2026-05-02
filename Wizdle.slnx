@@ -47,6 +47,7 @@
         <File Path="Directory.Packages.props" />
         <File Path="docker-compose.yaml" />
         <File Path="global.json" />
+        <File Path="dotnet-tools.json" />
         <File Path="LICENSE" />
         <File Path="Makefile" />
         <File Path="README.md" />

@@ -1,4 +1,4 @@
-.PHONY: help build-api build-web build-discord build-all clean test compose stop logs docker-prune token playwright mutation trust-cert restart solve test-functional test-all
+.PHONY: help build-api build-web build-discord build-all clean test compose stop logs docker-prune token playwright mutate trust-cert restart solve test-functional test-all tools perf
 
 # Variables
 COMPOSE_FILE = docker-compose.yaml
@@ -53,7 +53,7 @@ restart: stop-volumes build-all compose ## Rebuild Wizdle Docker images and rest
 
 clean: ## Clean Wizdle build artifacts and Docker resources
 	dotnet clean
-	rm -rf **/bin **/obj
+	rm -rf **/bin **/obj TestResults BenchmarkDotNet.Artifacts
 	docker system prune --all --force --volumes
 
 trust-cert: ## Trust the dotnet HTTPS development certificate
@@ -62,7 +62,13 @@ trust-cert: ## Trust the dotnet HTTPS development certificate
 token: ## Generate a random token for API keys (.env file)
 	@pwsh -Command '-join ((65..90) + (97..122) + (48..57) | Get-Random -Count 32 | ForEach-Object {[char]$$_})'
 
-mutation: ## Run Stryker Mutation Testing
+tools: ## Restore dotnet tools
+	dotnet tool restore
+
+perf: ## Run Performance Tests
+	dotnet run --project Wizdle.Performance.Tests/Wizdle.Performance.Tests.csproj --configuration Release
+
+mutate: ## Run Stryker Mutation Testing
 	dotnet stryker --config-file stryker-config.json
 
 playwright: ## Install Playwright browsers
