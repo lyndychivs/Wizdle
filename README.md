@@ -172,6 +172,7 @@ Invite [link for Discord](https://discord.com/oauth2/authorize?client_id=1381710
 
 - Unit Testing
   - [Wizdle.Unit.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Unit.Tests)
+  - [Wizdle.Api.Unit.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Api.Unit.Tests)
 - Integration Testing
   - [Wizdle.Integration.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Integration.Tests)
 - Functional Testing

@@ -57,6 +57,7 @@
     <Folder Name="/Wizdle.Domain/">
         <File Path="Wizdle.Domain/README.md" />
     </Folder>
+    <Project Path="Wizdle.Api.Unit.Tests/Wizdle.Api.Unit.Tests.csproj" />
     <Project Path="Wizdle.Api.Functional.Tests/Wizdle.Api.Functional.Tests.csproj">
         <Build Solution="Stryker|*" Project="false" />
     </Project>
