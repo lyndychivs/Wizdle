@@ -13,6 +13,7 @@ build: ## Build the Solution in Release mode
 test: ## Run Unit and Integration Tests
 	dotnet test --project Wizdle.Unit.Tests/Wizdle.Unit.Tests.csproj --configuration Release --no-build
 	dotnet test --project Wizdle.Api.Unit.Tests/Wizdle.Api.Unit.Tests.csproj --configuration Release --no-build
+	dotnet test --project Wizdle.Web.Unit.Tests/Wizdle.Web.Unit.Tests.csproj --configuration Release --no-build
 	dotnet test --project Wizdle.Integration.Tests/Wizdle.Integration.Tests.csproj --configuration Release --no-build
 
 test-functional: ## Run Functional Tests
