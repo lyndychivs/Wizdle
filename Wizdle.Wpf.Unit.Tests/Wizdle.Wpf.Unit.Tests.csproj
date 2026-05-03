@@ -2,6 +2,7 @@
     <PropertyGroup>
         <TargetFramework>net10.0-windows</TargetFramework>
         <EnableWindowsTargeting>true</EnableWindowsTargeting>
+        <UseWPF>true</UseWPF>
         <IsTestProject>true</IsTestProject>
     </PropertyGroup>
 
