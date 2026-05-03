@@ -4,12 +4,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    </ItemGroup>
-
-    <ItemGroup>
         <PackageReference Include="bunit" />
-        <PackageReference Include="Moq" />
         <PackageReference Include="NUnit" />
     </ItemGroup>
 
