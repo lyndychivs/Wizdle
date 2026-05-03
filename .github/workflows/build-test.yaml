@@ -110,3 +110,35 @@ jobs:
               with:
                   files: "**/*.trx"
                   action_fail_on_inconclusive: true
+
+    build-test-windows:
+        runs-on: windows-latest
+        timeout-minutes: 10
+        env:
+            CONFIGURATION: Release
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v6
+
+            - name: Install .NET
+              uses: actions/setup-dotnet@v5
+              with:
+                  dotnet-version: 10.0.x
+
+            - name: Restore
+              run: dotnet restore
+
+            - name: Build
+              id: build
+              run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }}
+
+            - name: Test Wizdle.Wpf.Unit.Tests
+              if: steps.build.outcome == 'success'
+              run: dotnet test --project Wizdle.Wpf.Unit.Tests/Wizdle.Wpf.Unit.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} -- --report-trx --report-trx-filename Wizdle.Wpf.Unit.Tests.trx
+
+            - name: Publish All Test Results
+              uses: EnricoMi/publish-unit-test-result-action/composite@v2
+              if: (!cancelled())
+              with:
+                  files: "**/*.trx"
+                  action_fail_on_inconclusive: true

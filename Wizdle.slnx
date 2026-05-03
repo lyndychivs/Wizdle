@@ -101,5 +101,8 @@
     <Project Path="Wizdle.Wpf/Wizdle.Wpf.csproj">
         <Build Solution="Stryker|*" Project="false" />
     </Project>
+    <Project Path="Wizdle.Wpf.Unit.Tests/Wizdle.Wpf.Unit.Tests.csproj">
+        <Build Solution="Stryker|*" Project="false" />
+    </Project>
     <Project Path="Wizdle/Wizdle.csproj" />
 </Solution>
