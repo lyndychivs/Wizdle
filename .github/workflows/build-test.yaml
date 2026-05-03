@@ -9,6 +9,11 @@ on:
     schedule:
         - cron: "0 4 * * SUN"
     workflow_call:
+        inputs:
+            version:
+                description: 'Version to build and test. If not provided, the latest git tag will be used.'
+                required: false
+                type: string
 jobs:
     build-test:
         runs-on: ubuntu-latest
@@ -22,11 +27,15 @@ jobs:
               with:
                   fetch-depth: 0
 
-            - name: Get Version from Git Tag
+            - name: Get Version
               id: get_version
               run: |
-                  TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v1.0.4")
-                  VERSION=${TAG#v}
+                  if [ -n "${{ inputs.version }}" ]; then
+                    VERSION="${{ inputs.version }}"
+                  else
+                    TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v1.0.4")
+                    VERSION=${TAG#v}
+                  fi
                   echo "version=$VERSION" >> $GITHUB_OUTPUT
                   echo "Building version: $VERSION"
 

@@ -20,11 +20,14 @@ jobs:
                   echo "Release version: $VERSION"
 
     build-and-test:
+        needs: [get-version]
         uses: ./.github/workflows/build-test.yaml
         permissions:
             contents: read
             checks: write
             pull-requests: write
+        with:
+            version: ${{ needs.get-version.outputs.version }}
 
     build-test-publish:
         needs: [get-version, build-and-test]
