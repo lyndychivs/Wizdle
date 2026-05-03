@@ -8,6 +8,7 @@ on:
     push:
     schedule:
         - cron: "0 4 * * SUN"
+    workflow_call:
 jobs:
     build-test:
         runs-on: ubuntu-latest
@@ -104,12 +105,14 @@ jobs:
                       Wizdle.Web.Functional.Tests/bin/**/screenshots/
                       Wizdle.Web.Functional.Tests/bin/**/playwright-traces/
 
-            - name: Publish All Test Results
-              uses: EnricoMi/publish-unit-test-result-action@v2
+            - name: Upload Test Results
+              uses: actions/upload-artifact@v7
               if: (!cancelled())
               with:
-                  files: "**/*.trx"
-                  action_fail_on_inconclusive: true
+                  name: test-results-linux
+                  retention-days: 1
+                  if-no-files-found: warn
+                  path: "**/*.trx"
 
     build-test-windows:
         runs-on: windows-latest
@@ -125,10 +128,10 @@ jobs:
               with:
                   dotnet-version: 10.0.x
 
-            - name: Restore
+            - name: Restore Wizdle.Wpf.Unit.Tests
               run: dotnet restore Wizdle.Wpf.Unit.Tests/Wizdle.Wpf.Unit.Tests.csproj
 
-            - name: Build
+            - name: Build Wizdle.Wpf.Unit.Tests
               id: build
               run: dotnet build Wizdle.Wpf.Unit.Tests/Wizdle.Wpf.Unit.Tests.csproj --no-restore --configuration ${{ env.CONFIGURATION }}
 
@@ -136,9 +139,29 @@ jobs:
               if: steps.build.outcome == 'success'
               run: dotnet test --project Wizdle.Wpf.Unit.Tests/Wizdle.Wpf.Unit.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} -- --report-trx --report-trx-filename Wizdle.Wpf.Unit.Tests.trx
 
-            - name: Publish All Test Results
-              uses: EnricoMi/publish-unit-test-result-action/composite@v2
+            - name: Upload Test Results
+              uses: actions/upload-artifact@v7
               if: (!cancelled())
               with:
-                  files: "**/*.trx"
+                  name: test-results-windows
+                  retention-days: 1
+                  if-no-files-found: warn
+                  path: "**/*.trx"
+
+    publish-test-results:
+        runs-on: ubuntu-latest
+        needs: [build-test, build-test-windows]
+        if: ${{ always() && !cancelled() }}
+        steps:
+            - name: Download Test Results
+              uses: actions/download-artifact@v4
+              with:
+                  pattern: test-results-*
+                  merge-multiple: true
+                  path: test-results
+
+            - name: Publish Test Results
+              uses: EnricoMi/publish-unit-test-result-action/linux@v2
+              with:
+                  files: "test-results/**/*.trx"
                   action_fail_on_inconclusive: true
