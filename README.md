@@ -174,6 +174,7 @@ Invite [link for Discord](https://discord.com/oauth2/authorize?client_id=1381710
   - [Wizdle.Unit.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Unit.Tests)
   - [Wizdle.Api.Unit.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Api.Unit.Tests)
   - [Wizdle.Web.Unit.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Web.Unit.Tests) (using bUnit)
+  - [Wizdle.Wpf.Unit.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Wpf.Unit.Tests) (Windows only)
 - Integration Testing
   - [Wizdle.Integration.Tests](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Integration.Tests)
 - Functional Testing
