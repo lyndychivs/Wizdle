@@ -7,7 +7,30 @@ on:
     release:
         types: [published]
 jobs:
+    get-version:
+        runs-on: ubuntu-latest
+        outputs:
+            version: ${{ steps.get_version.outputs.version }}
+        steps:
+            - name: Get Version from GitHub Release
+              id: get_version
+              run: |
+                  VERSION=${GITHUB_REF_NAME#v}
+                  echo "version=$VERSION" >> $GITHUB_OUTPUT
+                  echo "Release version: $VERSION"
+
+    build-and-test:
+        needs: [get-version]
+        uses: ./.github/workflows/build-test.yaml
+        permissions:
+            contents: read
+            checks: write
+            pull-requests: write
+        with:
+            version: ${{ needs.get-version.outputs.version }}
+
     build-test-publish:
+        needs: [get-version, build-and-test]
         runs-on: ubuntu-latest
         timeout-minutes: 10
         permissions:
@@ -21,13 +44,6 @@ jobs:
             - name: Checkout Repository
               uses: actions/checkout@v6
 
-            - name: Get Version from Release Tag
-              id: get_version
-              run: |
-                  VERSION=${GITHUB_REF_NAME#v}
-                  echo "version=$VERSION" >> $GITHUB_OUTPUT
-                  echo "Building release version: $VERSION"
-
             - name: Install .NET
               uses: actions/setup-dotnet@v5
               with:
@@ -38,19 +54,7 @@ jobs:
 
             - name: Build
               id: build
-              run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }} /p:Version=${{ steps.get_version.outputs.version }}
-
-            - name: Test Wizdle.Unit.Tests
-              if: steps.build.outcome == 'success'
-              run: dotnet test --project Wizdle.Unit.Tests/Wizdle.Unit.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} -- --report-trx --report-trx-filename Wizdle.Unit.Tests.trx
-
-            - name: Test Wizdle.Api.Unit.Tests
-              if: steps.build.outcome == 'success'
-              run: dotnet test --project Wizdle.Api.Unit.Tests/Wizdle.Api.Unit.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} -- --report-trx --report-trx-filename Wizdle.Api.Unit.Tests.trx
-
-            - name: Test Wizdle.Integration.Tests
-              if: steps.build.outcome == 'success'
-              run: dotnet test --project Wizdle.Integration.Tests/Wizdle.Integration.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} -- --report-trx --report-trx-filename Wizdle.Integration.Tests.trx
+              run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }} /p:Version=${{ needs.get-version.outputs.version }}
 
             - name: NuGet Login
               if: success()
@@ -59,15 +63,15 @@ jobs:
               with:
                   user: ${{ secrets.NUGET_USER }}
 
-            - name: NuGet Push to NuGet.org
+            - name: Push to NuGet
               if: success()
               run: dotnet nuget push **.nupkg --api-key ${{ steps.nuget_login.outputs.NUGET_API_KEY }} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
 
-            - name: NuGet Push to GitHub Packages
+            - name: Push to GitHub
               if: success()
               run: dotnet nuget push **.nupkg --api-key ${{secrets.GITHUB}} --source "https://nuget.pkg.github.com/lyndychivs/index.json" --skip-duplicate
 
-            - name: Upload NuGet Package to Release
+            - name: Upload Package to Release
               if: success()
               uses: softprops/action-gh-release@v3
               with:
@@ -76,6 +80,7 @@ jobs:
                       **/*.snupkg
 
     build-wpf-installer:
+        needs: [get-version, build-and-test]
         runs-on: windows-latest
         timeout-minutes: 10
         env:
@@ -84,14 +89,6 @@ jobs:
         steps:
             - name: Checkout Repository
               uses: actions/checkout@v6
-
-            - name: Get Version from Release Tag
-              id: get_version
-              shell: pwsh
-              run: |
-                  $VERSION = $env:GITHUB_REF_NAME -replace '^v', ''
-                  echo "version=$VERSION" >> $env:GITHUB_OUTPUT
-                  echo "Building release version: $VERSION"
 
             - name: Install .NET
               uses: actions/setup-dotnet@v5
@@ -102,23 +99,23 @@ jobs:
               run: dotnet restore
 
             - name: Publish Wizdle.Wpf for win-x64
-              run: dotnet publish Wizdle.Wpf/Wizdle.Wpf.csproj --configuration ${{ env.CONFIGURATION }} --runtime win-x64 --self-contained true /p:PublishSingleFile=true /p:Version=${{ steps.get_version.outputs.version }}
+              run: dotnet publish Wizdle.Wpf/Wizdle.Wpf.csproj --configuration ${{ env.CONFIGURATION }} --runtime win-x64 --self-contained true /p:PublishSingleFile=true /p:Version=${{ needs.get-version.outputs.version }}
 
             - name: Publish Wizdle.Wpf for win-x86
-              run: dotnet publish Wizdle.Wpf/Wizdle.Wpf.csproj --configuration ${{ env.CONFIGURATION }} --runtime win-x86 --self-contained true /p:PublishSingleFile=true /p:Version=${{ steps.get_version.outputs.version }}
+              run: dotnet publish Wizdle.Wpf/Wizdle.Wpf.csproj --configuration ${{ env.CONFIGURATION }} --runtime win-x86 --self-contained true /p:PublishSingleFile=true /p:Version=${{ needs.get-version.outputs.version }}
 
             - name: Update ISS version for x64
               shell: pwsh
               run: |
                   $content = Get-Content 'Installer/Wizdle.Windows.x64.iss' -Raw
-                  $content = $content -replace '#define MyAppVersion ".*"', "#define MyAppVersion `"${{ steps.get_version.outputs.version }}`""
+                  $content = $content -replace '#define MyAppVersion ".*"', "#define MyAppVersion `"${{ needs.get-version.outputs.version }}`""
                   Set-Content 'Installer/Wizdle.Windows.x64.iss' -Value $content
 
             - name: Update ISS version for x86
               shell: pwsh
               run: |
                   $content = Get-Content 'Installer/Wizdle.Windows.x86.iss' -Raw
-                  $content = $content -replace '#define MyAppVersion ".*"', "#define MyAppVersion `"${{ steps.get_version.outputs.version }}`""
+                  $content = $content -replace '#define MyAppVersion ".*"', "#define MyAppVersion `"${{ needs.get-version.outputs.version }}`""
                   Set-Content 'Installer/Wizdle.Windows.x86.iss' -Value $content
 
             - name: Install Inno Setup

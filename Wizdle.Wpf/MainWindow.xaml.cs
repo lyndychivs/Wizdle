@@ -28,18 +28,18 @@ public partial class MainWindow : Window
     public void SolveButton_Click(object sender, RoutedEventArgs e)
     {
         var correctLetters = new StringBuilder();
-        correctLetters.Append(GetLetterFromTextBox(CorrectTextBox1));
-        correctLetters.Append(GetLetterFromTextBox(CorrectTextBox2));
-        correctLetters.Append(GetLetterFromTextBox(CorrectTextBox3));
-        correctLetters.Append(GetLetterFromTextBox(CorrectTextBox4));
-        correctLetters.Append(GetLetterFromTextBox(CorrectTextBox5));
+        correctLetters.Append(GetLetterFromInput(CorrectTextBox1.Text));
+        correctLetters.Append(GetLetterFromInput(CorrectTextBox2.Text));
+        correctLetters.Append(GetLetterFromInput(CorrectTextBox3.Text));
+        correctLetters.Append(GetLetterFromInput(CorrectTextBox4.Text));
+        correctLetters.Append(GetLetterFromInput(CorrectTextBox5.Text));
 
         var misplacedLetters = new StringBuilder();
-        misplacedLetters.Append(GetLetterFromTextBox(MisplacedTextBox1));
-        misplacedLetters.Append(GetLetterFromTextBox(MisplacedTextBox2));
-        misplacedLetters.Append(GetLetterFromTextBox(MisplacedTextBox3));
-        misplacedLetters.Append(GetLetterFromTextBox(MisplacedTextBox4));
-        misplacedLetters.Append(GetLetterFromTextBox(MisplacedTextBox5));
+        misplacedLetters.Append(GetLetterFromInput(MisplacedTextBox1.Text));
+        misplacedLetters.Append(GetLetterFromInput(MisplacedTextBox2.Text));
+        misplacedLetters.Append(GetLetterFromInput(MisplacedTextBox3.Text));
+        misplacedLetters.Append(GetLetterFromInput(MisplacedTextBox4.Text));
+        misplacedLetters.Append(GetLetterFromInput(MisplacedTextBox5.Text));
 
         var wizdleRequest = new WizdleRequest()
         {
@@ -62,14 +62,14 @@ public partial class MainWindow : Window
         }
     }
 
-    private static char GetLetterFromTextBox(TextBox textbox)
+    internal static char GetLetterFromInput(string? text)
     {
-        return string.IsNullOrWhiteSpace(textbox.Text)
+        return string.IsNullOrWhiteSpace(text)
             ? '?'
-            : textbox.Text[0];
+            : text[0];
     }
 
-    private static Visibility GetVisibility(bool isVisible)
+    internal static Visibility GetVisibility(bool isVisible)
     {
         return isVisible ? Visibility.Visible : Visibility.Hidden;
     }
