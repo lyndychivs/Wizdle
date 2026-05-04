@@ -11,7 +11,7 @@ using NetCord.Services.ApplicationCommands;
 
 using Wizdle.Models;
 
-public partial class WordSlashCommand(ILogger<WordSlashCommand> logger, WizdleApiClient wizdleApiClient)
+internal sealed partial class WordSlashCommand(ILogger<WordSlashCommand> logger, WizdleApiClient wizdleApiClient)
     : ApplicationCommandModule<ApplicationCommandContext>
 {
     [SlashCommand("word", "Search for possible Wordle Words")]

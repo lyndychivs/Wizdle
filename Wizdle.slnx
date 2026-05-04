@@ -75,6 +75,9 @@
     <Project Path="Wizdle.Discord/Wizdle.Discord.csproj">
         <Build Solution="Stryker|*" Project="false" />
     </Project>
+    <Project Path="Wizdle.Discord.Unit.Tests/Wizdle.Discord.Unit.Tests.csproj">
+        <Build Solution="Stryker|*" Project="false" />
+    </Project>
     <Project Path="Wizdle.Functional.Tests/Wizdle.Functional.Tests.csproj">
         <Build Solution="Stryker|*" Project="false" />
     </Project>

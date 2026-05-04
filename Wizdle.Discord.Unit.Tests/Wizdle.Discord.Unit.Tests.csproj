@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <IsTestProject>true</IsTestProject>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="NUnit" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Wizdle.Discord\Wizdle.Discord.csproj" />
+    </ItemGroup>
+</Project>

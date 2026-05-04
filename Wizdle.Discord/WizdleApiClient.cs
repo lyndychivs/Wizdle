@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 using Wizdle.Models;
 
-public class WizdleApiClient(HttpClient httpClient)
+internal sealed class WizdleApiClient(HttpClient httpClient)
 {
     public async Task<WizdleResponse> PostWizdleRequestAsync(WizdleRequest wizdleRequest, CancellationToken cancellationToken = default)
     {

@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 using NetCord.Services.ApplicationCommands;
 
-public partial class HelpSlashCommand(ILogger<HelpSlashCommand> logger)
+internal sealed partial class HelpSlashCommand(ILogger<HelpSlashCommand> logger)
     : ApplicationCommandModule<ApplicationCommandContext>
 {
     [SlashCommand("help", "Help with Wizdle")]

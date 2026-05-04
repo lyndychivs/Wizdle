@@ -14,6 +14,7 @@ test: ## Run Unit and Integration Tests
 	dotnet test --project Wizdle.Unit.Tests/Wizdle.Unit.Tests.csproj --configuration Release --no-build
 	dotnet test --project Wizdle.Api.Unit.Tests/Wizdle.Api.Unit.Tests.csproj --configuration Release --no-build
 	dotnet test --project Wizdle.Web.Unit.Tests/Wizdle.Web.Unit.Tests.csproj --configuration Release --no-build
+	dotnet test --project Wizdle.Discord.Unit.Tests/Wizdle.Discord.Unit.Tests.csproj --configuration Release --no-build
 ifeq ($(OS),Windows_NT)
 	dotnet test --project Wizdle.Wpf.Unit.Tests/Wizdle.Wpf.Unit.Tests.csproj --configuration Release --no-build
 endif
