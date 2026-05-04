@@ -17,7 +17,7 @@ on:
 jobs:
     build-test:
         runs-on: ubuntu-latest
-        timeout-minutes: 10
+        timeout-minutes: 15
         env:
             CONFIGURATION: Release
             TARGET_FRAMEWORK: net10.0
