@@ -49,7 +49,7 @@ jobs:
 
             - name: Test Wizdle.Functional.Tests
               if: steps.build.outcome == 'success'
-              run: dotnet test --project Wizdle.Functional.Tests/Wizdle.Functional.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} -- --output-verbosity detailed
+              run: dotnet test --project Wizdle.Functional.Tests/Wizdle.Functional.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} -- --output Detailed
 
             - name: Upload Artifacts for Wizdle.Functional.Tests
               uses: actions/upload-artifact@v7
