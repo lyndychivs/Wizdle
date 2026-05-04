@@ -73,5 +73,5 @@ internal sealed class WizdleApiClient(HttpClient httpClient, IMemoryCache memory
     }
 
     private static string GetCacheKey(WizdleRequest wizdleRequest) =>
-        string.Create(CultureInfo.InvariantCulture, $"{wizdleRequest.CorrectLetters?.Length}:{wizdleRequest.CorrectLetters}|{wizdleRequest.MisplacedLetters?.Length}:{wizdleRequest.MisplacedLetters}|{wizdleRequest.ExcludeLetters?.Length}:{wizdleRequest.ExcludeLetters}");
+        string.Create(CultureInfo.InvariantCulture, $"{wizdleRequest.CorrectLetters?.Length}:{wizdleRequest.CorrectLetters}|{wizdleRequest.MisplacedLetters?.Length}:{wizdleRequest.MisplacedLetters}|{wizdleRequest.ExcludeLetters?.Length}:{wizdleRequest.ExcludeLetters}").ToLowerInvariant();
 }
