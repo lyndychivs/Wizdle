@@ -32,5 +32,13 @@ internal sealed class WizdleOutputCachePolicy : IOutputCachePolicy
         => ValueTask.CompletedTask;
 
     public ValueTask ServeResponseAsync(OutputCacheContext context, CancellationToken cancellationToken)
-        => ValueTask.CompletedTask;
+    {
+        int statusCode = context.HttpContext.Response.StatusCode;
+        if (statusCode < 200 || statusCode >= 300)
+        {
+            context.AllowCacheStorage = false;
+        }
+
+        return ValueTask.CompletedTask;
+    }
 }

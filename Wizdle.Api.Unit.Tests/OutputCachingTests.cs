@@ -77,4 +77,21 @@ public class OutputCachingTests
             Assert.That(secondResponse.Headers.Contains("Age"), Is.False);
         }
     }
+
+    [Test]
+    public async Task PostWizdle_WhenCalledTwiceWithErrorRequest_SecondResponseIsNotFromCache()
+    {
+        using HttpClient client = _factory.CreateClient();
+
+        HttpResponseMessage firstResponse = await client.PostAsJsonAsync<WizdleRequest?>(RequestUri, null!);
+        HttpResponseMessage secondResponse = await client.PostAsJsonAsync<WizdleRequest?>(RequestUri, null!);
+
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(firstResponse.StatusCode, Is.Not.EqualTo(HttpStatusCode.OK));
+            Assert.That(secondResponse.StatusCode, Is.Not.EqualTo(HttpStatusCode.OK));
+            Assert.That(firstResponse.Headers.Contains("Age"), Is.False);
+            Assert.That(secondResponse.Headers.Contains("Age"), Is.False);
+        }
+    }
 }
