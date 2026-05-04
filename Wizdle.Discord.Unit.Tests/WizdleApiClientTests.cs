@@ -1,10 +1,12 @@
 namespace Wizdle.Discord.Unit.Tests;
 
 using System;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -133,6 +135,67 @@ public class WizdleApiClientTests
             .Select(_ => client.PostWizdleRequestAsync(new WizdleRequest())));
 
         Assert.That(callCount, Is.EqualTo(1));
+    }
+
+    [Test]
+    public async Task PostWizdleRequestAsync_WithNullRequestFields_DoesNotThrowBeforeSendingRequest()
+    {
+        HttpRequestMessage? capturedRequest = null;
+        WizdleApiClient client = CreateClient(new WizdleResponse(), req => capturedRequest = req);
+
+        await client.PostWizdleRequestAsync(new WizdleRequest
+        {
+            CorrectLetters = null!,
+            MisplacedLetters = null!,
+            ExcludeLetters = null!,
+        });
+
+        Assert.That(capturedRequest, Is.Not.Null);
+    }
+
+    [Test]
+    public void PostWizdleRequestAsync_WhenRequestFails_DoesNotLeakSemaphoreInKeyLocks()
+    {
+        HttpClient httpClient = new(new ThrowingHttpMessageHandler())
+        {
+            BaseAddress = new Uri("http://localhost"),
+        };
+        WizdleApiClient client = new(httpClient, CreateMemoryCache());
+
+        Assert.ThrowsAsync<HttpRequestException>(() =>
+            client.PostWizdleRequestAsync(
+                new WizdleRequest
+                {
+                    CorrectLetters = "crane",
+                }));
+
+        FieldInfo? field = typeof(WizdleApiClient).GetField("_keyLocks", BindingFlags.NonPublic | BindingFlags.Instance);
+        ConcurrentDictionary<string, SemaphoreSlim> keyLocks = (ConcurrentDictionary<string, SemaphoreSlim>)field!.GetValue(client)!;
+
+        Assert.That(keyLocks, Is.Empty);
+    }
+
+    [Test]
+    public async Task PostWizdleRequestAsync_WithNullFieldsAndEmptyFieldRequests_SendsSeparateHttpRequests()
+    {
+        int callCount = 0;
+        WizdleApiClient client = CreateClient(new WizdleResponse(), _ => callCount++);
+
+        await client.PostWizdleRequestAsync(new WizdleRequest
+        {
+            CorrectLetters = null!,
+            MisplacedLetters = null!,
+            ExcludeLetters = null!,
+        });
+
+        await client.PostWizdleRequestAsync(new WizdleRequest
+        {
+            CorrectLetters = string.Empty,
+            MisplacedLetters = string.Empty,
+            ExcludeLetters = string.Empty,
+        });
+
+        Assert.That(callCount, Is.EqualTo(2));
     }
 
     private static WizdleApiClient CreateClient(

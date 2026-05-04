@@ -52,8 +52,8 @@ internal sealed class Program
         WebApplication app = builder.Build();
 
         app.UseExceptionHandler();
-        app.UseRateLimiter();
         app.UseOutputCache();
+        app.UseRateLimiter();
 
         app.MapPost("/", ([FromBody] WizdleRequest request, WizdleEngine engine) =>
         {

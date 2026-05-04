@@ -2,6 +2,8 @@ namespace Wizdle.Discord;
 
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading;
@@ -19,7 +21,7 @@ internal sealed class WizdleApiClient(HttpClient httpClient, IMemoryCache memory
 
     public async Task<WizdleResponse> PostWizdleRequestAsync(WizdleRequest wizdleRequest, CancellationToken cancellationToken = default)
     {
-        string cacheKey = $"{wizdleRequest.CorrectLetters.Length}:{wizdleRequest.CorrectLetters}|{wizdleRequest.MisplacedLetters.Length}:{wizdleRequest.MisplacedLetters}|{wizdleRequest.ExcludeLetters.Length}:{wizdleRequest.ExcludeLetters}";
+        string cacheKey = GetCacheKey(wizdleRequest);
 
         if (memoryCache.TryGetValue(cacheKey, out WizdleResponse? cached) && cached is not null)
         {
@@ -28,11 +30,13 @@ internal sealed class WizdleApiClient(HttpClient httpClient, IMemoryCache memory
 
         SemaphoreSlim keyLock = _keyLocks.GetOrAdd(cacheKey, _ => new SemaphoreSlim(1, 1));
         await keyLock.WaitAsync(cancellationToken).ConfigureAwait(false);
+        bool skipCleanup = false;
         try
         {
             if (memoryCache.TryGetValue(cacheKey, out cached)
                 && cached is not null)
             {
+                skipCleanup = true;
                 return cached;
             }
 
@@ -47,19 +51,27 @@ internal sealed class WizdleApiClient(HttpClient httpClient, IMemoryCache memory
                 .RegisterPostEvictionCallback((key, value, reason, state) =>
                 {
                     if (key is string k
-                        && _keyLocks.TryRemove(k, out SemaphoreSlim? semaphore))
+                        && _keyLocks.TryRemove(new KeyValuePair<string, SemaphoreSlim>(k, keyLock)))
                     {
-                        semaphore.Dispose();
+                        keyLock.Dispose();
                     }
                 });
 
             memoryCache.Set(cacheKey, response, cacheEntryOptions);
+            skipCleanup = true;
 
             return response;
         }
         finally
         {
             keyLock.Release();
+            if (!skipCleanup)
+            {
+                _keyLocks.TryRemove(new KeyValuePair<string, SemaphoreSlim>(cacheKey, keyLock));
+            }
         }
     }
+
+    private static string GetCacheKey(WizdleRequest wizdleRequest) =>
+        string.Create(CultureInfo.InvariantCulture, $"{wizdleRequest.CorrectLetters?.Length}:{wizdleRequest.CorrectLetters}|{wizdleRequest.MisplacedLetters?.Length}:{wizdleRequest.MisplacedLetters}|{wizdleRequest.ExcludeLetters?.Length}:{wizdleRequest.ExcludeLetters}");
 }
