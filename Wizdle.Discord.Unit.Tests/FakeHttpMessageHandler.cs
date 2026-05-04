@@ -11,9 +11,9 @@ internal sealed class FakeHttpMessageHandler : HttpMessageHandler
     private readonly Action<HttpRequestMessage>? _onRequest;
 
     public FakeHttpMessageHandler(
-    HttpResponseMessage template,
-    Action<HttpRequestMessage>? onRequest = null)
-    : this(CreateResponseFactory(template), onRequest)
+        HttpResponseMessage template,
+        Action<HttpRequestMessage>? onRequest = null)
+        : this(CreateResponseFactory(template), onRequest)
     {
     }
 
@@ -79,6 +79,15 @@ internal sealed class FakeHttpMessageHandler : HttpMessageHandler
             return cloned;
         }
 
-        return content;
+        // Fallback: buffer to bytes so each clone gets a fresh unconsumed HttpContent instance.
+        byte[] fallbackBytes = content.ReadAsByteArrayAsync().GetAwaiter().GetResult();
+        ByteArrayContent fallbackCloned = new(fallbackBytes);
+
+        foreach (var header in content.Headers)
+        {
+            fallbackCloned.Headers.TryAddWithoutValidation(header.Key, header.Value);
+        }
+
+        return fallbackCloned;
     }
 }
