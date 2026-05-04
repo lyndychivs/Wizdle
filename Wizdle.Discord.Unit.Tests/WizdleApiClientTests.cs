@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
+using Wizdle.Discord;
 using Wizdle.Models;
 
 [TestFixture]
