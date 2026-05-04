@@ -86,7 +86,6 @@
     <PropertyGroup Condition="$(MSBuildProjectName.EndsWith('.Tests')) AND '$(MSBuildProjectName)' != 'Wizdle.Performance.Tests'">
         <EnableNUnitRunner>true</EnableNUnitRunner>
         <TestingPlatformShowTestsFailure>true</TestingPlatformShowTestsFailure>
-        <TestingPlatformCaptureOutput>false</TestingPlatformCaptureOutput>
     </PropertyGroup>
 
     <!-- Automatically expose internals to test projects following naming conventions -->
