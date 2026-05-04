@@ -28,16 +28,13 @@ internal sealed class Program
         builder.Services.AddSingleton<WizdleEngine>();
         builder.Services.AddOpenApi();
         builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+        builder.Services.AddOutputCache(options =>
+            options.AddPolicy("wizdle", WizdleOutputCachePolicy.Instance));
 
         builder.Services.AddRateLimiter(rateLimiterOptions =>
         {
             int permitLimit = builder.Configuration.GetValue("RateLimiting:PermitLimit", 60);
             int windowSeconds = builder.Configuration.GetValue("RateLimiting:WindowSeconds", 60);
-
-            /*
-             * Partitioning by httpContext.Connection.RemoteIpAddress will rate-limit the reverse proxy/load balancer IP when the API is deployed behind a proxy, effectively applying a shared limit to all clients.
-             * If this service is expected to run behind a proxy, configure forwarded headers (and trust configuration) so the effective client IP is used, or partition on a different client identifier.
-             */
 
             rateLimiterOptions.AddPolicy(RateLimitingPolicy, httpContext =>
                 RateLimitPartition.GetFixedWindowLimiter(
@@ -56,6 +53,7 @@ internal sealed class Program
 
         app.UseExceptionHandler();
         app.UseRateLimiter();
+        app.UseOutputCache();
 
         app.MapPost("/", ([FromBody] WizdleRequest request, WizdleEngine engine) =>
         {
@@ -68,6 +66,7 @@ internal sealed class Program
         }).WithName("PostWizdle")
         .Produces<WizdleResponse>()
         .WithSummary("Processes a Wizdle request in an attempt to solve the possible words.")
+        .CacheOutput("wizdle")
         .RequireRateLimiting(RateLimitingPolicy);
 
         app.MapDefaultEndpoints();

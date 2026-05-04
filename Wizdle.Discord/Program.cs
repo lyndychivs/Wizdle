@@ -21,6 +21,7 @@ internal static class Program
         builder.AddServiceDefaults();
 
         builder.Services
+            .AddMemoryCache()
             .AddDiscordGateway(op => op.Intents = GatewayIntents.Guilds)
             .AddGatewayHandlers(typeof(Program).Assembly)
             .AddApplicationCommands()

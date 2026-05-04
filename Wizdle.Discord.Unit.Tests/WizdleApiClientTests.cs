@@ -7,6 +7,9 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Options;
+
 using NUnit.Framework;
 
 using Wizdle.Discord;
@@ -70,7 +73,7 @@ public class WizdleApiClientTests
         {
             BaseAddress = new Uri("http://localhost"),
         };
-        WizdleApiClient client = new(httpClient);
+        WizdleApiClient client = new(httpClient, CreateMemoryCache());
 
         WizdleResponse result = await client.PostWizdleRequestAsync(new WizdleRequest());
 
@@ -79,6 +82,38 @@ public class WizdleApiClientTests
             Assert.That(result.Words, Is.Empty);
             Assert.That(result.Messages, Is.Empty);
         }
+    }
+
+    [Test]
+    public async Task PostWizdleRequestAsync_WhenCalledTwiceWithSameRequest_OnlySendsOneHttpRequest()
+    {
+        int callCount = 0;
+        WizdleResponse fakeResponse = new()
+        {
+            Words = ["crane"],
+        };
+        WizdleApiClient client = CreateClient(fakeResponse, _ => callCount++);
+
+        await client.PostWizdleRequestAsync(new WizdleRequest());
+        await client.PostWizdleRequestAsync(new WizdleRequest());
+
+        Assert.That(callCount, Is.EqualTo(1));
+    }
+
+    [Test]
+    public async Task PostWizdleRequestAsync_WhenCalledWithDifferentRequests_SendsSeparateHttpRequests()
+    {
+        int callCount = 0;
+        WizdleResponse fakeResponse = new()
+        {
+            Words = ["crane"],
+        };
+        WizdleApiClient client = CreateClient(fakeResponse, _ => callCount++);
+
+        await client.PostWizdleRequestAsync(new WizdleRequest { CorrectLetters = "crane" });
+        await client.PostWizdleRequestAsync(new WizdleRequest { CorrectLetters = "stare" });
+
+        Assert.That(callCount, Is.EqualTo(2));
     }
 
     private static WizdleApiClient CreateClient(
@@ -96,6 +131,9 @@ public class WizdleApiClientTests
             BaseAddress = new Uri("http://localhost"),
         };
 
-        return new WizdleApiClient(httpClient);
+        return new WizdleApiClient(httpClient, CreateMemoryCache());
     }
+
+    private static MemoryCache CreateMemoryCache() =>
+        new(Options.Create(new MemoryCacheOptions()));
 }
