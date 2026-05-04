@@ -31,7 +31,7 @@ internal sealed class Program
 
         builder.Services.AddRateLimiter(rateLimiterOptions =>
         {
-            int permitLimit = builder.Configuration.GetValue("RateLimiting:PermitLimit", 100);
+            int permitLimit = builder.Configuration.GetValue("RateLimiting:PermitLimit", 60);
             int windowSeconds = builder.Configuration.GetValue("RateLimiting:WindowSeconds", 60);
 
             rateLimiterOptions.AddPolicy(RateLimitingPolicy, httpContext =>
