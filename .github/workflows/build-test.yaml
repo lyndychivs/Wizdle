@@ -16,6 +16,7 @@ on:
                 type: string
 jobs:
     build-test:
+        name: Build & Test
         runs-on: ubuntu-latest
         timeout-minutes: 15
         env:
@@ -128,6 +129,7 @@ jobs:
                   path: "**/*.trx"
 
     build-test-windows:
+        name: Build & Test (Windows Wizdle.Wpf)
         runs-on: windows-latest
         timeout-minutes: 10
         env:
@@ -162,6 +164,7 @@ jobs:
                   path: "**/*.trx"
 
     publish-test-results:
+        name: Publish Test Results
         runs-on: ubuntu-latest
         needs: [build-test, build-test-windows]
         if: ${{ always() && !cancelled() }}

@@ -8,6 +8,7 @@ on:
         - cron: "0 4 * * SUN"
 jobs:
     mutation-testing:
+        name: Mutation Testing
         runs-on: ubuntu-latest
         timeout-minutes: 20
         steps:
