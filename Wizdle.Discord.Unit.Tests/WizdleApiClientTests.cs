@@ -1,10 +1,12 @@
 namespace Wizdle.Discord.Unit.Tests;
 
 using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Caching.Memory;
@@ -114,6 +116,23 @@ public class WizdleApiClientTests
         await client.PostWizdleRequestAsync(new WizdleRequest { CorrectLetters = "stare" });
 
         Assert.That(callCount, Is.EqualTo(2));
+    }
+
+    [Test]
+    public async Task PostWizdleRequestAsync_WhenCalledConcurrentlyWithSameRequest_OnlySendsOneHttpRequest()
+    {
+        int callCount = 0;
+        WizdleApiClient client = CreateClient(
+            new WizdleResponse
+            {
+                Words = ["crane"],
+            },
+            _ => Interlocked.Increment(ref callCount));
+
+        await Task.WhenAll(Enumerable.Range(0, 10)
+            .Select(_ => client.PostWizdleRequestAsync(new WizdleRequest())));
+
+        Assert.That(callCount, Is.EqualTo(1));
     }
 
     private static WizdleApiClient CreateClient(

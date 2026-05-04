@@ -1,6 +1,7 @@
 namespace Wizdle.Discord;
 
 using System;
+using System.Collections.Concurrent;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading;
@@ -14,23 +15,39 @@ internal sealed class WizdleApiClient(HttpClient httpClient, IMemoryCache memory
 {
     private static readonly TimeSpan CacheExpiry = TimeSpan.FromHours(1);
 
+    private readonly ConcurrentDictionary<string, SemaphoreSlim> _keyLocks = new(StringComparer.Ordinal);
+
     public async Task<WizdleResponse> PostWizdleRequestAsync(WizdleRequest wizdleRequest, CancellationToken cancellationToken = default)
     {
         string cacheKey = $"{wizdleRequest.CorrectLetters}|{wizdleRequest.MisplacedLetters}|{wizdleRequest.ExcludeLetters}";
 
-        if (memoryCache.TryGetValue(cacheKey, out WizdleResponse? cached)
-            && cached is not null)
+        if (memoryCache.TryGetValue(cacheKey, out WizdleResponse? cached) && cached is not null)
         {
             return cached;
         }
 
-        HttpResponseMessage httpResponseMessage = await httpClient.PostAsJsonAsync("/", wizdleRequest, cancellationToken).ConfigureAwait(false);
+        SemaphoreSlim keyLock = _keyLocks.GetOrAdd(cacheKey, _ => new SemaphoreSlim(1, 1));
+        await keyLock.WaitAsync(cancellationToken).ConfigureAwait(false);
+        try
+        {
+            if (memoryCache.TryGetValue(cacheKey, out cached)
+                && cached is not null)
+            {
+                return cached;
+            }
 
-        WizdleResponse response = await httpResponseMessage.Content.ReadFromJsonAsync<WizdleResponse>(cancellationToken).ConfigureAwait(false)
-            ?? new WizdleResponse();
+            HttpResponseMessage httpResponseMessage = await httpClient.PostAsJsonAsync("/", wizdleRequest, cancellationToken).ConfigureAwait(false);
 
-        memoryCache.Set(cacheKey, response, CacheExpiry);
+            WizdleResponse response = await httpResponseMessage.Content.ReadFromJsonAsync<WizdleResponse>(cancellationToken).ConfigureAwait(false)
+                ?? new WizdleResponse();
 
-        return response;
+            memoryCache.Set(cacheKey, response, CacheExpiry);
+
+            return response;
+        }
+        finally
+        {
+            keyLock.Release();
+        }
     }
 }
