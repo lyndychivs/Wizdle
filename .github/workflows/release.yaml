@@ -8,6 +8,7 @@ on:
         types: [published]
 jobs:
     get-version:
+        name: Get Version
         runs-on: ubuntu-latest
         outputs:
             version: ${{ steps.get_version.outputs.version }}
@@ -30,6 +31,7 @@ jobs:
             version: ${{ needs.get-version.outputs.version }}
 
     build-test-publish:
+        name: Build, Test & Publish
         needs: [get-version, build-and-test]
         runs-on: ubuntu-latest
         timeout-minutes: 10
@@ -80,6 +82,7 @@ jobs:
                       **/*.snupkg
 
     build-wpf-installer:
+        name: Build WPF Installer
         needs: [get-version, build-and-test]
         runs-on: windows-latest
         timeout-minutes: 10
