@@ -21,7 +21,12 @@ internal static class Program
         builder.AddServiceDefaults();
 
         builder.Services
-            .AddMemoryCache()
+            .AddMemoryCache(options =>
+            {
+                options.SizeLimit = 250;
+                options.CompactionPercentage = 0.25;
+                options.ExpirationScanFrequency = TimeSpan.FromMinutes(5);
+            })
             .AddDiscordGateway(op => op.Intents = GatewayIntents.Guilds)
             .AddGatewayHandlers(typeof(Program).Assembly)
             .AddApplicationCommands()

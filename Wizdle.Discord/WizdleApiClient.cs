@@ -41,7 +41,19 @@ internal sealed class WizdleApiClient(HttpClient httpClient, IMemoryCache memory
             WizdleResponse response = await httpResponseMessage.Content.ReadFromJsonAsync<WizdleResponse>(cancellationToken).ConfigureAwait(false)
                 ?? new WizdleResponse();
 
-            memoryCache.Set(cacheKey, response, CacheExpiry);
+            var cacheEntryOptions = new MemoryCacheEntryOptions()
+                .SetAbsoluteExpiration(CacheExpiry)
+                .SetSize(1)
+                .RegisterPostEvictionCallback((key, value, reason, state) =>
+                {
+                    if (key is string k
+                        && _keyLocks.TryRemove(k, out SemaphoreSlim? semaphore))
+                    {
+                        semaphore.Dispose();
+                    }
+                });
+
+            memoryCache.Set(cacheKey, response, cacheEntryOptions);
 
             return response;
         }
