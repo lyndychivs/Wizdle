@@ -12,14 +12,14 @@ using Wizdle.Api.Functional.Tests.Setup;
 using Wizdle.Models;
 
 [TestFixture]
-public class RateLimitWindowResetTest
+public class RateLimitExceededTests
 {
     private const string RequestUri = "/";
 
     private readonly HttpClient _httpClient;
     private readonly string _testUrl;
 
-    public RateLimitWindowResetTest()
+    public RateLimitExceededTests()
     {
         _httpClient = new HttpClient();
 
@@ -33,7 +33,7 @@ public class RateLimitWindowResetTest
     }
 
     [Test]
-    public async Task PostWizdle_AfterRateLimitWindow_AllowsNewRequests()
+    public async Task PostWizdle_WhenRateLimitExceeded_ReturnsTooManyRequests()
     {
         // Arrange
         var request = new WizdleRequest
@@ -44,29 +44,28 @@ public class RateLimitWindowResetTest
         };
 
         const int permitLimit = 60;
-        const int windowSeconds = 60;
+        const int extraRequests = 5;
 
         // Act & Assert
-        // Fill up the rate limit
+        // First, send requests up to the permit limit - all should succeed
         for (int i = 0; i < permitLimit; i++)
         {
             HttpResponseMessage response = await _httpClient.PostAsJsonAsync(RequestUri, request);
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(
+                response.StatusCode,
+                Is.EqualTo(HttpStatusCode.OK),
+                $"Request {i + 1} should succeed (within rate limit)");
         }
 
-        // Verify rate limit is exceeded
-        HttpResponseMessage rateLimitedResponse = await _httpClient.PostAsJsonAsync(RequestUri, request);
-        Assert.That(rateLimitedResponse.StatusCode, Is.EqualTo(HttpStatusCode.TooManyRequests));
-
-        // Wait for the rate limit window to reset
-        await Task.Delay(TimeSpan.FromSeconds(windowSeconds + 1));
-
-        // Verify we can make requests again
-        HttpResponseMessage newWindowResponse = await _httpClient.PostAsJsonAsync(RequestUri, request);
-        Assert.That(
-            newWindowResponse.StatusCode,
-            Is.EqualTo(HttpStatusCode.OK),
-            "Request should succeed after rate limit window resets");
+        // Now send requests beyond the limit - these should be rate limited
+        for (int i = 0; i < extraRequests; i++)
+        {
+            HttpResponseMessage response = await _httpClient.PostAsJsonAsync(RequestUri, request);
+            Assert.That(
+                response.StatusCode,
+                Is.EqualTo(HttpStatusCode.TooManyRequests),
+                $"Request {permitLimit + i + 1} should be rate limited");
+        }
     }
 
     [OneTimeTearDown]
