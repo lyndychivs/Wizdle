@@ -23,13 +23,6 @@ public class RateLimitingTests
         ExcludeLetters = "haebukin",
     };
 
-    private static readonly WizdleRequest AltRequest = new()
-    {
-        CorrectLetters = "?????",
-        MisplacedLetters = "?????",
-        ExcludeLetters = "z",
-    };
-
     private WebApplicationFactory<Program> _factory = null!;
 
     [SetUp]
@@ -65,35 +58,12 @@ public class RateLimitingTests
         using HttpClient client = _factory.CreateClient();
 
         HttpResponseMessage firstResponse = await client.PostAsJsonAsync(RequestUri, ValidRequest);
-        HttpResponseMessage secondResponse = await client.PostAsJsonAsync(RequestUri, AltRequest);
+        HttpResponseMessage secondResponse = await client.PostAsJsonAsync(RequestUri, ValidRequest);
 
         using (Assert.EnterMultipleScope())
         {
             Assert.That(firstResponse.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(secondResponse.StatusCode, Is.EqualTo(HttpStatusCode.TooManyRequests));
-        }
-    }
-
-    [Test]
-    public async Task PostWizdle_WhenCachedResponseExists_DoesNotConsumeRateLimitPermit()
-    {
-        using HttpClient client = _factory.CreateClient();
-
-        // First request consumes the single permit and populates the cache.
-        HttpResponseMessage firstResponse = await client.PostAsJsonAsync(RequestUri, ValidRequest);
-
-        // Second identical request should be served from cache, not consuming a permit.
-        HttpResponseMessage secondResponse = await client.PostAsJsonAsync(RequestUri, ValidRequest);
-
-        // Third request is a different key, so it bypasses the cache and hits the rate limiter,
-        // which should now be exhausted.
-        HttpResponseMessage thirdResponse = await client.PostAsJsonAsync(RequestUri, AltRequest);
-
-        using (Assert.EnterMultipleScope())
-        {
-            Assert.That(firstResponse.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(secondResponse.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(thirdResponse.StatusCode, Is.EqualTo(HttpStatusCode.TooManyRequests));
         }
     }
 }
