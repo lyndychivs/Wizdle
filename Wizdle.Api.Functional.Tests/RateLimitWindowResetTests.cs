@@ -50,19 +50,21 @@ public class RateLimitWindowResetTests
         // Fill up the rate limit
         for (int i = 0; i < permitLimit; i++)
         {
-            HttpResponseMessage response = await _httpClient.PostAsJsonAsync(RequestUri, request);
+            using HttpResponseMessage response = await _httpClient.PostAsJsonAsync(RequestUri, request);
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
         }
 
         // Verify rate limit is exceeded
-        HttpResponseMessage rateLimitedResponse = await _httpClient.PostAsJsonAsync(RequestUri, request);
-        Assert.That(rateLimitedResponse.StatusCode, Is.EqualTo(HttpStatusCode.TooManyRequests));
+        using (HttpResponseMessage rateLimitedResponse = await _httpClient.PostAsJsonAsync(RequestUri, request))
+        {
+            Assert.That(rateLimitedResponse.StatusCode, Is.EqualTo(HttpStatusCode.TooManyRequests));
+        }
 
         // Wait for the rate limit window to reset
         await Task.Delay(TimeSpan.FromSeconds(windowSeconds + 1));
 
         // Verify we can make requests again
-        HttpResponseMessage newWindowResponse = await _httpClient.PostAsJsonAsync(RequestUri, request);
+        using HttpResponseMessage newWindowResponse = await _httpClient.PostAsJsonAsync(RequestUri, request);
         Assert.That(
             newWindowResponse.StatusCode,
             Is.EqualTo(HttpStatusCode.OK),

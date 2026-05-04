@@ -50,7 +50,7 @@ public class RateLimitExceededTests
         // First, send requests up to the permit limit - all should succeed
         for (int i = 0; i < permitLimit; i++)
         {
-            HttpResponseMessage response = await _httpClient.PostAsJsonAsync(RequestUri, request);
+            using HttpResponseMessage response = await _httpClient.PostAsJsonAsync(RequestUri, request);
             Assert.That(
                 response.StatusCode,
                 Is.EqualTo(HttpStatusCode.OK),
@@ -60,7 +60,7 @@ public class RateLimitExceededTests
         // Now send requests beyond the limit - these should be rate limited
         for (int i = 0; i < extraRequests; i++)
         {
-            HttpResponseMessage response = await _httpClient.PostAsJsonAsync(RequestUri, request);
+            using HttpResponseMessage response = await _httpClient.PostAsJsonAsync(RequestUri, request);
             Assert.That(
                 response.StatusCode,
                 Is.EqualTo(HttpStatusCode.TooManyRequests),
