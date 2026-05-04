@@ -34,6 +34,11 @@ internal sealed class Program
             int permitLimit = builder.Configuration.GetValue("RateLimiting:PermitLimit", 60);
             int windowSeconds = builder.Configuration.GetValue("RateLimiting:WindowSeconds", 60);
 
+            /*
+             * Partitioning by httpContext.Connection.RemoteIpAddress will rate-limit the reverse proxy/load balancer IP when the API is deployed behind a proxy, effectively applying a shared limit to all clients.
+             * If this service is expected to run behind a proxy, configure forwarded headers (and trust configuration) so the effective client IP is used, or partition on a different client identifier.
+             */
+
             rateLimiterOptions.AddPolicy(RateLimitingPolicy, httpContext =>
                 RateLimitPartition.GetFixedWindowLimiter(
                     partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "anonymous",
