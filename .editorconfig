@@ -53,6 +53,8 @@ dotnet_diagnostic.MA0051.severity = none
 dotnet_diagnostic.MA0182.severity = none
 # MA0038 Make method static
 dotnet_diagnostic.MA0038.severity = none
+# SA1402: File may only contain a single type
+dotnet_diagnostic.SA1402.severity = error
 
 [*.feature.cs]
 # SA1518: The line endings at the end of a file do not match the settings for the project.
