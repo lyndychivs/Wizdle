@@ -19,7 +19,7 @@ internal sealed class WizdleApiClient(HttpClient httpClient, IMemoryCache memory
 
     public async Task<WizdleResponse> PostWizdleRequestAsync(WizdleRequest wizdleRequest, CancellationToken cancellationToken = default)
     {
-        string cacheKey = $"{wizdleRequest.CorrectLetters}|{wizdleRequest.MisplacedLetters}|{wizdleRequest.ExcludeLetters}";
+        string cacheKey = $"{wizdleRequest.CorrectLetters.Length}:{wizdleRequest.CorrectLetters}|{wizdleRequest.MisplacedLetters.Length}:{wizdleRequest.MisplacedLetters}|{wizdleRequest.ExcludeLetters.Length}:{wizdleRequest.ExcludeLetters}";
 
         if (memoryCache.TryGetValue(cacheKey, out WizdleResponse? cached) && cached is not null)
         {
