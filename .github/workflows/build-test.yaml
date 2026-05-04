@@ -63,6 +63,10 @@ jobs:
               if: steps.build.outcome == 'success'
               run: dotnet test --project Wizdle.Web.Unit.Tests/Wizdle.Web.Unit.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} -- --report-trx --report-trx-filename Wizdle.Web.Unit.Tests.trx
 
+            - name: Test Wizdle.Discord.Unit.Tests
+              if: steps.build.outcome == 'success'
+              run: dotnet test --project Wizdle.Discord.Unit.Tests/Wizdle.Discord.Unit.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} -- --report-trx --report-trx-filename Wizdle.Discord.Unit.Tests.trx
+
             - name: Test Wizdle.Integration.Tests
               if: steps.build.outcome == 'success'
               run: dotnet test --project Wizdle.Integration.Tests/Wizdle.Integration.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} -- --report-trx --report-trx-filename Wizdle.Integration.Tests.trx
