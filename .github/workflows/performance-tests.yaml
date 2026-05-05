@@ -3,12 +3,18 @@ run-name: Performance Tests
 permissions:
     contents: read
 on:
+    push:
     workflow_dispatch:
     schedule:
         - cron: "0 4 * * SUN"
+    workflow_call:
 jobs:
+    get-version:
+        uses: ./.github/workflows/get-version.yaml
+
     performance-tests:
         name: Performance Tests
+        needs: [get-version]
         runs-on: ubuntu-latest
         timeout-minutes: 30
         env:
@@ -27,7 +33,7 @@ jobs:
 
             - name: Build
               id: build
-              run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }}
+              run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }} /p:Version=${{ needs.get-version.outputs.version }}
 
             - name: Run Performance Tests
               if: steps.build.outcome == 'success'
@@ -37,14 +43,18 @@ jobs:
               if: steps.build.outcome == 'success'
               run: |
                   echo "## Benchmark Results" >> $GITHUB_STEP_SUMMARY
+                  shopt -s nullglob
                   for f in BenchmarkDotNet.Artifacts/results/*.md; do
                       echo "" >> $GITHUB_STEP_SUMMARY
                       cat "$f" >> $GITHUB_STEP_SUMMARY
                   done
+                  shopt -u nullglob
 
             - name: Upload BenchmarkDotNet Results
-              if: steps.build.outcome == 'success'
-              uses: actions/upload-artifact@v4
+              if: (!cancelled() && steps.build.outcome == 'success')
+              uses: actions/upload-artifact@v7
               with:
                   name: benchmark-results
+                  retention-days: 20
+                  if-no-files-found: error
                   path: BenchmarkDotNet.Artifacts/

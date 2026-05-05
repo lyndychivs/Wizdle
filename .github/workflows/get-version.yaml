@@ -1,0 +1,26 @@
+name: Get Version
+on:
+    workflow_call:
+        outputs:
+            version:
+                description: 'The resolved version'
+                value: ${{ jobs.get-version.outputs.version }}
+jobs:
+    get-version:
+        name: Get Version
+        runs-on: ubuntu-latest
+        outputs:
+            version: ${{ steps.get_version.outputs.version }}
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v6
+              with:
+                  fetch-depth: 0
+
+            - name: Get Version
+              id: get_version
+              run: |
+                  TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v1.0.0")
+                  VERSION=${TAG#v}
+                  echo "version=$VERSION" >> $GITHUB_OUTPUT
+                  echo "Building version: $VERSION"

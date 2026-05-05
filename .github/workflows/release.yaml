@@ -8,17 +8,7 @@ on:
         types: [published]
 jobs:
     get-version:
-        name: Get Version
-        runs-on: ubuntu-latest
-        outputs:
-            version: ${{ steps.get_version.outputs.version }}
-        steps:
-            - name: Get Version from GitHub Release
-              id: get_version
-              run: |
-                  VERSION=${GITHUB_REF_NAME#v}
-                  echo "version=$VERSION" >> $GITHUB_OUTPUT
-                  echo "Release version: $VERSION"
+        uses: ./.github/workflows/get-version.yaml
 
     build-and-test:
         needs: [get-version]
@@ -30,9 +20,17 @@ jobs:
         with:
             version: ${{ needs.get-version.outputs.version }}
 
+    performance-tests:
+        needs: [get-version]
+        uses: ./.github/workflows/performance-tests.yaml
+        permissions:
+            contents: read
+        with:
+            version: ${{ needs.get-version.outputs.version }}
+
     build-test-publish:
         name: Build, Test & Publish
-        needs: [get-version, build-and-test]
+        needs: [get-version, build-and-test, performance-tests]
         runs-on: ubuntu-latest
         timeout-minutes: 10
         permissions:
@@ -83,7 +81,7 @@ jobs:
 
     build-wpf-installer:
         name: Build WPF Installer
-        needs: [get-version, build-and-test]
+        needs: [get-version, build-and-test, performance-tests]
         runs-on: windows-latest
         timeout-minutes: 10
         env:

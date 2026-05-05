@@ -9,14 +9,13 @@ on:
     schedule:
         - cron: "0 4 * * SUN"
     workflow_call:
-        inputs:
-            version:
-                description: 'Version to build and test. If not provided, the latest git tag will be used.'
-                required: false
-                type: string
 jobs:
+    get-version:
+        uses: ./.github/workflows/get-version.yaml
+
     build-test:
         name: Build & Test
+        needs: [get-version]
         runs-on: ubuntu-latest
         timeout-minutes: 15
         env:
@@ -25,20 +24,6 @@ jobs:
         steps:
             - name: Checkout Repository
               uses: actions/checkout@v6
-              with:
-                  fetch-depth: 0
-
-            - name: Get Version
-              id: get_version
-              run: |
-                  if [ -n "${{ inputs.version }}" ]; then
-                    VERSION="${{ inputs.version }}"
-                  else
-                    TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v1.0.4")
-                    VERSION=${TAG#v}
-                  fi
-                  echo "version=$VERSION" >> $GITHUB_OUTPUT
-                  echo "Building version: $VERSION"
 
             - name: Install .NET
               uses: actions/setup-dotnet@v5
@@ -50,7 +35,7 @@ jobs:
 
             - name: Build
               id: build
-              run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }} /p:Version=${{ steps.get_version.outputs.version }}
+              run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }} /p:Version=${{ needs.get-version.outputs.version }}
 
             - name: Test Wizdle.Unit.Tests
               if: steps.build.outcome == 'success'
@@ -109,7 +94,7 @@ jobs:
 
             - name: Upload Artifacts for Wizdle.Web.Functional.Tests
               uses: actions/upload-artifact@v7
-              if: (!cancelled())
+              if: (!cancelled() && steps.build.outcome == 'success')
               with:
                   name: Wizdle.Web.Functional.Tests
                   retention-days: 20
@@ -121,7 +106,7 @@ jobs:
 
             - name: Upload Test Results
               uses: actions/upload-artifact@v7
-              if: (!cancelled())
+              if: (!cancelled() && steps.build.outcome == 'success')
               with:
                   name: test-results-linux
                   retention-days: 1
@@ -156,7 +141,7 @@ jobs:
 
             - name: Upload Test Results
               uses: actions/upload-artifact@v7
-              if: (!cancelled())
+              if: (!cancelled() && steps.build.outcome == 'success')
               with:
                   name: test-results-windows
                   retention-days: 1
