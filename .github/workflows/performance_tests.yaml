@@ -9,13 +9,13 @@ on:
         - cron: "0 4 * * SUN"
     workflow_call:
 jobs:
-    get-version:
+    get_version:
         name: Get Version
-        uses: ./.github/workflows/get-version.yaml
+        uses: ./.github/workflows/get_version.yaml
 
-    performance-tests:
+    performance_tests:
         name: Performance Tests
-        needs: [get-version]
+        needs: [get_version]
         runs-on: ubuntu-latest
         timeout-minutes: 30
         env:
@@ -34,7 +34,7 @@ jobs:
 
             - name: Build
               id: build
-              run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }} /p:Version=${{ needs.get-version.outputs.version }}
+              run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }} /p:Version=${{ needs.get_version.outputs.version }}
 
             - name: Run Performance Tests
               if: steps.build.outcome == 'success'

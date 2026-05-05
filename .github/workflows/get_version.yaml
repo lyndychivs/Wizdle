@@ -4,13 +4,13 @@ on:
         outputs:
             version:
                 description: 'The resolved version'
-                value: ${{ jobs.get-version.outputs.version }}
+                value: ${{ jobs.get_version.outputs.version }}
 jobs:
-    get-version:
+    get_version:
         name: Get Version
         runs-on: ubuntu-latest
         outputs:
-            version: ${{ steps.get-version.outputs.version }}
+            version: ${{ steps.get_version.outputs.version }}
         steps:
             - name: Checkout Repository
               uses: actions/checkout@v6
@@ -18,7 +18,7 @@ jobs:
                   fetch-depth: 0
 
             - name: Get Version
-              id: get-version
+              id: get_version
               run: |
                   TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v1.0.0")
                   VERSION=${TAG#v}

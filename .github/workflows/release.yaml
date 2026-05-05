@@ -7,25 +7,25 @@ on:
     release:
         types: [published]
 jobs:
-    get-version:
+    get_version:
         name: Get Version
-        uses: ./.github/workflows/get-version.yaml
+        uses: ./.github/workflows/get_version.yaml
 
-    build-and-test:
-        uses: ./.github/workflows/build-test.yaml
+    build_and_test:
+        uses: ./.github/workflows/build_test.yaml
         permissions:
             contents: read
             checks: write
             pull-requests: write
 
-    performance-tests:
-        uses: ./.github/workflows/performance-tests.yaml
+    performance_tests:
+        uses: ./.github/workflows/performance_tests.yaml
         permissions:
             contents: read
 
-    build-test-publish:
+    build_test_publish:
         name: Build, Test & Publish
-        needs: [get-version, build-and-test, performance-tests]
+        needs: [get_version, build_and_test, performance_tests]
         runs-on: ubuntu-latest
         timeout-minutes: 10
         permissions:
@@ -74,9 +74,9 @@ jobs:
                       **/*.nupkg
                       **/*.snupkg
 
-    build-wpf-installer:
+    build_wpf_installer:
         name: Build WPF Installer
-        needs: [get-version, build-and-test, performance-tests]
+        needs: [get_version, build_and_test, performance_tests]
         runs-on: windows-latest
         timeout-minutes: 10
         env:
@@ -95,7 +95,7 @@ jobs:
               run: dotnet restore
 
             - name: Publish Wizdle.Wpf for win-x64
-              run: dotnet publish Wizdle.Wpf/Wizdle.Wpf.csproj --configuration ${{ env.CONFIGURATION }} --runtime win-x64 --self-contained true /p:PublishSingleFile=true /p:Version=${{ needs.get-version.outputs.version }}
+              run: dotnet publish Wizdle.Wpf/Wizdle.Wpf.csproj --configuration ${{ env.CONFIGURATION }} --runtime win-x64 --self-contained true /p:PublishSingleFile=true /p:Version=${{ needs.get_version.outputs.version }}
 
             - name: Publish Wizdle.Wpf for win-x86
               run: dotnet publish Wizdle.Wpf/Wizdle.Wpf.csproj --configuration ${{ env.CONFIGURATION }} --runtime win-x86 --self-contained true /p:PublishSingleFile=true /p:Version=${{ needs.get-version.outputs.version }}
@@ -104,7 +104,7 @@ jobs:
               shell: pwsh
               run: |
                   $content = Get-Content 'Installer/Wizdle.Windows.x64.iss' -Raw
-                  $content = $content -replace '#define MyAppVersion ".*"', "#define MyAppVersion `"${{ needs.get-version.outputs.version }}`""
+                  $content = $content -replace '#define MyAppVersion ".*"', "#define MyAppVersion `"${{ needs.get_version.outputs.version }}`""
                   Set-Content 'Installer/Wizdle.Windows.x64.iss' -Value $content
 
             - name: Update ISS version for x86
