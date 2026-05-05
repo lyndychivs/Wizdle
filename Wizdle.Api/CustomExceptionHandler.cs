@@ -28,7 +28,7 @@ public class CustomExceptionHandler : IExceptionHandler
 
         httpContext.Response.StatusCode = 500;
         httpContext.Response.ContentType = Text.Plain;
-        await httpContext.Response.WriteAsync("An unexpected error occurred. Please try again later.", cancellationToken).ConfigureAwait(false);
+        await httpContext.Response.WriteAsync("An unexpected error occurred. Please try again later.", cancellationToken);
 
         return true;
     }

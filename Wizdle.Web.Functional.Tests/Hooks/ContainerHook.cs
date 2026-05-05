@@ -22,7 +22,7 @@ internal static class ContainerHook
             .WithCleanUp(true)
             .Build();
 
-        await network.CreateAsync().ConfigureAwait(false);
+        await network.CreateAsync();
 
         IContainer apiContainer = new ContainerBuilder("wizdle-api:latest")
             .WithName($"wizdle-api-{Guid.NewGuid()}")
@@ -34,7 +34,7 @@ internal static class ContainerHook
             .WithWaitStrategy(Wait.ForUnixContainer().UntilHttpRequestIsSucceeded(r => r.ForPort(8080).ForPath("/health")))
             .Build();
 
-        await apiContainer.StartAsync().ConfigureAwait(false);
+        await apiContainer.StartAsync();
 
         IContainer webContainer = new ContainerBuilder("wizdle-web:latest")
             .WithName($"wizdle-web-{Guid.NewGuid()}")
@@ -49,7 +49,7 @@ internal static class ContainerHook
             .DependsOn(apiContainer)
             .Build();
 
-        await webContainer.StartAsync().ConfigureAwait(false);
+        await webContainer.StartAsync();
 
         endpoint.Url = $"http://localhost:{webContainer.GetMappedPublicPort(8080)}";
     }

@@ -35,9 +35,9 @@ internal static class BrowserHook
         IPlaywright playwright = null!;
         await retry.UntilAsync(async () =>
         {
-            playwright = await Playwright.CreateAsync().ConfigureAwait(false);
-            return await Task.FromResult(playwright is not null).ConfigureAwait(false);
-        }).ConfigureAwait(false);
+            playwright = await Playwright.CreateAsync();
+            return await Task.FromResult(playwright is not null);
+        });
 
         if (playwright is null)
         {
@@ -48,10 +48,10 @@ internal static class BrowserHook
         {
             Headless = configuration.Headless,
             Channel = configuration.Channel,
-        }).ConfigureAwait(false);
+        });
 
-        IBrowserContext browserContext = await browser.NewContextAsync().ConfigureAwait(false);
-        IPage page = await browserContext.NewPageAsync().ConfigureAwait(false);
+        IBrowserContext browserContext = await browser.NewContextAsync();
+        IPage page = await browserContext.NewPageAsync();
 
         await page.Context.Tracing.StartAsync(new TracingStartOptions()
         {
@@ -60,7 +60,7 @@ internal static class BrowserHook
             Snapshots = true,
             Sources = true,
             Name = scenarioContext.ScenarioInfo.Title,
-        }).ConfigureAwait(false);
+        });
 
         objectContainer.RegisterInstanceAs(playwright);
         objectContainer.RegisterInstanceAs(browser);
@@ -88,7 +88,7 @@ internal static class BrowserHook
         await page.Context.Tracing.StopAsync(new TracingStopOptions()
         {
             Path = isFailed ? tracingFilePath : null,
-        }).ConfigureAwait(false);
+        });
 
         if (isFailed)
         {
@@ -96,9 +96,9 @@ internal static class BrowserHook
             reqnrollOutputHelper.AddAttachment(tracingFilePath);
         }
 
-        await page.CloseAsync().ConfigureAwait(false);
-        await browser.CloseAsync().ConfigureAwait(false);
-        await browserContext.CloseAsync().ConfigureAwait(false);
+        await page.CloseAsync();
+        await browser.CloseAsync();
+        await browserContext.CloseAsync();
         playwright.Dispose();
     }
 

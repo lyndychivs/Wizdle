@@ -9,10 +9,16 @@ using Wizdle.Models;
 
 internal sealed class WizdleApiClient(HttpClient httpClient)
 {
-    public async Task<WizdleResponse> PostWizdleRequestAsync(WizdleRequest wizdleRequest, CancellationToken cancellationToken = default)
+    public async Task<WizdleResponse> PostWizdleRequestAsync(
+        WizdleRequest wizdleRequest,
+        CancellationToken cancellationToken = default)
     {
-        HttpResponseMessage httpResponseMessage = await httpClient.PostAsJsonAsync("/", wizdleRequest, cancellationToken).ConfigureAwait(false);
+        HttpResponseMessage httpResponseMessage = await httpClient.PostAsJsonAsync(
+            "/",
+            wizdleRequest,
+            cancellationToken);
 
-        return await httpResponseMessage.Content.ReadFromJsonAsync<WizdleResponse>(cancellationToken).ConfigureAwait(false) ?? new WizdleResponse();
+        return await httpResponseMessage.Content.ReadFromJsonAsync<WizdleResponse>(cancellationToken)
+            ?? new WizdleResponse();
     }
 }

@@ -33,7 +33,7 @@ internal sealed class AccessibilityTestingSteps
     public async Task PerformAccessibilityAudit()
     {
         _axeResult = await _page.RunAxe(GetAxeRunOptions())
-.ConfigureAwait(false) ?? throw new InvalidOperationException("Axe Result is null after running audit.");
+            ?? throw new InvalidOperationException("Axe Result is null after running audit.");
 
         _reqnrollOutputHelper.WriteLine(string.Create(CultureInfo.InvariantCulture, $"axe-core ran against {_axeResult.Url} on {_axeResult.Timestamp}"));
 

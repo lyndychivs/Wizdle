@@ -57,7 +57,7 @@ internal sealed partial class WordSlashCommand(ILogger<WordSlashCommand> logger,
             wizdleRequest.ExcludeLetters = excludeLetters.Replace(Environment.NewLine, string.Empty, StringComparison.OrdinalIgnoreCase);
         }
 
-        WizdleResponse wizdleResponse = await wizdleApiClient.PostWizdleRequestAsync(wizdleRequest).ConfigureAwait(false);
+        WizdleResponse wizdleResponse = await wizdleApiClient.PostWizdleRequestAsync(wizdleRequest);
 
         IEnumerable<string> response = wizdleResponse.Words;
         if (wizdleResponse.Words.Skip(600).Any())

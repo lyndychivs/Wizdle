@@ -28,6 +28,6 @@ internal static class Program
 
         IHost host = builder.Build();
 
-        await host.RunAsync().ConfigureAwait(false);
+        await host.RunAsync();
     }
 }

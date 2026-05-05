@@ -18,7 +18,7 @@ internal static class ContainerSetup
             .WithWaitStrategy(Wait.ForUnixContainer().UntilHttpRequestIsSucceeded(r => r.ForPort(8080).ForPath("/health")))
             .Build();
 
-        await apiContainer.StartAsync().ConfigureAwait(false);
+        await apiContainer.StartAsync();
 
         return $"http://localhost:{apiContainer.GetMappedPublicPort(8080)}";
     }

@@ -34,27 +34,27 @@ internal abstract class BasePage
 
     public async Task<bool> IsDarkmodeButtonVisible()
     {
-        return await IsButtonVisibile(ButtonDarkmode).ConfigureAwait(false);
+        return await IsButtonVisibile(ButtonDarkmode);
     }
 
     public async Task ClickDarkModeButton()
     {
-        await ClickButton(ButtonDarkmode).ConfigureAwait(false);
+        await ClickButton(ButtonDarkmode);
     }
 
     public async Task<bool> IsDarkmodeEnabled()
     {
-        return await IsBackgroundColorMatching("rgb(50, 51, 61)").ConfigureAwait(false);
+        return await IsBackgroundColorMatching("rgb(50, 51, 61)");
     }
 
     public async Task<bool> IsDefaultBackgroundColor()
     {
-        return await IsBackgroundColorMatching("rgb(255, 255, 255)").ConfigureAwait(false);
+        return await IsBackgroundColorMatching("rgb(255, 255, 255)");
     }
 
     public async Task<bool> DoesPageContainText(string text)
     {
-        await WaitForNetworkIdle().ConfigureAwait(false);
+        await WaitForNetworkIdle();
 
         try
         {
@@ -62,9 +62,9 @@ internal abstract class BasePage
             {
                 State = WaitForSelectorState.Visible,
                 Timeout = VisibilityTimeout,
-            }).ConfigureAwait(false);
+            });
 
-            return await Page.GetByText(text).IsVisibleAsync().ConfigureAwait(false);
+            return await Page.GetByText(text).IsVisibleAsync();
         }
         catch (TimeoutException)
         {
@@ -79,7 +79,7 @@ internal abstract class BasePage
         {
             FullPage = true,
             Path = filePath,
-        }).ConfigureAwait(false);
+        });
 
         return filePath;
     }
@@ -89,7 +89,7 @@ internal abstract class BasePage
         await Page.WaitForLoadStateAsync(LoadState.NetworkIdle, new PageWaitForLoadStateOptions()
         {
             Timeout = DefaultTimeout,
-        }).ConfigureAwait(false);
+        });
     }
 
     protected async Task ClickButton(string buttonName)
@@ -99,7 +99,7 @@ internal abstract class BasePage
             throw new ArgumentException("Value cannot be null, empty or whitespace", nameof(buttonName));
         }
 
-        await WaitForNetworkIdle().ConfigureAwait(false);
+        await WaitForNetworkIdle();
 
         ILocator button = Page.GetByRole(AriaRole.Button, new PageGetByRoleOptions()
         {
@@ -110,9 +110,9 @@ internal abstract class BasePage
         {
             State = WaitForSelectorState.Visible,
             Timeout = VisibilityTimeout,
-        }).ConfigureAwait(false);
+        });
 
-        await button.ClickAsync().ConfigureAwait(false);
+        await button.ClickAsync();
     }
 
     protected async Task SetTextBox(string textBoxName, string text)
@@ -131,24 +131,24 @@ internal abstract class BasePage
         {
             State = WaitForSelectorState.Visible,
             Timeout = VisibilityTimeout,
-        }).ConfigureAwait(false);
+        });
 
-        await textBox.FillAsync(text).ConfigureAwait(false);
+        await textBox.FillAsync(text);
     }
 
     protected async Task<bool> IsButtonVisibile(string buttonName)
     {
-        return await IsAriaRoleVisible(buttonName, AriaRole.Button).ConfigureAwait(false);
+        return await IsAriaRoleVisible(buttonName, AriaRole.Button);
     }
 
     protected async Task<bool> IsImageVisible(string imageName)
     {
-        return await IsAriaRoleVisible(imageName, AriaRole.Img).ConfigureAwait(false);
+        return await IsAriaRoleVisible(imageName, AriaRole.Img);
     }
 
     protected async Task<bool> IsTextBoxVisible(string textBoxName)
     {
-        return await IsAriaRoleVisible(textBoxName, AriaRole.Textbox).ConfigureAwait(false);
+        return await IsAriaRoleVisible(textBoxName, AriaRole.Textbox);
     }
 
     private async Task<bool> IsAriaRoleVisible(string textBoxName, AriaRole ariaRole)
@@ -158,7 +158,7 @@ internal abstract class BasePage
             throw new ArgumentException("Value cannot be null, empty or whitespace", nameof(textBoxName));
         }
 
-        await WaitForNetworkIdle().ConfigureAwait(false);
+        await WaitForNetworkIdle();
 
         try
         {
@@ -171,9 +171,9 @@ internal abstract class BasePage
             {
                 State = WaitForSelectorState.Visible,
                 Timeout = VisibilityTimeout,
-            }).ConfigureAwait(false);
+            });
 
-            return await locator.IsVisibleAsync().ConfigureAwait(false);
+            return await locator.IsVisibleAsync();
         }
         catch (TimeoutException)
         {
@@ -183,10 +183,10 @@ internal abstract class BasePage
 
     private async Task<bool> IsBackgroundColorMatching(string expectedColor)
     {
-        await WaitForNetworkIdle().ConfigureAwait(false);
+        await WaitForNetworkIdle();
 
         string backgroundColor = await Page.Locator("body")
-            .EvaluateAsync<string>("element => window.getComputedStyle(element).backgroundColor").ConfigureAwait(false);
+            .EvaluateAsync<string>("element => window.getComputedStyle(element).backgroundColor");
         return string.Equals(backgroundColor, expectedColor, StringComparison.Ordinal);
     }
 }
