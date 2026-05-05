@@ -8,6 +8,7 @@ on:
         types: [published]
 jobs:
     get-version:
+        name: Get Version
         uses: ./.github/workflows/get-version.yaml
 
     build-and-test:

@@ -10,6 +10,7 @@ on:
     workflow_call:
 jobs:
     get-version:
+        name: Get Version
         uses: ./.github/workflows/get-version.yaml
 
     performance-tests:

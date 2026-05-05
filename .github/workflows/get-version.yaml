@@ -10,7 +10,7 @@ jobs:
         name: Get Version
         runs-on: ubuntu-latest
         outputs:
-            version: ${{ steps.get_version.outputs.version }}
+            version: ${{ steps.get-version.outputs.version }}
         steps:
             - name: Checkout Repository
               uses: actions/checkout@v6
@@ -18,7 +18,7 @@ jobs:
                   fetch-depth: 0
 
             - name: Get Version
-              id: get_version
+              id: get-version
               run: |
                   TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v1.0.0")
                   VERSION=${TAG#v}
