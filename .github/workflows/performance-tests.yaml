@@ -1,0 +1,50 @@
+name: Performance Tests
+run-name: Performance Tests
+permissions:
+    contents: read
+on:
+    workflow_dispatch:
+    schedule:
+        - cron: "0 4 * * SUN"
+jobs:
+    performance-tests:
+        name: Performance Tests
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        env:
+            CONFIGURATION: Release
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v6
+
+            - name: Install .NET
+              uses: actions/setup-dotnet@v5
+              with:
+                  dotnet-version: 10.0.x
+
+            - name: Restore
+              run: dotnet restore
+
+            - name: Build
+              id: build
+              run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }}
+
+            - name: Run Performance Tests
+              if: steps.build.outcome == 'success'
+              run: dotnet run --project Wizdle.Performance.Tests/Wizdle.Performance.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }}
+
+            - name: Publish Benchmark Results to Job Summary
+              if: steps.build.outcome == 'success'
+              run: |
+                  echo "## Benchmark Results" >> $GITHUB_STEP_SUMMARY
+                  for f in BenchmarkDotNet.Artifacts/results/*.md; do
+                      echo "" >> $GITHUB_STEP_SUMMARY
+                      cat "$f" >> $GITHUB_STEP_SUMMARY
+                  done
+
+            - name: Upload BenchmarkDotNet Results
+              if: steps.build.outcome == 'success'
+              uses: actions/upload-artifact@v4
+              with:
+                  name: benchmark-results
+                  path: BenchmarkDotNet.Artifacts/
