@@ -9,14 +9,14 @@ on:
     schedule:
         - cron: "0 4 * * SUN"
     workflow_call:
-        inputs:
-            version:
-                description: 'Version to build and test. If not provided, the latest git tag will be used.'
-                required: false
-                type: string
 jobs:
-    build-test:
+    get_version:
+        name: Get Version
+        uses: ./.github/workflows/get_version.yaml
+
+    build_test:
         name: Build & Test
+        needs: [get_version]
         runs-on: ubuntu-latest
         timeout-minutes: 15
         env:
@@ -25,32 +25,18 @@ jobs:
         steps:
             - name: Checkout Repository
               uses: actions/checkout@v6
-              with:
-                  fetch-depth: 0
-
-            - name: Get Version
-              id: get_version
-              run: |
-                  if [ -n "${{ inputs.version }}" ]; then
-                    VERSION="${{ inputs.version }}"
-                  else
-                    TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v1.0.4")
-                    VERSION=${TAG#v}
-                  fi
-                  echo "version=$VERSION" >> $GITHUB_OUTPUT
-                  echo "Building version: $VERSION"
 
             - name: Install .NET
               uses: actions/setup-dotnet@v5
               with:
-                  dotnet-version: 10.0.x
+                  global-json-file: global.json
 
             - name: Restore
               run: dotnet restore
 
             - name: Build
               id: build
-              run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }} /p:Version=${{ steps.get_version.outputs.version }}
+              run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }} /p:Version=${{ needs.get_version.outputs.version }}
 
             - name: Test Wizdle.Unit.Tests
               if: steps.build.outcome == 'success'
@@ -73,16 +59,16 @@ jobs:
               run: dotnet test --project Wizdle.Integration.Tests/Wizdle.Integration.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} -- --report-trx --report-trx-filename Wizdle.Integration.Tests.trx
 
             - name: Build Docker for Wizdle.Api
-              id: build-api
+              id: build_api
               if: steps.build.outcome == 'success'
               run: make build-api
 
             - name: Test Wizdle.Api.Functional.Tests
-              if: steps.build-api.outcome == 'success'
+              if: steps.build_api.outcome == 'success'
               run: dotnet test --project Wizdle.Api.Functional.Tests/Wizdle.Api.Functional.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} -- --report-trx --report-trx-filename Wizdle.Api.Functional.Tests.trx
 
             - name: Cache Playwright Browsers
-              id: playwright-cache
+              id: playwright_cache
               if: steps.build.outcome == 'success'
               uses: actions/cache@v5
               with:
@@ -90,26 +76,26 @@ jobs:
                   key: playwright-${{ runner.os }}-${{ hashFiles('Directory.Packages.props') }}
 
             - name: Install Playwright Browsers
-              id: install-playwright
-              if: steps.playwright-cache.outputs.cache-hit != 'true' && steps.build.outcome == 'success'
+              id: install_playwright
+              if: steps.playwright_cache.outputs.cache-hit != 'true' && steps.build.outcome == 'success'
               run: pwsh Wizdle.Web.Functional.Tests/bin/${{ env.CONFIGURATION }}/${{ env.TARGET_FRAMEWORK }}/playwright.ps1 install --with-deps
 
             - name: Install Playwright OS Dependencies
-              if: steps.playwright-cache.outputs.cache-hit == 'true' && steps.build.outcome == 'success'
+              if: steps.playwright_cache.outputs.cache-hit == 'true' && steps.build.outcome == 'success'
               run: pwsh Wizdle.Web.Functional.Tests/bin/${{ env.CONFIGURATION }}/${{ env.TARGET_FRAMEWORK }}/playwright.ps1 install-deps
 
             - name: Build Docker for Wizdle.Web
-              id: build-web
+              id: build_web
               if: steps.build.outcome == 'success'
               run: make build-web
 
             - name: Test Wizdle.Web.Functional.Tests
-              if: steps.build-web.outcome == 'success'
+              if: steps.build_web.outcome == 'success'
               run: dotnet test --project Wizdle.Web.Functional.Tests/Wizdle.Web.Functional.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} -- --report-trx --report-trx-filename Wizdle.Web.Functional.Tests.trx
 
             - name: Upload Artifacts for Wizdle.Web.Functional.Tests
               uses: actions/upload-artifact@v7
-              if: (!cancelled())
+              if: (!cancelled() && steps.build.outcome == 'success')
               with:
                   name: Wizdle.Web.Functional.Tests
                   retention-days: 20
@@ -121,15 +107,16 @@ jobs:
 
             - name: Upload Test Results
               uses: actions/upload-artifact@v7
-              if: (!cancelled())
+              if: (!cancelled() && steps.build.outcome == 'success')
               with:
                   name: test-results-linux
                   retention-days: 1
                   if-no-files-found: warn
                   path: "**/*.trx"
 
-    build-test-windows:
+    build_test_windows:
         name: Build & Test (Windows Wizdle.Wpf)
+        needs: [get_version]
         runs-on: windows-latest
         timeout-minutes: 10
         env:
@@ -141,14 +128,14 @@ jobs:
             - name: Install .NET
               uses: actions/setup-dotnet@v5
               with:
-                  dotnet-version: 10.0.x
+                  global-json-file: global.json
 
             - name: Restore Wizdle.Wpf.Unit.Tests
               run: dotnet restore Wizdle.Wpf.Unit.Tests/Wizdle.Wpf.Unit.Tests.csproj
 
             - name: Build Wizdle.Wpf.Unit.Tests
               id: build
-              run: dotnet build Wizdle.Wpf.Unit.Tests/Wizdle.Wpf.Unit.Tests.csproj --no-restore --configuration ${{ env.CONFIGURATION }}
+              run: dotnet build Wizdle.Wpf.Unit.Tests/Wizdle.Wpf.Unit.Tests.csproj --no-restore --configuration ${{ env.CONFIGURATION }} /p:Version=${{ needs.get_version.outputs.version }}
 
             - name: Test Wizdle.Wpf.Unit.Tests
               if: steps.build.outcome == 'success'
@@ -156,17 +143,17 @@ jobs:
 
             - name: Upload Test Results
               uses: actions/upload-artifact@v7
-              if: (!cancelled())
+              if: (!cancelled() && steps.build.outcome == 'success')
               with:
                   name: test-results-windows
                   retention-days: 1
                   if-no-files-found: warn
                   path: "**/*.trx"
 
-    publish-test-results:
+    publish_test_results:
         name: Publish Test Results
         runs-on: ubuntu-latest
-        needs: [build-test, build-test-windows]
+        needs: [build_test, build_test_windows]
         if: ${{ always() && !cancelled() }}
         steps:
             - name: Download Test Results

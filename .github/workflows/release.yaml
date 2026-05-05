@@ -7,32 +7,25 @@ on:
     release:
         types: [published]
 jobs:
-    get-version:
+    get_version:
         name: Get Version
-        runs-on: ubuntu-latest
-        outputs:
-            version: ${{ steps.get_version.outputs.version }}
-        steps:
-            - name: Get Version from GitHub Release
-              id: get_version
-              run: |
-                  VERSION=${GITHUB_REF_NAME#v}
-                  echo "version=$VERSION" >> $GITHUB_OUTPUT
-                  echo "Release version: $VERSION"
+        uses: ./.github/workflows/get_version.yaml
 
-    build-and-test:
-        needs: [get-version]
-        uses: ./.github/workflows/build-test.yaml
+    build_and_test:
+        uses: ./.github/workflows/build_test.yaml
         permissions:
             contents: read
             checks: write
             pull-requests: write
-        with:
-            version: ${{ needs.get-version.outputs.version }}
 
-    build-test-publish:
+    performance_tests:
+        uses: ./.github/workflows/performance_tests.yaml
+        permissions:
+            contents: read
+
+    build_test_publish:
         name: Build, Test & Publish
-        needs: [get-version, build-and-test]
+        needs: [get_version, build_and_test, performance_tests]
         runs-on: ubuntu-latest
         timeout-minutes: 10
         permissions:
@@ -49,14 +42,14 @@ jobs:
             - name: Install .NET
               uses: actions/setup-dotnet@v5
               with:
-                  dotnet-version: 10.0.x
+                  global-json-file: global.json
 
             - name: Restore
               run: dotnet restore
 
             - name: Build
               id: build
-              run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }} /p:Version=${{ needs.get-version.outputs.version }}
+              run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }} /p:Version=${{ needs.get_version.outputs.version }}
 
             - name: NuGet Login
               if: success()
@@ -81,9 +74,9 @@ jobs:
                       **/*.nupkg
                       **/*.snupkg
 
-    build-wpf-installer:
+    build_wpf_installer:
         name: Build WPF Installer
-        needs: [get-version, build-and-test]
+        needs: [get_version, build_and_test, performance_tests]
         runs-on: windows-latest
         timeout-minutes: 10
         env:
@@ -96,29 +89,29 @@ jobs:
             - name: Install .NET
               uses: actions/setup-dotnet@v5
               with:
-                  dotnet-version: 10.0.x
+                  global-json-file: global.json
 
             - name: Restore
               run: dotnet restore
 
             - name: Publish Wizdle.Wpf for win-x64
-              run: dotnet publish Wizdle.Wpf/Wizdle.Wpf.csproj --configuration ${{ env.CONFIGURATION }} --runtime win-x64 --self-contained true /p:PublishSingleFile=true /p:Version=${{ needs.get-version.outputs.version }}
+              run: dotnet publish Wizdle.Wpf/Wizdle.Wpf.csproj --configuration ${{ env.CONFIGURATION }} --runtime win-x64 --self-contained true /p:PublishSingleFile=true /p:Version=${{ needs.get_version.outputs.version }}
 
             - name: Publish Wizdle.Wpf for win-x86
-              run: dotnet publish Wizdle.Wpf/Wizdle.Wpf.csproj --configuration ${{ env.CONFIGURATION }} --runtime win-x86 --self-contained true /p:PublishSingleFile=true /p:Version=${{ needs.get-version.outputs.version }}
+              run: dotnet publish Wizdle.Wpf/Wizdle.Wpf.csproj --configuration ${{ env.CONFIGURATION }} --runtime win-x86 --self-contained true /p:PublishSingleFile=true /p:Version=${{ needs.get_version.outputs.version }}
 
             - name: Update ISS version for x64
               shell: pwsh
               run: |
                   $content = Get-Content 'Installer/Wizdle.Windows.x64.iss' -Raw
-                  $content = $content -replace '#define MyAppVersion ".*"', "#define MyAppVersion `"${{ needs.get-version.outputs.version }}`""
+                  $content = $content -replace '#define MyAppVersion ".*"', "#define MyAppVersion `"${{ needs.get_version.outputs.version }}`""
                   Set-Content 'Installer/Wizdle.Windows.x64.iss' -Value $content
 
             - name: Update ISS version for x86
               shell: pwsh
               run: |
                   $content = Get-Content 'Installer/Wizdle.Windows.x86.iss' -Raw
-                  $content = $content -replace '#define MyAppVersion ".*"', "#define MyAppVersion `"${{ needs.get-version.outputs.version }}`""
+                  $content = $content -replace '#define MyAppVersion ".*"', "#define MyAppVersion `"${{ needs.get_version.outputs.version }}`""
                   Set-Content 'Installer/Wizdle.Windows.x86.iss' -Value $content
 
             - name: Install Inno Setup

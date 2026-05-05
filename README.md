@@ -2,8 +2,9 @@
 
 ![Wizdle](Resources/title.png)
 
-[![Build & Test](https://github.com/lyndychivs/Wizdle/actions/workflows/build-test.yaml/badge.svg?branch=main)](https://github.com/lyndychivs/Wizdle/actions/workflows/build-test.yaml)
-[![Solve Wordle Today](https://github.com/lyndychivs/Wizdle/actions/workflows/solve-wordle.yaml/badge.svg?branch=main)](https://github.com/lyndychivs/Wizdle/actions/workflows/solve-wordle.yaml)
+[![Build & Test](https://github.com/lyndychivs/Wizdle/actions/workflows/build_test.yaml/badge.svg?branch=main)](https://github.com/lyndychivs/Wizdle/actions/workflows/build_test.yaml)
+[![Performance Tests](https://github.com/lyndychivs/Wizdle/actions/workflows/performance_tests.yaml/badge.svg?branch=main)](https://github.com/lyndychivs/Wizdle/actions/workflows/performance_tests.yaml)
+[![Solve Wordle Today](https://github.com/lyndychivs/Wizdle/actions/workflows/solve_wordle.yaml/badge.svg?branch=main)](https://github.com/lyndychivs/Wizdle/actions/workflows/solve_wordle.yaml)
 [![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Flyndychivs%2FWizdle%2Fmain)](https://dashboard.stryker-mutator.io/reports/github.com/lyndychivs/Wizdle/main)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/Wizdle?style=flat&logo=nuget)](https://www.nuget.org/packages/Wizdle/)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/lyndychivs/Wizdle)

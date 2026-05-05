@@ -1,0 +1,61 @@
+name: Performance Tests
+run-name: Performance Tests
+permissions:
+    contents: read
+on:
+    push:
+    workflow_dispatch:
+    schedule:
+        - cron: "0 4 * * SUN"
+    workflow_call:
+jobs:
+    get_version:
+        name: Get Version
+        uses: ./.github/workflows/get_version.yaml
+
+    performance_tests:
+        name: Performance Tests
+        needs: [get_version]
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        env:
+            CONFIGURATION: Release
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v6
+
+            - name: Install .NET
+              uses: actions/setup-dotnet@v5
+              with:
+                  global-json-file: global.json
+
+            - name: Restore
+              run: dotnet restore
+
+            - name: Build
+              id: build
+              run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }} /p:Version=${{ needs.get_version.outputs.version }}
+
+            - name: Run Performance Tests
+              if: steps.build.outcome == 'success'
+              run: dotnet run --project Wizdle.Performance.Tests/Wizdle.Performance.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }}
+
+            - name: Publish Benchmark Results to Job Summary
+              if: steps.build.outcome == 'success'
+              run: |
+                  echo "## Benchmark Results" >> $GITHUB_STEP_SUMMARY
+                  shopt -s nullglob
+                  for f in BenchmarkDotNet.Artifacts/results/*.md; do
+                      echo "" >> $GITHUB_STEP_SUMMARY
+                      cat "$f" >> $GITHUB_STEP_SUMMARY
+                  done
+                  shopt -u nullglob
+
+            - name: Upload BenchmarkDotNet Results
+              if: (!cancelled() && steps.build.outcome == 'success')
+              uses: actions/upload-artifact@v7
+              with:
+                  name: benchmark-results
+                  retention-days: 20
+                  if-no-files-found: error
+                  path: BenchmarkDotNet.Artifacts/

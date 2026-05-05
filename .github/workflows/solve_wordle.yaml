@@ -8,7 +8,7 @@ on:
     schedule:
         - cron: "0 8 * * *"
 jobs:
-    solve-wordle:
+    solve_wordle:
         name: Solve Wordle
         runs-on: ubuntu-latest
         timeout-minutes: 10
@@ -22,7 +22,7 @@ jobs:
             - name: Install .NET
               uses: actions/setup-dotnet@v5
               with:
-                  dotnet-version: 10.0.x
+                  global-json-file: global.json
 
             - name: Restore
               run: dotnet restore
@@ -32,7 +32,7 @@ jobs:
               run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }}
 
             - name: Cache Playwright Browsers
-              id: playwright-cache
+              id: playwright_cache
               if: steps.build.outcome == 'success'
               uses: actions/cache@v5
               with:
@@ -40,12 +40,12 @@ jobs:
                   key: playwright-${{ runner.os }}-${{ hashFiles('Directory.Packages.props') }}
 
             - name: Install Playwright Browsers
-              id: install-playwright
-              if: steps.playwright-cache.outputs.cache-hit != 'true' && steps.build.outcome == 'success'
+              id: install_playwright
+              if: steps.playwright_cache.outputs.cache-hit != 'true' && steps.build.outcome == 'success'
               run: pwsh Wizdle.Functional.Tests/bin/${{ env.CONFIGURATION }}/${{ env.TARGET_FRAMEWORK }}/playwright.ps1 install --with-deps
 
             - name: Install Playwright OS Dependencies
-              if: steps.playwright-cache.outputs.cache-hit == 'true' && steps.build.outcome == 'success'
+              if: steps.playwright_cache.outputs.cache-hit == 'true' && steps.build.outcome == 'success'
               run: pwsh Wizdle.Functional.Tests/bin/${{ env.CONFIGURATION }}/${{ env.TARGET_FRAMEWORK }}/playwright.ps1 install-deps
 
             - name: Test Wizdle.Functional.Tests
@@ -54,7 +54,7 @@ jobs:
 
             - name: Upload Artifacts for Wizdle.Functional.Tests
               uses: actions/upload-artifact@v7
-              if: (!cancelled())
+              if: (!cancelled() && steps.build.outcome == 'success')
               with:
                   name: Wizdle.Functional.Tests
                   retention-days: 20
