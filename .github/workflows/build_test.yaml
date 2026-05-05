@@ -116,6 +116,7 @@ jobs:
 
     build_test_windows:
         name: Build & Test (Windows Wizdle.Wpf)
+        needs: [get_version]
         runs-on: windows-latest
         timeout-minutes: 10
         env:
@@ -134,7 +135,7 @@ jobs:
 
             - name: Build Wizdle.Wpf.Unit.Tests
               id: build
-              run: dotnet build Wizdle.Wpf.Unit.Tests/Wizdle.Wpf.Unit.Tests.csproj --no-restore --configuration ${{ env.CONFIGURATION }}
+              run: dotnet build Wizdle.Wpf.Unit.Tests/Wizdle.Wpf.Unit.Tests.csproj --no-restore --configuration ${{ env.CONFIGURATION }} /p:Version=${{ needs.get_version.outputs.version }}
 
             - name: Test Wizdle.Wpf.Unit.Tests
               if: steps.build.outcome == 'success'
