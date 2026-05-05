@@ -49,7 +49,7 @@ jobs:
 
             - name: Build
               id: build
-              run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }} /p:Version=${{ needs.get-version.outputs.version }}
+              run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }} /p:Version=${{ needs.get_version.outputs.version }}
 
             - name: NuGet Login
               if: success()
@@ -98,7 +98,7 @@ jobs:
               run: dotnet publish Wizdle.Wpf/Wizdle.Wpf.csproj --configuration ${{ env.CONFIGURATION }} --runtime win-x64 --self-contained true /p:PublishSingleFile=true /p:Version=${{ needs.get_version.outputs.version }}
 
             - name: Publish Wizdle.Wpf for win-x86
-              run: dotnet publish Wizdle.Wpf/Wizdle.Wpf.csproj --configuration ${{ env.CONFIGURATION }} --runtime win-x86 --self-contained true /p:PublishSingleFile=true /p:Version=${{ needs.get-version.outputs.version }}
+              run: dotnet publish Wizdle.Wpf/Wizdle.Wpf.csproj --configuration ${{ env.CONFIGURATION }} --runtime win-x86 --self-contained true /p:PublishSingleFile=true /p:Version=${{ needs.get_version.outputs.version }}
 
             - name: Update ISS version for x64
               shell: pwsh
@@ -111,7 +111,7 @@ jobs:
               shell: pwsh
               run: |
                   $content = Get-Content 'Installer/Wizdle.Windows.x86.iss' -Raw
-                  $content = $content -replace '#define MyAppVersion ".*"', "#define MyAppVersion `"${{ needs.get-version.outputs.version }}`""
+                  $content = $content -replace '#define MyAppVersion ".*"', "#define MyAppVersion `"${{ needs.get_version.outputs.version }}`""
                   Set-Content 'Installer/Wizdle.Windows.x86.iss' -Value $content
 
             - name: Install Inno Setup
