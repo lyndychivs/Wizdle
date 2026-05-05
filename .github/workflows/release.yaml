@@ -12,22 +12,16 @@ jobs:
         uses: ./.github/workflows/get-version.yaml
 
     build-and-test:
-        needs: [get-version]
         uses: ./.github/workflows/build-test.yaml
         permissions:
             contents: read
             checks: write
             pull-requests: write
-        with:
-            version: ${{ needs.get-version.outputs.version }}
 
     performance-tests:
-        needs: [get-version]
         uses: ./.github/workflows/performance-tests.yaml
         permissions:
             contents: read
-        with:
-            version: ${{ needs.get-version.outputs.version }}
 
     build-test-publish:
         name: Build, Test & Publish
