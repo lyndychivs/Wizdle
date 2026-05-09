@@ -6,7 +6,7 @@
     <ItemGroup>
         <PackageVersion Include="Aspire.Hosting.Docker" Version="13.*" />
         <PackageVersion Include="BenchmarkDotNet" Version="0.*" />
-        <PackageVersion Include="bunit" Version="1.*" />
+        <PackageVersion Include="bunit" Version="2.*" />
         <PackageVersion Include="CommandLineParser" Version="2.*" />
         <PackageVersion Include="Deque.AxeCore.Playwright" Version="4.*" />
         <PackageVersion Include="lyndychivs.Retry" Version="1.*" />
