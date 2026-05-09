@@ -21,11 +21,11 @@ AppUpdatesURL={#MyAppURL}
 DefaultDirName={autopf}\{#MyAppName}
 UninstallDisplayIcon={app}\{#MyAppExeName}
 DisableProgramGroupPage=yes
-LicenseFile=..\..\LICENSE
+LicenseFile=..\LICENSE
 ; Uncomment the following line to run in non administrative install mode (install for current user only).
 ;PrivilegesRequired=lowest
 OutputBaseFilename=wizdle-setup-x64
-SetupIconFile=..\..\Resources\logo.ico
+SetupIconFile=..\Resources\logo.ico
 SolidCompression=yes
 WizardStyle=modern
 
