@@ -8,10 +8,11 @@ on:
         types: [published]
 jobs:
     get_version:
-        name: Get Version
+        name: "[Release] Get Version"
         uses: ./.github/workflows/get_version.yaml
 
     build_and_test:
+        name: "[Release] Build and Test"
         uses: ./.github/workflows/build_test.yaml
         permissions:
             contents: read
@@ -19,6 +20,7 @@ jobs:
             pull-requests: write
 
     performance_tests:
+        name: "[Release] Performance Tests"
         uses: ./.github/workflows/performance_tests.yaml
         permissions:
             contents: read

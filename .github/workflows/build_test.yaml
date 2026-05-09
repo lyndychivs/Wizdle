@@ -11,7 +11,7 @@ on:
     workflow_call:
 jobs:
     get_version:
-        name: Get Version
+        name: "[Build & Test] Get Version"
         uses: ./.github/workflows/get_version.yaml
 
     build_test:

@@ -7,7 +7,7 @@ on:
                 value: ${{ jobs.get_version.outputs.version }}
 jobs:
     get_version:
-        name: Get Version
+        name: Calculate Version
         runs-on: ubuntu-latest
         outputs:
             version: ${{ steps.get_version.outputs.version }}
