@@ -18,17 +18,15 @@ using Wizdle.Models;
 using Wizdle.Web;
 using Wizdle.Web.Components.Pages;
 
-using TestContext = Bunit.TestContext;
-
 [TestFixture]
 public sealed class HomeTests
 {
-    private TestContext _testContext = default!;
+    private BunitContext _bUnitContext = default!;
 
     [SetUp]
     public void SetUp()
     {
-        _testContext = new TestContext()
+        _bUnitContext = new BunitContext()
         {
             JSInterop =
             {
@@ -40,7 +38,7 @@ public sealed class HomeTests
     [TearDown]
     public void TearDown()
     {
-        _testContext.Dispose();
+        _bUnitContext.Dispose();
     }
 
     [Test]
@@ -48,7 +46,7 @@ public sealed class HomeTests
     {
         RegisterServices();
 
-        IRenderedComponent<Home> cut = _testContext.RenderComponent<Home>();
+        IRenderedComponent<Home> cut = _bUnitContext.Render<Home>();
 
         Assert.That(cut.Markup, Does.Contain("Correct Letters"));
     }
@@ -58,7 +56,7 @@ public sealed class HomeTests
     {
         RegisterServices();
 
-        IRenderedComponent<Home> cut = _testContext.RenderComponent<Home>();
+        IRenderedComponent<Home> cut = _bUnitContext.Render<Home>();
 
         Assert.That(cut.Markup, Does.Contain("Misplaced Letters"));
     }
@@ -68,7 +66,7 @@ public sealed class HomeTests
     {
         RegisterServices();
 
-        IRenderedComponent<Home> cut = _testContext.RenderComponent<Home>();
+        IRenderedComponent<Home> cut = _bUnitContext.Render<Home>();
 
         Assert.That(cut.Markup, Does.Contain("Excluded Letters"));
     }
@@ -78,7 +76,7 @@ public sealed class HomeTests
     {
         RegisterServices();
 
-        IRenderedComponent<Home> cut = _testContext.RenderComponent<Home>();
+        IRenderedComponent<Home> cut = _bUnitContext.Render<Home>();
 
         Assert.That(cut.Find("#btnSearch"), Is.Not.Null);
     }
@@ -88,7 +86,7 @@ public sealed class HomeTests
     {
         RegisterServices();
 
-        IRenderedComponent<Home> cut = _testContext.RenderComponent<Home>();
+        IRenderedComponent<Home> cut = _bUnitContext.Render<Home>();
 
         Assert.That(cut.FindAll("[aria-label='Word']"), Is.Empty);
     }
@@ -98,7 +96,7 @@ public sealed class HomeTests
     {
         RegisterServices();
 
-        IRenderedComponent<Home> cut = _testContext.RenderComponent<Home>();
+        IRenderedComponent<Home> cut = _bUnitContext.Render<Home>();
 
         Assert.That(cut.Find("[aria-label='Response Title']").TextContent, Is.Empty);
     }
@@ -112,7 +110,7 @@ public sealed class HomeTests
         };
         RegisterServices(response);
 
-        IRenderedComponent<Home> cut = _testContext.RenderComponent<Home>();
+        IRenderedComponent<Home> cut = _bUnitContext.Render<Home>();
 
         cut.Find("#btnSearch").Click();
 
@@ -136,7 +134,7 @@ public sealed class HomeTests
         };
         RegisterServices(response);
 
-        IRenderedComponent<Home> cut = _testContext.RenderComponent<Home>();
+        IRenderedComponent<Home> cut = _bUnitContext.Render<Home>();
 
         cut.Find("#btnSearch").Click();
 
@@ -154,7 +152,7 @@ public sealed class HomeTests
         };
         FakeHttpMessageHandler handler = RegisterServices(response);
 
-        IRenderedComponent<Home> cut = _testContext.RenderComponent<Home>();
+        IRenderedComponent<Home> cut = _bUnitContext.Render<Home>();
 
         cut.Find("#btnSearch").Click();
 
@@ -177,8 +175,8 @@ public sealed class HomeTests
             BaseAddress = new Uri("http://localhost"),
         };
 
-        _testContext.Services.AddSingleton(new WizdleHttpClient(httpClient));
-        _testContext.Services.AddMudServices();
+        _bUnitContext.Services.AddSingleton(new WizdleHttpClient(httpClient));
+        _bUnitContext.Services.AddMudServices();
 
         return handler;
     }
