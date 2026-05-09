@@ -75,7 +75,7 @@ perf: ## Run Performance Tests
 	dotnet run --project Wizdle.Performance.Tests/Wizdle.Performance.Tests.csproj --configuration Release
 
 mutate: ## Run Stryker Mutation Testing
-	dotnet stryker --config-file stryker-config.json
+	dotnet stryker --config-file Wizdle.Unit.Tests/stryker-config.json
 
 playwright: ## Install Playwright browsers
 	pwsh -Command "& (Get-ChildItem -Path Wizdle.Web.Functional.Tests -Filter playwright.ps1 -Recurse | Select-Object -First 1).FullName install"
