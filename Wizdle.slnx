@@ -24,9 +24,10 @@
         <File Path=".github/workflows/release.yaml" />
         <File Path=".github/workflows/solve_wordle.yaml" />
     </Folder>
-    <Folder Name="/Installer/">
-        <File Path="Installer/Wizdle.Windows.x64.iss" />
-        <File Path="Installer/Wizdle.Windows.x86.iss" />
+    <Folder Name="/Wizdle.Wpf.Installer/">
+        <File Path="Wizdle.Wpf.Installer/Wizdle.Windows.x64.iss" />
+        <File Path="Wizdle.Wpf.Installer/Wizdle.Windows.x86.iss" />
+        <File Path="Wizdle.Wpf.Installer/README.md" />
     </Folder>
     <Folder Name="/Resources/">
         <File Path="Resources/background.png" />

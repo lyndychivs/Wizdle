@@ -103,16 +103,16 @@ jobs:
             - name: Update ISS version for x64
               shell: pwsh
               run: |
-                  $content = Get-Content 'Installer/Wizdle.Windows.x64.iss' -Raw
+                  $content = Get-Content 'Wizdle.Wpf.Installer/Wizdle.Windows.x64.iss' -Raw
                   $content = $content -replace '#define MyAppVersion ".*"', "#define MyAppVersion `"${{ needs.get_version.outputs.version }}`""
-                  Set-Content 'Installer/Wizdle.Windows.x64.iss' -Value $content
+                  Set-Content 'Wizdle.Wpf.Installer/Wizdle.Windows.x64.iss' -Value $content
 
             - name: Update ISS version for x86
               shell: pwsh
               run: |
-                  $content = Get-Content 'Installer/Wizdle.Windows.x86.iss' -Raw
+                  $content = Get-Content 'Wizdle.Wpf.Installer/Wizdle.Windows.x86.iss' -Raw
                   $content = $content -replace '#define MyAppVersion ".*"', "#define MyAppVersion `"${{ needs.get_version.outputs.version }}`""
-                  Set-Content 'Installer/Wizdle.Windows.x86.iss' -Value $content
+                  Set-Content 'Wizdle.Wpf.Installer/Wizdle.Windows.x86.iss' -Value $content
 
             - name: Install Inno Setup
               shell: pwsh
@@ -122,16 +122,16 @@ jobs:
             - name: Compile x64 Installer
               shell: pwsh
               run: |
-                  & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "Installer\Wizdle.Windows.x64.iss"
+                  & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "Wizdle.Wpf.Installer\Wizdle.Windows.x64.iss"
 
             - name: Compile x86 Installer
               shell: pwsh
               run: |
-                  & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "Installer\Wizdle.Windows.x86.iss"
+                  & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "Wizdle.Wpf.Installer\Wizdle.Windows.x86.iss"
 
             - name: Upload Installers to Release
               if: success()
               uses: softprops/action-gh-release@v3
               with:
                   files: |
-                      Installer/Output/*.exe
+                      Wizdle.Wpf.Installer/Output/*.exe
