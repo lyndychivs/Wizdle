@@ -37,11 +37,10 @@ jobs:
               run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }} /p:Version=${{ needs.get_version.outputs.version }}
 
             - name: Run Performance Tests
-              if: steps.build.outcome == 'success'
               run: dotnet run --project Wizdle.Performance.Tests/Wizdle.Performance.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }}
 
             - name: Publish Benchmark Results to Job Summary
-              if: steps.build.outcome == 'success'
+              if: (!cancelled() && steps.build.outcome == 'success')
               run: |
                   echo "## Benchmark Results" >> $GITHUB_STEP_SUMMARY
                   shopt -s nullglob
