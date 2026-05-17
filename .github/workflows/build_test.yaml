@@ -154,7 +154,6 @@ jobs:
         name: Publish Test Results
         runs-on: ubuntu-latest
         needs: [build_test, build_test_windows]
-        if: !cancelled()
         steps:
             - name: Publish Test Results
               uses: dorny/test-reporter@v3
