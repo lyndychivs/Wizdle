@@ -2,8 +2,6 @@ name: Build & Test
 run-name: Build & Test
 permissions:
     contents: read
-    checks: write
-    pull-requests: write
 on:
     push:
     schedule:
@@ -110,8 +108,8 @@ jobs:
               if: (!cancelled() && steps.build.outcome == 'success')
               with:
                   name: test-results-linux
-                  retention-days: 1
-                  if-no-files-found: warn
+                  retention-days: 7
+                  if-no-files-found: error
                   path: "**/*.trx"
 
     build_test_windows:
@@ -146,25 +144,6 @@ jobs:
               if: (!cancelled() && steps.build.outcome == 'success')
               with:
                   name: test-results-windows
-                  retention-days: 1
-                  if-no-files-found: warn
+                  retention-days: 7
+                  if-no-files-found: error
                   path: "**/*.trx"
-
-    publish_test_results:
-        name: Publish Test Results
-        runs-on: ubuntu-latest
-        needs: [build_test, build_test_windows]
-        if: ${{ always() && !cancelled() }}
-        steps:
-            - name: Download Test Results
-              uses: actions/download-artifact@v8
-              with:
-                  pattern: test-results-*
-                  merge-multiple: true
-                  path: test-results
-
-            - name: Publish Test Results
-              uses: EnricoMi/publish-unit-test-result-action/linux@v2
-              with:
-                  files: "test-results/**/*.trx"
-                  action_fail_on_inconclusive: true

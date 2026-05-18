@@ -54,22 +54,18 @@ jobs:
               run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }} /p:Version=${{ needs.get_version.outputs.version }}
 
             - name: NuGet Login
-              if: success()
               uses: NuGet/login@v1
               id: nuget_login
               with:
                   user: ${{ secrets.NUGET_USER }}
 
             - name: Push to NuGet
-              if: success()
               run: dotnet nuget push **.nupkg --api-key ${{ steps.nuget_login.outputs.NUGET_API_KEY }} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
 
             - name: Push to GitHub
-              if: success()
               run: dotnet nuget push **.nupkg --api-key ${{secrets.GITHUB}} --source "https://nuget.pkg.github.com/lyndychivs/index.json" --skip-duplicate
 
             - name: Upload Package to Release
-              if: success()
               uses: softprops/action-gh-release@v3
               with:
                   files: |
@@ -132,7 +128,6 @@ jobs:
                   & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "Wizdle.Wpf.Installer\Wizdle.Windows.x86.iss"
 
             - name: Upload Installers to Release
-              if: success()
               uses: softprops/action-gh-release@v3
               with:
                   files: |
