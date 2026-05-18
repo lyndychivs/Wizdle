@@ -14,19 +14,11 @@ jobs:
     publish_test_results:
         runs-on: ubuntu-latest
         steps:
-            - name: Download Test Results
-              uses: actions/download-artifact@v7
-              with:
-                  pattern: test-results-*
-                  merge-multiple: true
-                  run-id: ${{ github.event.workflow_run.id }}
-                  github-token: ${{ secrets.GITHUB_TOKEN }}
-                  path: test-results
-
             - uses: dorny/test-reporter@v3
               with:
                 name: Publish Test Results
-                path: 'test-results/**/*.trx'
+                artifact: /test-results-(.*)/
+                path: '**/*.trx'
                 reporter: dotnet-trx
                 report-title: Wizdle Test Results
                 fail-on-error: 'true'
