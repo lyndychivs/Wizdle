@@ -21,7 +21,6 @@
         <File Path=".github/workflows/dotnet_stryker_action.yaml" />
         <File Path=".github/workflows/get_version.yaml" />
         <File Path=".github/workflows/performance_tests.yaml" />
-        <File Path=".github/workflows/publish_test_results.yaml" />
         <File Path=".github/workflows/release.yaml" />
         <File Path=".github/workflows/solve_wordle.yaml" />
     </Folder>
