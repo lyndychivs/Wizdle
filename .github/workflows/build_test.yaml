@@ -2,6 +2,8 @@ name: Build & Test
 run-name: Build & Test
 permissions:
     contents: read
+    actions: read
+    checks: write
 on:
     push:
     schedule:
@@ -96,7 +98,7 @@ jobs:
               if: (!cancelled() && steps.build.outcome == 'success')
               with:
                   name: Wizdle.Web.Functional.Tests
-                  retention-days: 20
+                  retention-days: 7
                   if-no-files-found: error
                   path: |
                       Wizdle.Web.Functional.Tests/bin/**/reports/
@@ -147,3 +149,20 @@ jobs:
                   retention-days: 7
                   if-no-files-found: error
                   path: "**/*.trx"
+
+    publish_test_results:
+        name: Publish Test Results
+        needs: [build_test, build_test_windows]
+        runs-on: ubuntu-latest
+        timeout-minutes: 5
+        steps:
+            - uses: dorny/test-reporter@v3
+              with:
+                name: Publish Artifacts
+                artifact: /test-results-(.*)/
+                path: '**/*.trx'
+                reporter: dotnet-trx
+                report-title: Wizdle Test Results
+                fail-on-error: true
+                fail-on-empty: true
+                use-actions-summary: true
