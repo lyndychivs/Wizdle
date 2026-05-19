@@ -2,8 +2,6 @@ name: Build & Test
 run-name: Build & Test
 permissions:
     contents: read
-    actions: read
-    checks: write
 on:
     push:
     schedule:
@@ -150,15 +148,19 @@ jobs:
                   if-no-files-found: error
                   path: "**/*.trx"
 
-    publish_test_results:
-        name: Publish Test Results
+    publish_results:
+        name: Publish Results
         needs: [build_test, build_test_windows]
+        if: ${{ !cancelled() }}
         runs-on: ubuntu-latest
         timeout-minutes: 5
+        permissions:
+            actions: read
+            checks: write
         steps:
             - uses: dorny/test-reporter@v3
               with:
-                name: Publish Artifacts
+                name: Publish Test Results
                 artifact: /test-results-(.*)/
                 path: '**/*.trx'
                 reporter: dotnet-trx

@@ -1,8 +1,7 @@
 name: Release
 run-name: Release ${{ github.ref_name }}
 permissions:
-    contents: write
-    checks: write
+    contents: read
 on:
     release:
         types: [published]
@@ -16,8 +15,8 @@ jobs:
         uses: ./.github/workflows/build_test.yaml
         permissions:
             contents: read
+            actions: read
             checks: write
-            pull-requests: write
 
     performance_tests:
         name: "[Release] Performance Tests"
@@ -77,6 +76,8 @@ jobs:
         needs: [get_version, build_and_test, performance_tests]
         runs-on: windows-latest
         timeout-minutes: 10
+        permissions:
+          contents: write
         env:
             CONFIGURATION: Release
             TARGET_FRAMEWORK: net10.0-windows
