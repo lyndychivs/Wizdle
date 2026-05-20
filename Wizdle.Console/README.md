@@ -1,8 +1,16 @@
 # 💻 Wizdle.Console
 
-Specify the following commands & arguments:
+CLI for the Wizdle library.
 
-## 🛠️Command Line Interface Usages
+## Running
+
+From the repository root:
+
+```sh
+dotnet run --project Wizdle.Console -- solve --correct "....t" --misplaced "..rs." --exclude "haebu"
+```
+
+## Usage
 
 ### 🧩 solve
 
@@ -30,7 +38,7 @@ solve [parameters]
 
 **Response:**
 
-```bash
+```text
 Processing WizdleRequest: CorrectLetters: "....t"   MisplacedLetters: "..rs." ExcludeLetters: "haebu"
 Mapping WizdleRequest:    CorrectLetters: "....t"   MisplacedLetters: "..rs." ExcludeLetters: "haebu"
 Mapped SolveParameters:   CorrectLetters: "????t"   MisplacedLetters: "??rs?" ExcludeLetters: "haebu"

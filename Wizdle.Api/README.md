@@ -1,12 +1,10 @@
 # 🧩 Wizdle.Api
 
-**Version:** 1.0.0
-
 A simple API to help solve word puzzles by narrowing down possible matches based on input clues.
 
 ---
 
-## 🎯 `POST`
+## 🎯 `POST /`
 
 **Summary**: Processes a Wizdle request in an attempt to solve the possible words.
 
@@ -56,6 +54,26 @@ A simple API to help solve word puzzles by narrowing down possible matches based
 
 ---
 
-## 🏷️ Tag
+## 🚦 Rate Limiting
 
-- `Wizdle.Api`
+Requests are rate limited per IP address using a fixed window.
+
+| Setting | Default |
+| --- | --- |
+| Requests per window | `60` |
+| Window duration | `60` seconds |
+| Rejection status | `429 Too Many Requests` |
+
+Limits are configurable via `appsettings.json`:
+
+```json
+"RateLimiting": {
+    "PermitLimit": 60,
+    "WindowSeconds": 60
+}
+```
+
+## 📖 API Reference
+
+An interactive API reference powered by [Scalar](https://scalar.com/) is available at `/scalar/v1` when the API is running.
+

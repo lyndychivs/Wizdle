@@ -6,14 +6,10 @@ Performance benchmarks for the Wizdle engine using [BenchmarkDotNet](https://ben
 
 ## Overview
 
-This project contains performance tests that measure the execution time and efficiency of the `WizdleEngine` under various scenarios. Benchmarks are run against different word lengths and input configurations to track performance characteristics over time.
+Benchmarks are parameterized by word length (1–5 characters) and cover:
 
-The benchmarks test:
-
-- **WizdleEngine_WithOnlyCorrectLetters** — Performance when filtering with only correct letter positions
-- **WizdleEngine_WithOnlyMisplacedLetters** — Performance when filtering with only misplaced letters
-
-Each benchmark is parameterized to run with word lengths from 1 to 5 characters.
+- **WizdleEngine_WithOnlyCorrectLetters** — filtering with only correct letter positions
+- **WizdleEngine_WithOnlyMisplacedLetters** — filtering with only misplaced letters
 
 ## Running Locally
 
@@ -31,21 +27,9 @@ dotnet run --project Wizdle.Performance.Tests/Wizdle.Performance.Tests.csproj --
 
 ## Results
 
-Benchmark results are published to the GitHub Actions workflow summary and archived as artifacts. Results include:
-
-- Execution time (mean, median, standard deviation)
-- Memory allocations
-- Statistical analysis
-
-Results are stored in `BenchmarkDotNet.Artifacts/` after each run.
+Results include mean/median/stddev, memory allocations, and statistical analysis. Stored in `BenchmarkDotNet.Artifacts/` after each run and published to the workflow summary.
 
 ## CI/CD
 
-Performance tests run automatically:
-
-- On every push
-- On a weekly schedule (Sundays at 4 AM UTC)
-- As part of the release workflow
-
-Results are tracked over time to detect performance regressions.
+Performance tests run on every push, weekly on Sundays at 4 AM UTC, and as part of the release workflow.
 

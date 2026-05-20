@@ -11,7 +11,7 @@ The Inno Setup scripts for building Windows installers for Wizdle.Wpf
 
 The installers are automatically built during the release workflow (`.github/workflows/release.yaml`).
 
-### Manual Build Process
+### Manual Build
 
 1. **Publish the WPF application:**
    ```powershell
