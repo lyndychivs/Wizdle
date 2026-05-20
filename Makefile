@@ -1,4 +1,4 @@
-.PHONY: help build build-api build-web build-discord build-all clean test compose stop stop-volumes logs docker-prune token mutate restart solve test-functional test-all perf
+.PHONY: help build build-api build-web build-discord build-all clean test compose stop stop-volumes logs token mutate restart solve test-functional test-all perf
 
 # Variables
 COMPOSE_FILE = docker-compose.yaml
@@ -63,10 +63,8 @@ logs: ## Shows logs for Wizdle Docker images
 
 restart: stop-volumes build-all compose ## Rebuild Wizdle Docker images and restart Containers
 
-docker-prune: stop-volumes ## Prune unused Docker resources
-	docker system prune --all --force --volumes
-
-clean: docker-prune ## Clean Wizdle build artifacts and Docker resources
+clean: stop-volumes ## Clean Wizdle build artifacts and remove Wizdle Docker images
+	docker rmi wizdle-api:latest wizdle-web:latest wizdle-discord:latest 2>/dev/null || true
 	dotnet clean
 	rm -rf **/bin **/obj TestResults BenchmarkDotNet.Artifacts
 

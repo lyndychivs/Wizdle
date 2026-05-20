@@ -16,6 +16,9 @@ services:
         restart: "always"
     wizdle-api:
         image: "wizdle-api:latest"
+        build:
+            context: "."
+            dockerfile: "Wizdle.Api/Dockerfile"
         environment:
             OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES: "true"
             OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES: "true"
@@ -35,6 +38,9 @@ services:
             - "aspire"
     wizdle-web:
         image: "wizdle-web:latest"
+        build:
+            context: "."
+            dockerfile: "Wizdle.Web/Dockerfile"
         environment:
             OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES: "true"
             OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES: "true"
@@ -60,6 +66,9 @@ services:
             - "aspire"
     wizdle-discord:
         image: "wizdle-discord:latest"
+        build:
+            context: "."
+            dockerfile: "Wizdle.Discord/Dockerfile"
         environment:
             OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES: "true"
             OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES: "true"
