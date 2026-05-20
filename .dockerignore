@@ -1,0 +1,12 @@
+# Build artifacts
+**/bin/
+**/obj/
+**/TestResults/
+BenchmarkDotNet.Artifacts/
+
+# IDE
+.vs/
+**/*.user
+
+# Version control
+.git/

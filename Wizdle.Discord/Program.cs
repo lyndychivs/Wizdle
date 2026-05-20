@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using NetCord.Gateway;
 using NetCord.Hosting.Gateway;
+using NetCord.Hosting.Services;
 using NetCord.Hosting.Services.ApplicationCommands;
 
 using Wizdle.ServiceDefaults;
@@ -21,12 +21,13 @@ internal static class Program
         builder.AddServiceDefaults();
 
         builder.Services
-            .AddDiscordGateway(op => op.Intents = GatewayIntents.Guilds)
-            .AddGatewayHandlers(typeof(Program).Assembly)
+            .AddDiscordGateway()
             .AddApplicationCommands()
             .AddHttpClient<WizdleApiClient>(client => client.BaseAddress = new Uri("https+http://wizdle-api"));
 
         IHost host = builder.Build();
+
+        host.AddModules(typeof(Program).Assembly);
 
         await host.RunAsync();
     }

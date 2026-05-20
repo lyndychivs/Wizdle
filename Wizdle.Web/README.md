@@ -12,8 +12,6 @@ Wizdle.Web communicates with the `Wizdle.Api` backend via HTTP and renders an in
 - **Misplaced Letters** — letters present but in the wrong position (yellow tiles)
 - **Excluded Letters** — letters not in the word (grey tiles)
 
-Results are returned as a filtered list of possible words.
-
 ## Running Locally
 
 Wizdle.Web is designed to run as part of the full Aspire-orchestrated stack. Use the `make` commands from the repository root:
@@ -34,17 +32,8 @@ make logs
 
 ## Functional Tests
 
-Browser-based functional tests are located in `Wizdle.Web.Functional.Tests` and use Playwright. Install the required browsers before running:
+Browser-based functional tests are in `Wizdle.Web.Functional.Tests` using Playwright.
 
 ```sh
-make playwright
 make test-functional
-```
-
-## Docker
-
-The web application is published as a Linux x64 container image tagged `wizdle-web:latest`:
-
-```sh
-dotnet publish Wizdle.Web/Wizdle.Web.csproj --configuration Release -t:PublishContainer --os linux --arch x64 -p:ContainerImageTag=latest -p:ContainerRepository=wizdle-web
 ```

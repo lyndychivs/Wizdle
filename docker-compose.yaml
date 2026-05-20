@@ -15,7 +15,10 @@ services:
             - "aspire"
         restart: "always"
     wizdle-api:
-        image: "${WIZDLE_API_IMAGE}"
+        image: "wizdle-api:latest"
+        build:
+            context: "."
+            dockerfile: "Wizdle.Api/Dockerfile"
         environment:
             OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES: "true"
             OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES: "true"
@@ -26,7 +29,7 @@ services:
             OTEL_EXPORTER_OTLP_PROTOCOL: "grpc"
             OTEL_SERVICE_NAME: "wizdle-api"
             OTEL_EXPORTER_OTLP_HEADERS: "x-otlp-api-key=${DASHBOARD_OTLP_API_KEY}"
-            ASPNETCORE_ENVIRONMENT: "${ENVIRONMENT}"
+            ASPNETCORE_ENVIRONMENT: "Production"
         volumes:
             - api-dataprotection:/root/.aspnet/DataProtection-Keys
         ports:
@@ -34,7 +37,10 @@ services:
         networks:
             - "aspire"
     wizdle-web:
-        image: "${WIZDLE_WEB_IMAGE}"
+        image: "wizdle-web:latest"
+        build:
+            context: "."
+            dockerfile: "Wizdle.Web/Dockerfile"
         environment:
             OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES: "true"
             OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES: "true"
@@ -48,7 +54,7 @@ services:
             OTEL_EXPORTER_OTLP_PROTOCOL: "grpc"
             OTEL_SERVICE_NAME: "wizdle-web"
             OTEL_EXPORTER_OTLP_HEADERS: "x-otlp-api-key=${DASHBOARD_OTLP_API_KEY}"
-            ASPNETCORE_ENVIRONMENT: "${ENVIRONMENT}"
+            ASPNETCORE_ENVIRONMENT: "Production"
         volumes:
             - web-dataprotection:/root/.aspnet/DataProtection-Keys
         ports:
@@ -59,7 +65,10 @@ services:
         networks:
             - "aspire"
     wizdle-discord:
-        image: "${WIZDLE_DISCORD_IMAGE}"
+        image: "wizdle-discord:latest"
+        build:
+            context: "."
+            dockerfile: "Wizdle.Discord/Dockerfile"
         environment:
             OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES: "true"
             OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES: "true"
@@ -71,7 +80,7 @@ services:
             OTEL_EXPORTER_OTLP_PROTOCOL: "grpc"
             OTEL_SERVICE_NAME: "wizdle-discord"
             OTEL_EXPORTER_OTLP_HEADERS: "x-otlp-api-key=${DASHBOARD_OTLP_API_KEY}"
-            ASPNETCORE_ENVIRONMENT: "${ENVIRONMENT}"
+            ASPNETCORE_ENVIRONMENT: "Production"
             Discord__Token: "${DISCORD_TOKEN}"
             Discord__PublicKey: "${DISCORD_PUBLIC_KEY}"
         volumes:
