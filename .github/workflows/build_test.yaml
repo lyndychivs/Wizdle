@@ -74,13 +74,8 @@ jobs:
                   key: playwright-${{ runner.os }}-${{ hashFiles('Directory.Packages.props') }}
 
             - name: Install Playwright Browsers
-              id: install_playwright
-              if: steps.playwright_cache.outputs.cache-hit != 'true' && steps.build.outcome == 'success'
+              if: steps.build.outcome == 'success'
               run: pwsh Wizdle.Web.Functional.Tests/bin/${{ env.CONFIGURATION }}/${{ env.TARGET_FRAMEWORK }}/playwright.ps1 install --with-deps
-
-            - name: Install Playwright OS Dependencies
-              if: steps.playwright_cache.outputs.cache-hit == 'true' && steps.build.outcome == 'success'
-              run: pwsh Wizdle.Web.Functional.Tests/bin/${{ env.CONFIGURATION }}/${{ env.TARGET_FRAMEWORK }}/playwright.ps1 install-deps
 
             - name: Build Docker for Wizdle.Web
               id: build_web
