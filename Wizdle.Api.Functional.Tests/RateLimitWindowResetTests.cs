@@ -16,14 +16,18 @@ public class RateLimitWindowResetTests
 {
     private const string RequestUri = "/";
 
+    private const int PermitLimit = 2;
+    private const int WindowSeconds = 5;
+
     private readonly HttpClient _httpClient;
+
     private readonly string _testUrl;
 
     public RateLimitWindowResetTests()
     {
         _httpClient = new HttpClient();
 
-        _testUrl = ContainerSetup.GetWizdleApiUrl().Result;
+        _testUrl = ContainerSetup.GetWizdleApiUrl(PermitLimit, WindowSeconds).Result;
         if (string.IsNullOrWhiteSpace(_testUrl))
         {
             throw new InvalidOperationException("Failed to obtain Wizdle API URL from container setup.");
@@ -43,12 +47,9 @@ public class RateLimitWindowResetTests
             ExcludeLetters = "haebukin",
         };
 
-        const int permitLimit = 60;
-        const int windowSeconds = 60;
-
         // Act & Assert
         // Fill up the rate limit
-        for (int i = 0; i < permitLimit; i++)
+        for (int i = 0; i < PermitLimit; i++)
         {
             using HttpResponseMessage response = await _httpClient.PostAsJsonAsync(RequestUri, request);
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -61,7 +62,7 @@ public class RateLimitWindowResetTests
         }
 
         // Wait for the rate limit window to reset
-        await Task.Delay(TimeSpan.FromSeconds(windowSeconds + 1));
+        await Task.Delay(TimeSpan.FromSeconds(WindowSeconds + 1));
 
         // Verify we can make requests again
         using HttpResponseMessage newWindowResponse = await _httpClient.PostAsJsonAsync(RequestUri, request);
