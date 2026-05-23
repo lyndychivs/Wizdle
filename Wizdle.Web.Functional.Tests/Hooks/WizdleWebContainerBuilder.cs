@@ -9,6 +9,8 @@ using DotNet.Testcontainers.Containers;
 using DotNet.Testcontainers.Images;
 using DotNet.Testcontainers.Networks;
 
+using Wizdle.Web.Functional.Tests.Models;
+
 internal sealed class WizdleWebContainerBuilder
 {
     private readonly string _repositoryRoot;

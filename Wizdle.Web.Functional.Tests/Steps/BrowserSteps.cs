@@ -9,7 +9,7 @@ using NUnit.Framework;
 
 using Reqnroll;
 
-using Wizdle.Web.Functional.Tests.Hooks;
+using Wizdle.Web.Functional.Tests.Models;
 
 [Binding]
 internal sealed class BrowserSteps

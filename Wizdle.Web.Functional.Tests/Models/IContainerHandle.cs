@@ -1,4 +1,4 @@
-namespace Wizdle.Web.Functional.Tests.Hooks;
+namespace Wizdle.Web.Functional.Tests.Models;
 
 using System;
 

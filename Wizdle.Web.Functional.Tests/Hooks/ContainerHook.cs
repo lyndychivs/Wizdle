@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Reqnroll;
 using Reqnroll.BoDi;
 
+using Wizdle.Web.Functional.Tests.Models;
+
 [Binding]
 internal static class ContainerHook
 {
