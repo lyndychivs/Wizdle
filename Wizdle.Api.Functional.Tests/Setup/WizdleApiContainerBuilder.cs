@@ -9,9 +9,24 @@ using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Containers;
 using DotNet.Testcontainers.Images;
 
-internal static class ContainerSetup
+internal sealed class WizdleApiContainerBuilder
 {
-    public static async Task<string> GetWizdleApiUrl(int permitLimit = 60, int windowSeconds = 60)
+    private int _permitLimit = 60;
+    private int _windowSeconds = 60;
+
+    public WizdleApiContainerBuilder WithPermitLimit(int permitLimit)
+    {
+        _permitLimit = permitLimit;
+        return this;
+    }
+
+    public WizdleApiContainerBuilder WithWindowSeconds(int windowSeconds)
+    {
+        _windowSeconds = windowSeconds;
+        return this;
+    }
+
+    public async Task<ContainerHandle> BuildAsync()
     {
         string repositoryRoot = GetRepositoryRoot();
 
@@ -29,14 +44,16 @@ internal static class ContainerSetup
             .WithCleanUp(true)
             .WithPortBinding(8080, assignRandomHostPort: true)
             .WithEnvironment("ASPNETCORE_ENVIRONMENT", "Production")
-            .WithEnvironment("RateLimiting__PermitLimit", permitLimit.ToString(CultureInfo.InvariantCulture))
-            .WithEnvironment("RateLimiting__WindowSeconds", windowSeconds.ToString(CultureInfo.InvariantCulture))
+            .WithEnvironment("RateLimiting__PermitLimit", _permitLimit.ToString(CultureInfo.InvariantCulture))
+            .WithEnvironment("RateLimiting__WindowSeconds", _windowSeconds.ToString(CultureInfo.InvariantCulture))
             .WithWaitStrategy(Wait.ForUnixContainer().UntilHttpRequestIsSucceeded(r => r.ForPort(8080).ForPath("/health")))
             .Build();
 
         await container.StartAsync();
 
-        return $"http://localhost:{container.GetMappedPublicPort(8080)}";
+        return new ContainerHandle(
+            new Uri($"http://localhost:{container.GetMappedPublicPort(8080)}"),
+            container);
     }
 
     private static string GetRepositoryRoot()

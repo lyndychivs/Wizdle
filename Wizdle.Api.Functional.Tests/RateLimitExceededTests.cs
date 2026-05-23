@@ -1,6 +1,5 @@
 namespace Wizdle.Api.Functional.Tests;
 
-using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -20,19 +19,20 @@ public class RateLimitExceededTests
 
     private readonly HttpClient _httpClient;
 
-    private readonly string _testUrl;
+    private readonly ContainerHandle _containerHandle;
 
     public RateLimitExceededTests()
     {
-        _httpClient = new HttpClient();
+        _containerHandle = new WizdleApiContainerBuilder()
+            .WithPermitLimit(PermitLimit)
+            .BuildAsync()
+            .GetAwaiter()
+            .GetResult();
 
-        _testUrl = ContainerSetup.GetWizdleApiUrl(permitLimit: PermitLimit).Result;
-        if (string.IsNullOrWhiteSpace(_testUrl))
+        _httpClient = new HttpClient()
         {
-            throw new InvalidOperationException("Failed to obtain Wizdle API URL from container setup.");
-        }
-
-        _httpClient.BaseAddress = new Uri(_testUrl);
+            BaseAddress = _containerHandle.Url,
+        };
     }
 
     [Test]
@@ -71,8 +71,9 @@ public class RateLimitExceededTests
     }
 
     [OneTimeTearDown]
-    public void Dispose()
+    public async ValueTask Dispose()
     {
         _httpClient.Dispose();
+        await _containerHandle.DisposeAsync();
     }
 }

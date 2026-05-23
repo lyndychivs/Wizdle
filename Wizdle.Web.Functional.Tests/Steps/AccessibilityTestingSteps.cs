@@ -1,7 +1,6 @@
 namespace Wizdle.Web.Functional.Tests.Steps;
 
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
 
