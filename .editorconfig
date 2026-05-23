@@ -56,11 +56,13 @@ dotnet_diagnostic.MA0182.severity = none
 dotnet_diagnostic.MA0038.severity = none
 # SA1402: File may only contain a single type
 dotnet_diagnostic.SA1402.severity = error
-# IDE0005: Remove unnecessary using directives
-dotnet_diagnostic.IDE0005.severity = warning
 # IDE0051: Remove unused private members (methods, fields, properties)
 dotnet_diagnostic.IDE0051.severity = warning
 
 [*.feature.cs]
 # SA1518: The line endings at the end of a file do not match the settings for the project.
 dotnet_diagnostic.SA1518.severity = none
+
+[Wizdle.Api/Program.cs]
+# MA0036: Make class static - needs to be non-static for WebApplicationBuilder and WebApplication
+dotnet_diagnostic.MA0036.severity = none
