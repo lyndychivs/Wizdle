@@ -1,6 +1,5 @@
 namespace Wizdle.Api.Functional.Tests;
 
-using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -16,20 +15,24 @@ public class RateLimitExceededTests
 {
     private const string RequestUri = "/";
 
+    private const int PermitLimit = 3;
+
     private readonly HttpClient _httpClient;
-    private readonly string _testUrl;
+
+    private readonly ContainerHandle _containerHandle;
 
     public RateLimitExceededTests()
     {
-        _httpClient = new HttpClient();
+        _containerHandle = new WizdleApiContainerBuilder()
+            .WithPermitLimit(PermitLimit)
+            .BuildAsync()
+            .GetAwaiter()
+            .GetResult();
 
-        _testUrl = ContainerSetup.GetWizdleApiUrl().Result;
-        if (string.IsNullOrWhiteSpace(_testUrl))
+        _httpClient = new HttpClient()
         {
-            throw new InvalidOperationException("Failed to obtain Wizdle API URL from container setup.");
-        }
-
-        _httpClient.BaseAddress = new Uri(_testUrl);
+            BaseAddress = _containerHandle.Url,
+        };
     }
 
     [Test]
@@ -43,12 +46,11 @@ public class RateLimitExceededTests
             ExcludeLetters = "haebukin",
         };
 
-        const int permitLimit = 60;
         const int extraRequests = 5;
 
         // Act & Assert
-        // First, send requests up to the permit limit - all should succeed
-        for (int i = 0; i < permitLimit; i++)
+        // Send requests up to the permit limit
+        for (int i = 0; i < PermitLimit; i++)
         {
             using HttpResponseMessage response = await _httpClient.PostAsJsonAsync(RequestUri, request);
             Assert.That(
@@ -57,20 +59,21 @@ public class RateLimitExceededTests
                 $"Request {i + 1} should succeed (within rate limit)");
         }
 
-        // Now send requests beyond the limit - these should be rate limited
+        // Send requests beyond the limit
         for (int i = 0; i < extraRequests; i++)
         {
             using HttpResponseMessage response = await _httpClient.PostAsJsonAsync(RequestUri, request);
             Assert.That(
                 response.StatusCode,
                 Is.EqualTo(HttpStatusCode.TooManyRequests),
-                $"Request {permitLimit + i + 1} should be rate limited");
+                $"Request {PermitLimit + i + 1} should be rate limited");
         }
     }
 
     [OneTimeTearDown]
-    public void Dispose()
+    public async ValueTask Dispose()
     {
         _httpClient.Dispose();
+        await _containerHandle.DisposeAsync();
     }
 }

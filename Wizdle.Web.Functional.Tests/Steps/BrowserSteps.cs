@@ -18,21 +18,24 @@ internal sealed class BrowserSteps
 
     private readonly IPage _page;
 
-    private readonly Endpoint _endpoint;
+    private readonly IContainerHandle _containerHandle;
 
-    public BrowserSteps(IReqnrollOutputHelper reqnrollOutputHelper, IPage page, Endpoint endpoint)
+    public BrowserSteps(
+        IReqnrollOutputHelper reqnrollOutputHelper,
+        IPage page,
+        IContainerHandle containerHandle)
     {
         _reqnrollOutputHelper = reqnrollOutputHelper ?? throw new ArgumentNullException(nameof(reqnrollOutputHelper));
         _page = page ?? throw new ArgumentNullException(nameof(page));
-        _endpoint = endpoint ?? throw new ArgumentNullException(nameof(endpoint));
+        _containerHandle = containerHandle ?? throw new ArgumentNullException(nameof(containerHandle));
     }
 
     [StepDefinition("I navigate to the Wizdle Home page")]
     public async Task NavigateToHomePage()
     {
-        _reqnrollOutputHelper.WriteLine($"Navigating to {_endpoint.Url}");
+        _reqnrollOutputHelper.WriteLine($"Navigating to {_containerHandle.Url}");
 
-        await _page.GotoAsync(_endpoint.Url, new PageGotoOptions()
+        await _page.GotoAsync(_containerHandle.Url.AbsoluteUri, new PageGotoOptions()
         {
             WaitUntil = WaitUntilState.NetworkIdle,
             Timeout = 30_000,

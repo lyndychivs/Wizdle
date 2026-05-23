@@ -1,13 +1,9 @@
 namespace Wizdle.Web.Functional.Tests.Hooks;
 
-using System;
 using System.Threading.Tasks;
 
-using DotNet.Testcontainers.Builders;
-using DotNet.Testcontainers.Containers;
-using DotNet.Testcontainers.Networks;
-
 using Reqnroll;
+using Reqnroll.BoDi;
 
 using Wizdle.Web.Functional.Tests.Models;
 
@@ -15,42 +11,11 @@ using Wizdle.Web.Functional.Tests.Models;
 internal static class ContainerHook
 {
     [BeforeTestRun]
-    public static async Task CreateWizdleContainers(Endpoint endpoint)
+    public static async Task CreateWizdleContainers(IObjectContainer objectContainer)
     {
-        INetwork network = new NetworkBuilder()
-            .WithName($"wizdle-network-{Guid.NewGuid()}")
-            .WithCleanUp(true)
-            .Build();
+        ContainerHandle handle = await new WizdleWebContainerBuilder()
+            .BuildAsync();
 
-        await network.CreateAsync();
-
-        IContainer apiContainer = new ContainerBuilder("wizdle-api:latest")
-            .WithName($"wizdle-api-{Guid.NewGuid()}")
-            .WithAutoRemove(true)
-            .WithCleanUp(true)
-            .WithNetwork(network)
-            .WithNetworkAliases("wizdle-api")
-            .WithPortBinding(8080, assignRandomHostPort: true)
-            .WithWaitStrategy(Wait.ForUnixContainer().UntilHttpRequestIsSucceeded(r => r.ForPort(8080).ForPath("/health")))
-            .Build();
-
-        await apiContainer.StartAsync();
-
-        IContainer webContainer = new ContainerBuilder("wizdle-web:latest")
-            .WithName($"wizdle-web-{Guid.NewGuid()}")
-            .WithAutoRemove(true)
-            .WithCleanUp(true)
-            .WithNetwork(network)
-            .WithEnvironment("ASPNETCORE_URLS", "http://+:8080")
-            .WithEnvironment("services__wizdle-api__http__0", "http://wizdle-api:8080")
-            .WithEnvironment("services__wizdle-api__https__0", "http://wizdle-api:8080")
-            .WithPortBinding(8080, assignRandomHostPort: true)
-            .WithWaitStrategy(Wait.ForUnixContainer().UntilHttpRequestIsSucceeded(r => r.ForPort(8080).ForPath("/health")))
-            .DependsOn(apiContainer)
-            .Build();
-
-        await webContainer.StartAsync();
-
-        endpoint.Url = $"http://localhost:{webContainer.GetMappedPublicPort(8080)}";
+        objectContainer.RegisterInstanceAs<IContainerHandle>(handle);
     }
 }

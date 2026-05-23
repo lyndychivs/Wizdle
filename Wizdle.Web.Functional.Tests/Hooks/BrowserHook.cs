@@ -22,8 +22,8 @@ internal static class BrowserHook
 {
     [BeforeScenario]
     public static async Task CreateBrowserInstance(
-        ObjectContainer objectContainer,
-        ScenarioContext scenarioContext,
+        IObjectContainer objectContainer,
+        IScenarioContext scenarioContext,
         IReqnrollOutputHelper reqnrollOutputHelper)
     {
         var retry = new Retry(TimeSpan.FromSeconds(30), TimeSpan.FromSeconds(3));
@@ -99,6 +99,7 @@ internal static class BrowserHook
         await page.CloseAsync();
         await browser.CloseAsync();
         await browserContext.CloseAsync();
+
         playwright.Dispose();
     }
 
