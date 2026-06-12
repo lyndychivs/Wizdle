@@ -580,6 +580,7 @@ internal sealed class WordList : IWords
             "ditto",
             "ditty",
             "diver",
+            "divot",
             "dizzy",
             "dodge",
             "dodgy",
