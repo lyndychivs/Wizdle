@@ -10,6 +10,7 @@
         <PackageVersion Include="CommandLineParser" Version="2.*" />
         <PackageVersion Include="Deque.AxeCore.Playwright" Version="4.*" />
         <PackageVersion Include="lyndychivs.Retry" Version="1.*" />
+        <PackageVersion Include="MessagePack" Version="3.*" />
         <PackageVersion Include="Meziantou.Analyzer" Version="3.*" />
         <PackageVersion Include="Microsoft.Testing.Extensions.TrxReport" Version="2.*" />
         <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.*" />
