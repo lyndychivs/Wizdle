@@ -669,6 +669,7 @@ internal sealed class WordList : IWords
             "embed",
             "ember",
             "emcee",
+            "emoji",
             "empty",
             "enact",
             "endow",
