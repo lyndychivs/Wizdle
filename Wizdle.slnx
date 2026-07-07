@@ -39,6 +39,7 @@
         <File Path="Resources/WizdleWebScreenshot.png" />
     </Folder>
     <Folder Name="/Solution Items/">
+        <File Path=".dockerignore" />
         <File Path=".editorconfig" />
         <File Path=".env.template" />
         <File Path=".gitignore" />
@@ -55,7 +56,6 @@
         <File Path="Makefile" />
         <File Path="README.md" />
         <File Path="SECURITY.md" />
-        <File Path="stryker-config.json" />
     </Folder>
     <Folder Name="/Wizdle.Domain/">
         <File Path="Wizdle.Domain/README.md" />
