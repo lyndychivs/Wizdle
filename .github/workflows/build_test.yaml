@@ -22,7 +22,7 @@ jobs:
             TARGET_FRAMEWORK: net10.0
         steps:
             - name: Checkout Repository
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
 
             - name: Install .NET
               uses: actions/setup-dotnet@v5
@@ -63,7 +63,7 @@ jobs:
             - name: Cache Playwright Browsers
               id: playwright_cache
               if: steps.build.outcome == 'success'
-              uses: actions/cache@v5
+              uses: actions/cache@v6
               with:
                   path: ~/.cache/ms-playwright
                   key: playwright-${{ runner.os }}-${{ hashFiles('Directory.Packages.props') }}
@@ -106,7 +106,7 @@ jobs:
             CONFIGURATION: Release
         steps:
             - name: Checkout Repository
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
 
             - name: Install .NET
               uses: actions/setup-dotnet@v5
