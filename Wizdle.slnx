@@ -18,6 +18,7 @@
     </Folder>
     <Folder Name="/.github/workflows/">
         <File Path=".github/workflows/build_test.yaml" />
+        <File Path=".github/workflows/deploy_azure.yaml" />
         <File Path=".github/workflows/dotnet_stryker_action.yaml" />
         <File Path=".github/workflows/get_version.yaml" />
         <File Path=".github/workflows/performance_tests.yaml" />
