@@ -19,7 +19,7 @@ direction TB
             +GetWords() IEnumerable~string~
         }
 
-        class Words {
+        class WordList {
             +GetWords() IEnumerable~string~
         }
 
@@ -55,9 +55,9 @@ direction TB
         }
 
         class SolveParameters {
-            +IList~char~ CorrectLetters
-            +IList~char~ MisplacedLetters
-            +IList~char~ ExcludeLetters
+            +List~char~ CorrectLetters
+            +List~char~ MisplacedLetters
+            +List~char~ ExcludeLetters
         }
 
         class ISolveParametersValidator {
@@ -110,7 +110,7 @@ direction TB
     <<interface>> IRequestValidator
     <<interface>> ILogger
 
-    IWords <|.. Words
+    IWords <|.. WordList
     IRequestMapper <|.. RequestMapper
     IWordRepository <|.. WordRepository
     WordRepository --> IWords

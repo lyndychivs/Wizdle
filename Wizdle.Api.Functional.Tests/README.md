@@ -8,4 +8,4 @@ Tests that run against the Wizdle API in a Docker container.
 dotnet test Wizdle.Api.Functional.Tests
 ```
 
-> **Note:** The Docker image is built automatically from the Dockerfile when tests run. Tests can configure rate limits per test class via `ContainerSetup.GetWizdleApiUrl(permitLimit, windowSeconds)`.
+> **Note:** The Docker image is built automatically from the Dockerfile when tests run. Tests can configure rate limits per test class via `WizdleApiContainerBuilder` with `.WithPermitLimit(permitLimit).WithWindowSeconds(windowSeconds).BuildAsync()`.

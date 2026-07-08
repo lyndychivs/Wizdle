@@ -40,7 +40,7 @@ public sealed partial class WizdleEngine
     /// <summary>
     /// Initializes a new instance of the <see cref="WizdleEngine"/> class.
     /// </summary>
-    /// <param name="logger">The <see cref="ILogger"/> interface to use.</param>
+    /// <param name="logger">The <see cref="ILogger{WizdleEngine}"/> interface to use.</param>
     public WizdleEngine(ILogger<WizdleEngine> logger)
         : this(
               logger,

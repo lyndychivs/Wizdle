@@ -53,7 +53,7 @@ var request = new WizdleRequest
 };
 
 WizdleResponse response = wizdleEngine.ProcessWizdleRequest(request);
-// response.Words: ["skirt", "snort", "sport"]
+// response.Words: contains at least ["skirt", "snort", "sport"]
 ```
 
 ## Response

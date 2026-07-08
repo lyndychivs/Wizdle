@@ -19,27 +19,43 @@ internal static class Program
     {
         IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder(args);
 
-        builder.AddDockerComposeEnvironment("wizdle")
-            .WithDashboard(dashboard => dashboard.WithHostPort(8080)
-                .WithForwardedHeaders(true));
+        if (!builder.ExecutionContext.IsPublishMode)
+        {
+            builder.AddDockerComposeEnvironment("wizdle")
+                .WithDashboard(dashboard => dashboard.WithHostPort(8080)
+                    .WithForwardedHeaders(true));
+        }
 
         IResourceBuilder<ProjectResource> apiService = builder.AddProject<Wizdle_Api>(ApiServiceName)
             .WithExternalHttpEndpoints()
-            .WithScalarDocs()
-            .PublishAsDockerComposeService((resource, service) => service.Name = ApiServiceName);
+            .WithScalarDocs();
 
-        builder.AddProject<Wizdle_Web>(WebServiceName)
+        if (!builder.ExecutionContext.IsPublishMode)
+        {
+            apiService.PublishAsDockerComposeService((resource, service) => service.Name = ApiServiceName);
+        }
+
+        IResourceBuilder<ProjectResource> webService = builder.AddProject<Wizdle_Web>(WebServiceName)
             .WithExternalHttpEndpoints()
             .WithReference(apiService)
-            .WaitFor(apiService)
-            .PublishAsDockerComposeService((resource, service) => service.Name = WebServiceName);
+            .WaitFor(apiService);
+
+        if (!builder.ExecutionContext.IsPublishMode)
+        {
+            webService.PublishAsDockerComposeService((resource, service) => service.Name = WebServiceName);
+        }
 
         if (builder.Configuration.GetValue<bool>("EnableDiscord"))
         {
-            builder.AddProject<Wizdle_Discord>(DiscordServiceName)
+            IResourceBuilder<ProjectResource> discordService = builder.AddProject<Wizdle_Discord>(DiscordServiceName)
                 .WithExternalHttpEndpoints()
                 .WithReference(apiService)
-                .WaitFor(apiService).PublishAsDockerComposeService((resource, service) => service.Name = DiscordServiceName);
+                .WaitFor(apiService);
+
+            if (!builder.ExecutionContext.IsPublishMode)
+            {
+                discordService.PublishAsDockerComposeService((resource, service) => service.Name = DiscordServiceName);
+            }
         }
 
         builder.Build().Run();
