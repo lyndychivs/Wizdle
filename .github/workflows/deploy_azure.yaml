@@ -10,6 +10,7 @@ jobs:
         name: Deploy Azure
         runs-on: ubuntu-latest
         timeout-minutes: 15
+        environment: production
         permissions:
             id-token: write
             contents: read
