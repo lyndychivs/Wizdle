@@ -39,10 +39,9 @@ solve [parameters]
 **Response:**
 
 ```text
-Processing WizdleRequest: CorrectLetters: "....t"   MisplacedLetters: "..rs." ExcludeLetters: "haebu"
-Mapping WizdleRequest:    CorrectLetters: "....t"   MisplacedLetters: "..rs." ExcludeLetters: "haebu"
-Mapped SolveParameters:   CorrectLetters: "????t"   MisplacedLetters: "??rs?" ExcludeLetters: "haebu"
-Found 3          Word(s) matching the criteria.
+Processing WizdleRequest: CorrectLetters: "....t", MisplacedLetters: "..rs.", ExcludeLetters: "haebu"
+Mapping WizdleRequest: [CorrectLetters: "....t", MisplacedLetters: "..rs.", ExcludeLetters: "haebu"]
+Mapped SolveParameters: [CorrectLetters: "????t", MisplacedLetters: "??rs?", ExcludeLetters: "haebu"]
 Found 3 Word(s) matching the criteria.
 skirt
 snort

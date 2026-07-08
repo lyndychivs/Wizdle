@@ -24,8 +24,8 @@ A simple API to help solve word puzzles by narrowing down possible matches based
 
 ```json
 {
-    "correctLetters": "a__le",
-    "misplacedLetters": "t",
+    "correctLetters": "a...e",
+    "misplacedLetters": "t....",
     "excludeLetters": "xyz"
 }
 ```
