@@ -50,7 +50,9 @@ internal static class Program
             IResourceBuilder<ProjectResource> discordService = builder.AddProject<Wizdle_Discord>(DiscordServiceName)
                 .WithExternalHttpEndpoints()
                 .WithReference(apiService)
-                .WaitFor(apiService);
+                .WaitFor(apiService)
+                .WithEnvironment("Discord__Token", builder.Configuration["Discord:Token"] ?? string.Empty)
+                .WithEnvironment("Discord__PublicKey", builder.Configuration["Discord:PublicKey"] ?? string.Empty);
 
             if (!builder.ExecutionContext.IsPublishMode)
             {
