@@ -14,23 +14,23 @@ using Wizdle.Models;
 public sealed partial class WordSlashCommand(ILogger<WordSlashCommand> logger, WizdleApiClient wizdleApiClient)
     : ApplicationCommandModule<ApplicationCommandContext>
 {
-    [SlashCommand("word", "Search for possible Wordle Words")]
+    [SlashCommand("word", "Find possible Wordle solution words")]
     public async Task<string> GetWordsAsync(
     [SlashCommandParameter(
         Name = "correct",
-        Description = "The correct letters known to exist in the Word (Example second letter correct is 'R' = \"?R\")",
+        Description = "🟩 Correct position, ? = unknown (e.g. ?r??? = R is 2nd letter)",
         MaxLength = 5,
         MinLength = 0)]
     string correctLetters = "",
     [SlashCommandParameter(
         Name = "misplaced",
-        Description = "The misplaced letters known to exist in the Word (Example third letter misplaced is 'T' = \"??T\")",
+        Description = "🟨 Exists but wrong position, ? = unknown (e.g. ??t?? = T isn't 3rd)",
         MaxLength = 5,
         MinLength = 0)]
     string misplacedLetters = "",
     [SlashCommandParameter(
         Name = "exclude",
-        Description = "The letters that are known to not exist in the Word (Example: \"ABC\")",
+        Description = "⬛ Not in the word (e.g. abc = no A, B, or C)",
         MaxLength = 26,
         MinLength = 0)]
     string excludeLetters = "")
@@ -59,18 +59,22 @@ public sealed partial class WordSlashCommand(ILogger<WordSlashCommand> logger, W
 
         WizdleResponse wizdleResponse = await wizdleApiClient.PostWizdleRequestAsync(wizdleRequest);
 
-        IEnumerable<string> response = wizdleResponse.Words;
-        if (wizdleResponse.Words.Skip(600).Any())
+        var wordsList = wizdleResponse.Words.ToList();
+
+        if (wordsList.Count == 0)
         {
-            response = wizdleResponse.Words.Take(600);
+            return $"⚠️ **No words found**{Environment.NewLine}" +
+                string.Join(Environment.NewLine, wizdleResponse.Messages.Select(m => $"> {m}"));
         }
 
-        if (!wizdleResponse.Words.Any())
-        {
-            response = wizdleResponse.Messages;
-        }
+        bool isTruncated = wordsList.Count > 600;
+        IEnumerable<string> displayWords = isTruncated ? wordsList.Take(600) : wordsList;
 
-        return string.Join(", ", response);
+        string header = isTruncated
+            ? $"### 🟩 {wordsList.Count} words found *(showing first 600)*{Environment.NewLine}"
+            : $"### 🟩 {wordsList.Count} word(s) found:{Environment.NewLine}";
+
+        return header + string.Join(", ", displayWords);
     }
 
     [LoggerMessage(
