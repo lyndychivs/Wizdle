@@ -18,12 +18,11 @@ public sealed partial class HelpSlashCommand(ILogger<HelpSlashCommand> logger)
             Context.User.Username,
             Context.User.Id);
 
-        return $"# Wizdle Help{Environment.NewLine}" +
-            $"🔧 Commands:{Environment.NewLine}" +
-            $"- `/words` supports 3 parameters:{Environment.NewLine}" +
-            $"  - `correct`: The correct letters known to exist in the Word, follow the format of `a?b?c` where unknown letters are represented by a question mark (`?`){Environment.NewLine}" +
-            $"  - `misplaced`: The misplaced letters known to exist in the Word, follow the format of `a?b?c` where unknown letters are represented by a question mark (`?`){Environment.NewLine}" +
-            $"  - `exclude`: The letters known to not exist in the Word, follow the format of `abc`";
+        return $"# 🟩 Wizdle — `/word` parameters{Environment.NewLine}" +
+            $"🟩 **`correct`** — right position (`?r???` = R is 2nd){Environment.NewLine}" +
+            $"🟨 **`misplaced`** — wrong position (`??t??` = T isn't 3rd){Environment.NewLine}" +
+            $"⬛ **`exclude`** — not in word (`abc` = no A, B, C){Environment.NewLine}" +
+            $"> Use `?` for unknown letters";
     }
 
     [LoggerMessage(
