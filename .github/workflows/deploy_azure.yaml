@@ -1,5 +1,5 @@
-name: Deploy Azure
-run-name: Deploy Azure ${{ github.ref_name }}
+name: Deploy to Microsoft Azure
+run-name: "Deploy to Microsoft Azure: ${{ github.ref_name }}"
 permissions:
     contents: read
 on:
@@ -7,7 +7,7 @@ on:
     workflow_call:
 jobs:
     deploy_azure:
-        name: Deploy Azure
+        name: Deploy to Microsoft Azure
         runs-on: ubuntu-latest
         timeout-minutes: 15
         environment: production
@@ -42,3 +42,59 @@ jobs:
                   EnableDiscord: "true"
                   Discord__Token: ${{ secrets.DISCORD_TOKEN }}
                   Discord__PublicKey: ${{ secrets.DISCORD_PUBLIC_KEY }}
+
+            - name: Log in to Azure CLI
+              uses: azure/login@v2
+              with:
+                  client-id: ${{ secrets.AZURE_CLIENT_ID }}
+                  tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+                  subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+            - name: Set Custom Domains
+              env:
+                  AZURE_RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
+                  WIZDLE_WEB_CUSTOM_HOSTNAME: ${{ vars.WIZDLE_WEB_CUSTOM_HOSTNAME }}
+                  WIZDLE_API_CUSTOM_HOSTNAME: ${{ vars.WIZDLE_API_CUSTOM_HOSTNAME }}
+                  CERTIFICATE_NAME: ${{ vars.CERTIFICATE_NAME }}
+              run: |
+                  set -Eeuo pipefail
+                  trap 'echo "Error on line $LINENO while running: $BASH_COMMAND"' ERR
+
+                  RESOURCE_GROUP="${AZURE_RESOURCE_GROUP:-$(az resource list \
+                    --resource-type Microsoft.App/containerApps \
+                    --query '[0].resourceGroup' \
+                    --output tsv)}"
+                  echo "Resource group: $RESOURCE_GROUP"
+
+                  CONTAINER_ENV=$(az containerapp show \
+                    --name wizdle-web \
+                    --resource-group "$RESOURCE_GROUP" \
+                    --query 'properties.managedEnvironmentId' \
+                    --output tsv | xargs -I{} basename {})
+                  echo "Container Apps environment: $CONTAINER_ENV"
+
+                  bind_domain() {
+                    local APP_NAME="$1"
+                    local HOSTNAME="$2"
+
+                    EXISTING=$(az containerapp hostname list \
+                      --name "$APP_NAME" \
+                      --resource-group "$RESOURCE_GROUP" \
+                      --query "[?name=='$HOSTNAME'].name" \
+                      --output tsv)
+
+                    if [ -z "$EXISTING" ]; then
+                      echo "Binding $HOSTNAME to $APP_NAME..."
+                      az containerapp hostname bind \
+                        --name "$APP_NAME" \
+                        --resource-group "$RESOURCE_GROUP" \
+                        --hostname "$HOSTNAME" \
+                        --certificate "$CERTIFICATE_NAME" \
+                        --environment "$CONTAINER_ENV"
+                    else
+                      echo "$HOSTNAME is already bound to $APP_NAME."
+                    fi
+                  }
+
+                  bind_domain "wizdle-web" "$WIZDLE_WEB_CUSTOM_HOSTNAME"
+                  bind_domain "wizdle-api" "$WIZDLE_API_CUSTOM_HOSTNAME"
