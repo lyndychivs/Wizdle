@@ -50,184 +50,51 @@ jobs:
                   tenant-id: ${{ secrets.AZURE_TENANT_ID }}
                   subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-            - name: Set Domain for Wizdle Web
-              working-directory: Wizdle.AppHost
+            - name: Set Custom Domains
               env:
-                  AZURE_ENV_NAME: ${{ vars.AZURE_ENV_NAME }}
-                  AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
-                  AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+                  AZURE_RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
                   WIZDLE_WEB_CUSTOM_HOSTNAME: ${{ vars.WIZDLE_WEB_CUSTOM_HOSTNAME }}
-                  CERTIFICATE_NAME: ${{ vars.CERTIFICATE_NAME }}
-              run: |
-                  set -Eeuo pipefail
-                  trap 'echo "Error on line $LINENO while running: $BASH_COMMAND"' ERR
-
-                  RESOURCE_GROUP=$(azd env get-value AZURE_RESOURCE_GROUP 2>/tmp/wizdle_web_rg_err.txt || true)
-                  echo "Resource group: $RESOURCE_GROUP"
-
-                  if [ -z "$RESOURCE_GROUP" ]; then
-                    echo "AZURE_RESOURCE_GROUP is empty."
-                    cat /tmp/wizdle_web_rg_err.txt || true
-                    exit 1
-                  fi
-
-                  if [ -z "$WIZDLE_WEB_CUSTOM_HOSTNAME" ]; then
-                    echo "WIZDLE_WEB_CUSTOM_HOSTNAME is not set."
-                    exit 1
-                  fi
-
-                  if [ -z "$CERTIFICATE_NAME" ]; then
-                    echo "CERTIFICATE_NAME is not set."
-                    exit 1
-                  fi
-
-                  ENV_RESOURCE_ID=$(az containerapp show \
-                    --name wizdle-web \
-                    --resource-group "$RESOURCE_GROUP" \
-                    --query 'properties.managedEnvironmentId' \
-                    --output tsv 2>/tmp/wizdle_web_env_err.txt || true)
-
-                  if [ -z "$ENV_RESOURCE_ID" ]; then
-                    ENV_RESOURCE_ID=$(az containerapp show \
-                      --name wizdle-web \
-                      --resource-group "$RESOURCE_GROUP" \
-                      --query 'properties.environmentId' \
-                      --output tsv 2>>/tmp/wizdle_web_env_err.txt || true)
-                  fi
-
-                  if [ -z "$ENV_RESOURCE_ID" ]; then
-                    echo "Could not determine Container Apps environment ID for wizdle-web."
-                    cat /tmp/wizdle_web_env_err.txt || true
-                    exit 1
-                  fi
-
-                  CONTAINER_ENV="${ENV_RESOURCE_ID##*/}"
-                  echo "Container Apps environment: $CONTAINER_ENV"
-
-                  CERT_EXISTS=$(az containerapp env certificate list \
-                    --name "$CONTAINER_ENV" \
-                    --resource-group "$RESOURCE_GROUP" \
-                    --query "[?name=='$CERTIFICATE_NAME'].name" \
-                    --output tsv 2>/tmp/wizdle_web_cert_err.txt || true)
-
-                  if [ -z "$CERT_EXISTS" ]; then
-                    echo "Certificate '$CERTIFICATE_NAME' was not found in environment '$CONTAINER_ENV'."
-                    cat /tmp/wizdle_web_cert_err.txt || true
-                    echo "Available certificates:"
-                    az containerapp env certificate list \
-                      --name "$CONTAINER_ENV" \
-                      --resource-group "$RESOURCE_GROUP" \
-                      --query "[].name" \
-                      --output tsv || true
-                    exit 1
-                  fi
-
-                  EXISTING=$(az containerapp hostname list \
-                    --name wizdle-web \
-                    --resource-group "$RESOURCE_GROUP" \
-                    --query "[?name=='$WIZDLE_WEB_CUSTOM_HOSTNAME'].name" \
-                    --output tsv 2>/dev/null || echo "")
-
-                  if [ -z "$EXISTING" ]; then
-                    echo "Binding custom hostname $WIZDLE_WEB_CUSTOM_HOSTNAME with certificate $CERTIFICATE_NAME"
-                    echo "Reached bind command for wizdle-web."
-                    az containerapp hostname bind \
-                      --name wizdle-web \
-                      --resource-group "$RESOURCE_GROUP" \
-                      --hostname "$WIZDLE_WEB_CUSTOM_HOSTNAME" \
-                      --certificate "$CERTIFICATE_NAME" \
-                      --environment "$CONTAINER_ENV"
-                  else
-                    echo "Custom hostname $WIZDLE_WEB_CUSTOM_HOSTNAME is already bound."
-                  fi
-
-            - name: Set Domain for Wizdle API
-              working-directory: Wizdle.AppHost
-              env:
-                  AZURE_ENV_NAME: ${{ vars.AZURE_ENV_NAME }}
-                  AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
-                  AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
                   WIZDLE_API_CUSTOM_HOSTNAME: ${{ vars.WIZDLE_API_CUSTOM_HOSTNAME }}
                   CERTIFICATE_NAME: ${{ vars.CERTIFICATE_NAME }}
               run: |
                   set -Eeuo pipefail
                   trap 'echo "Error on line $LINENO while running: $BASH_COMMAND"' ERR
 
-                  RESOURCE_GROUP=$(azd env get-value AZURE_RESOURCE_GROUP 2>/tmp/wizdle_api_rg_err.txt || true)
+                  RESOURCE_GROUP="${AZURE_RESOURCE_GROUP:-$(az resource list \
+                    --resource-type Microsoft.App/containerApps \
+                    --query '[0].resourceGroup' \
+                    --output tsv)}"
                   echo "Resource group: $RESOURCE_GROUP"
 
-                  if [ -z "$RESOURCE_GROUP" ]; then
-                    echo "AZURE_RESOURCE_GROUP is empty."
-                    cat /tmp/wizdle_api_rg_err.txt || true
-                    exit 1
-                  fi
-
-                  if [ -z "$WIZDLE_API_CUSTOM_HOSTNAME" ]; then
-                    echo "WIZDLE_API_CUSTOM_HOSTNAME is not set."
-                    exit 1
-                  fi
-
-                  if [ -z "$CERTIFICATE_NAME" ]; then
-                    echo "CERTIFICATE_NAME is not set."
-                    exit 1
-                  fi
-
-                  ENV_RESOURCE_ID=$(az containerapp show \
-                    --name wizdle-api \
+                  CONTAINER_ENV=$(az containerapp show \
+                    --name wizdle-web \
                     --resource-group "$RESOURCE_GROUP" \
                     --query 'properties.managedEnvironmentId' \
-                    --output tsv 2>/tmp/wizdle_api_env_err.txt || true)
-
-                  if [ -z "$ENV_RESOURCE_ID" ]; then
-                    ENV_RESOURCE_ID=$(az containerapp show \
-                      --name wizdle-api \
-                      --resource-group "$RESOURCE_GROUP" \
-                      --query 'properties.environmentId' \
-                      --output tsv 2>>/tmp/wizdle_api_env_err.txt || true)
-                  fi
-
-                  if [ -z "$ENV_RESOURCE_ID" ]; then
-                    echo "Could not determine Container Apps environment ID for wizdle-api."
-                    cat /tmp/wizdle_api_env_err.txt || true
-                    exit 1
-                  fi
-
-                  CONTAINER_ENV="${ENV_RESOURCE_ID##*/}"
+                    --output tsv | xargs -I{} basename {})
                   echo "Container Apps environment: $CONTAINER_ENV"
 
-                  CERT_EXISTS=$(az containerapp env certificate list \
-                    --name "$CONTAINER_ENV" \
-                    --resource-group "$RESOURCE_GROUP" \
-                    --query "[?name=='$CERTIFICATE_NAME'].name" \
-                    --output tsv 2>/tmp/wizdle_api_cert_err.txt || true)
+                  bind_domain() {
+                    local APP_NAME="$1"
+                    local HOSTNAME="$2"
 
-                  if [ -z "$CERT_EXISTS" ]; then
-                    echo "Certificate '$CERTIFICATE_NAME' was not found in environment '$CONTAINER_ENV'."
-                    cat /tmp/wizdle_api_cert_err.txt || true
-                    echo "Available certificates:"
-                    az containerapp env certificate list \
-                      --name "$CONTAINER_ENV" \
+                    EXISTING=$(az containerapp hostname list \
+                      --name "$APP_NAME" \
                       --resource-group "$RESOURCE_GROUP" \
-                      --query "[].name" \
-                      --output tsv || true
-                    exit 1
-                  fi
+                      --query "[?name=='$HOSTNAME'].name" \
+                      --output tsv)
 
-                  EXISTING=$(az containerapp hostname list \
-                    --name wizdle-api \
-                    --resource-group "$RESOURCE_GROUP" \
-                    --query "[?name=='$WIZDLE_API_CUSTOM_HOSTNAME'].name" \
-                    --output tsv 2>/dev/null || echo "")
+                    if [ -z "$EXISTING" ]; then
+                      echo "Binding $HOSTNAME to $APP_NAME..."
+                      az containerapp hostname bind \
+                        --name "$APP_NAME" \
+                        --resource-group "$RESOURCE_GROUP" \
+                        --hostname "$HOSTNAME" \
+                        --certificate "$CERTIFICATE_NAME" \
+                        --environment "$CONTAINER_ENV"
+                    else
+                      echo "$HOSTNAME is already bound to $APP_NAME."
+                    fi
+                  }
 
-                  if [ -z "$EXISTING" ]; then
-                    echo "Binding custom hostname $WIZDLE_API_CUSTOM_HOSTNAME with certificate $CERTIFICATE_NAME"
-                    echo "Reached bind command for wizdle-api."
-                    az containerapp hostname bind \
-                      --name wizdle-api \
-                      --resource-group "$RESOURCE_GROUP" \
-                      --hostname "$WIZDLE_API_CUSTOM_HOSTNAME" \
-                      --certificate "$CERTIFICATE_NAME" \
-                      --environment "$CONTAINER_ENV"
-                  else
-                    echo "Custom hostname $WIZDLE_API_CUSTOM_HOSTNAME is already bound."
-                  fi
+                  bind_domain "wizdle-web" "$WIZDLE_WEB_CUSTOM_HOSTNAME"
+                  bind_domain "wizdle-api" "$WIZDLE_API_CUSTOM_HOSTNAME"
