@@ -62,12 +62,54 @@ jobs:
                   RESOURCE_GROUP=$(azd env get-value AZURE_RESOURCE_GROUP)
                   echo "Resource group: $RESOURCE_GROUP"
 
-                  CONTAINER_ENV=$(az containerapp show \
+                  if [ -z "$WIZDLE_WEB_CUSTOM_HOSTNAME" ]; then
+                    echo "WIZDLE_WEB_CUSTOM_HOSTNAME is not set."
+                    exit 1
+                  fi
+
+                  if [ -z "$CERTIFICATE_NAME" ]; then
+                    echo "CERTIFICATE_NAME is not set."
+                    exit 1
+                  fi
+
+                  ENV_RESOURCE_ID=$(az containerapp show \
                     --name wizdle-web \
                     --resource-group "$RESOURCE_GROUP" \
                     --query 'properties.managedEnvironmentId' \
-                    --output tsv | xargs basename)
+                    --output tsv)
+
+                  if [ -z "$ENV_RESOURCE_ID" ]; then
+                    ENV_RESOURCE_ID=$(az containerapp show \
+                      --name wizdle-web \
+                      --resource-group "$RESOURCE_GROUP" \
+                      --query 'properties.environmentId' \
+                      --output tsv)
+                  fi
+
+                  if [ -z "$ENV_RESOURCE_ID" ]; then
+                    echo "Could not determine Container Apps environment ID for wizdle-web."
+                    exit 1
+                  fi
+
+                  CONTAINER_ENV="${ENV_RESOURCE_ID##*/}"
                   echo "Container Apps environment: $CONTAINER_ENV"
+
+                  CERT_EXISTS=$(az containerapp env certificate list \
+                    --name "$CONTAINER_ENV" \
+                    --resource-group "$RESOURCE_GROUP" \
+                    --query "[?name=='$CERTIFICATE_NAME'].name" \
+                    --output tsv)
+
+                  if [ -z "$CERT_EXISTS" ]; then
+                    echo "Certificate '$CERTIFICATE_NAME' was not found in environment '$CONTAINER_ENV'."
+                    echo "Available certificates:"
+                    az containerapp env certificate list \
+                      --name "$CONTAINER_ENV" \
+                      --resource-group "$RESOURCE_GROUP" \
+                      --query "[].name" \
+                      --output tsv || true
+                    exit 1
+                  fi
 
                   EXISTING=$(az containerapp hostname list \
                     --name wizdle-web \
@@ -99,12 +141,54 @@ jobs:
                   RESOURCE_GROUP=$(azd env get-value AZURE_RESOURCE_GROUP)
                   echo "Resource group: $RESOURCE_GROUP"
 
-                  CONTAINER_ENV=$(az containerapp show \
+                  if [ -z "$WIZDLE_API_CUSTOM_HOSTNAME" ]; then
+                    echo "WIZDLE_API_CUSTOM_HOSTNAME is not set."
+                    exit 1
+                  fi
+
+                  if [ -z "$CERTIFICATE_NAME" ]; then
+                    echo "CERTIFICATE_NAME is not set."
+                    exit 1
+                  fi
+
+                  ENV_RESOURCE_ID=$(az containerapp show \
                     --name wizdle-api \
                     --resource-group "$RESOURCE_GROUP" \
                     --query 'properties.managedEnvironmentId' \
-                    --output tsv | xargs basename)
+                    --output tsv)
+
+                  if [ -z "$ENV_RESOURCE_ID" ]; then
+                    ENV_RESOURCE_ID=$(az containerapp show \
+                      --name wizdle-api \
+                      --resource-group "$RESOURCE_GROUP" \
+                      --query 'properties.environmentId' \
+                      --output tsv)
+                  fi
+
+                  if [ -z "$ENV_RESOURCE_ID" ]; then
+                    echo "Could not determine Container Apps environment ID for wizdle-api."
+                    exit 1
+                  fi
+
+                  CONTAINER_ENV="${ENV_RESOURCE_ID##*/}"
                   echo "Container Apps environment: $CONTAINER_ENV"
+
+                  CERT_EXISTS=$(az containerapp env certificate list \
+                    --name "$CONTAINER_ENV" \
+                    --resource-group "$RESOURCE_GROUP" \
+                    --query "[?name=='$CERTIFICATE_NAME'].name" \
+                    --output tsv)
+
+                  if [ -z "$CERT_EXISTS" ]; then
+                    echo "Certificate '$CERTIFICATE_NAME' was not found in environment '$CONTAINER_ENV'."
+                    echo "Available certificates:"
+                    az containerapp env certificate list \
+                      --name "$CONTAINER_ENV" \
+                      --resource-group "$RESOURCE_GROUP" \
+                      --query "[].name" \
+                      --output tsv || true
+                    exit 1
+                  fi
 
                   EXISTING=$(az containerapp hostname list \
                     --name wizdle-api \
