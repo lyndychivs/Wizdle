@@ -42,3 +42,84 @@ jobs:
                   EnableDiscord: "true"
                   Discord__Token: ${{ secrets.DISCORD_TOKEN }}
                   Discord__PublicKey: ${{ secrets.DISCORD_PUBLIC_KEY }}
+
+            - name: Log in to Azure CLI
+              uses: azure/login@v2
+              with:
+                  client-id: ${{ secrets.AZURE_CLIENT_ID }}
+                  tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+                  subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+            - name: Restore Custom Domain for wizdle-web
+              working-directory: Wizdle.AppHost
+              env:
+                  AZURE_ENV_NAME: ${{ vars.AZURE_ENV_NAME }}
+                  AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
+                  AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+                  WIZDLE_WEB_CUSTOM_HOSTNAME: ${{ vars.WIZDLE_WEB_CUSTOM_HOSTNAME }}
+                  CERTIFICATE_NAME: ${{ vars.CERTIFICATE_NAME }}
+              run: |
+                  RESOURCE_GROUP=$(azd env get-value AZURE_RESOURCE_GROUP)
+                  echo "Resource group: $RESOURCE_GROUP"
+
+                  CONTAINER_ENV=$(az containerapp show \
+                    --name wizdle-web \
+                    --resource-group "$RESOURCE_GROUP" \
+                    --query 'properties.managedEnvironmentId' \
+                    --output tsv | xargs basename)
+                  echo "Container Apps environment: $CONTAINER_ENV"
+
+                  EXISTING=$(az containerapp hostname list \
+                    --name wizdle-web \
+                    --resource-group "$RESOURCE_GROUP" \
+                    --query "[?name=='$WIZDLE_WEB_CUSTOM_HOSTNAME'].name" \
+                    --output tsv 2>/dev/null || echo "")
+
+                  if [ -z "$EXISTING" ]; then
+                    echo "Binding custom hostname $WIZDLE_WEB_CUSTOM_HOSTNAME with certificate $CERTIFICATE_NAME"
+                    az containerapp hostname bind \
+                      --name wizdle-web \
+                      --resource-group "$RESOURCE_GROUP" \
+                      --hostname "$WIZDLE_WEB_CUSTOM_HOSTNAME" \
+                      --certificate "$CERTIFICATE_NAME" \
+                      --environment "$CONTAINER_ENV"
+                  else
+                    echo "Custom hostname $WIZDLE_WEB_CUSTOM_HOSTNAME is already bound."
+                  fi
+
+            - name: Restore Custom Domain for wizdle-api
+              working-directory: Wizdle.AppHost
+              env:
+                  AZURE_ENV_NAME: ${{ vars.AZURE_ENV_NAME }}
+                  AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
+                  AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+                  WIZDLE_API_CUSTOM_HOSTNAME: ${{ vars.WIZDLE_API_CUSTOM_HOSTNAME }}
+                  CERTIFICATE_NAME: ${{ vars.CERTIFICATE_NAME }}
+              run: |
+                  RESOURCE_GROUP=$(azd env get-value AZURE_RESOURCE_GROUP)
+                  echo "Resource group: $RESOURCE_GROUP"
+
+                  CONTAINER_ENV=$(az containerapp show \
+                    --name wizdle-api \
+                    --resource-group "$RESOURCE_GROUP" \
+                    --query 'properties.managedEnvironmentId' \
+                    --output tsv | xargs basename)
+                  echo "Container Apps environment: $CONTAINER_ENV"
+
+                  EXISTING=$(az containerapp hostname list \
+                    --name wizdle-api \
+                    --resource-group "$RESOURCE_GROUP" \
+                    --query "[?name=='$WIZDLE_API_CUSTOM_HOSTNAME'].name" \
+                    --output tsv 2>/dev/null || echo "")
+
+                  if [ -z "$EXISTING" ]; then
+                    echo "Binding custom hostname $WIZDLE_API_CUSTOM_HOSTNAME with certificate $CERTIFICATE_NAME"
+                    az containerapp hostname bind \
+                      --name wizdle-api \
+                      --resource-group "$RESOURCE_GROUP" \
+                      --hostname "$WIZDLE_API_CUSTOM_HOSTNAME" \
+                      --certificate "$CERTIFICATE_NAME" \
+                      --environment "$CONTAINER_ENV"
+                  else
+                    echo "Custom hostname $WIZDLE_API_CUSTOM_HOSTNAME is already bound."
+                  fi
