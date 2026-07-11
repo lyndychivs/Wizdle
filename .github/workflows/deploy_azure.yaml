@@ -50,7 +50,7 @@ jobs:
                   tenant-id: ${{ secrets.AZURE_TENANT_ID }}
                   subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-            - name: Restore Custom Domain for wizdle-web
+            - name: Custom Domain for wizdle-web
               working-directory: Wizdle.AppHost
               env:
                   AZURE_ENV_NAME: ${{ vars.AZURE_ENV_NAME }}
@@ -87,7 +87,7 @@ jobs:
                     echo "Custom hostname $WIZDLE_WEB_CUSTOM_HOSTNAME is already bound."
                   fi
 
-            - name: Restore Custom Domain for wizdle-api
+            - name: Custom Domain for wizdle-api
               working-directory: Wizdle.AppHost
               env:
                   AZURE_ENV_NAME: ${{ vars.AZURE_ENV_NAME }}
