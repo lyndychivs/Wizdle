@@ -1,5 +1,5 @@
 name: Deploy to Microsoft Azure
-run-name: Deploy to Microsoft Azure ${{ github.ref_name }}
+run-name: "Deploy to Microsoft Azure: ${{ github.ref_name }}"
 permissions:
     contents: read
 on:
