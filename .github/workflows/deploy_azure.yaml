@@ -59,11 +59,15 @@ jobs:
                   WIZDLE_WEB_CUSTOM_HOSTNAME: ${{ vars.WIZDLE_WEB_CUSTOM_HOSTNAME }}
                   CERTIFICATE_NAME: ${{ vars.CERTIFICATE_NAME }}
               run: |
-                  RESOURCE_GROUP=$(azd env get-value AZURE_RESOURCE_GROUP)
+                  set -Eeuo pipefail
+                  trap 'echo "Error on line $LINENO while running: $BASH_COMMAND"' ERR
+
+                  RESOURCE_GROUP=$(azd env get-value AZURE_RESOURCE_GROUP 2>/tmp/wizdle_web_rg_err.txt || true)
                   echo "Resource group: $RESOURCE_GROUP"
 
                   if [ -z "$RESOURCE_GROUP" ]; then
                     echo "AZURE_RESOURCE_GROUP is empty."
+                    cat /tmp/wizdle_web_rg_err.txt || true
                     exit 1
                   fi
 
@@ -146,11 +150,15 @@ jobs:
                   WIZDLE_API_CUSTOM_HOSTNAME: ${{ vars.WIZDLE_API_CUSTOM_HOSTNAME }}
                   CERTIFICATE_NAME: ${{ vars.CERTIFICATE_NAME }}
               run: |
-                  RESOURCE_GROUP=$(azd env get-value AZURE_RESOURCE_GROUP)
+                  set -Eeuo pipefail
+                  trap 'echo "Error on line $LINENO while running: $BASH_COMMAND"' ERR
+
+                  RESOURCE_GROUP=$(azd env get-value AZURE_RESOURCE_GROUP 2>/tmp/wizdle_api_rg_err.txt || true)
                   echo "Resource group: $RESOURCE_GROUP"
 
                   if [ -z "$RESOURCE_GROUP" ]; then
                     echo "AZURE_RESOURCE_GROUP is empty."
+                    cat /tmp/wizdle_api_rg_err.txt || true
                     exit 1
                   fi
 
