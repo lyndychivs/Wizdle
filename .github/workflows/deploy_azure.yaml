@@ -1,5 +1,5 @@
-name: Deploy Azure
-run-name: Deploy Azure ${{ github.ref_name }}
+name: Deploy to Microsoft Azure
+run-name: Deploy to Microsoft Azure ${{ github.ref_name }}
 permissions:
     contents: read
 on:
@@ -7,7 +7,7 @@ on:
     workflow_call:
 jobs:
     deploy_azure:
-        name: Deploy Azure
+        name: Deploy to Microsoft Azure
         runs-on: ubuntu-latest
         timeout-minutes: 15
         environment: production
@@ -50,7 +50,7 @@ jobs:
                   tenant-id: ${{ secrets.AZURE_TENANT_ID }}
                   subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-            - name: Custom Domain for wizdle-web
+            - name: Set Domain for Wizdle Web
               working-directory: Wizdle.AppHost
               env:
                   AZURE_ENV_NAME: ${{ vars.AZURE_ENV_NAME }}
@@ -87,7 +87,7 @@ jobs:
                     echo "Custom hostname $WIZDLE_WEB_CUSTOM_HOSTNAME is already bound."
                   fi
 
-            - name: Custom Domain for wizdle-api
+            - name: Set Domain for Wizdle API
               working-directory: Wizdle.AppHost
               env:
                   AZURE_ENV_NAME: ${{ vars.AZURE_ENV_NAME }}
