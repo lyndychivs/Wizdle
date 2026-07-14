@@ -16,7 +16,7 @@ jobs:
               uses: actions/checkout@v7
 
             - name: Run Stryker.NET
-              uses: lyndychivs/dotnet-stryker-action@v1.6
+              uses: lyndychivs/dotnet-stryker-action@v1.7
               with:
                   configurationFile: "Wizdle.Unit.Tests/stryker-config.json"
                   dashboardApiKey: ${{ secrets.STRYKER_DASHBOARD }}
