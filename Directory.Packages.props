@@ -4,6 +4,7 @@
         <CentralPackageFloatingVersionsEnabled>true</CentralPackageFloatingVersionsEnabled>
     </PropertyGroup>
     <ItemGroup>
+        <PackageVersion Include="AngleSharp" Version="1.*" />
         <PackageVersion Include="Aspire.Hosting.Docker" Version="13.*" />
         <PackageVersion Include="BenchmarkDotNet" Version="0.*" />
         <PackageVersion Include="bunit" Version="2.*" />
