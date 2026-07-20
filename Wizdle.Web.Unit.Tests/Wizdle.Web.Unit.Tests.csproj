@@ -4,6 +4,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="AngleSharp" />
         <PackageReference Include="bunit" />
         <PackageReference Include="NUnit" />
     </ItemGroup>
