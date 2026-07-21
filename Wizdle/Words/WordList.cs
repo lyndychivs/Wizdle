@@ -1766,6 +1766,7 @@ internal sealed class WordList : IWords
             "shied",
             "shift",
             "shine",
+            "shill",
             "shiny",
             "shire",
             "shirk",
