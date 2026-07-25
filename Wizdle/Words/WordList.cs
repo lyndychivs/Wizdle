@@ -68,6 +68,7 @@ internal sealed class WordList : IWords
             "allow",
             "alloy",
             "aloft",
+            "aloha",
             "alone",
             "along",
             "aloof",
