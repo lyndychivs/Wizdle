@@ -17,7 +17,7 @@ internal sealed partial class WordSolver : IWordSolver
 
     private readonly ISolveParametersValidator _wordParameterValidator;
 
-    private readonly IEnumerable<string> _words;
+    private readonly IReadOnlyList<string> _words;
 
     internal WordSolver(ILogger logger)
         : this(logger, new WordRepository(logger), new SolveParametersValidator(logger))
@@ -30,7 +30,7 @@ internal sealed partial class WordSolver : IWordSolver
         _wordRepository = wordRepository ?? throw new ArgumentNullException(nameof(wordRepository));
         _wordParameterValidator = wordParameterValidator ?? throw new ArgumentNullException(nameof(wordParameterValidator));
 
-        _words = _wordRepository.GetWords();
+        _words = [.. _wordRepository.GetWords()];
 
         if (_words.Any() is false)
         {
