@@ -439,6 +439,7 @@ internal sealed class WordList : IWords
             "cluck",
             "clued",
             "clump",
+            "clunk",
             "clung",
             "coach",
             "coast",
