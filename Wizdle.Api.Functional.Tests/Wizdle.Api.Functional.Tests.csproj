@@ -1,11 +1,14 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <IsTestProject>true</IsTestProject>
     </PropertyGroup>
+
     <ItemGroup>
         <PackageReference Include="NUnit" />
         <PackageReference Include="Testcontainers" />
+        <PackageReference Include="SSH.NET" />
     </ItemGroup>
+
     <ItemGroup>
         <ProjectReference Include="..\Wizdle.Models\Wizdle.Models.csproj" />
     </ItemGroup>

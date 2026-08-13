@@ -42,5 +42,6 @@
         <PackageVersion Include="Serilog.Sinks.Console" Version="6.*" />
         <PackageVersion Include="StyleCop.Analyzers" Version="1.*-*" />
         <PackageVersion Include="Testcontainers" Version="4.*" />
+        <PackageVersion Include="SSH.NET" Version="2026.0.0" />
     </ItemGroup>
 </Project>

@@ -10,6 +10,7 @@
         <PackageReference Include="NUnit" />
         <PackageReference Include="Reqnroll.NUnit" />
         <PackageReference Include="Testcontainers" />
+        <PackageReference Include="SSH.NET" />
     </ItemGroup>
 
     <ItemGroup>
