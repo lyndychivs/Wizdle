@@ -28,8 +28,7 @@ internal static class BrowserHook
     {
         var retry = new Retry(TimeSpan.FromSeconds(30), TimeSpan.FromSeconds(3));
 
-        IPlaywrightConfiguration configuration = new RunSettingsPlaywrightConfiguration();
-
+        var configuration = new RunSettingsPlaywrightConfiguration();
         reqnrollOutputHelper.WriteLine(configuration.ToString());
 
         IPlaywright playwright = null!;

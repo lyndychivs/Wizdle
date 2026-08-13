@@ -7,4 +7,6 @@ internal interface IPlaywrightConfiguration
     bool Headless { get; }
 
     string Channel { get; }
+
+    string ToString();
 }
