@@ -869,6 +869,7 @@ internal sealed class WordList : IWords
             "geeky",
             "geese",
             "genie",
+            "geode",
             "genre",
             "ghost",
             "ghoul",
