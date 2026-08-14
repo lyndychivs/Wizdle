@@ -115,6 +115,8 @@ public partial class WordleTests : PageTest
 
         await Page.GetByTestId("Play").ClickAsync();
 
+        await ClickButtonIfPresent("Continue to Wordle");
+
         await ClickButtonIfPresent("Close");
 
         for (_attemptCount = 0; _attemptCount < MaxAttempts; _attemptCount++)
