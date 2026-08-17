@@ -125,6 +125,7 @@ internal sealed class WordList : IWords
             "ashen",
             "aside",
             "askew",
+            "aspic",
             "assay",
             "asset",
             "atlas",
