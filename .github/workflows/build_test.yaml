@@ -4,6 +4,7 @@ permissions:
     contents: read
 on:
     push:
+    workflow_dispatch:
     schedule:
         - cron: "0 4 * * SUN"
     workflow_call:

@@ -3,6 +3,7 @@ run-name: Release ${{ github.ref_name }}
 permissions:
     contents: read
 on:
+    workflow_dispatch:
     release:
         types: [published]
 jobs:
