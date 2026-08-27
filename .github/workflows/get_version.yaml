@@ -6,6 +6,8 @@ on:
             version:
                 description: 'The resolved version'
                 value: ${{ jobs.get_version.outputs.version }}
+permissions:
+    contents: read
 jobs:
     get_version:
         name: Calculate Version
