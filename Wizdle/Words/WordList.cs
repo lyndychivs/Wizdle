@@ -2197,6 +2197,7 @@ internal sealed class WordList : IWords
             "twang",
             "tweak",
             "tweed",
+            "tween",
             "tweet",
             "twice",
             "twine",
