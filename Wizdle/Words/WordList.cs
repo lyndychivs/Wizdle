@@ -1070,6 +1070,7 @@ internal sealed class WordList : IWords
             "inlet",
             "inner",
             "input",
+            "intel",
             "inter",
             "intro",
             "ionic",
