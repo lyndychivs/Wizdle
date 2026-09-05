@@ -1896,6 +1896,7 @@ internal sealed class WordList : IWords
             "sooty",
             "sorry",
             "sound",
+            "soupy",
             "south",
             "sower",
             "space",
