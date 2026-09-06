@@ -190,6 +190,7 @@ internal sealed class WordList : IWords
             "beget",
             "begin",
             "begun",
+            "beige",
             "being",
             "belch",
             "belie",
