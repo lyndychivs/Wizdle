@@ -128,6 +128,7 @@ internal sealed class WordList : IWords
             "aspic",
             "assay",
             "asset",
+            "aster",
             "atlas",
             "atoll",
             "atone",
