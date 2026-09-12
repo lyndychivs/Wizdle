@@ -1346,6 +1346,7 @@ internal sealed class WordList : IWords
             "nicer",
             "niche",
             "niece",
+            "nifty",
             "night",
             "ninja",
             "ninny",
