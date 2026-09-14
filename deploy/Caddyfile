@@ -1,0 +1,9 @@
+wizdle.lyndychivs.com {
+    tls /etc/caddy/certs/fullchain.pem /etc/caddy/certs/private.key
+    reverse_proxy wizdle-web:{$WIZDLE_WEB_PORT}
+}
+
+wizdleapi.lyndychivs.com {
+    tls /etc/caddy/certs/fullchain.pem /etc/caddy/certs/private.key
+    reverse_proxy wizdle-api:{$WIZDLE_API_PORT}
+}
