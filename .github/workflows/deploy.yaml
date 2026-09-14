@@ -32,4 +32,4 @@ jobs:
                   EOF
 
             - name: Deploy
-              run: docker compose -f docker-compose.yaml -f docker-compose.prod.yml up -d --build
+              run: docker compose -f docker-compose.yaml -f docker-compose.production.yml up -d --build
