@@ -36,6 +36,7 @@ services:
             - "${WIZDLE_API_PORT}:${WIZDLE_API_PORT}"
         networks:
             - "aspire"
+        restart: "unless-stopped"
     wizdle-web:
         image: "wizdle-web:latest"
         build:
@@ -64,6 +65,7 @@ services:
                 condition: "service_started"
         networks:
             - "aspire"
+        restart: "unless-stopped"
     wizdle-discord:
         image: "wizdle-discord:latest"
         build:
@@ -90,6 +92,7 @@ services:
                 condition: "service_started"
         networks:
             - "aspire"
+        restart: "unless-stopped"
 networks:
     aspire:
         driver: "bridge"
