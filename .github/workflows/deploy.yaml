@@ -15,5 +15,8 @@ jobs:
             - name: Checkout Repository
               uses: actions/checkout@v7
 
+            - name: Set up environment file
+              run: cp ~/wizdle-secrets/.env .env
+
             - name: Deploy
               run: docker compose -f docker-compose.yaml -f docker-compose.prod.yml up -d --build
