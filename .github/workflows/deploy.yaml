@@ -1,0 +1,19 @@
+name: Deploy
+run-name: "Deploy: ${{ github.ref_name }}"
+permissions:
+    contents: read
+on:
+    workflow_dispatch:
+    workflow_call:
+jobs:
+    deploy:
+        name: Deploy
+        runs-on: self-hosted
+        timeout-minutes: 15
+        environment: production
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v7
+
+            - name: Deploy
+              run: docker compose -f docker-compose.yaml -f docker-compose.prod.yml up -d --build

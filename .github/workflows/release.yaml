@@ -135,11 +135,8 @@ jobs:
                   files: |
                       Wizdle.Wpf.Installer/Output/*.exe
 
-    deploy_azure:
-        name: "[Release] Deploy Azure"
+    deploy:
+        name: "[Release] Deploy"
         needs: [build_test_publish, build_wpf_installer]
-        uses: ./.github/workflows/deploy_azure.yaml
-        permissions:
-            id-token: write
-            contents: read
+        uses: ./.github/workflows/deploy.yaml
         secrets: inherit
