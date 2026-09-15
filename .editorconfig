@@ -63,6 +63,6 @@ dotnet_diagnostic.IDE0051.severity = warning
 # SA1518: The line endings at the end of a file do not match the settings for the project.
 dotnet_diagnostic.SA1518.severity = none
 
-[Wizdle.Api/Program.cs]
+[src/Wizdle.Api/Program.cs]
 # MA0036: Make class static - needs to be non-static for WebApplicationBuilder and WebApplication
 dotnet_diagnostic.MA0036.severity = none

@@ -1,6 +1,6 @@
 # Wizdle
 
-![Wizdle](Resources/title.png)
+![Wizdle](resources/title.png)
 
 [![Build & Test](https://github.com/lyndychivs/Wizdle/actions/workflows/build_test.yaml/badge.svg?branch=main)](https://github.com/lyndychivs/Wizdle/actions/workflows/build_test.yaml)
 [![Performance Tests](https://github.com/lyndychivs/Wizdle/actions/workflows/performance_tests.yaml/badge.svg?branch=main)](https://github.com/lyndychivs/Wizdle/actions/workflows/performance_tests.yaml)
@@ -44,12 +44,12 @@ flowchart LR
 
 | Project | Description |
 | --- | --- |
-| [Wizdle](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle) | Core library and NuGet package — usage and examples in the [Wizdle README](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle#readme) |
-| [Wizdle.Api](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Api) | Deployable REST API |
-| [Wizdle.Web](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Web) | Blazor web app (.NET Aspire + Docker) |
-| [Wizdle.Console](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Console) | CLI |
-| [Wizdle.Wpf](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Wpf) | WPF desktop app (Windows) |
-| [Wizdle.Discord](https://github.com/lyndychivs/Wizdle/tree/main/Wizdle.Discord) | Discord bot — [invite](https://discord.com/oauth2/authorize?client_id=1381710402458620066&permissions=2048&integration_type=0&scope=bot) |
+| [Wizdle](https://github.com/lyndychivs/Wizdle/tree/main/src/Wizdle) | Core library and NuGet package — usage and examples in the [Wizdle README](https://github.com/lyndychivs/Wizdle/tree/main/src/Wizdle#readme) |
+| [Wizdle.Api](https://github.com/lyndychivs/Wizdle/tree/main/src/Wizdle.Api) | Deployable REST API |
+| [Wizdle.Web](https://github.com/lyndychivs/Wizdle/tree/main/src/Wizdle.Web) | Blazor web app (.NET Aspire + Docker) |
+| [Wizdle.Console](https://github.com/lyndychivs/Wizdle/tree/main/src/Wizdle.Console) | CLI |
+| [Wizdle.Wpf](https://github.com/lyndychivs/Wizdle/tree/main/src/Wizdle.Wpf) | WPF desktop app (Windows) |
+| [Wizdle.Discord](https://github.com/lyndychivs/Wizdle/tree/main/src/Wizdle.Discord) | Discord bot — [invite](https://discord.com/oauth2/authorize?client_id=1381710402458620066&permissions=2048&integration_type=0&scope=bot) |
 
 ## 🧪 Testing
 

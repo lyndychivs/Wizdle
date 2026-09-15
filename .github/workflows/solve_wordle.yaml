@@ -41,11 +41,11 @@ jobs:
 
             - name: Install Playwright Browsers
               if: steps.build.outcome == 'success'
-              run: pwsh Wizdle.Functional.Tests/bin/${{ env.CONFIGURATION }}/${{ env.TARGET_FRAMEWORK }}/playwright.ps1 install --with-deps
+              run: pwsh tests/functional/Wizdle.Functional.Tests/bin/${{ env.CONFIGURATION }}/${{ env.TARGET_FRAMEWORK }}/playwright.ps1 install --with-deps
 
             - name: Test Wizdle.Functional.Tests
               if: steps.build.outcome == 'success'
-              run: dotnet test --project Wizdle.Functional.Tests/Wizdle.Functional.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --
+              run: dotnet test --project tests/functional/Wizdle.Functional.Tests/Wizdle.Functional.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --
 
             - name: Upload Artifacts for Wizdle.Functional.Tests
               uses: actions/upload-artifact@v7
@@ -55,4 +55,4 @@ jobs:
                   retention-days: 20
                   if-no-files-found: ignore
                   path: |
-                      Wizdle.Functional.Tests/bin/**/playwright-traces/
+                      tests/functional/Wizdle.Functional.Tests/bin/**/playwright-traces/

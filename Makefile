@@ -1,7 +1,7 @@
 .PHONY: help build build-api build-web build-discord build-all clean test compose stop stop-volumes logs token mutate restart solve test-functional test-all perf
 
 # Variables
-COMPOSE_FILE = docker-compose.yaml
+COMPOSE_FILE = deploy/docker-compose.yaml
 
 help: ## Show this help message
 	@echo "Available targets:"
@@ -12,41 +12,41 @@ build: ## Build the Solution in Release mode
 	dotnet build --configuration Release
 
 build-api: ## Build Wizdle.Api Docker image (wizdle-api:latest)
-	docker build -f Wizdle.Api/Dockerfile -t wizdle-api:latest .
+	docker build -f src/Wizdle.Api/Dockerfile -t wizdle-api:latest .
 
 build-web: ## Build Wizdle.Web Docker image (wizdle-web:latest)
-	docker build -f Wizdle.Web/Dockerfile -t wizdle-web:latest .
+	docker build -f src/Wizdle.Web/Dockerfile -t wizdle-web:latest .
 
 build-discord: ## Build Wizdle.Discord Docker image (wizdle-discord:latest)
-	docker build -f Wizdle.Discord/Dockerfile -t wizdle-discord:latest .
+	docker build -f src/Wizdle.Discord/Dockerfile -t wizdle-discord:latest .
 
 build-all: build-api build-web build-discord ## Builds all Docker images
 
 # Test
 test: ## Run Unit and Integration Tests
-	dotnet test --project Wizdle.Unit.Tests/Wizdle.Unit.Tests.csproj --configuration Release --no-build
-	dotnet test --project Wizdle.Api.Unit.Tests/Wizdle.Api.Unit.Tests.csproj --configuration Release --no-build
-	dotnet test --project Wizdle.Web.Unit.Tests/Wizdle.Web.Unit.Tests.csproj --configuration Release --no-build
-	dotnet test --project Wizdle.Discord.Unit.Tests/Wizdle.Discord.Unit.Tests.csproj --configuration Release --no-build
+	dotnet test --project tests/unit/Wizdle.Unit.Tests/Wizdle.Unit.Tests.csproj --configuration Release --no-build
+	dotnet test --project tests/unit/Wizdle.Api.Unit.Tests/Wizdle.Api.Unit.Tests.csproj --configuration Release --no-build
+	dotnet test --project tests/unit/Wizdle.Web.Unit.Tests/Wizdle.Web.Unit.Tests.csproj --configuration Release --no-build
+	dotnet test --project tests/unit/Wizdle.Discord.Unit.Tests/Wizdle.Discord.Unit.Tests.csproj --configuration Release --no-build
 ifeq ($(OS),Windows_NT)
-	dotnet test --project Wizdle.Wpf.Unit.Tests/Wizdle.Wpf.Unit.Tests.csproj --configuration Release --no-build
+	dotnet test --project tests/unit/Wizdle.Wpf.Unit.Tests/Wizdle.Wpf.Unit.Tests.csproj --configuration Release --no-build
 endif
-	dotnet test --project Wizdle.Integration.Tests/Wizdle.Integration.Tests.csproj --configuration Release --no-build
+	dotnet test --project tests/integration/Wizdle.Integration.Tests/Wizdle.Integration.Tests.csproj --configuration Release --no-build
 
 test-functional: ## Run Functional Tests
-	dotnet test --project Wizdle.Api.Functional.Tests/Wizdle.Api.Functional.Tests.csproj --configuration Release --no-build
-	dotnet test --project Wizdle.Web.Functional.Tests/Wizdle.Web.Functional.Tests.csproj --configuration Release --no-build
+	dotnet test --project tests/functional/Wizdle.Api.Functional.Tests/Wizdle.Api.Functional.Tests.csproj --configuration Release --no-build
+	dotnet test --project tests/functional/Wizdle.Web.Functional.Tests/Wizdle.Web.Functional.Tests.csproj --configuration Release --no-build
 
 test-all: test test-functional solve ## Run all tests
 
 solve: ## Attempts to solve Wordle using Wizdle
-	dotnet test --project Wizdle.Functional.Tests/Wizdle.Functional.Tests.csproj --configuration Release --no-build
+	dotnet test --project tests/functional/Wizdle.Functional.Tests/Wizdle.Functional.Tests.csproj --configuration Release --no-build
 
 perf: ## Run Performance Tests
-	dotnet run --project Wizdle.Performance.Tests/Wizdle.Performance.Tests.csproj --configuration Release
+	dotnet run --project tests/performance/Wizdle.Performance.Tests/Wizdle.Performance.Tests.csproj --configuration Release
 
 mutate: ## Run Stryker Mutation Testing
-	dotnet stryker --config-file Wizdle.Unit.Tests/stryker-config.json
+	dotnet stryker --config-file tests/unit/Wizdle.Unit.Tests/stryker-config.json
 
 # Docker
 compose: ## Composes Wizdle Docker images

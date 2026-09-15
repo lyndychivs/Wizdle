@@ -74,12 +74,12 @@
     </ItemGroup>
 
     <ItemGroup Condition="'$(IsTestProject)' == 'true'">
-        <Content Include="$(MSBuildThisFileDirectory).runsettings" Link=".runsettings" CopyToOutputDirectory="PreserveNewest" />
+        <Content Include="$(MSBuildThisFileDirectory)tests\.runsettings" Link=".runsettings" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(IsTestProject)' == 'true'">
         <IsPackable>false</IsPackable>
-        <RunSettingsFilePath>$(MSBuildThisFileDirectory).runsettings</RunSettingsFilePath>
+        <RunSettingsFilePath>$(MSBuildThisFileDirectory)tests\.runsettings</RunSettingsFilePath>
     </PropertyGroup>
 
     <!-- Microsoft.Testing.Platform: opt-in to NUnit runner for test projects -->
