@@ -37,7 +37,7 @@ jobs:
               run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }} /p:Version=${{ needs.get_version.outputs.version }}
 
             - name: Run Performance Tests
-              run: dotnet run --project Wizdle.Performance.Tests/Wizdle.Performance.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }}
+              run: dotnet run --project tests/performance/Wizdle.Performance.Tests/Wizdle.Performance.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }}
 
             - name: Publish Benchmark Results to Job Summary
               if: (!cancelled() && steps.build.outcome == 'success')
