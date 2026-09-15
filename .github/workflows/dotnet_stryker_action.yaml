@@ -22,4 +22,4 @@ jobs:
                   STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD }}
               with:
                   configFile: "Wizdle.Unit.Tests/stryker-config.json"
-                  strykerArgs: "--reporter progress --reporter html --reporter dashboard"
+                  strykerArgs: "--reporter progress --reporter html --reporter dashboard --reporter json"
