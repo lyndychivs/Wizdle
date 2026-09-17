@@ -1,4 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk.Worker">
+    <PropertyGroup>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    </PropertyGroup>
+
     <ItemGroup>
         <PackageReference Include="NetCord.Hosting.Services" />
     </ItemGroup>

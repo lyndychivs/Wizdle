@@ -9,17 +9,25 @@ using Microsoft.Extensions.Logging;
 using Wizdle.Models;
 using Wizdle.Solver;
 
+/// <summary>
+/// Maps a <see cref="WizdleRequest"/> to a <see cref="SolveParameters"/>.
+/// </summary>
 internal sealed partial class RequestMapper : IRequestMapper
 {
     private const int MaxWordLength = 5;
 
     private readonly ILogger _logger;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="RequestMapper"/> class.
+    /// </summary>
+    /// <param name="logger">The <see cref="ILogger"/> interface to use.</param>
     internal RequestMapper(ILogger logger)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
+    /// <inheritdoc/>
     public SolveParameters MapToSolveParameters(WizdleRequest request)
     {
         if (request is null)
@@ -62,6 +70,12 @@ internal sealed partial class RequestMapper : IRequestMapper
         return solveParameters;
     }
 
+    /// <summary>
+    /// Maps the letter at the given index, returning '?' if the index is out of range or the character is not a letter.
+    /// </summary>
+    /// <param name="letters">The letters to map from.</param>
+    /// <param name="index">The index of the letter to map.</param>
+    /// <returns>The lower-cased letter, or '?' if not applicable.</returns>
     private static char MapLetterAtPosition(string letters, int index)
     {
         if (index < letters.Length && char.IsLetter(letters[index]))

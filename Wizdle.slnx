@@ -67,55 +67,65 @@
         <File Path="deploy/docker-compose.yaml" />
         <File Path="deploy/docker-compose.production.yml" />
     </Folder>
-    <Project Path="tests/functional/Wizdle.Api.Functional.Tests/Wizdle.Api.Functional.Tests.csproj">
-        <Build Solution="Stryker|*" Project="false" />
-    </Project>
-    <Project Path="tests/unit/Wizdle.Api.Unit.Tests/Wizdle.Api.Unit.Tests.csproj">
-        <Build Solution="Stryker|*" Project="false" />
-    </Project>
-    <Project Path="src/Wizdle.Api/Wizdle.Api.csproj">
-        <Build Solution="Stryker|*" Project="false" />
-    </Project>
-    <Project Path="src/Wizdle.AppHost/Wizdle.AppHost.csproj">
-        <Build Solution="Stryker|*" Project="false" />
-    </Project>
-    <Project Path="src/Wizdle.Console/Wizdle.Console.csproj">
-        <Build Solution="Stryker|*" Project="false" />
-    </Project>
-    <Project Path="tests/unit/Wizdle.Discord.Unit.Tests/Wizdle.Discord.Unit.Tests.csproj">
-        <Build Solution="Stryker|*" Project="false" />
-    </Project>
-    <Project Path="src/Wizdle.Discord/Wizdle.Discord.csproj">
-        <Build Solution="Stryker|*" Project="false" />
-    </Project>
-    <Project Path="tests/functional/Wizdle.Functional.Tests/Wizdle.Functional.Tests.csproj">
-        <Build Solution="Stryker|*" Project="false" />
-    </Project>
-    <Project Path="tests/integration/Wizdle.Integration.Tests/Wizdle.Integration.Tests.csproj">
-        <Build Solution="Stryker|*" Project="false" />
-    </Project>
-    <Project Path="src/Wizdle.Models/Wizdle.Models.csproj" />
-    <Project Path="tests/performance/Wizdle.Performance.Tests/Wizdle.Performance.Tests.csproj">
-        <Build Solution="Stryker|*" Project="false" />
-    </Project>
-    <Project Path="src/Wizdle.ServiceDefaults/Wizdle.ServiceDefaults.csproj">
-        <Build Solution="Stryker|*" Project="false" />
-    </Project>
-    <Project Path="tests/unit/Wizdle.Unit.Tests/Wizdle.Unit.Tests.csproj" />
-    <Project Path="tests/functional/Wizdle.Web.Functional.Tests/Wizdle.Web.Functional.Tests.csproj">
-        <Build Solution="Stryker|*" Project="false" />
-    </Project>
-    <Project Path="tests/unit/Wizdle.Web.Unit.Tests/Wizdle.Web.Unit.Tests.csproj">
-        <Build Solution="Stryker|*" Project="false" />
-    </Project>
-    <Project Path="src/Wizdle.Web/Wizdle.Web.csproj">
-        <Build Solution="Stryker|*" Project="false" />
-    </Project>
-    <Project Path="tests/unit/Wizdle.Wpf.Unit.Tests/Wizdle.Wpf.Unit.Tests.csproj">
-        <Build Solution="Stryker|*" Project="false" />
-    </Project>
-    <Project Path="src/Wizdle.Wpf/Wizdle.Wpf.csproj">
-        <Build Solution="Stryker|*" Project="false" />
-    </Project>
-    <Project Path="src/Wizdle/Wizdle.csproj" />
+    <Folder Name="/src/">
+        <Project Path="src/Wizdle/Wizdle.csproj" />
+        <Project Path="src/Wizdle.Api/Wizdle.Api.csproj">
+            <Build Solution="Stryker|*" Project="false" />
+        </Project>
+        <Project Path="src/Wizdle.AppHost/Wizdle.AppHost.csproj">
+            <Build Solution="Stryker|*" Project="false" />
+        </Project>
+        <Project Path="src/Wizdle.Console/Wizdle.Console.csproj">
+            <Build Solution="Stryker|*" Project="false" />
+        </Project>
+        <Project Path="src/Wizdle.Discord/Wizdle.Discord.csproj">
+            <Build Solution="Stryker|*" Project="false" />
+        </Project>
+        <Project Path="src/Wizdle.Models/Wizdle.Models.csproj" />
+        <Project Path="src/Wizdle.ServiceDefaults/Wizdle.ServiceDefaults.csproj">
+            <Build Solution="Stryker|*" Project="false" />
+        </Project>
+        <Project Path="src/Wizdle.Web/Wizdle.Web.csproj">
+            <Build Solution="Stryker|*" Project="false" />
+        </Project>
+        <Project Path="src/Wizdle.Wpf/Wizdle.Wpf.csproj">
+            <Build Solution="Stryker|*" Project="false" />
+        </Project>
+    </Folder>
+    <Folder Name="/tests/unit/">
+        <Project Path="tests/unit/Wizdle.Api.Unit.Tests/Wizdle.Api.Unit.Tests.csproj">
+            <Build Solution="Stryker|*" Project="false" />
+        </Project>
+        <Project Path="tests/unit/Wizdle.Discord.Unit.Tests/Wizdle.Discord.Unit.Tests.csproj">
+            <Build Solution="Stryker|*" Project="false" />
+        </Project>
+        <Project Path="tests/unit/Wizdle.Unit.Tests/Wizdle.Unit.Tests.csproj" />
+        <Project Path="tests/unit/Wizdle.Web.Unit.Tests/Wizdle.Web.Unit.Tests.csproj">
+            <Build Solution="Stryker|*" Project="false" />
+        </Project>
+        <Project Path="tests/unit/Wizdle.Wpf.Unit.Tests/Wizdle.Wpf.Unit.Tests.csproj">
+            <Build Solution="Stryker|*" Project="false" />
+        </Project>
+    </Folder>
+    <Folder Name="/tests/integration/">
+        <Project Path="tests/integration/Wizdle.Integration.Tests/Wizdle.Integration.Tests.csproj">
+            <Build Solution="Stryker|*" Project="false" />
+        </Project>
+    </Folder>
+    <Folder Name="/tests/functional/">
+        <Project Path="tests/functional/Wizdle.Api.Functional.Tests/Wizdle.Api.Functional.Tests.csproj">
+            <Build Solution="Stryker|*" Project="false" />
+        </Project>
+        <Project Path="tests/functional/Wizdle.Functional.Tests/Wizdle.Functional.Tests.csproj">
+            <Build Solution="Stryker|*" Project="false" />
+        </Project>
+        <Project Path="tests/functional/Wizdle.Web.Functional.Tests/Wizdle.Web.Functional.Tests.csproj">
+            <Build Solution="Stryker|*" Project="false" />
+        </Project>
+    </Folder>
+    <Folder Name="/tests/performance/">
+        <Project Path="tests/performance/Wizdle.Performance.Tests/Wizdle.Performance.Tests.csproj">
+            <Build Solution="Stryker|*" Project="false" />
+        </Project>
+    </Folder>
 </Solution>

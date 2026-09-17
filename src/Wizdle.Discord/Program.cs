@@ -12,8 +12,16 @@ using NetCord.Hosting.Services.ApplicationCommands;
 
 using Wizdle.ServiceDefaults;
 
+/// <summary>
+/// The entry point for the Wizdle Discord bot host.
+/// </summary>
 internal static class Program
 {
+    /// <summary>
+    /// The main entry point for the application.
+    /// </summary>
+    /// <param name="args">The command line arguments.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     private static async Task Main(string[] args)
     {
         HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
