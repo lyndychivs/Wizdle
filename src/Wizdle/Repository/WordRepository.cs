@@ -8,23 +8,36 @@ using Microsoft.Extensions.Logging;
 
 using Wizdle.Words;
 
+/// <summary>
+/// Provides access to the collection of words used for solving.
+/// </summary>
 internal sealed partial class WordRepository : IWordRepository
 {
     private readonly ILogger _logger;
 
     private readonly IWords _words;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="WordRepository"/> class.
+    /// </summary>
+    /// <param name="logger">The <see cref="ILogger"/> interface to use.</param>
     internal WordRepository(ILogger logger)
         : this(logger, new WordList())
     {
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="WordRepository"/> class.
+    /// </summary>
+    /// <param name="logger">The <see cref="ILogger"/> interface to use.</param>
+    /// <param name="words">The <see cref="IWords"/> source to use.</param>
     internal WordRepository(ILogger logger, IWords words)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _words = words ?? throw new ArgumentNullException(nameof(words));
     }
 
+    /// <inheritdoc/>
     public IEnumerable<string> GetWords()
     {
         foreach (string word in _words.GetWords())

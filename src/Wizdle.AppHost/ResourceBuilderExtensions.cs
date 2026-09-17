@@ -9,8 +9,17 @@ using Aspire.Hosting.ApplicationModel;
 
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
+/// <summary>
+/// Extension methods for <see cref="IResourceBuilder{T}"/>.
+/// </summary>
 internal static class ResourceBuilderExtensions
 {
+    /// <summary>
+    /// Adds a command to the resource for opening its Scalar API documentation.
+    /// </summary>
+    /// <typeparam name="T">The type of resource, which must have endpoints.</typeparam>
+    /// <param name="resourceBuilder">The <see cref="IResourceBuilder{T}"/> to add the command to.</param>
+    /// <returns>The <paramref name="resourceBuilder"/> for chaining.</returns>
     internal static IResourceBuilder<T> WithScalarDocs<T>(this IResourceBuilder<T> resourceBuilder)
         where T : IResourceWithEndpoints
     {

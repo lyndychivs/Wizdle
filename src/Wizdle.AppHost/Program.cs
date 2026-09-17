@@ -7,6 +7,9 @@ using Microsoft.Extensions.Configuration;
 
 using Projects;
 
+/// <summary>
+/// The entry point for the Wizdle Aspire application host.
+/// </summary>
 internal static class Program
 {
     private const string WebServiceName = "wizdle-web";
@@ -15,6 +18,10 @@ internal static class Program
 
     private const string DiscordServiceName = "wizdle-discord";
 
+    /// <summary>
+    /// The main entry point for the application.
+    /// </summary>
+    /// <param name="args">The command line arguments.</param>
     private static void Main(string[] args)
     {
         IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder(args);

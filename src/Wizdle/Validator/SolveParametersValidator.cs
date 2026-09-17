@@ -6,15 +6,23 @@ using Microsoft.Extensions.Logging;
 
 using Wizdle.Solver;
 
+/// <summary>
+/// Validates a <see cref="SolveParameters"/>.
+/// </summary>
 internal sealed partial class SolveParametersValidator : ISolveParametersValidator
 {
     private readonly ILogger _logger;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SolveParametersValidator"/> class.
+    /// </summary>
+    /// <param name="logger">The <see cref="ILogger"/> interface to use.</param>
     internal SolveParametersValidator(ILogger logger)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
+    /// <inheritdoc/>
     public bool IsValid(SolveParameters solveParameters)
     {
         bool isValid = true;

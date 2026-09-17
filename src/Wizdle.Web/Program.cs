@@ -11,8 +11,15 @@ using MudBlazor.Services;
 using Wizdle.ServiceDefaults;
 using Wizdle.Web.Components;
 
+/// <summary>
+/// The entry point for the Wizdle web application.
+/// </summary>
 internal static class Program
 {
+    /// <summary>
+    /// The main entry point for the application.
+    /// </summary>
+    /// <param name="args">The command line arguments.</param>
     private static void Main(string[] args)
     {
         WebApplicationBuilder builder = WebApplication.CreateBuilder(args);

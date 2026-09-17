@@ -2,8 +2,12 @@ namespace Wizdle.Words;
 
 using System.Collections.Generic;
 
+/// <summary>
+/// Provides the built-in source of five-letter words.
+/// </summary>
 internal sealed class WordList : IWords
 {
+    /// <inheritdoc/>
     public IEnumerable<string> GetWords()
     {
         return [

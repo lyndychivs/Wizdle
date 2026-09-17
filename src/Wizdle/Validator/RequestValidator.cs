@@ -7,15 +7,23 @@ using Microsoft.Extensions.Logging;
 
 using Wizdle.Models;
 
+/// <summary>
+/// Validates a <see cref="WizdleRequest"/>.
+/// </summary>
 internal sealed partial class RequestValidator : IRequestValidator
 {
     private readonly ILogger _logger;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="RequestValidator"/> class.
+    /// </summary>
+    /// <param name="logger">The <see cref="ILogger"/> interface to use.</param>
     internal RequestValidator(ILogger logger)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
+    /// <inheritdoc/>
     public IEnumerable<string> GetErrors(WizdleRequest request)
     {
         var errorList = new List<string>();
