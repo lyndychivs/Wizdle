@@ -28,6 +28,8 @@ public partial class WordleTests : PageTest
 
     private const int MaxAttempts = 6;
 
+    private const int ContinueToWordleTimeoutMilliseconds = 30_000;
+
     private readonly List<Word> _words;
     private readonly List<char> _correctLetters;
     private readonly List<char> _misplacedLetters;
@@ -115,7 +117,7 @@ public partial class WordleTests : PageTest
 
         await Page.GetByTestId("Play").ClickAsync();
 
-        await ClickButtonIfPresent("Continue to Wordle");
+        await ClickButtonIfPresent("Continue to Wordle", ContinueToWordleTimeoutMilliseconds);
 
         await ClickButtonIfPresent("Close");
 
@@ -332,7 +334,7 @@ public partial class WordleTests : PageTest
         return await GetLetterStatusFromElement(fifthLetterElement);
     }
 
-    private async Task<bool> ClickButtonIfPresent(string buttonName)
+    private async Task<bool> ClickButtonIfPresent(string buttonName, float timeoutMilliseconds = 5_000)
     {
         var buttonLocator = Page.GetByRole(
             AriaRole.Button,
@@ -346,7 +348,7 @@ public partial class WordleTests : PageTest
             await buttonLocator.WaitForAsync(new LocatorWaitForOptions
             {
                 State = WaitForSelectorState.Visible,
-                Timeout = 5_000,
+                Timeout = timeoutMilliseconds,
             });
 
             if (!await buttonLocator.IsVisibleAsync())
