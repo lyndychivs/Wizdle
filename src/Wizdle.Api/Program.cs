@@ -15,10 +15,17 @@ using Wizdle;
 using Wizdle.Models;
 using Wizdle.ServiceDefaults;
 
+/// <summary>
+/// The entry point for the Wizdle API host.
+/// </summary>
 internal sealed class Program
 {
     private const string RateLimitingPolicy = "fixed-window";
 
+    /// <summary>
+    /// The main entry point for the application.
+    /// </summary>
+    /// <param name="args">The command line arguments.</param>
     private static void Main(string[] args)
     {
         WebApplicationBuilder builder = WebApplication.CreateBuilder(args);

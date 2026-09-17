@@ -8,8 +8,8 @@ indent_style = space
 indent_size = 4
 
 [*.{cs,vb}]
-# SA0001: All diagnostics of XML documentation comments has been disabled due to the current project configuration.
-dotnet_diagnostic.SA0001.severity = none
+# CS1591: Missing XML comment for publicly visible type or member (SA1600/SA1601/SA1602 cover this with more nuance)
+dotnet_diagnostic.CS1591.severity = none
 # SA1000: Keywords should be spaced correctly
 dotnet_diagnostic.SA1000.severity = none
 # SA1101: Prefix local calls with this
@@ -28,36 +28,22 @@ dotnet_diagnostic.SA1309.severity = none
 dotnet_diagnostic.SA1602.severity = warning
 # IDE1006 Naming rule violation: Prefix '_' is not expected
 dotnet_diagnostic.IDE1006.severity = none
-# CA2254 The logging message template should not vary between calls.
-dotnet_diagnostic.CA2254.severity = none
 # IDE0290: Use primary constructor
 csharp_style_prefer_primary_constructors = false:suggestion
-# IL2026: Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code
-dotnet_diagnostic.IL2026.severity = none
-# IL3050: Calling members annotated with 'RequiresDynamicCodeAttribute' may break functionality when AOT compiling.
-dotnet_diagnostic.IL3050.severity = none
-# CA1848: Use the LoggerMessage delegates
-dotnet_diagnostic.CA1848.severity = none
-# IDE0058: Expression value is never used
-dotnet_diagnostic.IDE0058.severity = none
-# IDE0079: Remove unnecessary suppression
-dotnet_diagnostic.IDE0079.severity = none
 # CA1707: Identifiers should not contain underscores (Unit Test method names often use underscores)
 dotnet_diagnostic.CA1707.severity = none
-# CA1305: Specify IFormatProvider
-dotnet_diagnostic.CA1305.severity = none
 # MA0004: Use Task.ConfigureAwait(false)
 dotnet_diagnostic.MA0004.severity = none
 # MA0051: Method is too long
 dotnet_diagnostic.MA0051.severity = none
-# MA0182 Internal type never used
-dotnet_diagnostic.MA0182.severity = none
-# MA0038 Make method static
-dotnet_diagnostic.MA0038.severity = none
 # SA1402: File may only contain a single type
 dotnet_diagnostic.SA1402.severity = error
 # IDE0051: Remove unused private members (methods, fields, properties)
 dotnet_diagnostic.IDE0051.severity = warning
+# CA1848: Use the LoggerMessage delegates
+dotnet_diagnostic.CA1848.severity = none
+# CA1305: Specify IFormatProvider
+dotnet_diagnostic.CA1305.severity = none
 
 [*.feature.cs]
 # SA1518: The line endings at the end of a file do not match the settings for the project.
@@ -66,3 +52,41 @@ dotnet_diagnostic.SA1518.severity = none
 [src/Wizdle.Api/Program.cs]
 # MA0036: Make class static - needs to be non-static for WebApplicationBuilder and WebApplication
 dotnet_diagnostic.MA0036.severity = none
+
+[tests/functional/Wizdle.Web.Functional.Tests/Hooks/BrowserHook.cs]
+# MA0182: Discovered and invoked reflectively by Reqnroll via the [Binding] attribute, so the analyzer can't see the real usage.
+dotnet_diagnostic.MA0182.severity = none
+
+[tests/functional/Wizdle.Web.Functional.Tests/Hooks/ContainerHook.cs]
+# MA0182: Discovered and invoked reflectively by Reqnroll via the [Binding] attribute, so the analyzer can't see the real usage.
+dotnet_diagnostic.MA0182.severity = none
+
+[tests/functional/Wizdle.Web.Functional.Tests/Steps/AccessibilityTestingSteps.cs]
+# MA0182: Discovered and invoked reflectively by Reqnroll via the [Binding] attribute, so the analyzer can't see the real usage.
+dotnet_diagnostic.MA0182.severity = none
+
+[tests/functional/Wizdle.Web.Functional.Tests/Steps/BrowserSteps.cs]
+# MA0182: Discovered and invoked reflectively by Reqnroll via the [Binding] attribute, so the analyzer can't see the real usage.
+dotnet_diagnostic.MA0182.severity = none
+
+[tests/functional/Wizdle.Web.Functional.Tests/Steps/HomePageSteps.cs]
+# MA0182: Discovered and invoked reflectively by Reqnroll via the [Binding] attribute, so the analyzer can't see the real usage.
+dotnet_diagnostic.MA0182.severity = none
+
+[src/Wizdle.Discord/WizdleApiClient.cs]
+# MA0038: Uses the primary-constructor-captured httpClient instance, so it cannot be made static.
+dotnet_diagnostic.MA0038.severity = none
+
+[src/Wizdle.Web/WizdleHttpClient.cs]
+# MA0038: Uses the primary-constructor-captured httpClient instance, so it cannot be made static.
+dotnet_diagnostic.MA0038.severity = none
+
+[tests/**/*.cs]
+# SA0001: All diagnostics of XML documentation comments has been disabled due to the current project configuration.
+dotnet_diagnostic.SA0001.severity = none
+# SA1600: Elements should be documented
+dotnet_diagnostic.SA1600.severity = none
+# SA1601: Partial elements should be documented
+dotnet_diagnostic.SA1601.severity = none
+# SA1602: Enumeration items should be documented
+dotnet_diagnostic.SA1602.severity = none

@@ -6,10 +6,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 
+/// <summary>
+/// The Wizdle WPF application.
+/// </summary>
 public partial class App : Application
 {
     private ServiceProvider? _serviceProvider;
 
+    /// <inheritdoc/>
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
@@ -26,6 +30,7 @@ public partial class App : Application
         mainWindow.Show();
     }
 
+    /// <inheritdoc/>
     protected override void OnExit(ExitEventArgs e)
     {
         _serviceProvider?.Dispose();

@@ -5,6 +5,7 @@
         <UseWPF>true</UseWPF>
         <ApplicationIcon>resources\logo.ico</ApplicationIcon>
         <EnableWindowsTargeting>true</EnableWindowsTargeting>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>

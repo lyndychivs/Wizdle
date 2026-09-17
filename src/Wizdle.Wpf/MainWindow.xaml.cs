@@ -14,17 +14,29 @@ using System.Windows.Threading;
 
 using Wizdle.Models;
 
+/// <summary>
+/// The main window of the Wizdle WPF application.
+/// </summary>
 public partial class MainWindow : Window
 {
     private readonly WizdleEngine _wizdleEngine;
     private DispatcherTimer? _snackbarTimer;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="MainWindow"/> class.
+    /// </summary>
+    /// <param name="wizdleEngine">The <see cref="WizdleEngine"/> to solve words with.</param>
     public MainWindow(WizdleEngine wizdleEngine)
     {
         InitializeComponent();
         _wizdleEngine = wizdleEngine ?? throw new ArgumentNullException(nameof(wizdleEngine));
     }
 
+    /// <summary>
+    /// Handles the Solve button click, processing the entered letters and displaying the matching words.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
     public void SolveButton_Click(object sender, RoutedEventArgs e)
     {
         var correctLetters = new StringBuilder();
@@ -62,6 +74,11 @@ public partial class MainWindow : Window
         }
     }
 
+    /// <summary>
+    /// Gets the first letter from the given input text.
+    /// </summary>
+    /// <param name="text">The input text.</param>
+    /// <returns>The first character of <paramref name="text"/>, or <c>?</c> if it is null or whitespace.</returns>
     internal static char GetLetterFromInput(string? text)
     {
         return string.IsNullOrWhiteSpace(text)
@@ -69,6 +86,11 @@ public partial class MainWindow : Window
             : text[0];
     }
 
+    /// <summary>
+    /// Gets the visibility for the results controls.
+    /// </summary>
+    /// <param name="isVisible">Whether the results controls should be visible.</param>
+    /// <returns><see cref="Visibility.Visible"/> if <paramref name="isVisible"/> is <see langword="true"/>; otherwise, <see cref="Visibility.Hidden"/>.</returns>
     internal static Visibility GetVisibility(bool isVisible)
     {
         return isVisible ? Visibility.Visible : Visibility.Hidden;

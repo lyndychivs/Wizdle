@@ -11,8 +11,17 @@ using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
 
+/// <summary>
+/// Extension methods for configuring shared service defaults.
+/// </summary>
 public static class Extensions
 {
+    /// <summary>
+    /// Adds the default service configuration, including telemetry, health checks, and service discovery.
+    /// </summary>
+    /// <typeparam name="TBuilder">The type of host application builder.</typeparam>
+    /// <param name="builder">The <see cref="IHostApplicationBuilder"/> to configure.</param>
+    /// <returns>The <paramref name="builder"/> for chaining.</returns>
     public static TBuilder AddServiceDefaults<TBuilder>(this TBuilder builder)
         where TBuilder : IHostApplicationBuilder
     {
@@ -31,6 +40,11 @@ public static class Extensions
         return builder;
     }
 
+    /// <summary>
+    /// Maps the default health check endpoints.
+    /// </summary>
+    /// <param name="app">The <see cref="WebApplication"/> to map the endpoints on.</param>
+    /// <returns>The <paramref name="app"/> for chaining.</returns>
     public static WebApplication MapDefaultEndpoints(this WebApplication app)
     {
         app.MapHealthChecks("/health");

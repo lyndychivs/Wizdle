@@ -11,9 +11,21 @@ using NetCord.Services.ApplicationCommands;
 
 using Wizdle.Models;
 
+/// <summary>
+/// The Discord slash command for finding possible Wordle solution words.
+/// </summary>
+/// <param name="logger">The <see cref="ILogger{WordSlashCommand}"/> interface to use.</param>
+/// <param name="wizdleApiClient">The <see cref="WizdleApiClient"/> to request solution words with.</param>
 public sealed partial class WordSlashCommand(ILogger<WordSlashCommand> logger, WizdleApiClient wizdleApiClient)
     : ApplicationCommandModule<ApplicationCommandContext>
 {
+    /// <summary>
+    /// Finds possible Wordle solution words matching the given letter criteria.
+    /// </summary>
+    /// <param name="correctLetters">Letters known to be correct and in the correct position.</param>
+    /// <param name="misplacedLetters">Letters known to be in the word but in the wrong position.</param>
+    /// <param name="excludeLetters">Letters known to not be in the word.</param>
+    /// <returns>A formatted message listing the matching words, or a message explaining why none were found.</returns>
     [SlashCommand("word", "Find possible Wordle solution words")]
     public async Task<string> GetWordsAsync(
     [SlashCommandParameter(

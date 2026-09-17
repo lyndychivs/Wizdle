@@ -13,8 +13,15 @@ using Wizdle.Models;
 
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
+/// <summary>
+/// The entry point for the Wizdle console application.
+/// </summary>
 internal static partial class Program
 {
+    /// <summary>
+    /// The main entry point for the application.
+    /// </summary>
+    /// <param name="args">The command line arguments.</param>
     internal static void Main(string[] args)
     {
         TrySetTitle();
