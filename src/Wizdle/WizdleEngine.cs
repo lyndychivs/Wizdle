@@ -50,6 +50,13 @@ public sealed partial class WizdleEngine
     {
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="WizdleEngine"/> class.
+    /// </summary>
+    /// <param name="logger">The <see cref="ILogger"/> interface to use.</param>
+    /// <param name="requestValidator">The <see cref="IRequestValidator"/> to validate requests with.</param>
+    /// <param name="requestMapper">The <see cref="IRequestMapper"/> to map requests with.</param>
+    /// <param name="solver">The <see cref="IWordSolver"/> to solve words with.</param>
     internal WizdleEngine(
         ILogger logger,
         IRequestValidator requestValidator,

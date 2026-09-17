@@ -9,6 +9,9 @@ using Microsoft.Extensions.Logging;
 using Wizdle.Repository;
 using Wizdle.Validator;
 
+/// <summary>
+/// Solves for words matching the given <see cref="SolveParameters"/>.
+/// </summary>
 internal sealed partial class WordSolver : IWordSolver
 {
     private readonly ILogger _logger;
@@ -19,11 +22,21 @@ internal sealed partial class WordSolver : IWordSolver
 
     private readonly IReadOnlyList<string> _words;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="WordSolver"/> class.
+    /// </summary>
+    /// <param name="logger">The <see cref="ILogger"/> interface to use.</param>
     internal WordSolver(ILogger logger)
         : this(logger, new WordRepository(logger), new SolveParametersValidator(logger))
     {
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="WordSolver"/> class.
+    /// </summary>
+    /// <param name="logger">The <see cref="ILogger"/> interface to use.</param>
+    /// <param name="wordRepository">The <see cref="IWordRepository"/> to source words from.</param>
+    /// <param name="wordParameterValidator">The <see cref="ISolveParametersValidator"/> to validate parameters with.</param>
     internal WordSolver(ILogger logger, IWordRepository wordRepository, ISolveParametersValidator wordParameterValidator)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -38,6 +51,7 @@ internal sealed partial class WordSolver : IWordSolver
         }
     }
 
+    /// <inheritdoc/>
     public IEnumerable<string> Solve(SolveParameters solveParameters)
     {
         if (_wordParameterValidator.IsValid(solveParameters) is false)
@@ -60,6 +74,13 @@ internal sealed partial class WordSolver : IWordSolver
             solveParameters.MisplacedLetters);
     }
 
+    /// <summary>
+    /// Filters the given words to those matching the correct and misplaced letter criteria.
+    /// </summary>
+    /// <param name="wordsToFilter">The words to filter.</param>
+    /// <param name="correctLetters">The letters known to be correct at their position.</param>
+    /// <param name="misplacedLetters">The letters known to be present but misplaced.</param>
+    /// <returns>The filtered words.</returns>
     private static List<string> FilterCorrectAndMisplacedLetters(List<string> wordsToFilter, List<char> correctLetters, List<char> misplacedLetters)
     {
         if (wordsToFilter.Count == 0)
@@ -108,6 +129,12 @@ internal sealed partial class WordSolver : IWordSolver
         return filteredWords;
     }
 
+    /// <summary>
+    /// Filters the given words to exclude those containing any of the given letters.
+    /// </summary>
+    /// <param name="wordsToFilter">The words to filter.</param>
+    /// <param name="excludeLetters">The letters to exclude.</param>
+    /// <returns>The filtered words.</returns>
     private static List<string> FilterExcludeLetters(IEnumerable<string> wordsToFilter, List<char> excludeLetters)
     {
         return [.. wordsToFilter.Where(word => !excludeLetters.Exists(letter => word.Contains(letter)))];
