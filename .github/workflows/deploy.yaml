@@ -18,7 +18,7 @@ jobs:
             - name: Checkout Repository
               uses: actions/checkout@v7
 
-            - name: Stop existing stack
+            - name: Teardown existing Stack
               run: docker compose -p wizdle -f deploy/docker-compose.yaml -f deploy/docker-compose.production.yml down --remove-orphans
               env:
                   WIZDLE_API_PORT: ${{ vars.WIZDLE_API_PORT }}
