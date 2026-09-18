@@ -18,8 +18,21 @@ jobs:
             - name: Checkout Repository
               uses: actions/checkout@v7
 
+            - name: Stop existing stack
+              run: docker compose -p wizdle -f deploy/docker-compose.yaml -f deploy/docker-compose.production.yml down --remove-orphans
+              env:
+                  WIZDLE_API_PORT: ${{ vars.WIZDLE_API_PORT }}
+                  WIZDLE_WEB_PORT: ${{ vars.WIZDLE_WEB_PORT }}
+                  ASPIRE_API_PORT: ${{ vars.ASPIRE_API_PORT }}
+                  ASPIRE_OTLP_PORT: ${{ vars.ASPIRE_OTLP_PORT }}
+                  DASHBOARD_OTLP_API_KEY: ${{ secrets.DASHBOARD_OTLP_API_KEY }}
+                  DASHBOARD_FRONTEND_AUTHMODE: ${{ vars.DASHBOARD_FRONTEND_AUTHMODE }}
+                  DASHBOARD_FRONTEND_BROWSERTOKEN: ${{ secrets.DASHBOARD_FRONTEND_BROWSERTOKEN }}
+                  DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+                  DISCORD_PUBLIC_KEY: ${{ secrets.DISCORD_PUBLIC_KEY }}
+
             - name: Deploy
-              run: docker compose -f deploy/docker-compose.yaml -f deploy/docker-compose.production.yml up -d --build
+              run: docker compose -p wizdle -f deploy/docker-compose.yaml -f deploy/docker-compose.production.yml up -d --build
               env:
                   WIZDLE_API_PORT: ${{ vars.WIZDLE_API_PORT }}
                   WIZDLE_WEB_PORT: ${{ vars.WIZDLE_WEB_PORT }}
