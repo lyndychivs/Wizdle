@@ -2299,6 +2299,7 @@ internal sealed class WordList : IWords
             "wagon",
             "waist",
             "waive",
+            "waken",
             "waltz",
             "warty",
             "waste",
