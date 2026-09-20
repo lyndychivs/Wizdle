@@ -6,3 +6,15 @@ updates:
           interval: "weekly"
           day: "sunday"
           time: "09:00"
+    - package-ecosystem: "dotnet-sdk"
+      directory: "/"
+      schedule:
+          interval: "weekly"
+          day: "sunday"
+          time: "09:00"
+    - package-ecosystem: "nuget"
+      directory: "/"
+      schedule:
+          interval: "weekly"
+          day: "sunday"
+          time: "09:00"
