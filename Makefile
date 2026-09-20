@@ -46,6 +46,7 @@ perf: ## Run Performance Tests
 	dotnet run --project tests/performance/Wizdle.Performance.Tests/Wizdle.Performance.Tests.csproj --configuration Release
 
 mutate: ## Run Stryker Mutation Testing
+	dotnet tool restore
 	dotnet stryker --config-file tests/unit/Wizdle.Unit.Tests/stryker-config.json
 
 # Docker
