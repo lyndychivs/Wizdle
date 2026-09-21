@@ -1414,6 +1414,7 @@ internal sealed class WordList : IWords
             "ozone",
             "paddy",
             "pagan",
+            "pager",
             "paint",
             "paler",
             "palsy",
