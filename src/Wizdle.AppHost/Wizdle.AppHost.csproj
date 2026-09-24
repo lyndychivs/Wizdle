@@ -4,6 +4,10 @@
         <IsAspireHost>true</IsAspireHost>
         <UserSecretsId>7c2ad7f3-0c96-498b-aa14-0d16f5cd8737</UserSecretsId>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
+        <!-- DCP and the dashboard come from the orchestration/dashboard NuGet packages, not the Aspire CLI bundle. -->
+        <AspireUseCliBundle>false</AspireUseCliBundle>
+        <!-- ASPIRE010: AspireUseCliBundle=false is intentional (see above). -->
+        <NoWarn>$(NoWarn);ASPIRE010</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
