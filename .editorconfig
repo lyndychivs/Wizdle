@@ -26,7 +26,7 @@ dotnet_diagnostic.SA1633.severity = none
 dotnet_diagnostic.SA1309.severity = none
 # SA1602: Enumeration items should be documented
 dotnet_diagnostic.SA1602.severity = warning
-# IDE1006 Naming rule violation: private fields must begin with an underscore (see naming rule below)
+# IDE1006 Naming rule violation: private instance fields must begin with an underscore (see naming rules below)
 dotnet_diagnostic.IDE1006.severity = warning
 
 # Private const fields use PascalCase, not an underscore prefix - they're compile-time constants, not variables.
@@ -40,7 +40,16 @@ dotnet_naming_symbols.private_const_fields.required_modifiers = const
 
 dotnet_naming_style.pascal_case_style.capitalization = pascal_case
 
-# All other private (instance or static) fields are prefixed with an underscore.
+# Private static fields (including static readonly) use PascalCase, not an underscore prefix.
+dotnet_naming_rule.private_static_fields_pascal_case.severity = warning
+dotnet_naming_rule.private_static_fields_pascal_case.symbols = private_static_fields
+dotnet_naming_rule.private_static_fields_pascal_case.style = pascal_case_style
+
+dotnet_naming_symbols.private_static_fields.applicable_kinds = field
+dotnet_naming_symbols.private_static_fields.applicable_accessibilities = private
+dotnet_naming_symbols.private_static_fields.required_modifiers = static
+
+# All other private (instance) fields are prefixed with an underscore.
 dotnet_naming_rule.private_fields_underscore.severity = warning
 dotnet_naming_rule.private_fields_underscore.symbols = private_fields
 dotnet_naming_rule.private_fields_underscore.style = underscore_prefix
