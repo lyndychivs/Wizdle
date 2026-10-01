@@ -1659,6 +1659,7 @@ internal sealed class WordList : IWords
             "rival",
             "river",
             "rivet",
+            "ritzy",
             "roach",
             "roast",
             "robin",
