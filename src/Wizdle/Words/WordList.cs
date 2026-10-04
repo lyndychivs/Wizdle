@@ -1444,6 +1444,7 @@ internal sealed class WordList : IWords
             "pearl",
             "pecan",
             "pedal",
+            "peeve",
             "penal",
             "pence",
             "penne",
