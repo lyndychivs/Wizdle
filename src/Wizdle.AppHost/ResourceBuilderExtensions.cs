@@ -33,7 +33,7 @@ internal static class ResourceBuilderExtensions
                 IconName = "Document",
                 IconVariant = IconVariant.Filled,
                 IsHighlighted = true,
-                UpdateState = context => context.ResourceSnapshot.HealthStatus == HealthStatus.Healthy ? ResourceCommandState.Enabled : ResourceCommandState.Disabled,
+                UpdateState = context => context.ResourceSnapshot.HealthStatus is HealthStatus.Healthy ? ResourceCommandState.Enabled : ResourceCommandState.Disabled,
             });
     }
 

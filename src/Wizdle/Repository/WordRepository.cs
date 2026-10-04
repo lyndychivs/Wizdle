@@ -51,7 +51,7 @@ internal sealed partial class WordRepository : IWordRepository
 
             string response = word.ToLower(CultureInfo.InvariantCulture).Trim();
 
-            if (response.Length != 5)
+            if (response.Length is not 5)
             {
                 LogInvalidWordLength(_logger, response.Length, response);
 

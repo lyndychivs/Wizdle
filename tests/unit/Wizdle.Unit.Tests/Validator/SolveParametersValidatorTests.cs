@@ -52,7 +52,7 @@ public class SolveParametersValidatorTests
             Assert.That(isValid, Is.False);
 
             var logs = _logger.Collector.GetSnapshot();
-            var errorLogs = logs.Single(e => e.Level == LogLevel.Error);
+            var errorLogs = logs.Single(e => e.Level is LogLevel.Error);
             Assert.That(errorLogs.Message, Does.Contain("solveParameters cannot be null"));
         }
     }
@@ -80,7 +80,7 @@ public class SolveParametersValidatorTests
             Assert.That(isValid, Is.False);
 
             var logs = _logger.Collector.GetSnapshot();
-            var debugLog = logs.Single(e => e.Level == LogLevel.Debug);
+            var debugLog = logs.Single(e => e.Level is LogLevel.Debug);
             Assert.That(debugLog.Message, Does.Contain("CorrectLetters Letter count is not equal to 5"));
         }
     }
@@ -108,7 +108,7 @@ public class SolveParametersValidatorTests
             Assert.That(isValid, Is.False);
 
             var logs = _logger.Collector.GetSnapshot();
-            var debugLog = logs.Single(e => e.Level == LogLevel.Debug);
+            var debugLog = logs.Single(e => e.Level is LogLevel.Debug);
             Assert.That(debugLog.Message, Does.Contain("MisplacedLetters Letter count is not equal to 5"));
         }
     }
@@ -130,7 +130,7 @@ public class SolveParametersValidatorTests
             Assert.That(isValid, Is.False);
 
             var logs = _logger.Collector.GetSnapshot();
-            var debugLog = logs.Single(e => e.Level == LogLevel.Debug);
+            var debugLog = logs.Single(e => e.Level is LogLevel.Debug);
             Assert.That(debugLog.Message, Does.Contain("CorrectLetters and MisplacedLetters contain the same letter at index 0"));
             Assert.That(debugLog.Message, Does.Contain("Letter: 'a'"));
         }
@@ -153,7 +153,7 @@ public class SolveParametersValidatorTests
             Assert.That(isValid, Is.False);
 
             var logs = _logger.Collector.GetSnapshot();
-            var debugLog = logs.Single(e => e.Level == LogLevel.Debug);
+            var debugLog = logs.Single(e => e.Level is LogLevel.Debug);
             Assert.That(debugLog.Message, Does.Contain("ExcludeLetters contains a letter that exists in CorrectLetters or MisplacedLetters"));
             Assert.That(debugLog.Message, Does.Contain("Letter: 'a'"));
         }
@@ -176,7 +176,7 @@ public class SolveParametersValidatorTests
             Assert.That(isValid, Is.False);
 
             var logs = _logger.Collector.GetSnapshot();
-            var debugLog = logs.Single(e => e.Level == LogLevel.Debug);
+            var debugLog = logs.Single(e => e.Level is LogLevel.Debug);
             Assert.That(debugLog.Message, Does.Contain("ExcludeLetters contains a letter that exists in CorrectLetters or MisplacedLetters"));
             Assert.That(debugLog.Message, Does.Contain("Letter: 'f'"));
         }

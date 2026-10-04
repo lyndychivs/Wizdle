@@ -21,7 +21,7 @@ public class WordsTests
     [Test]
     public void GetWords_WhenCalled_ReturnsNonEmptyCollection()
     {
-        IEnumerable<string> result = _words.GetWords();
+        IEnumerable<string> result = _words.GetWords() ?? throw new InvalidOperationException("GetWords returned null");
 
         Assert.That(result, Is.Not.Empty);
     }
@@ -29,7 +29,7 @@ public class WordsTests
     [Test]
     public void GetWords_WhenCalled_ReturnsAKnownWord()
     {
-        IEnumerable<string> result = _words.GetWords();
+        IEnumerable<string> result = _words.GetWords() ?? throw new InvalidOperationException("GetWords returned null");
 
         Assert.That(result, Does.Contain("apple"));
     }
@@ -37,23 +37,23 @@ public class WordsTests
     [Test]
     public void GetWords_WhenCalled_ReturnsOnlyLowercaseWords()
     {
-        IEnumerable<string> result = _words.GetWords();
+        IEnumerable<string> result = _words.GetWords() ?? throw new InvalidOperationException("GetWords returned null");
 
-        Assert.That(result, Is.All.Matches<string>(w => w.Equals(w, StringComparison.Ordinal)));
+        Assert.That(result, Is.All.Matches<string>(w => w is not null && w.Equals(w.ToLowerInvariant(), StringComparison.Ordinal)));
     }
 
     [Test]
     public void GetWords_WhenCalled_ReturnsOnlyFiveLetterWords()
     {
-        IEnumerable<string> result = _words.GetWords();
+        IEnumerable<string> result = _words.GetWords() ?? throw new InvalidOperationException("GetWords returned null");
 
-        Assert.That(result, Is.All.Matches<string>(w => w.Length == 5));
+        Assert.That(result, Is.All.Matches<string>(w => w is not null && w.Length is 5));
     }
 
     [Test]
     public void GetWords_WhenCalled_ReturnsNoDuplicateWords()
     {
-        IEnumerable<string> result = _words.GetWords();
+        IEnumerable<string> result = _words.GetWords() ?? throw new InvalidOperationException("GetWords returned null");
 
         Assert.That(result.Count(), Is.EqualTo(result.Distinct(StringComparer.Ordinal).Count()));
     }

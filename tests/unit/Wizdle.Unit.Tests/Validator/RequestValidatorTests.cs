@@ -56,7 +56,7 @@ public class RequestValidatorTests
             Assert.That(errors, Has.Exactly(1).EqualTo(expectedError));
 
             var logs = _logger.Collector.GetSnapshot();
-            var debugLog = logs.Single(e => e.Level == LogLevel.Debug);
+            var debugLog = logs.Single(e => e.Level is LogLevel.Debug);
             Assert.That(debugLog.Message, Is.EqualTo(expectedError));
         }
     }
@@ -79,7 +79,7 @@ public class RequestValidatorTests
             Assert.That(errors, Has.Exactly(1).EqualTo(expectedError));
 
             var logs = _logger.Collector.GetSnapshot();
-            var debugLog = logs.Single(e => e.Level == LogLevel.Debug);
+            var debugLog = logs.Single(e => e.Level is LogLevel.Debug);
             Assert.That(debugLog.Message, Is.EqualTo(expectedError));
         }
     }
@@ -102,7 +102,7 @@ public class RequestValidatorTests
             Assert.That(errors, Has.Exactly(1).EqualTo(expectedError));
 
             var logs = _logger.Collector.GetSnapshot();
-            var debugLog = logs.Single(e => e.Level == LogLevel.Debug);
+            var debugLog = logs.Single(e => e.Level is LogLevel.Debug);
             Assert.That(debugLog.Message, Is.EqualTo(expectedError));
         }
     }
@@ -125,7 +125,7 @@ public class RequestValidatorTests
             Assert.That(errors, Has.Exactly(1).EqualTo(expectedError));
 
             var logs = _logger.Collector.GetSnapshot();
-            var debugLog = logs.Single(e => e.Level == LogLevel.Debug);
+            var debugLog = logs.Single(e => e.Level is LogLevel.Debug);
             Assert.That(debugLog.Message, Is.EqualTo(expectedError));
         }
     }
@@ -148,7 +148,7 @@ public class RequestValidatorTests
             Assert.That(errors, Has.Exactly(1).EqualTo(expectedError));
 
             var logs = _logger.Collector.GetSnapshot();
-            var debugLog = logs.Single(e => e.Level == LogLevel.Debug);
+            var debugLog = logs.Single(e => e.Level is LogLevel.Debug);
             Assert.That(debugLog.Message, Is.EqualTo(expectedError));
         }
     }
@@ -171,7 +171,7 @@ public class RequestValidatorTests
             Assert.That(errors, Has.Exactly(1).EqualTo(expectedError));
 
             var logs = _logger.Collector.GetSnapshot();
-            var debugLog = logs.Single(e => e.Level == LogLevel.Debug);
+            var debugLog = logs.Single(e => e.Level is LogLevel.Debug);
             Assert.That(debugLog.Message, Is.EqualTo(expectedError));
         }
     }
