@@ -78,7 +78,7 @@ public sealed class HomeTests
 
         IRenderedComponent<Home> cut = _bUnitContext.Render<Home>();
 
-        Assert.That(cut.Find("#btnSearch"), Is.Not.Null);
+        Assert.That(cut.Find("#btnSearch").TextContent, Is.EqualTo("Search"));
     }
 
     [Test]
