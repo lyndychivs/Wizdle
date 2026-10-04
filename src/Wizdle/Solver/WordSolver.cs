@@ -83,7 +83,7 @@ internal sealed partial class WordSolver : IWordSolver
     /// <returns>The filtered words.</returns>
     private static List<string> FilterCorrectAndMisplacedLetters(List<string> wordsToFilter, List<char> correctLetters, List<char> misplacedLetters)
     {
-        if (wordsToFilter.Count == 0)
+        if (wordsToFilter.Count is 0)
         {
             return [];
         }
@@ -94,14 +94,14 @@ internal sealed partial class WordSolver : IWordSolver
             char correctLetter = correctLetters[i];
             char misplacedLetter = misplacedLetters[i];
 
-            if (correctLetter == '?' && misplacedLetter == '?')
+            if (correctLetter is '?' && misplacedLetter is '?')
             {
                 continue;
             }
 
             foreach (string word in filteredWords.ToList())
             {
-                if (correctLetter != '?')
+                if (correctLetter is not '?')
                 {
                     if (word[i] != correctLetter)
                     {
@@ -110,7 +110,7 @@ internal sealed partial class WordSolver : IWordSolver
                     }
                 }
 
-                if (misplacedLetter != '?')
+                if (misplacedLetter is not '?')
                 {
                     if (!word.Contains(misplacedLetter))
                     {

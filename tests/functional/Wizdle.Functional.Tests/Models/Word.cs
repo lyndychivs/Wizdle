@@ -15,7 +15,7 @@ internal sealed class Word
             throw new ArgumentException("Value cannot be null, empty or whitespace.", nameof(value));
         }
 
-        if (value.Length != 5)
+        if (value.Length is not 5)
         {
             throw new ArgumentOutOfRangeException(nameof(value), "Word must be 5 letters.");
         }

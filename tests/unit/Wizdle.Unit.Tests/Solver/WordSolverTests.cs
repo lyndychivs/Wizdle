@@ -48,7 +48,7 @@ public class WordSolverTests
         Assert.That(result, Is.Empty);
 
         var logs = _logger.Collector.GetSnapshot();
-        var warningLog = logs.Single(e => e.Level == LogLevel.Warning);
+        var warningLog = logs.Single(e => e.Level is LogLevel.Warning);
         Assert.That(warningLog.Message, Is.EqualTo("SolveParameters is not valid, returning empty"));
     }
 

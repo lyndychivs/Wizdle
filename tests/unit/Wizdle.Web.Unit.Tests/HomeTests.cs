@@ -114,7 +114,7 @@ public sealed class HomeTests
 
         cut.Find("#btnSearch").Click();
 
-        cut.WaitForState(() => cut.FindAll("[aria-label='Word']").Count == 2);
+        cut.WaitForState(() => cut.FindAll("[aria-label='Word']").Count is 2);
 
         IReadOnlyList<IElement> words = cut.FindAll("[aria-label='Word']");
         Assert.That(words, Has.Count.EqualTo(2));
@@ -156,7 +156,7 @@ public sealed class HomeTests
 
         cut.Find("#btnSearch").Click();
 
-        cut.WaitForState(() => handler.RequestCount == 1);
+        cut.WaitForState(() => handler.RequestCount is 1);
 
         using (Assert.EnterMultipleScope())
         {

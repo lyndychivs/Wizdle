@@ -73,7 +73,7 @@ public sealed partial class WordSlashCommand(ILogger<WordSlashCommand> logger, W
 
         var wordsList = wizdleResponse.Words.ToList();
 
-        if (wordsList.Count == 0)
+        if (wordsList.Count is 0)
         {
             return $"⚠️ **No words found**{Environment.NewLine}" +
                 string.Join(Environment.NewLine, wizdleResponse.Messages.Select(m => $"> {m}"));

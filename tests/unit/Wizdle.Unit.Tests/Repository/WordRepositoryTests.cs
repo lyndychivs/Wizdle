@@ -100,7 +100,7 @@ public class WordRepositoryTests
         Assert.That(results, Is.Empty);
 
         var logs = _logger.Collector.GetSnapshot();
-        var warningLog = logs.Single(e => e.Level == LogLevel.Warning);
+        var warningLog = logs.Single(e => e.Level is LogLevel.Warning);
         Assert.That(warningLog.Message, Is.EqualTo("Found NullOrWhiteSpace in Words, skipping"));
     }
 
@@ -120,7 +120,7 @@ public class WordRepositoryTests
         Assert.That(results, Is.Empty);
 
         var logs = _logger.Collector.GetSnapshot();
-        var warningLog = logs.Single(e => e.Level == LogLevel.Warning);
+        var warningLog = logs.Single(e => e.Level is LogLevel.Warning);
         Assert.That(warningLog.Message, Is.EqualTo($"Found Word with length {word.Length} in Words, skipping: {word}"));
     }
 

@@ -39,8 +39,7 @@ public class WordsTests
     {
         IEnumerable<string> result = _words.GetWords() ?? throw new InvalidOperationException("GetWords returned null");
 
-        // guard against null elements
-        Assert.That(result, Is.All.Matches<string>(w => w != null && w.Equals(w.ToLowerInvariant(), StringComparison.Ordinal)));
+        Assert.That(result, Is.All.Matches<string>(w => w is not null && w.Equals(w.ToLowerInvariant(), StringComparison.Ordinal)));
     }
 
     [Test]
@@ -48,8 +47,7 @@ public class WordsTests
     {
         IEnumerable<string> result = _words.GetWords() ?? throw new InvalidOperationException("GetWords returned null");
 
-        // guard against null elements
-        Assert.That(result, Is.All.Matches<string>(w => w != null && w.Length == 5));
+        Assert.That(result, Is.All.Matches<string>(w => w is not null && w.Length is 5));
     }
 
     [Test]

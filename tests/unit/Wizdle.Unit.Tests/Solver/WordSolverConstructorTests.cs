@@ -111,7 +111,7 @@ public class WordSolverConstructorTests
         Assert.That(result, Is.Not.Null);
 
         var logs = _logger.Collector.GetSnapshot();
-        var errorLog = logs.Single(e => e.Level == LogLevel.Error);
+        var errorLog = logs.Single(e => e.Level is LogLevel.Error);
         Assert.That(errorLog.Message, Does.Contain("No Words returned from IWordRepository"));
     }
 }

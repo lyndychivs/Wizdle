@@ -33,13 +33,13 @@ internal sealed partial class SolveParametersValidator : ISolveParametersValidat
             return false;
         }
 
-        if (solveParameters.CorrectLetters.Count != 5)
+        if (solveParameters.CorrectLetters.Count is not 5)
         {
             isValid = false;
             LogParameterWithInvalidLettersCount(_logger, nameof(solveParameters.CorrectLetters));
         }
 
-        if (solveParameters.MisplacedLetters.Count != 5)
+        if (solveParameters.MisplacedLetters.Count is not 5)
         {
             isValid = false;
             LogParameterWithInvalidLettersCount(_logger, nameof(solveParameters.MisplacedLetters));
@@ -47,7 +47,7 @@ internal sealed partial class SolveParametersValidator : ISolveParametersValidat
 
         for (int i = 0; i < Math.Min(solveParameters.CorrectLetters.Count, 5); i++)
         {
-            if (solveParameters.CorrectLetters[i] == '?')
+            if (solveParameters.CorrectLetters[i] is '?')
             {
                 continue;
             }
