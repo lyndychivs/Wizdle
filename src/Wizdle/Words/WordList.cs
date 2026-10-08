@@ -2016,6 +2016,7 @@ internal sealed class WordList : IWords
             "strap",
             "straw",
             "stray",
+            "strew",
             "strip",
             "strut",
             "stuck",
