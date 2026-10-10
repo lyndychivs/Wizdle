@@ -323,6 +323,7 @@ internal sealed class WordList : IWords
             "bulky",
             "bully",
             "bunch",
+            "bumpy",
             "bunny",
             "burly",
             "burnt",
