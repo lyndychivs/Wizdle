@@ -2226,6 +2226,7 @@ internal sealed class WordList : IWords
             "ulcer",
             "ultra",
             "umbra",
+            "uncap",
             "uncle",
             "uncut",
             "under",
