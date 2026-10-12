@@ -2388,6 +2388,7 @@ internal sealed class WordList : IWords
             "yearn",
             "yeast",
             "yield",
+            "yodel",
             "young",
             "youth",
             "zebra",
