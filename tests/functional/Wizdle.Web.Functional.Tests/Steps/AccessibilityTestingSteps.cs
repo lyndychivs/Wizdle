@@ -1,6 +1,7 @@
 namespace Wizdle.Web.Functional.Tests.Steps;
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
 
@@ -67,7 +68,7 @@ internal sealed class AccessibilityTestingSteps
     {
         var axeRunOptions = new AxeRunOptions();
 
-        axeRunOptions.Rules ??= [];
+        axeRunOptions.Rules ??= [with(StringComparer.Ordinal)];
 
         if (axeRunOptions.Rules.TryGetValue("color-contrast", out RuleOptions? ruleOptions))
         {
