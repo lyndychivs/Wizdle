@@ -1545,6 +1545,7 @@ internal sealed class WordList : IWords
             "prune",
             "psalm",
             "pshaw",
+            "psych",
             "pubic",
             "pudgy",
             "puffy",
