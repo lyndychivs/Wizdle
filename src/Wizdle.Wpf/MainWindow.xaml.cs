@@ -14,9 +14,9 @@ using System.Windows.Threading;
 
 using Wizdle.Models;
 
-/// <summary>
+/// <content>
 /// The main window of the Wizdle WPF application.
-/// </summary>
+/// </content>
 public partial class MainWindow : Window
 {
     private readonly WizdleEngine _wizdleEngine;

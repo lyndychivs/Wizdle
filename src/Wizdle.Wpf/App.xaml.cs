@@ -6,9 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 
-/// <summary>
+/// <content>
 /// The Wizdle WPF application.
-/// </summary>
+/// </content>
 public partial class App : Application
 {
     private ServiceProvider? _serviceProvider;
