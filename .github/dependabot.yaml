@@ -2,18 +2,24 @@ version: 2
 updates:
     - package-ecosystem: "github-actions"
       directory: "/"
+      assignees:
+        - "lyndychivs"
       schedule:
           interval: "weekly"
           day: "sunday"
           time: "09:00"
     - package-ecosystem: "dotnet-sdk"
       directory: "/"
+      assignees:
+        - "lyndychivs"
       schedule:
           interval: "weekly"
           day: "sunday"
           time: "09:00"
     - package-ecosystem: "nuget"
       directory: "/"
+      assignees:
+        - "lyndychivs"
       schedule:
           interval: "weekly"
           day: "sunday"
