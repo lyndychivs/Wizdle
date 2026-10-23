@@ -2187,6 +2187,7 @@ internal sealed class WordList : IWords
             "trice",
             "trick",
             "tried",
+            "trill",
             "tripe",
             "trite",
             "troll",
