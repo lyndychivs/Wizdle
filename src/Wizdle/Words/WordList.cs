@@ -1021,6 +1021,7 @@ internal sealed class WordList : IWords
             "hoard",
             "hobby",
             "hoist",
+            "holey",
             "holly",
             "homer",
             "honey",
