@@ -32,7 +32,7 @@ jobs:
                   DISCORD_PUBLIC_KEY: ${{ secrets.DISCORD_PUBLIC_KEY }}
 
             - name: Deploy
-              run: docker compose -p wizdle -f deploy/docker-compose.yaml -f deploy/docker-compose.production.yml up -d --build
+              run: docker compose -p wizdle -f deploy/docker-compose.yaml -f deploy/docker-compose.production.yml up -d --build --pull always
               env:
                   WIZDLE_API_PORT: ${{ vars.WIZDLE_API_PORT }}
                   WIZDLE_WEB_PORT: ${{ vars.WIZDLE_WEB_PORT }}
