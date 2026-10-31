@@ -2389,6 +2389,7 @@ internal sealed class WordList : IWords
             "wrung",
             "wryly",
             "yacht",
+            "yahoo",
             "yearn",
             "yeast",
             "yield",
