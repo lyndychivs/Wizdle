@@ -12,14 +12,25 @@ jobs:
         name: Mutation Testing
         runs-on: ubuntu-latest
         timeout-minutes: 20
+        env:
+            STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD }}
         steps:
             - name: Checkout Repository
               uses: actions/checkout@v7
 
+            - name: Build Stryker Arguments
+              id: stryker_args
+              run: |
+                  ARGS="--reporter progress --reporter html --reporter json --version ${GITHUB_REF_NAME}"
+                  if [ -n "$(printf '%s' "${STRYKER_DASHBOARD_API_KEY}" | tr -d '[:space:]')" ]; then
+                      ARGS="${ARGS} --reporter dashboard"
+                  else
+                      echo "::notice::Stryker dashboard API key is null, empty or whitespace; skipping dashboard reporter."
+                  fi
+                  echo "args=${ARGS}" >> "${GITHUB_OUTPUT}"
+
             - name: Run Stryker.NET
               uses: lyndychivs/dotnet-stryker-action@v2
-              env:
-                  STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD }}
               with:
                   configFile: "tests/unit/Wizdle.Unit.Tests/stryker-config.json"
-                  strykerArgs: "--reporter progress --reporter html --reporter dashboard --reporter json --version ${{ github.ref_name }}"
+                  strykerArgs: ${{ steps.stryker_args.outputs.args }}
