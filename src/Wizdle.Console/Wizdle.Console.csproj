@@ -6,6 +6,7 @@
 
     <ItemGroup>
         <PackageReference Include="CommandLineParser" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
         <PackageReference Include="Serilog.Extensions.Logging" />
         <PackageReference Include="Serilog.Sinks.Console" />
     </ItemGroup>
