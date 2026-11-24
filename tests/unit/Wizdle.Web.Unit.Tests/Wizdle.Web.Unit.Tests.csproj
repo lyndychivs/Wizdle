@@ -6,6 +6,8 @@
     <ItemGroup>
         <PackageReference Include="AngleSharp" />
         <PackageReference Include="bunit" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
         <PackageReference Include="NUnit" />
     </ItemGroup>
 
