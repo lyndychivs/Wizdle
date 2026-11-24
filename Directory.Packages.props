@@ -38,7 +38,7 @@
         <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.*" />
         <PackageVersion Include="Reqnroll.NUnit" Version="3.*" />
         <PackageVersion Include="Scalar.AspNetCore" Version="2.*" />
-        <PackageVersion Include="Serilog.Extensions.Logging" Version="10.*" />
+        <PackageVersion Include="Serilog.Extensions.Logging" Version="11.*" />
         <PackageVersion Include="Serilog.Sinks.Console" Version="6.*" />
         <PackageVersion Include="StyleCop.Analyzers" Version="1.*-*" />
         <PackageVersion Include="Testcontainers" Version="4.*" />
