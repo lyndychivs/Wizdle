@@ -20,7 +20,7 @@ RUN dotnet publish src/Wizdle.Discord/Wizdle.Discord.csproj \
     -p:EnforceCodeStyleInBuild=false \
     -p:RunAnalyzers=false
 
-FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:11.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/publish .
 ENTRYPOINT ["dotnet", "Wizdle.Discord.dll"]
